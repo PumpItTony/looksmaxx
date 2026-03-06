@@ -997,13 +997,13 @@ let _wt=null;function warn(msg){const el=document.getElementById('swarn');el.tex
 
 async function startCapture(){
   if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)();}catch{}}
-  startBgMusic(isFace?'face':'body');
   const mode=ST.mode;const myTk=ST.token;
   const btn=document.getElementById('sbtn');btn.classList.add('d');btn.style.animation='none';
   btn.style.display='none'; // Hide button completely during scan
   const v=document.getElementById('svid');
   const isFace=mode==='face'||(mode==='combo'&&ST.caps.length===0);
   const isBody=!isFace;
+  startBgMusic(isFace?'face':'body');
 
   // ═══ GUIDED POSES — The Ride ═══
   const facePoses=[
