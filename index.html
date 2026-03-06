@@ -107,20 +107,20 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .stp{position:absolute;top:0;left:0;right:0;padding:16px 18px;padding-top:calc(16px + var(--sat));display:flex;align-items:center;justify-content:space-between;z-index:10;}
 .sbdg{display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.13);border-radius:100px;padding:6px 16px;}
 .sbdd{width:6px;height:6px;border-radius:50%;animation:dp 1.8s infinite;}
-.sbdl{font-family:var(--mf);font-size:11px;color:rgba(255,255,255,.92);letter-spacing:.13em;text-transform:uppercase;font-weight:500;}
+.sbdl{font-family:var(--mf);font-size:13px;color:rgba(255,255,255,.92);letter-spacing:.13em;text-transform:uppercase;font-weight:500;}
 .sx{width:40px;height:40px;background:rgba(0,0,0,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.13);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:rgba(255,255,255,.85);}
 .sx:active{background:rgba(255,255,255,.18);}
 .sx.disabled{opacity:.3;pointer-events:none;}
 .shud{position:absolute;bottom:0;left:0;right:0;z-index:15;padding:0 20px calc(24px + var(--sab));display:flex;flex-direction:column;align-items:center;gap:12px;background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.3) 60%,transparent);pointer-events:none;}
 .shud>*{pointer-events:all;}
-.svt{font-family:var(--df);font-size:26px;letter-spacing:.06em;color:#fff;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.9);min-height:34px;transition:font-size .3s,color .3s;}
-.svt.big{font-size:42px;}
-.spb{width:100%;max-width:280px;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;}
-.spb.big{height:8px;max-width:340px;}
+.svt{font-family:var(--df);font-size:32px;letter-spacing:.06em;color:#fff;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.9);min-height:40px;transition:font-size .3s,color .3s;}
+.svt.big{font-size:48px;}
+.spb{width:100%;max-width:300px;height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;}
+.spb.big{height:10px;max-width:360px;}
 .spf{height:100%;border-radius:100px;transition:width .4s ease;width:0%;background:var(--sig);}
-.sst{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;transition:font-size .3s;}
-.sst.big{font-size:13px;}
-.sbtn{font-family:var(--df);font-size:24px;letter-spacing:.14em;color:#fff;background:rgba(34,212,90,.2);border:2px solid rgba(34,212,90,.5);border-radius:100px;padding:18px 52px;cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1);box-shadow:0 0 28px rgba(34,212,90,.3);animation:btnpulse 2s ease-in-out infinite;}
+.sst{font-family:var(--mf);font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.1em;text-transform:uppercase;transition:font-size .3s;}
+.sst.big{font-size:15px;}
+.sbtn{font-family:var(--df);font-size:28px;letter-spacing:.14em;color:#fff;background:rgba(34,212,90,.2);border:2px solid rgba(34,212,90,.5);border-radius:100px;padding:20px 60px;cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1);box-shadow:0 0 28px rgba(34,212,90,.3);animation:btnpulse 2s ease-in-out infinite;}
 .sbtn:active{transform:scale(.92);background:rgba(34,212,90,.45);box-shadow:0 0 48px rgba(34,212,90,.55);animation:none;}
 .sbtn.g{background:rgba(93,219,110,.2);border-color:rgba(93,219,110,.5);box-shadow:0 0 28px rgba(93,219,110,.3);}
 .sbtn.d{pointer-events:none;opacity:.3;animation:none;filter:grayscale(.5);}
@@ -133,10 +133,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sload-s{font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.08em;text-align:center;line-height:1.8;}
 .sload-bar{width:200px;height:3px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;}
 .sload-fill{height:100%;border-radius:100px;background:var(--blue);transition:width .3s;}
-.swarn{position:absolute;top:calc(80px + var(--sat));left:50%;transform:translateX(-50%);z-index:12;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(34,212,90,.3);border-radius:12px;padding:10px 20px;font-family:var(--mf);font-size:11px;color:var(--sig);text-align:center;max-width:300px;opacity:0;pointer-events:none;transition:opacity .3s;letter-spacing:.04em;line-height:1.5;}
+.swarn{position:absolute;top:calc(80px + var(--sat));left:50%;transform:translateX(-50%);z-index:12;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(34,212,90,.3);border-radius:12px;padding:12px 24px;font-family:var(--mf);font-size:13px;color:var(--sig);text-align:center;max-width:320px;opacity:0;pointer-events:none;transition:opacity .3s;letter-spacing:.04em;line-height:1.5;}
 .swarn.show{opacity:1;}
 .sind{position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:7;display:flex;flex-direction:column;gap:5px;pointer-events:none;}
-.sip{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border:1px solid rgba(34,212,90,.2);border-radius:6px;padding:4px 10px;font-family:var(--mf);font-size:8px;color:var(--sig);letter-spacing:.05em;opacity:0;transform:translateX(10px);transition:all .3s;}
+.sip{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border:1px solid rgba(34,212,90,.2);border-radius:6px;padding:5px 12px;font-family:var(--mf);font-size:10px;color:var(--sig);letter-spacing:.05em;opacity:0;transform:translateX(10px);transition:all .3s;}
 .sip.in{opacity:1;transform:translateX(0);}
 .sipd{width:4px;height:4px;border-radius:50%;background:currentColor;animation:dp 1s infinite;}
 .sphase{position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:7;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
@@ -146,20 +146,20 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sph-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.2);transition:all .3s;flex-shrink:0;}
 .sph.active .sph-dot{border-color:var(--sig);background:var(--sig);box-shadow:0 0 10px rgba(34,212,90,.5);}
 .sph.done .sph-dot{border-color:var(--sig);background:var(--sig);}
-.sph-lbl{font-family:var(--mf);font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+.sph-lbl{font-family:var(--mf);font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
 .sph.active .sph-lbl{color:var(--sig);}
 .sconf{position:absolute;left:50%;bottom:calc(140px + var(--sab));transform:translateX(-50%);z-index:8;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 14px;pointer-events:none;opacity:0;transition:opacity .3s;}
 .sconf.show{opacity:1;}
-.sconf-lbl{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.06em;}
-.sconf-bar{width:120px;height:8px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;}
+.sconf-lbl{font-family:var(--mf);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.06em;}
+.sconf-bar{width:140px;height:10px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;}
 .sconf-fill{height:100%;border-radius:100px;background:var(--sig);transition:width .3s;}
-.sconf-pct{font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.04em;min-width:28px;text-align:right;}
-.smeas{position:absolute;z-index:7;pointer-events:none;font-family:var(--mf);font-size:8px;color:rgba(79,142,247,.7);letter-spacing:.04em;opacity:0;transition:opacity .4s;white-space:nowrap;}
+.sconf-pct{font-family:var(--mf);font-size:11px;color:var(--sig);letter-spacing:.04em;min-width:32px;text-align:right;}
+.smeas{position:absolute;z-index:7;pointer-events:none;font-family:var(--mf);font-size:10px;color:rgba(79,142,247,.8);letter-spacing:.04em;opacity:0;transition:opacity .4s;white-space:nowrap;}
 .smeas.show{opacity:1;}
 .sface-lock{position:absolute;top:calc(70px + var(--sat));left:50%;transform:translateX(-50%);z-index:12;display:flex;align-items:center;gap:6px;background:rgba(34,212,90,.1);border:1px solid rgba(34,212,90,.3);border-radius:100px;padding:5px 14px;opacity:0;transition:all .3s cubic-bezier(.25,.1,.25,1);}
 .sface-lock.show{opacity:1;}
 .sface-lock-dot{width:6px;height:6px;border-radius:50%;background:var(--sig);}
-.sface-lock-lbl{font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.06em;}
+.sface-lock-lbl{font-family:var(--mf);font-size:11px;color:var(--sig);letter-spacing:.06em;}
 
 /* ANALYZING */
 #analyzing{background:var(--void);align-items:center;justify-content:center;gap:20px;padding:24px;}
@@ -289,7 +289,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="scan" class="scr">
 <video id="svid" autoplay playsinline muted></video>
 <canvas id="scanc"></canvas>
-<svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(65vw,260px);height:min(85vw,340px);z-index:4;pointer-events:none;display:none;overflow:visible" viewBox="0 0 260 340">
+<svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(75vw,300px);height:min(95vw,390px);z-index:4;pointer-events:none;display:none;overflow:visible" viewBox="0 0 260 340">
   <defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22d45a" stop-opacity=".5"/><stop offset="50%" stop-color="#22d45a" stop-opacity=".2"/><stop offset="100%" stop-color="#22d45a" stop-opacity=".5"/></linearGradient></defs>
   <ellipse cx="130" cy="170" rx="110" ry="148" fill="none" stroke="url(#og)" stroke-width="2.5" stroke-dasharray="6 4"/>
   <text x="130" y="32" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2" opacity=".6" id="foval-txt">POSITION FACE IN OVAL</text>
@@ -696,61 +696,105 @@ function computeBodyMeasurements(landmarks) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// DRAW FACE MESH — Apple Face ID Style
+// VIDEO-TO-CANVAS COORDINATE MAPPING
+// object-fit:cover scales/crops the video. Landmarks are in raw video coords.
+// This computes the transform to map landmarks onto the canvas properly.
+// ═══════════════════════════════════════════════════════════════
+function getVideoTransform(video, canvas) {
+  const vw = video.videoWidth || 640, vh = video.videoHeight || 480;
+  const cw = canvas.width, ch = canvas.height;
+  const videoAspect = vw / vh;
+  const canvasAspect = cw / ch;
+
+  let displayW, displayH, offsetX, offsetY;
+  if (videoAspect > canvasAspect) {
+    // Video wider than canvas — cropped on sides
+    displayH = ch;
+    displayW = ch * videoAspect;
+    offsetX = (displayW - cw) / 2;
+    offsetY = 0;
+  } else {
+    // Video taller than canvas — cropped on top/bottom
+    displayW = cw;
+    displayH = cw / videoAspect;
+    offsetX = 0;
+    offsetY = (displayH - ch) / 2;
+  }
+
+  const mirrored = ST.facing === 'user';
+  return {
+    // Convert normalized landmark coord to canvas pixel
+    x: (lmX) => mirrored
+      ? (1 - lmX) * displayW - offsetX
+      : lmX * displayW - offsetX,
+    y: (lmY) => lmY * displayH - offsetY,
+    displayW, displayH, offsetX, offsetY, mirrored,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRAW FACE MESH — Apple Face ID Style (with proper coordinate mapping)
 // ═══════════════════════════════════════════════════════════════
 const FACE_OVAL = [10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109,10];
 
-function drawFaceMesh(ctx, lm, W, H) {
+function drawFaceMesh(ctx, lm, tx) {
   if (!lm) return;
   ctx.save();
   const c = '#22d45a';
+  const X = (i) => tx.x(lm[i].x), Y = (i) => tx.y(lm[i].y);
 
   // Face oval
-  ctx.strokeStyle = c + '20'; ctx.lineWidth = 1.5;
+  ctx.strokeStyle = c + '25'; ctx.lineWidth = 2;
   ctx.beginPath();
-  FACE_OVAL.forEach((idx, i) => { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
+  FACE_OVAL.forEach((idx, i) => { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); });
   ctx.closePath(); ctx.stroke();
 
   // Tessellation lines
-  ctx.strokeStyle = c + '18'; ctx.lineWidth = 0.5;
+  ctx.strokeStyle = c + '18'; ctx.lineWidth = 0.7;
   ctx.beginPath();
   const step = 3;
   for (let i = 0; i < lm.length - step; i += step) {
-    const a = lm[i], b = lm[Math.min(i + step, lm.length - 1)];
-    ctx.moveTo(a.x * W, a.y * H); ctx.lineTo(b.x * W, b.y * H);
-    if (i + step * 2 < lm.length) { const c2 = lm[i + step * 2]; ctx.moveTo(a.x * W, a.y * H); ctx.lineTo(c2.x * W, c2.y * H); }
+    ctx.moveTo(tx.x(lm[i].x), tx.y(lm[i].y));
+    ctx.lineTo(tx.x(lm[Math.min(i + step, lm.length - 1)].x), tx.y(lm[Math.min(i + step, lm.length - 1)].y));
+    if (i + step * 2 < lm.length) {
+      ctx.moveTo(tx.x(lm[i].x), tx.y(lm[i].y));
+      ctx.lineTo(tx.x(lm[i + step * 2].x), tx.y(lm[i + step * 2].y));
+    }
   }
   ctx.stroke();
 
-  // All dots
-  ctx.fillStyle = c + '30'; ctx.beginPath();
-  for (let i = 0; i < lm.length; i += 3) { const p = lm[i]; ctx.moveTo(p.x * W + 0.8, p.y * H); ctx.arc(p.x * W, p.y * H, 0.6, 0, Math.PI * 2); }
+  // All landmark dots
+  ctx.fillStyle = c + '35'; ctx.beginPath();
+  for (let i = 0; i < lm.length; i += 3) {
+    ctx.moveTo(tx.x(lm[i].x) + 1, tx.y(lm[i].y));
+    ctx.arc(tx.x(lm[i].x), tx.y(lm[i].y), 0.8, 0, Math.PI * 2);
+  }
   ctx.fill();
 
-  // Key landmarks
+  // Key landmarks — brighter, larger
   const keyPts = [10,152,234,454,33,133,362,263,1,172,397,48,278,107,123,352,4,168,6];
   ctx.fillStyle = c; ctx.beginPath();
-  keyPts.forEach(i => { if (lm[i]) { const p = lm[i]; ctx.moveTo(p.x * W + 2, p.y * H); ctx.arc(p.x * W, p.y * H, 2, 0, Math.PI * 2); } });
+  keyPts.forEach(i => { if (lm[i]) { ctx.moveTo(X(i) + 2.5, Y(i)); ctx.arc(X(i), Y(i), 2.5, 0, Math.PI * 2); } });
   ctx.fill();
 
-  // Feature outlines
-  ctx.strokeStyle = c + '70'; ctx.lineWidth = 1.2;
+  // Feature outlines — jawline, eyes, nose, lips
+  ctx.strokeStyle = c + '80'; ctx.lineWidth = 1.5;
   ctx.beginPath();
-  [172,136,150,149,176,148,152,377,400,378,379,365,397].forEach((idx, i) => { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  [33,7,163,144,145,153,154,155,133,33].forEach((idx, i) => { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  [362,382,381,380,374,373,390,249,263,362].forEach((idx, i) => { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  [168,6,197,195,5,4,1].forEach((idx, i) => { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); });
-  [61,146,91,181,84,17,314,405,321,375,291,61].forEach((idx, i) => { if (lm[idx]) { const x = lm[idx].x * W, y = lm[idx].y * H; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } });
+  [172,136,150,149,176,148,152,377,400,378,379,365,397].forEach((idx, i) => { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); });
+  [33,7,163,144,145,153,154,155,133,33].forEach((idx, i) => { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); });
+  [362,382,381,380,374,373,390,249,263,362].forEach((idx, i) => { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); });
+  [168,6,197,195,5,4,1].forEach((idx, i) => { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); });
+  [61,146,91,181,84,17,314,405,321,375,291,61].forEach((idx, i) => { if (lm[idx]) { i === 0 ? ctx.moveTo(X(idx), Y(idx)) : ctx.lineTo(X(idx), Y(idx)); } });
   ctx.stroke();
 
-  // Measurement lines
-  ctx.setLineDash([4, 4]); ctx.strokeStyle = c + '35'; ctx.lineWidth = 0.8;
+  // Measurement lines (dashed)
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = c + '40'; ctx.lineWidth = 1;
   ctx.beginPath();
   if (lm[107] && lm[1]) {
-    ctx.moveTo(lm[234].x * W, lm[107].y * H); ctx.lineTo(lm[454].x * W, lm[107].y * H);
-    ctx.moveTo(lm[234].x * W, lm[1].y * H); ctx.lineTo(lm[454].x * W, lm[1].y * H);
+    ctx.moveTo(X(234), Y(107)); ctx.lineTo(X(454), Y(107));
+    ctx.moveTo(X(234), Y(1)); ctx.lineTo(X(454), Y(1));
   }
-  if (lm[10] && lm[152]) { ctx.moveTo(lm[10].x * W, lm[10].y * H); ctx.lineTo(lm[152].x * W, lm[152].y * H); }
+  if (lm[10] && lm[152]) { ctx.moveTo(X(10), Y(10)); ctx.lineTo(X(152), Y(152)); }
   ctx.stroke();
   ctx.setLineDash([]);
   ctx.restore();
@@ -759,76 +803,76 @@ function drawFaceMesh(ctx, lm, W, H) {
 // ═══════════════════════════════════════════════════════════════
 // DRAW POSE SKELETON
 // ═══════════════════════════════════════════════════════════════
-function drawPose(ctx, lm, W, H) {
+function drawPose(ctx, lm, tx) {
   if (!lm) return;
   ctx.save();
   const c = '#22d45a';
   const vis = (i) => lm[i] && (lm[i].visibility || 0) > 0.4;
-  const px = (i) => lm[i].x * W, py = (i) => lm[i].y * H;
+  const X = (i) => tx.x(lm[i].x), Y = (i) => tx.y(lm[i].y);
   const dist = (a, b) => Math.sqrt((lm[a].x - lm[b].x) ** 2 + (lm[a].y - lm[b].y) ** 2);
 
   // V-taper fill
   if (vis(11) && vis(12) && vis(23) && vis(24)) {
     ctx.fillStyle = c + '0C';
     ctx.beginPath();
-    ctx.moveTo(px(11), py(11)); ctx.lineTo(px(12), py(12));
-    ctx.lineTo(px(24), py(24)); ctx.lineTo(px(23), py(23));
+    ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(12), Y(12));
+    ctx.lineTo(X(24), Y(24)); ctx.lineTo(X(23), Y(23));
     ctx.closePath(); ctx.fill();
 
     ctx.strokeStyle = c + '70'; ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(px(11), py(11)); ctx.lineTo(px(12), py(12));
-    ctx.moveTo(px(11), py(11)); ctx.lineTo(px(23), py(23));
-    ctx.moveTo(px(12), py(12)); ctx.lineTo(px(24), py(24));
-    ctx.moveTo(px(23), py(23)); ctx.lineTo(px(24), py(24));
+    ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(12), Y(12));
+    ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(23), Y(23));
+    ctx.moveTo(X(12), Y(12)); ctx.lineTo(X(24), Y(24));
+    ctx.moveTo(X(23), Y(23)); ctx.lineTo(X(24), Y(24));
     ctx.stroke();
 
     // Live measurement labels
     const sW = dist(11, 12), hW = dist(23, 24), ratio = hW > 0 ? (sW / hW) : 0;
-    ctx.font = 'bold 14px "DM Mono",monospace'; ctx.textAlign = 'center';
-    const cx2 = (px(11) + px(12) + px(23) + px(24)) / 4;
-    const cy2 = (py(11) + py(12) + py(23) + py(24)) / 4;
+    ctx.font = 'bold 16px "DM Mono",monospace'; ctx.textAlign = 'center';
+    const cx2 = (X(11) + X(12) + X(23) + X(24)) / 4;
+    const cy2 = (Y(11) + Y(12) + Y(23) + Y(24)) / 4;
     ctx.fillStyle = c + 'DD';
     ctx.fillText(`S:H ${ratio.toFixed(2)}`, cx2, cy2);
 
-    const sy = Math.min(py(11), py(12)) - 22;
+    const sy = Math.min(Y(11), Y(12)) - 26;
     ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '50'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(px(11), sy); ctx.lineTo(px(12), sy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(11), sy); ctx.lineTo(X(12), sy); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = c + '90'; ctx.font = '11px "DM Mono",monospace';
-    ctx.fillText('SHOULDERS', (px(11) + px(12)) / 2, sy - 6);
+    ctx.fillStyle = c + '90'; ctx.font = '13px "DM Mono",monospace';
+    ctx.fillText('SHOULDERS', (X(11) + X(12)) / 2, sy - 8);
 
-    const wy = Math.max(py(23), py(24)) + 22;
+    const wy = Math.max(Y(23), Y(24)) + 26;
     ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '50'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(px(23), wy); ctx.lineTo(px(24), wy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(X(23), wy); ctx.lineTo(X(24), wy); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = c + '90'; ctx.font = '11px "DM Mono",monospace';
-    ctx.fillText('WAIST', (px(23) + px(24)) / 2, wy + 16);
+    ctx.fillStyle = c + '90'; ctx.font = '13px "DM Mono",monospace';
+    ctx.fillText('WAIST', (X(23) + X(24)) / 2, wy + 18);
 
     // Posture line
-    const midSx = (px(11) + px(12)) / 2, midSy = (py(11) + py(12)) / 2;
-    const midHx = (px(23) + px(24)) / 2, midHy = (py(23) + py(24)) / 2;
+    const midSx = (X(11) + X(12)) / 2, midSy = (Y(11) + Y(12)) / 2;
+    const midHx = (X(23) + X(24)) / 2, midHy = (Y(23) + Y(24)) / 2;
     ctx.setLineDash([3, 3]); ctx.strokeStyle = c + '30'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(midSx, midSy); ctx.lineTo(midHx, midHy); ctx.stroke();
     ctx.setLineDash([]);
   }
 
   // Arms
-  ctx.strokeStyle = c + '60'; ctx.lineWidth = 2.5;
+  ctx.strokeStyle = c + '60'; ctx.lineWidth = 3;
   [[11,13],[13,15],[12,14],[14,16]].forEach(([a, b]) => {
-    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(px(a), py(a)); ctx.lineTo(px(b), py(b)); ctx.stroke(); }
+    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke(); }
   });
 
   // Legs
-  ctx.strokeStyle = c + '40'; ctx.lineWidth = 2;
+  ctx.strokeStyle = c + '40'; ctx.lineWidth = 2.5;
   [[23,25],[25,27],[24,26],[26,28]].forEach(([a, b]) => {
-    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(px(a), py(a)); ctx.lineTo(px(b), py(b)); ctx.stroke(); }
+    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke(); }
   });
 
   // Joints
-  [11, 12].forEach(i => { if (vis(i)) { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(px(i), py(i), 8, 0, Math.PI * 2); ctx.fill(); } });
-  [13, 14, 23, 24].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '90'; ctx.beginPath(); ctx.arc(px(i), py(i), 5, 0, Math.PI * 2); ctx.fill(); } });
-  [15, 16, 25, 26, 27, 28].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '50'; ctx.beginPath(); ctx.arc(px(i), py(i), 3, 0, Math.PI * 2); ctx.fill(); } });
+  [11, 12].forEach(i => { if (vis(i)) { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(X(i), Y(i), 9, 0, Math.PI * 2); ctx.fill(); } });
+  [13, 14, 23, 24].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '90'; ctx.beginPath(); ctx.arc(X(i), Y(i), 6, 0, Math.PI * 2); ctx.fill(); } });
+  [15, 16, 25, 26, 27, 28].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '50'; ctx.beginPath(); ctx.arc(X(i), Y(i), 4, 0, Math.PI * 2); ctx.fill(); } });
 
   ctx.restore();
 }
@@ -847,11 +891,13 @@ function goHome() {
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
+  $('foval').style.filter = '';
   $('sflock').classList.remove('show');
   $('sconf').classList.remove('show');
   $('svt').classList.remove('big');
   $('sst').classList.remove('big');
   document.querySelector('.spb')?.classList.remove('big');
+  $('svt').style.color = ''; // Reset from money shot gold / combo blue
   const cnv = $('scanc');
   if (cnv) { cnv.getContext('2d').clearRect(0, 0, cnv.width, cnv.height); }
   // Clean analyzing screen thumbnails (free memory)
@@ -879,7 +925,7 @@ function updHome() {
 }
 
 function getScore(data) {
-  if (ST.mode === 'combo' && data.faceScore && data.bodyScore) {
+  if (ST.mode === 'combo' && data.faceScore != null && data.bodyScore != null) {
     return Math.round((data.faceScore * COMBO_FACE_WEIGHT + data.bodyScore * COMBO_BODY_WEIGHT) * 100) / 100;
   }
   return ST.mode === 'body' ? (data.bodyScore || 0) : (data.faceScore || 0);
@@ -890,6 +936,28 @@ function getScore(data) {
 // ═══════════════════════════════════════════════════════════════
 function go(mode) {
   if (scanCount() >= DAILY_LIMIT) { show('limit'); return; }
+
+  // CRITICAL: Create AudioContext + warm speech from THIS user gesture (synchronous)
+  // Safari requires AudioContext creation in a direct tap handler — no awaits before this
+  if (!actx) {
+    try {
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = actx.createGain();
+      masterGain.gain.value = 1.0;
+      masterGain.connect(actx.destination);
+    } catch (e) { console.warn('AudioContext creation failed:', e); }
+  }
+  if (actx && actx.state === 'suspended') {
+    actx.resume().catch(() => {});
+  }
+  // Warm speech synthesis from user gesture
+  try {
+    if ('speechSynthesis' in window) {
+      const warmup = new SpeechSynthesisUtterance('');
+      warmup.volume = 0;
+      speechSynthesis.speak(warmup);
+    }
+  } catch {}
 
   ST = {
     ...ST,
@@ -1069,8 +1137,9 @@ function startLiveOverlay(mode) {
     }
 
     if (lastLandmarks) {
-      if (!isBody) drawFaceMesh(ctx, lastLandmarks, W, H);
-      else drawPose(ctx, lastLandmarks, W, H);
+      const tx = getVideoTransform(v, c);
+      if (!isBody) drawFaceMesh(ctx, lastLandmarks, tx);
+      else drawPose(ctx, lastLandmarks, tx);
     }
 
     if (!ST.aborted) overlayRAF = requestAnimationFrame(processFrame);
@@ -1112,8 +1181,8 @@ async function startCapture() {
   if (ST.scanning) return; // Prevent double-tap
   ST.scanning = true;
 
-  // Initialize audio context from user gesture
-  await initAudio();
+  // Initialize audio context (already created in go() from user gesture)
+  initAudio();
   const mode = ST.mode;
   const myTk = ST.token;
   const btn = $('sbtn');
@@ -1139,8 +1208,8 @@ async function startCapture() {
     { id: 'right', label: 'TURN RIGHT', oval: 'NOW THE RIGHT', status: 'Scanning right profile',
       voice: "Now the other way. Turn right. Let me see it.", dur: 6000, needsLM: true, minFrames: 20,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'center', label: 'MONEY SHOT', oval: 'LOOK STRAIGHT AHEAD', status: 'Locking your best angle',
-      voice: "Come back to center. Eyes on me. This is the money shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
+    { id: 'center', label: 'MONEY SHOT', oval: '💰 HOLD STILL 💰', status: 'Locking your best angle',
+      voice: "Come back to center. Eyes right at me. This is the money shot.", dur: 8000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Capturing your smile',
       voice: "Okay now give me a real smile. Like someone just told you good news.", dur: 4500, needsLM: true, minFrames: 10 },
@@ -1225,20 +1294,48 @@ async function startCapture() {
     if (ft && pose.oval) ft.textContent = pose.oval;
     speak(pose.voice);
 
-    // MONEY SHOT — face scan highlight moment (blue themed)
+    // MONEY SHOT — epic 5-second face scan moment with money rain
     if (pose.moneyShot) {
       ensureAudioPlaying();
-      playMoneyShot();
       const scanEl = $('scan');
-      scanEl.style.boxShadow = 'inset 0 0 60px rgba(79,142,247,.35), inset 0 0 150px rgba(79,142,247,.12)';
-      scanEl.style.transition = 'box-shadow 0.3s';
-      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 120);
+
+      // Phase 1 (0s): Scanner sweep + flash + blue glow
+      playMoneyShot();
+      scanEl.style.boxShadow = 'inset 0 0 80px rgba(79,142,247,.45), inset 0 0 200px rgba(79,142,247,.15)';
+      scanEl.style.transition = 'box-shadow 0.5s';
+      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 150);
       try { navigator.vibrate([40, 20, 40, 20, 80]); } catch {}
-      spawnScanParticles('blue');
-      // Pulse the face oval guide
+      // Pulse the face oval gold
       const ovalEl = $('foval');
-      if (ovalEl) { ovalEl.style.filter = 'drop-shadow(0 0 20px rgba(79,142,247,.6))'; setTimeout(() => { ovalEl.style.filter = ''; }, 2000); }
-      setTimeout(() => { scanEl.style.boxShadow = ''; }, pose.dur);
+      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 25px rgba(255,215,0,.7))';
+      $('svt').textContent = '💰 MONEY SHOT 💰';
+      $('svt').style.color = '#FFD700';
+      $('sst').textContent = 'This is the one — hold it';
+
+      // Phase 2 (0.5s): Gold/money rain from top of screen
+      setTimeout(() => { if (!ST.aborted) spawnMoneyRain(); }, 500);
+
+      // Phase 3 (1.8s): Blue particle burst + second voice
+      setTimeout(() => {
+        if (!ST.aborted) {
+          spawnScanParticles('gold');
+          try { navigator.vibrate([30, 15, 60]); } catch {}
+          speak("There it is. That's the one.");
+          $('sst').textContent = 'Locked in';
+        }
+      }, 1800);
+
+      // Phase 4 (3s): Victory sting
+      setTimeout(() => {
+        if (!ST.aborted) playMoneySting();
+      }, 3000);
+
+      // Phase 5 (5s): Fade effects
+      setTimeout(() => {
+        scanEl.style.boxShadow = '';
+        if (ovalEl) ovalEl.style.filter = '';
+        $('svt').style.color = '';
+      }, 5000);
     }
 
     // BEAST MODE — body scan flex moment (green themed)
@@ -1362,7 +1459,7 @@ async function startCapture() {
     ['smeas1', 'smeas2', 'smeas3'].forEach(id => $(id).classList.remove('show'));
 
     // Fallback photo capture
-    if (pose.capture && photos.length < 2) {
+    if (pose.capture && photos.length < (isBody ? 3 : 2)) {
       try { photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE)); } catch {}
     }
 
@@ -1391,7 +1488,8 @@ async function startCapture() {
       if (pose.beastMode) {
         speak("That's what I'm talking about.");
       } else if (pose.moneyShot) {
-        speak("Locked in. That's the one.");
+        // Money shot already handled speech during the pose — just play sounds
+        playWhoosh();
       } else {
         speak(confirms[confirmIdx % confirms.length]);
       }
@@ -1464,9 +1562,13 @@ async function startCapture() {
     ST.scanning = false; // Allow scan button to work again
     await sleep(2500);
     if (ST.aborted || ST.token !== myTk) return;
-    $('svt').style.color = ''; // Reset from blue
+    $('svt').style.color = ''; // Reset from blue/gold
     $('svt').textContent = 'STEP BACK — FULL BODY IN FRAME';
-    $('sst').textContent = 'Opening back camera…';
+    $('sst').textContent = 'Switching to back camera…';
+    // Show body scan HUD in big mode
+    $('svt').classList.add('big');
+    $('sst').classList.add('big');
+    document.querySelector('.spb')?.classList.add('big');
     const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } } });
     if (ST.aborted || ST.token !== myTk) { stream.getTracks().forEach(t => t.stop()); return; }
     ST.stream = stream;
@@ -2022,6 +2124,8 @@ function abort() {
   // Clean up any particle canvases and glow effects
   $('scan').querySelectorAll('canvas:not(#scanc)').forEach(c => c.remove());
   $('scan').style.boxShadow = '';
+  const ovalClean = $('foval');
+  if (ovalClean) ovalClean.style.filter = '';
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2031,22 +2135,20 @@ let actx = null;
 let bgMusicInterval = null;
 let masterGain = null;
 
-async function initAudio() {
-  if (actx) {
-    if (actx.state === 'suspended') {
-      try { await actx.resume(); } catch {}
-    }
-    return;
+function initAudio() {
+  // AudioContext already created in go() from user gesture
+  // This just ensures it's resumed
+  if (!actx) {
+    try {
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = actx.createGain();
+      masterGain.gain.value = 1.0;
+      masterGain.connect(actx.destination);
+    } catch {}
   }
-  try {
-    actx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = actx.createGain();
-    masterGain.gain.value = 1.0;
-    masterGain.connect(actx.destination);
-    if (actx.state === 'suspended') {
-      try { await actx.resume(); } catch {}
-    }
-  } catch {}
+  if (actx && actx.state === 'suspended') {
+    actx.resume().catch(() => {});
+  }
 }
 
 // Call this before any sound to keep Safari happy mid-scan
@@ -2423,17 +2525,19 @@ function spawnScanParticles(theme) {
   const particles = [];
   const colors = theme === 'blue'
     ? ['#4f8ef7', '#6ea8ff', '#fff', '#a0c4ff', '#FFD700']
+    : theme === 'gold'
+    ? ['#FFD700', '#FFA500', '#FFEC8B', '#fff', '#DAA520', '#F0E68C']
     : ['#22d45a', '#5ddb6e', '#4f8ef7', '#fff', '#FFD700'];
   const cx = cvs.width / 2, cy = cvs.height / 2;
-  for (let i = 0; i < 45; i++) {
-    const angle = (Math.PI * 2 * i) / 45 + (Math.random() - 0.5) * 0.5;
-    const speed = 4 + Math.random() * 8;
+  for (let i = 0; i < 50; i++) {
+    const angle = (Math.PI * 2 * i) / 50 + (Math.random() - 0.5) * 0.5;
+    const speed = 4 + Math.random() * 10;
     particles.push({
       x: cx, y: cy,
       vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-      size: Math.random() * 4 + 1,
+      size: Math.random() * 5 + 1,
       color: colors[Math.floor(Math.random() * colors.length)],
-      life: 1, decay: Math.random() * 0.02 + 0.015,
+      life: 1, decay: Math.random() * 0.015 + 0.012,
     });
   }
   const draw = () => {
@@ -2450,6 +2554,103 @@ function spawnScanParticles(theme) {
     if (alive) requestAnimationFrame(draw); else cvs.remove();
   };
   requestAnimationFrame(draw);
+}
+
+// 💰 MONEY RAIN — gold symbols falling from the top of screen for ~4 seconds
+function spawnMoneyRain() {
+  const scanEl = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:20;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  scanEl.appendChild(cvs);
+  const pctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  const symbols = ['💰', '💵', '💎', '🪙', '✨', '⭐'];
+  const drops = [];
+
+  // Spawn drops in waves
+  function spawnWave(count) {
+    for (let i = 0; i < count; i++) {
+      drops.push({
+        x: Math.random() * W,
+        y: -20 - Math.random() * 100,
+        vy: 1.5 + Math.random() * 3,
+        vx: (Math.random() - 0.5) * 1.5,
+        size: 14 + Math.random() * 18,
+        symbol: symbols[Math.floor(Math.random() * symbols.length)],
+        spin: (Math.random() - 0.5) * 0.1,
+        angle: Math.random() * Math.PI * 2,
+        life: 1,
+        decay: 0.003 + Math.random() * 0.002,
+      });
+    }
+  }
+
+  // Initial burst + staggered waves
+  spawnWave(15);
+  const w2 = setTimeout(() => spawnWave(12), 800);
+  const w3 = setTimeout(() => spawnWave(10), 1600);
+  const w4 = setTimeout(() => spawnWave(8), 2400);
+
+  let startTime = Date.now();
+  const draw = () => {
+    pctx.clearRect(0, 0, W, H);
+    let alive = false;
+    drops.forEach(d => {
+      if (d.life <= 0) return;
+      alive = true;
+      d.y += d.vy;
+      d.x += d.vx;
+      d.angle += d.spin;
+      d.life -= d.decay;
+      if (d.y > H + 30) d.life = 0;
+
+      pctx.save();
+      pctx.globalAlpha = Math.min(1, d.life * 2);
+      pctx.translate(d.x, d.y);
+      pctx.rotate(d.angle);
+      pctx.font = `${d.size}px sans-serif`;
+      pctx.textAlign = 'center';
+      pctx.fillText(d.symbol, 0, 0);
+      pctx.restore();
+    });
+
+    // Time limit: 5 seconds max
+    if (alive && Date.now() - startTime < 5000) {
+      requestAnimationFrame(draw);
+    } else {
+      clearTimeout(w2); clearTimeout(w3); clearTimeout(w4);
+      cvs.remove();
+    }
+  };
+  requestAnimationFrame(draw);
+}
+
+// Money sting — triumphant hit at peak of money shot
+function playMoneySting() {
+  if (!actx || !masterGain) return;
+  ensureAudioPlaying();
+  try {
+    const now = actx.currentTime;
+    // Major chord stab (C major in high register)
+    [1047, 1319, 1568, 2093].forEach((freq, i) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'triangle'; o.frequency.value = freq;
+      o.connect(g); g.connect(masterGain);
+      g.gain.setValueAtTime(0.12, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      o.start(now); o.stop(now + 0.6);
+    });
+    // Sub punch
+    const sub = actx.createOscillator(), sg = actx.createGain();
+    sub.type = 'sine'; sub.frequency.value = 80;
+    sub.connect(sg); sg.connect(masterGain);
+    sg.gain.setValueAtTime(0.25, now);
+    sg.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    sub.start(now); sub.stop(now + 0.3);
+    // Shimmer
+    safeNoise(0.2, 0.08, 6000);
+  } catch {}
 }
 function playTension() {
   if (!actx || !masterGain) return;
@@ -2510,26 +2711,24 @@ function speak(text) {
   try {
     const ss = window.speechSynthesis;
     const now = Date.now();
-    // FIX: Don't cancel if recent speech is still playing (lets confirmations finish)
+    // Don't cancel if recent speech is still playing
     if (now - lastSpeechTime > SPEECH_MIN_GAP) {
       ss.cancel();
     }
     lastSpeechTime = now;
 
-    setTimeout(() => {
-      try {
-        if (ss.paused) ss.resume();
-        const u = new SpeechSynthesisUtterance(text);
-        u.rate = 1.05; u.pitch = 1.0; u.volume = 1;
-        const voices = ss.getVoices();
-        const pref = voices.find(v => v.name.includes('Samantha')) ||
-                     voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                     voices.find(v => v.lang.startsWith('en'));
-        if (pref) u.voice = pref;
-        u.onerror = () => {}; u.onend = () => {};
-        ss.speak(u);
-      } catch {}
-    }, 150);
+    // Resume if paused (iOS workaround)
+    if (ss.paused) ss.resume();
+
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.05; u.pitch = 1.0; u.volume = 1;
+    const voices = ss.getVoices();
+    const pref = voices.find(v => v.name.includes('Samantha')) ||
+                 voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.lang.startsWith('en'));
+    if (pref) u.voice = pref;
+    u.onerror = () => {}; u.onend = () => {};
+    ss.speak(u);
   } catch {}
 }
 
