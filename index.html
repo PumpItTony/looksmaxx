@@ -294,6 +294,14 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="scan" class="scr">
 <video id="svid" autoplay playsinline muted></video>
 <canvas id="scanc"></canvas>
+<!-- Permanent Face ID oval guide - always visible for face scans -->
+<svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(65vw,260px);height:min(85vw,340px);z-index:4;pointer-events:none;display:none;overflow:visible" viewBox="0 0 260 340">
+  <defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22d45a" stop-opacity=".5"/><stop offset="50%" stop-color="#22d45a" stop-opacity=".2"/><stop offset="100%" stop-color="#22d45a" stop-opacity=".5"/></linearGradient></defs>
+  <ellipse cx="130" cy="170" rx="110" ry="148" fill="none" stroke="url(#og)" stroke-width="2.5" stroke-dasharray="6 4"/>
+  <text x="130" y="32" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2" opacity=".6" id="foval-txt">POSITION FACE IN OVAL</text>
+</svg>
+<!-- ML status debug indicator -->
+<div id="mlstat" style="position:absolute;bottom:calc(180px + var(--sab));left:50%;transform:translateX(-50%);z-index:8;font-family:var(--mf);font-size:8px;color:rgba(34,212,90,.5);letter-spacing:.06em;text-align:center;pointer-events:none"></div>
 <div class="sfl" id="sfl"></div>
 <div class="swarn" id="swarn"></div>
 <div class="sind" id="sind"></div>
@@ -353,6 +361,14 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </div>
 <div style="height:16px"></div>
 <div class="trs"><div class="trh"><div class="trt" id="rtt">TRAITS</div><div class="trsu" id="rtsu"></div></div><div id="rtl"></div></div>
+<div style="height:12px"></div>
+<!-- Biometric Measurements -->
+<div style="padding:0 14px;display:none" id="rmeas-wrap">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--sig);text-transform:uppercase">Biometric Measurements</div>
+<div id="rmeas" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+</div>
+</div>
 <div style="height:12px"></div>
 <div style="padding:0 14px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--t3);text-transform:uppercase">AI Insights</div><div style="font-size:13px;color:var(--t2);line-height:1.65" id="rins">—</div></div></div>
 <div style="height:12px"></div>
@@ -720,6 +736,9 @@ function go(mode){
   document.getElementById('slf').style.width='0%';
   document.getElementById('slspin').style.borderTopColor=isB?'var(--green)':'var(--blue)';
   show('scan');
+  // Show face oval guide for face scans
+  document.getElementById('foval').style.display=(mode==='face'||mode==='combo')?'block':'none';
+  document.getElementById('mlstat').textContent='';
   initScan(mode);
 }
 
@@ -746,17 +765,22 @@ async function initScan(mode){
     try{
       if(needsFace){
         document.getElementById('slts').textContent='Loading face landmark model (1.5MB)…';
+        document.getElementById('mlstat').textContent='WASM: loading…';
         await loadFaceLandmarker();
+        document.getElementById('mlstat').textContent='Face model: ready';
         document.getElementById('slf').style.width='60%';
       }
       if(needsBody){
         document.getElementById('slts').textContent='Loading pose landmark model (3MB)…';
+        document.getElementById('mlstat').textContent='Pose model: loading…';
         await loadPoseLandmarker();
+        document.getElementById('mlstat').textContent='Pose model: ready';
         document.getElementById('slf').style.width='80%';
       }
     }catch(e){
       console.error('ML load failed:',e);
       document.getElementById('slts').textContent='AI scanner: '+e.message;
+      document.getElementById('mlstat').textContent='ML: '+e.message;
       mlOk=false;
       await new Promise(r=>setTimeout(r,2000));
     }
@@ -920,6 +944,13 @@ async function startCapture(){
     document.getElementById('svt').textContent=phase.label.toUpperCase();
     document.getElementById('sst').textContent=phase.voice.split('.')[0];
     speak(phase.voice);
+
+    // Update face oval guide text
+    const fovalTxt=document.getElementById('foval-txt');
+    if(fovalTxt&&isFace){
+      const ovalMsgs={detect:'LOOK STRAIGHT AT CAMERA',lock:'HOLD STILL — LOCKING',map:'MAPPING FACIAL GEOMETRY',jaw:'ANALYZING JAWLINE',eyes:'SCANNING EYE AREA',symmetry:'MEASURING SYMMETRY',structure:'BONE STRUCTURE SCAN',skin:'SKIN QUALITY ANALYSIS',final:'FINAL CALIBRATION',complete:'SCAN COMPLETE ✓'};
+      fovalTxt.textContent=ovalMsgs[phase.id]||phase.label.toUpperCase();
+    }
 
     // Update progress bar
     const totalDur=phases.reduce((a,p)=>a+p.dur,0);
@@ -1146,6 +1177,7 @@ async function startCapture(){
   FACE_PHASES.forEach(p=>p._captured=false);
   BODY_PHASES.forEach(p=>p._captured=false);
   stopOverlay();
+  ST.measurements=avgMeasurements; // Store for results display
   sendToWorker(avgMeasurements);
 }
 
@@ -1251,6 +1283,50 @@ function showResults(data){
   const list=document.getElementById('rtl');list.innerHTML='';
   traits.forEach((tr,i)=>{const tc=tier(tr.score||5);const div=document.createElement('div');div.className='tri';div.innerHTML=`<div class="tritp"><span class="trin">${esc(tr.name)}</span><span class="triv" style="color:${tc.c}">${(tr.score||0).toFixed(2)}</span></div><div class="trib"><div class="trif" id="tf${i}" style="background:${tc.c}"></div></div><div class="triins">${esc(tr.insight||'')}</div>`;list.appendChild(div);setTimeout(()=>{const b=document.getElementById('tf'+i);if(b)b.style.width=((tr.score||0)*10)+'%';},200+i*80);});
   document.getElementById('rins').textContent=data.insights||'—';
+
+  // Render biometric measurements if available
+  const measWrap=document.getElementById('rmeas-wrap');
+  const measEl=document.getElementById('rmeas');
+  const m=ST.measurements;
+  if(m&&Object.keys(m).length>0){
+    measWrap.style.display='block';
+    const labels={
+      faceWidthToHeight:['Face W:H Ratio','Ideal: 1.3-1.4'],
+      jawWidthRatio:['Jaw Width Ratio','Higher = wider jaw'],
+      jawAngle:['Jaw Angle','Ideal: 125-135°'],
+      canthalTiltL:['L Canthal Tilt','Negative = upward (good)'],
+      canthalTiltR:['R Canthal Tilt','Negative = upward (good)'],
+      symmetryRatio:['Symmetry','1.000 = perfect'],
+      cheekboneToJaw:['Cheekbone:Jaw','Higher = prominent cheeks'],
+      noseToFaceRatio:['Nose:Face Ratio','Lower = narrower nose'],
+      facialThirds:['Facial Thirds','33/33/33 = ideal'],
+      shoulderToHipRatio:['Shoulder:Hip','Higher = V-taper. 1.4+ ideal'],
+      shoulderWidth:['Shoulder Width','Relative measurement'],
+      hipWidth:['Hip Width','Relative measurement'],
+      torsoLength:['Torso Length','Relative measurement'],
+      postureAngle:['Posture Angle','~90° = upright'],
+      armSpanRatio:['Arm:Torso Ratio','Proportionality index'],
+    };
+    measEl.innerHTML=Object.entries(m).map(([k,v])=>{
+      const info=labels[k]||[k,''];
+      const val=typeof v==='string'&&v.includes('/')?v:parseFloat(v);
+      const display=typeof val==='number'?val.toFixed(2):v;
+      return`<div style="background:rgba(34,212,90,.04);border:1px solid rgba(34,212,90,.1);border-radius:8px;padding:8px 10px">
+        <div style="font-family:var(--mf);font-size:8px;color:var(--sig);letter-spacing:.04em">${info[0]}</div>
+        <div style="font-family:var(--df);font-size:18px;color:var(--t1);margin:2px 0">${display}</div>
+        <div style="font-family:var(--mf);font-size:7px;color:var(--t3)">${info[1]}</div>
+      </div>`;
+    }).join('');
+  }else{
+    measWrap.style.display='none';
+  }
+
+  // Show estimated profile data if available
+  if(data.estimatedAge||data.estimatedHeight){
+    const profile=[data.estimatedAge?`Age: ${data.estimatedAge}`:'',data.estimatedEthnicity||'',data.estimatedHeight?`Height: ${data.estimatedHeight}`:'',data.estimatedWeight||'',data.estimatedBF?`Body Fat: ${data.estimatedBF}`:''].filter(Boolean).join(' · ');
+    if(profile)document.getElementById('rde').textContent=profile;
+  }
+
   show('results');
 }
 
