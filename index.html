@@ -275,11 +275,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="pill"><div class="pilld" style="background:var(--green)"></div>AI-Powered</div>
 </div>
 <div style="height:14px"></div>
-<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + Body · 19 traits · AI biometric analysis</div></div><div class="cmba">→</div></div></div>
+<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + Body · 19 traits · ~2 min · AI biometric analysis</div></div><div class="cmba">→</div></div></div>
 <div style="height:8px"></div>
 <div class="cds">
-<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">Live face mesh maps 478 landmarks. AI scores jawline, symmetry, eye area, cheekbones, skin quality — 10 traits.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;Face Mesh</span><span class="tag tgd">~15 sec</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
-<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">Pose tracking maps 33 body landmarks. AI scores frame, V-taper, muscle definition, body fat, posture — 9 traits.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;Pose Track</span><span class="tag tgd">~15 sec</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
+<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">Live face mesh maps 478 landmarks. AI scores jawline, symmetry, eye area, cheekbones, skin quality — 10 traits.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;Face Mesh</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
+<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">Pose tracking maps 33 body landmarks. AI scores frame, V-taper, muscle definition, body fat, posture — 9 traits.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;Pose Track</span><span class="tag tgd">~75 sec</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
 </div>
 <div style="height:8px"></div>
 <div class="hnv">
@@ -334,9 +334,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- ANALYZING -->
 <div id="analyzing" class="scr">
-<div class="azr"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(79,142,247,.15)" stroke-width="6"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--blue)" stroke-width="6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="200"/></svg><div class="azi">🧬</div></div>
+<div class="azr"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(34,212,90,.12)" stroke-width="6"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--sig)" stroke-width="6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="200"/></svg><div class="azi" style="font-size:20px;font-family:var(--mf);color:var(--sig)">AI</div></div>
 <div class="azt" id="azt">ANALYZING</div>
 <div class="azs">Processing biometrics<span class="azd"><span>.</span><span>.</span><span>.</span></span></div>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.06em;margin-top:8px;text-align:center">COMPUTING TRAIT SCORES FROM LANDMARK DATA</div>
 <div class="azfr" id="azfr"></div>
 </div>
 
@@ -808,7 +809,16 @@ function drawPose(ctx,lm,W,H){
 
 // ═══ SCREENS ═══
 function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');if(id==='home')updHome();}
-function goHome(){abort();show('home');}
+function goHome(){abort();show('home');
+  // Clean up scan screen for next time
+  document.getElementById('foval').style.display='none';
+  document.getElementById('sflock').classList.remove('show');
+  document.getElementById('sconf').classList.remove('show');
+  document.getElementById('svt').classList.remove('big');
+  document.getElementById('sst').classList.remove('big');
+  document.querySelector('.spb')?.classList.remove('big');
+  const cnv=document.getElementById('scanc');if(cnv){const cx=cnv.getContext('2d');cx.clearRect(0,0,cnv.width,cnv.height);}
+}
 
 // ═══ DAILY LIMIT ═══
 function scanCt(){const d=LS.gj('lm_sc')||{};return d[new Date().toISOString().slice(0,10)]||0;}
@@ -1283,9 +1293,14 @@ async function startCapture(){
 
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
+  stopOverlay(); // Stop ML processing immediately
   speak(isFace?"Nice work. That was a solid scan.":"You killed it. Let's see what we've got.");
   document.getElementById('svt').textContent='SCAN COMPLETE';
   document.getElementById('sst').textContent='Processing…';
+  // Remove big mode if body scan
+  document.getElementById('svt').classList.remove('big');
+  document.getElementById('sst').classList.remove('big');
+  document.querySelector('.spb')?.classList.remove('big');
   try{navigator.vibrate(80);}catch{}
   await new Promise(r=>setTimeout(r,2000));
   if(ST.aborted||ST.token!==myTk)return;
@@ -1297,8 +1312,6 @@ async function startCapture(){
   document.getElementById('foval').style.display='none';
   ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
   document.getElementById('spf').style.width='100%';
-  document.getElementById('svt').textContent='SCAN COMPLETE';
-  try{navigator.vibrate(80);}catch{}
 
   // Ensure at least 2 photos
   if(photos.length===0){
@@ -1551,6 +1564,8 @@ function showResults(data){
   }
 
   show('results');
+  // Scroll to top of results
+  document.getElementById('results').scrollTop=0;
 }
 
 // ═══ SHARE CARD ═══
