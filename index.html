@@ -398,28 +398,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">TIER SYSTEM</div></div>
 <div style="padding:14px;display:flex;flex-direction:column;gap:16px">
 
-<!-- Visual distribution bar -->
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">WHERE DO YOU FALL?</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.5">50% of men score between 5.00 and 7.00. Each tier represents ~10% of the male population.</div>
-<div style="display:flex;height:28px;border-radius:6px;overflow:hidden;gap:1px">
-<div style="flex:1;background:#f05252;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff;letter-spacing:.04em">1-3</div>
-<div style="flex:1.5;background:#f5a623;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">3.5-5</div>
-<div style="flex:2;background:#9090b0;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">5-6</div>
-<div style="flex:2;background:#8b6cf7;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">6-7</div>
-<div style="flex:1.5;background:#4f8ef7;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">7-8</div>
-<div style="flex:1;background:#22d45a;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">8-9</div>
-<div style="flex:.5;background:#FFD700;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#000">9+</div>
-</div>
-<div style="display:flex;justify-content:space-between;font-family:var(--mf);font-size:8px;color:var(--t4)"><span>SUBHUMAN</span><span>AVERAGE</span><span>GIGACHAD</span></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">SCORING METHODOLOGY</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.7">Scores are computed from a combination of biometric landmark measurements and AI visual analysis. Face scans use 478 tracked facial landmarks to compute jaw angle, canthal tilt, symmetry ratio, and facial proportions. Body scans use 33 pose landmarks to compute shoulder-to-hip ratio, posture angle, and limb proportions. These objective measurements anchor the AI's trait-by-trait assessment.</div>
 </div>
 
-<!-- PSL Tiers -->
-<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em;color:var(--blue)">PSL FACE TIERS</div>
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:var(--blue)">PSL FACE TIERS</div>
 <div id="ftiers" style="display:flex;flex-direction:column;gap:6px"></div>
 
-<!-- Body Tiers -->
-<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em;color:var(--green)">FRAMEMOG BODY TIERS</div>
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:var(--green)">FRAMEMOG BODY TIERS</div>
 <div id="btiers" style="display:flex;flex-direction:column;gap:6px"></div>
 </div>
 </div>
@@ -429,40 +416,38 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HOW IT WORKS</div></div>
 <div style="padding:14px;display:flex;flex-direction:column;gap:16px">
 
-<!-- Animated steps -->
 <div style="display:flex;flex-direction:column;gap:0">
 <div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">1</div><div style="width:2px;flex:1;background:linear-gradient(var(--blue),var(--green))"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">OPEN CAMERA</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">Face scan: hold phone at arm's length, look straight. Body scan: prop phone, step back shirtless.</div></div>
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">1</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">BIOMETRIC FACE SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">MediaPipe Face Landmarker tracks 478 3D facial landmarks in real-time. The scanner guides you through 7 poses over 40 seconds — front, left profile, right profile, center, chin tilt, and calibration — to capture measurements from multiple angles.</div></div>
 </div>
 <div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">2</div><div style="width:2px;flex:1;background:linear-gradient(var(--green),var(--amber))"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">AI SCANS YOU</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">478 face landmarks or 33 body landmarks tracked in real-time. Jaw angle, canthal tilt, symmetry, bone structure — all measured mathematically.</div></div>
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">2</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">POSE ESTIMATION BODY SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">MediaPipe Pose Landmarker tracks 33 body landmarks across 9 guided poses over 65 seconds. Measures shoulder-to-hip ratio, posture angle, arm and leg proportions, torso length, and frame width through front, side, flex, and relaxed positions.</div></div>
 </div>
 <div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">3</div><div style="width:2px;flex:1;background:linear-gradient(var(--amber),var(--gold))"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">GET YOUR SCORE</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">AI estimates your age, height, ethnicity. Scores 10 traits for face, 9 for body. Gives you a composite score and personalized insights.</div></div>
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">3</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">MEASUREMENT-ANCHORED SCORING</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Computed biometric measurements are sent alongside reference photos to an AI vision model. The measurements serve as objective anchors — jaw angle, symmetry ratio, and posture angle are scored based on actual data, not subjective impression. Visual traits like skin quality and muscle definition are assessed from the reference photo.</div></div>
 </div>
 <div style="display:flex;gap:14px">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#000;flex-shrink:0">4</div></div>
-<div style="flex:1"><div style="font-family:var(--df);font-size:18px">SHARE & COMPETE</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">Share your score card. Post to the global leaderboard. See how you stack up.</div></div>
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">4</div></div>
+<div style="flex:1"><div style="font-family:var(--df);font-size:16px">TRAIT BREAKDOWN & INSIGHTS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Each trait is scored individually with a specific insight referencing your actual measurements. The composite score weights traits by their impact on real-world attractiveness perception. Results include your estimated age, height, and body composition alongside actionable recommendations.</div></div>
 </div>
 </div>
 
-<!-- Tips as cards -->
-<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">SCAN TIPS</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">💡</div><div style="font-family:var(--df);font-size:14px">LIGHTING</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Natural side light. Face a window.</div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">📐</div><div style="font-family:var(--df);font-size:14px">DISTANCE</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Arm's length for face. 6-8ft for body.</div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">😐</div><div style="font-family:var(--df);font-size:14px">EXPRESSION</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Neutral. No smile. Eyes open.</div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">👕</div><div style="font-family:var(--df);font-size:14px">SHIRTLESS</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Body scan needs real proportions.</div></div>
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.05em">SCAN CONDITIONS</div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden">
+<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Lighting</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Natural daylight from a side window produces the most accurate landmark detection. Avoid harsh overhead lighting or backlit conditions. Good lighting can meaningfully improve scan quality.</div></div>
+<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Face Scan Distance</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Hold phone at arm's length, eye level. Neutral expression with eyes open. The scanner will guide you through head positions — follow the on-screen prompts.</div></div>
+<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Body Scan Setup</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Prop phone at waist height against a wall. Step back 6-8 feet. Shirtless provides the most accurate body composition assessment. The scanner needs to see your full body from head to feet.</div></div>
+<div style="padding:13px 15px"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Reproducibility</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Scores may vary slightly between scans due to lighting differences and landmark detection variance. For the most consistent results, scan in the same location with the same lighting conditions.</div></div>
 </div>
 <div style="text-align:center;padding:4px 0"><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.08em">LooksMaxx · Fresh Fitness Co LLC</div></div>
 </div>
 </div>
 
 <!-- LIMIT -->
-<div id="limit" class="scr"><div style="font-size:52px">⏳</div><div style="font-family:var(--df);font-size:38px;color:var(--amber)">DAILY LIMIT</div><div style="font-size:13px;color:var(--t2);max-width:260px;line-height:1.65">You've used your 2 free scans today. Come back tomorrow.</div><button class="btn bs" style="max-width:240px" onclick="show('home')">← Back</button></div>
+<div id="limit" class="scr"><div style="font-size:52px">⏳</div><div style="font-family:var(--df);font-size:38px;color:var(--amber)">DAILY LIMIT</div><div style="font-size:13px;color:var(--t2);max-width:260px;line-height:1.65">You've used your 15 free scans today. Come back tomorrow.</div><button class="btn bs" style="max-width:240px" onclick="show('home')">← Back</button></div>
 
 <!-- ERROR -->
 <div id="errscr" class="scr"><div style="font-size:48px">⚠️</div><div style="font-family:var(--df);font-size:28px;color:var(--amber)">SCAN FAILED</div><div style="font-size:13px;color:var(--t2);max-width:280px" id="errmsg">Something went wrong.</div><button class="btn bp" style="max-width:260px" onclick="goHome()">Try Again</button></div>
@@ -482,7 +467,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <script type="module">
 'use strict';
 const API='https://looksmaxx.pumpittony.workers.dev';
-const DL=2;
+const DL=15;
 const DID=(()=>{try{let i=localStorage.getItem('lm_did');if(!i){i='d_'+Math.random().toString(36).slice(2)+Date.now().toString(36);try{localStorage.setItem('lm_did',i)}catch(e){}}return i}catch(e){return'd_'+Math.random().toString(36).slice(2)}})();
 const LS={g:k=>{try{return localStorage.getItem(k)}catch{return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},gj:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},sj:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
 
@@ -582,13 +567,34 @@ function computeBodyMeasurements(landmarks){
   if(!landmarks||landmarks.length<33)return null;
   const p=landmarks;
   const dist=(a,b)=>Math.sqrt((p[a].x-p[b].x)**2+(p[a].y-p[b].y)**2);
-  const shoulderW=dist(11,12);
-  const hipW=dist(23,24);
-  const torsoL=dist(11,23);
-  const stwRatio=shoulderW/hipW;
-  // Posture: shoulder-ear alignment (12=right shoulder, 0=nose as proxy)
-  const postureAngle=Math.atan2(p[12].y-p[0].y,p[12].x-p[0].x)*180/Math.PI;
-  const armSpan=dist(15,16); // wrist to wrist approximation
+  const vis=(i)=>p[i]&&p[i].visibility>0.4;
+
+  const shoulderW=vis(11)&&vis(12)?dist(11,12):0;
+  const hipW=vis(23)&&vis(24)?dist(23,24):0;
+  const torsoL=vis(11)&&vis(23)?dist(11,23):0;
+  const stwRatio=hipW>0?shoulderW/hipW:0;
+
+  // Posture: angle of shoulder relative to nose (forward lean detection)
+  const postureAngle=vis(12)&&vis(0)?Math.atan2(p[12].y-p[0].y,p[12].x-p[0].x)*180/Math.PI:90;
+
+  // Arm measurements
+  const leftArmL=vis(11)&&vis(13)&&vis(15)?dist(11,13)+dist(13,15):0;
+  const rightArmL=vis(12)&&vis(14)&&vis(16)?dist(12,14)+dist(14,16):0;
+  const avgArmL=(leftArmL+rightArmL)/2;
+
+  // Leg measurements
+  const leftLegL=vis(23)&&vis(25)&&vis(27)?dist(23,25)+dist(25,27):0;
+  const rightLegL=vis(24)&&vis(26)&&vis(28)?dist(24,26)+dist(26,28):0;
+  const avgLegL=(leftLegL+rightLegL)/2;
+
+  // Upper to lower body ratio
+  const upperLowerRatio=avgLegL>0?torsoL/avgLegL:0;
+
+  // Arm span (wrist to wrist)
+  const armSpan=vis(15)&&vis(16)?dist(15,16):0;
+
+  // Height proxy (head to foot)
+  const heightProxy=vis(0)&&vis(27)?dist(0,27):0;
 
   return{
     shoulderToHipRatio:stwRatio.toFixed(3),
@@ -596,7 +602,11 @@ function computeBodyMeasurements(landmarks){
     hipWidth:(hipW*100).toFixed(2),
     torsoLength:(torsoL*100).toFixed(2),
     postureAngle:postureAngle.toFixed(2),
-    armSpanRatio:(armSpan/torsoL).toFixed(3),
+    armLength:(avgArmL*100).toFixed(2),
+    legLength:(avgLegL*100).toFixed(2),
+    upperLowerRatio:upperLowerRatio.toFixed(3),
+    armSpan:(armSpan*100).toFixed(2),
+    heightProxy:(heightProxy*100).toFixed(2),
   };
 }
 
@@ -874,165 +884,254 @@ let _wt=null;function warn(msg){const el=document.getElementById('swarn');el.tex
 // ═══ MEDIAPIPE-FIRST SCAN ENGINE ═══
 // Progress driven by LANDMARK DATA, not timers. No detection = no progress.
 
+// ═══ GUIDED SCAN ENGINE — Face ID Style ═══
+// Face: 40s, 6 guided poses. Body: 45s, 5 guided poses.
+// Each pose WAITS for landmark detection. No detection = no progress.
+
 async function startCapture(){
   if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)();}catch{}}
+  startBgMusic();
   const mode=ST.mode;const myTk=ST.token;
   const btn=document.getElementById('sbtn');btn.classList.add('d');btn.style.animation='none';
   const v=document.getElementById('svid');
   const isFace=mode==='face'||(mode==='combo'&&ST.caps.length===0);
   const isBody=!isFace;
 
-  document.getElementById('svt').textContent=isFace?'FACE SCAN':'BODY SCAN';
-  document.getElementById('sst').textContent='Waiting for detection…';
-  document.getElementById('sind').innerHTML='';
-  document.getElementById('sphase').innerHTML='';
+  // ═══ GUIDED POSES — The Ride ═══
+  const facePoses=[
+    {id:'detect',label:'FINDING YOU',oval:'LOOK RIGHT AT ME',status:'Look at the camera',
+     voice:"Alright, let's do this. Look straight at the camera and hold still.",dur:6000,needsLandmarks:true,minFrames:15},
+    {id:'front',label:'FRONT SCAN',oval:'PERFECT — HOLD THAT',status:'Mapping your face',
+     voice:"Got you. Hold still. I'm mapping your entire face right now.",dur:7000,needsLandmarks:true,minFrames:30,capture:true,
+     meas:['faceWidthToHeight','jawAngle','symmetryRatio']},
+    {id:'left',label:'TURN LEFT',oval:'SHOW ME THE LEFT',status:'Scanning left profile',
+     voice:"Nice. Now slowly turn left. Show me that jawline.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['jawWidthRatio','cheekboneToJaw']},
+    {id:'right',label:'TURN RIGHT',oval:'NOW THE RIGHT',status:'Scanning right profile',
+     voice:"Now the other way. Turn right. Let me see it.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['jawWidthRatio','cheekboneToJaw']},
+    {id:'center',label:'EYES ON ME',oval:'LOOK STRAIGHT AHEAD',status:'Capturing front view',
+     voice:"Come back to center. Eyes on me. This is the money shot.",dur:5000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['canthalTiltL','canthalTiltR','noseToFaceRatio']},
+    {id:'smile',label:'SMILE',oval:'GIVE ME A SMILE',status:'Capturing your smile',
+     voice:"Now give me a smile. A real one. There it is.",dur:3500,needsLandmarks:true,minFrames:10,capture:true},
+    {id:'tilt',label:'CHIN UP',oval:'CHIN UP SLIGHTLY',status:'Measuring proportions',
+     voice:"Chin up a little. Like you own the place.",dur:5000,needsLandmarks:true,minFrames:15,capture:true,
+     meas:['facialThirds']},
+    {id:'final',label:'LOCKING IT IN',oval:'HOLD STILL',status:'Final calibration',
+     voice:"Last one. Perfectly still. Locking it in.",dur:5000,needsLandmarks:true,minFrames:25},
+  ];
+
+  const bodyPoses=[
+    {id:'setup',label:'SET THE STAGE',oval:'',status:'Get in position',
+     voice:"Time to show what you're working with. Prop your phone against a wall, step back about 6 feet. Shirtless gets the best results.",dur:12000,isSetup:true,countdown:true},
+    {id:'detect',label:'FINDING YOU',oval:'',status:'Locking on',
+     voice:"Stand tall. Feet shoulder width. Let me find you.",dur:7000,needsLandmarks:true,minFrames:15},
+    {id:'front',label:'ARMS OUT',oval:'',status:'Measuring frame',
+     voice:"Got you. Arms out slightly. Let me see that frame.",dur:8000,needsLandmarks:true,minFrames:30,capture:true,
+     meas:['shoulderToHipRatio','shoulderWidth','hipWidth']},
+    {id:'lat',label:'SPREAD EM',oval:'',status:'Measuring V-taper',
+     voice:"Now spread those lats. Show me the width.",dur:7000,needsLandmarks:true,minFrames:25,capture:true,
+     meas:['shoulderToHipRatio','shoulderWidth']},
+    {id:'side',label:'LEFT SIDE',oval:'',status:'Side profile analysis',
+     voice:"Turn left. Show me the side view.",dur:8000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['postureAngle','torsoLength']},
+    {id:'sideback',label:'RIGHT SIDE',oval:'',status:'Comparing profiles',
+     voice:"Other side. Turn right.",dur:7000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['postureAngle']},
+    {id:'flex',label:'SHOW OFF',oval:'',status:'Capturing your best',
+     voice:"Face me and hit your best pose. Show off.",dur:7000,needsLandmarks:true,minFrames:25,capture:true,
+     meas:['shoulderToHipRatio','armSpan']},
+    {id:'grin',label:'EARNED IT',oval:'',status:'One more thing',
+     voice:"Give me a grin. You earned it.",dur:3000,needsLandmarks:true,minFrames:8,capture:true},
+    {id:'relax',label:'THE REAL YOU',oval:'',status:'Baseline capture',
+     voice:"Now drop everything. Stand natural. The real you.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     meas:['shoulderToHipRatio','hipWidth','torsoLength']},
+    {id:'final',label:'CRUNCHING NUMBERS',oval:'',status:'Processing',
+     voice:"That's a wrap. Let me crunch these numbers.",dur:3000,minFrames:0},
+  ];
+
+  const poses=isFace?facePoses:bodyPoses;
+
+  // Build phase panel
+  document.getElementById('sphase').innerHTML=poses.map((p,i)=>`<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${p.id}</div></div>`).join('');
   document.getElementById('sconf').classList.add('show');
   document.getElementById('sconff').style.width='0%';
   document.getElementById('sconfp').textContent='0%';
 
   let allMeas=[];
   let confidence=0;
-  let refPhoto=null;
-  let totalGoodFrames=0;
-  let noDetectStreak=0;
-  const NEEDED=isFace?80:60; // landmark frames needed for complete scan
-  const MAX_TIME=isFace?50000:55000;
-  const t0=Date.now();
+  let photos=[];
+  const totalMinFrames=poses.reduce((a,p)=>a+(p.minFrames||0),0);
+  let globalFrames=0;
 
-  // Phase names for left panel
-  const phases=isFace?['Detecting','Locking','Jawline','Eyes','Symmetry','Structure','Skin','Calibrate']:['Detecting','Locking','Frame','Proportions','Side','Posture','Final'];
-  document.getElementById('sphase').innerHTML=phases.map((n,i)=>`<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${n}</div></div>`).join('');
+  // ═══ INTRO BEAT — Let the music breathe for 2 seconds ═══
+  document.getElementById('svt').textContent=isFace?'GET READY':'GET READY';
+  document.getElementById('sst').textContent=isFace?'Face scan starting…':'Body scan starting…';
+  await new Promise(r=>setTimeout(r,2000));
+  if(ST.aborted||ST.token!==myTk)return;
 
-  // Face oval text
-  const ft=document.getElementById('foval-txt');
-  const ovalTxts=isFace?['LOOK AT CAMERA','LOCKING LANDMARKS','JAWLINE SCAN','EYE ANALYSIS','SYMMETRY CHECK','BONE STRUCTURE','SKIN SCAN','CALIBRATING']:['STAND IN FRAME','LOCKING POSE','FRAME SCAN','PROPORTIONS','SIDE PROFILE','POSTURE','FINAL'];
+  // Between-pose confirmations
+  const confirms=['Got it.','Perfect.','Nice.','Good.','Looking good.','Solid.'];
+  let confirmIdx=0;
 
-  speak(isFace?'Position your face in the oval. Hold completely still.':'Stand facing the camera. Full body visible.');
+  // ═══ WALK THROUGH EACH POSE ═══
+  for(let pi=0;pi<poses.length;pi++){
+    if(ST.aborted||ST.token!==myTk)return;
+    const pose=poses[pi];
 
-  // ═══ MAIN LOOP — landmark-driven ═══
-  while(!ST.aborted&&ST.token===myTk){
-    if(Date.now()-t0>MAX_TIME){speak('Scan timeout. Using available data.');break;}
+    // Update UI — use short status text
+    document.getElementById('svt').textContent=pose.label;
+    document.getElementById('sst').textContent=pose.status||'';
+    const ft=document.getElementById('foval-txt');
+    if(ft&&pose.oval)ft.textContent=pose.oval;
+    speak(pose.voice);
 
-    if(lastLandmarks){
-      noDetectStreak=0;
-      totalGoodFrames++;
-
-      // Compute measurements every frame
-      const m=isFace?computeFaceMeasurements(lastLandmarks):computeBodyMeasurements(lastLandmarks);
-      if(m)allMeas.push(m);
-
-      // Progress = data collected / data needed
-      const pct=Math.min(100,(totalGoodFrames/NEEDED)*100);
-      document.getElementById('spf').style.width=pct+'%';
-
-      // Confidence
-      confidence=Math.min(99,Math.round(pct*0.9+(allMeas.length>10?10:allMeas.length)));
-      document.getElementById('sconff').style.width=confidence+'%';
-      document.getElementById('sconfp').textContent=Math.round(confidence)+'%';
-      document.getElementById('sconff').style.background=confidence>70?'var(--sig)':confidence>40?'var(--amber)':'var(--red)';
-
-      // Face/body lock indicator
-      if(totalGoodFrames>3){
-        document.getElementById('sflock').classList.add('show');
-        document.getElementById('sflocklbl').textContent=isFace?'478 Landmarks Locked':'33 Points Tracked';
-      }
-
-      // Update phase dots
-      const pi=Math.min(phases.length-1,Math.floor(pct/100*phases.length));
-      phases.forEach((_,i)=>{
-        const el=document.getElementById('sph'+i);if(!el)return;
-        if(i<pi){el.classList.remove('active');el.classList.add('done');}
-        else if(i===pi){el.classList.add('active');el.classList.remove('done');}
-        else{el.classList.remove('active','done');}
-      });
-
-      // Update oval text and main label
-      if(ft&&ovalTxts[pi])ft.textContent=ovalTxts[pi];
-      document.getElementById('svt').textContent=phases[pi]?phases[pi].toUpperCase():'SCANNING';
-
-      // Live measurement readouts
-      if(m&&isFace){
-        const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2'),m3=document.getElementById('smeas3');
-        if(m.jawAngle){m1.textContent=`Jaw: ${m.jawAngle}°`;m1.classList.add('show');}
-        if(m.symmetryRatio){m2.textContent=`Sym: ${m.symmetryRatio}`;m2.classList.add('show');}
-        if(m.canthalTiltL){m3.textContent=`CT: ${m.canthalTiltL}`;m3.classList.add('show');}
-      }else if(m&&isBody){
-        const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2');
-        if(m.shoulderToHipRatio){m1.textContent=`S:H ${m.shoulderToHipRatio}`;m1.classList.add('show');}
-        if(m.postureAngle){m2.textContent=`Post: ${m.postureAngle}°`;m2.classList.add('show');}
-      }
-
-      // Right-side indicator pills (every ~15 frames)
-      if(m&&totalGoodFrames%15===0){
-        const sind=document.getElementById('sind');
-        const keys=Object.keys(m);const key=keys[Math.floor(Math.random()*keys.length)];
-        const pill=document.createElement('div');pill.className='sip';
-        pill.innerHTML=`<div class="sipd"></div>${key}: ${m[key]}`;
-        sind.appendChild(pill);setTimeout(()=>pill.classList.add('in'),50);
-        while(sind.children.length>3)sind.removeChild(sind.firstChild);
-      }
-
-      // Capture ONE reference photo at 50% for Claude (skin, hair, vibe)
-      if(!refPhoto&&pct>50){
-        const cap=document.createElement('canvas');
-        const vw=v.videoWidth||640,vh=v.videoHeight||480;
-        const sc=Math.min(1,1024/Math.max(vw,vh));
-        cap.width=Math.round(vw*sc);cap.height=Math.round(vh*sc);
-        const cx=cap.getContext('2d');
-        if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
-        cx.drawImage(v,0,0,cap.width,cap.height);
-        refPhoto=cap.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,','');
-        const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
-        try{navigator.vibrate(25);}catch{}playShutter();
-      }
-
-      // Voice milestones
-      if(totalGoodFrames===5)speak(isFace?'Face locked. Scanning.':'Body locked. Analyzing.');
-      if(totalGoodFrames===Math.floor(NEEDED*0.5))speak('Halfway. Keep holding still.');
-      if(totalGoodFrames===Math.floor(NEEDED*0.85))speak('Almost done.');
-
-      // COMPLETE
-      if(totalGoodFrames>=NEEDED){
-        // Capture final reference photo
-        const cap2=document.createElement('canvas');
-        const vw2=v.videoWidth||640,vh2=v.videoHeight||480;
-        const sc2=Math.min(1,1024/Math.max(vw2,vh2));
-        cap2.width=Math.round(vw2*sc2);cap2.height=Math.round(vh2*sc2);
-        const cx2=cap2.getContext('2d');
-        if(ST.facing==='user'){cx2.translate(cap2.width,0);cx2.scale(-1,1);}
-        cx2.drawImage(v,0,0,cap2.width,cap2.height);
-        const photo2=cap2.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,','');
-        if(refPhoto)ST.caps.push({type:isFace?'face':'body',b64:refPhoto});
-        ST.caps.push({type:isFace?'face':'body',b64:photo2});
-        const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
-        try{navigator.vibrate(80);}catch{}playShutter();
-        speak('Scan complete.');
-        break;
-      }
-
-    }else{
-      // ═══ NO LANDMARKS — coach user, progress frozen ═══
-      noDetectStreak++;
-      if(noDetectStreak===10)document.getElementById('sst').textContent=isFace?'Position face in the oval':'Step into frame — full body';
-      if(noDetectStreak===40){speak(isFace?'Move closer and look at the camera.':'Make sure your full body is visible.');document.getElementById('sst').textContent=isFace?'Move closer — look at camera':'Full body must be visible';}
-      if(noDetectStreak===80){speak('Try better lighting. Face a window.');document.getElementById('sst').textContent='Try better lighting';}
-      if(noDetectStreak===200){
-        // 10s no detection — take fallback photo and proceed
-        speak('Limited detection. Taking reference photo.');
-        const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
-        const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
-        cx.drawImage(v,0,0);
-        ST.caps.push({type:isFace?'face':'body',b64:cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,','')});
-        break;
-      }
-      document.getElementById('sflock').classList.remove('show');
+    // Highlight phase dot
+    for(let j=0;j<poses.length;j++){
+      const el=document.getElementById('sph'+j);if(!el)continue;
+      if(j<pi){el.classList.remove('active');el.classList.add('done');}
+      else if(j===pi){el.classList.add('active');el.classList.remove('done');}
+      else{el.classList.remove('active','done');}
     }
-    await new Promise(r=>setTimeout(r,50)); // ~20fps loop
+
+    // Show indicator pill
+    const sind=document.getElementById('sind');
+    const pill=document.createElement('div');pill.className='sip';
+    pill.innerHTML=`<div class="sipd"></div>${pose.label}`;
+    sind.appendChild(pill);setTimeout(()=>pill.classList.add('in'),50);
+    while(sind.children.length>4)sind.removeChild(sind.firstChild);
+
+    // ═══ POSE LOOP — collect landmark frames until minFrames met OR duration expires ═══
+    const poseStart=Date.now();
+    let poseFrames=0;
+    let noDetect=0;
+
+    while(!ST.aborted&&ST.token===myTk){
+      const elapsed=Date.now()-poseStart;
+
+      // Check if pose is complete
+      if(poseFrames>=(pose.minFrames||0)&&elapsed>=pose.dur){break;}
+      // Hard timeout: 2x duration max
+      if(elapsed>pose.dur*2.5){break;}
+      // Setup poses just run on timer
+      if(pose.isSetup&&elapsed>=pose.dur){break;}
+
+      if(lastLandmarks&&!pose.isSetup){
+        noDetect=0;
+        poseFrames++;
+        globalFrames++;
+
+        // Compute measurements
+        const m=isFace?computeFaceMeasurements(lastLandmarks):computeBodyMeasurements(lastLandmarks);
+        if(m)allMeas.push(m);
+
+        // Update progress — based on global frames / total needed
+        const pct=Math.min(100,(globalFrames/totalMinFrames)*100);
+        document.getElementById('spf').style.width=pct+'%';
+
+        // Confidence
+        confidence=Math.min(99,Math.round(pct));
+        document.getElementById('sconff').style.width=confidence+'%';
+        document.getElementById('sconfp').textContent=Math.round(confidence)+'%';
+        document.getElementById('sconff').style.background=confidence>70?'var(--sig)':confidence>40?'var(--amber)':'var(--red)';
+
+        // Lock indicator
+        if(poseFrames>3){
+          document.getElementById('sflock').classList.add('show');
+          document.getElementById('sflocklbl').textContent=isFace?'478 Landmarks Locked':'33 Points Tracked';
+        }
+
+        // Live measurement display
+        if(m&&pose.meas&&isFace){
+          const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2'),m3=document.getElementById('smeas3');
+          if(pose.meas[0]&&m[pose.meas[0]]){m1.textContent=`${pose.meas[0]}: ${m[pose.meas[0]]}`;m1.classList.add('show');}
+          if(pose.meas[1]&&m[pose.meas[1]]){m2.textContent=`${pose.meas[1]}: ${m[pose.meas[1]]}`;m2.classList.add('show');}
+          if(pose.meas[2]&&m[pose.meas[2]]){m3.textContent=`${pose.meas[2]}: ${m[pose.meas[2]]}`;m3.classList.add('show');}
+        }else if(m&&pose.meas&&isBody){
+          const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2');
+          if(pose.meas[0]&&m[pose.meas[0]]){m1.textContent=`${pose.meas[0]}: ${m[pose.meas[0]]}`;m1.classList.add('show');}
+          if(pose.meas[1]&&m[pose.meas[1]]){m2.textContent=`${pose.meas[1]}: ${m[pose.meas[1]]}`;m2.classList.add('show');}
+        }
+
+        // Capture photo at end of pose (if marked for capture)
+        if(pose.capture&&poseFrames>=(pose.minFrames||1)-5&&!pose._captured){
+          pose._captured=true;
+          const cap=document.createElement('canvas');
+          const vw=v.videoWidth||640,vh=v.videoHeight||480;
+          const sc=Math.min(1,1024/Math.max(vw,vh));
+          cap.width=Math.round(vw*sc);cap.height=Math.round(vh*sc);
+          const cx=cap.getContext('2d');
+          if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+          cx.drawImage(v,0,0,cap.width,cap.height);
+          photos.push(cap.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,',''));
+          const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
+          try{navigator.vibrate(20);}catch{}playShutter();
+        }
+
+      }else if(!pose.isSetup){
+        // No landmarks — coach with personality
+        noDetect++;
+        if(noDetect===8){
+          document.getElementById('sst').textContent=isFace?"Where'd you go? Get in the oval":"I need to see you — step into frame";
+        }
+        if(noDetect===30){
+          speak(isFace?"Hey, I lost you. Get back in the oval for me.":"Step back a bit so I can see your whole body.");
+          document.getElementById('sst').textContent='Come back…';
+        }
+        if(noDetect===60){
+          document.getElementById('sst').textContent='Pro tip: face a window. Lighting is everything.';
+        }
+        if(noDetect>100&&(Date.now()-poseStart)>pose.dur){break;}
+        document.getElementById('sflock').classList.remove('show');
+      }
+
+      await new Promise(r=>setTimeout(r,50)); // ~20fps
+    }
+
+    // Mark pose done
+    const doneEl=document.getElementById('sph'+pi);
+    if(doneEl){doneEl.classList.remove('active');doneEl.classList.add('done');}
+
+    // Clear measurement readouts between poses
+    ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
+
+    // Reset capture flag
+    pose._captured=false;
+
+    // Countdown for setup poses (last 5 seconds)
+    if(pose.countdown&&pose.isSetup){
+      for(let cd=5;cd>0;cd--){
+        if(ST.aborted)return;
+        document.getElementById('svt').textContent=cd.toString();
+        document.getElementById('sst').textContent=cd===1?'Here we go':'Get ready';
+        if(cd<=3)speak(cd.toString());
+        await new Promise(r=>setTimeout(r,1000));
+      }
+    }
+
+    // Between-pose confirmation (not after setup, detect, or final)
+    if(pi<poses.length-1&&!pose.isSetup&&pose.id!=='detect'&&pose.id!=='final'&&pose.minFrames>0){
+      const conf=confirms[confirmIdx%confirms.length];confirmIdx++;
+      speak(conf);
+      try{navigator.vibrate(15);}catch{}
+      await new Promise(r=>setTimeout(r,600));
+    }else if(pi<poses.length-1&&!pose.isSetup){
+      await new Promise(r=>setTimeout(r,300));
+    }
   }
 
   if(ST.aborted||ST.token!==myTk)return;
 
-  // Clean up
+  // ═══ SCAN COMPLETE ═══
+  stopBgMusic();
+  speak(isFace?"Nice work. That was a solid scan.":"You killed it. Let's see what we've got.");
+  document.getElementById('svt').textContent='SCAN COMPLETE';
+  document.getElementById('sst').textContent='Processing…';
+  try{navigator.vibrate(80);}catch{}
+  await new Promise(r=>setTimeout(r,2000));
+  if(ST.aborted||ST.token!==myTk)return;
+
   document.getElementById('sconf').classList.remove('show');
   document.getElementById('sflock').classList.remove('show');
   document.getElementById('sphase').innerHTML='';
@@ -1040,23 +1139,32 @@ async function startCapture(){
   document.getElementById('foval').style.display='none';
   ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
   document.getElementById('spf').style.width='100%';
+  document.getElementById('svt').textContent='SCAN COMPLETE';
+  try{navigator.vibrate(80);}catch{}
 
-  // Fallback: ensure at least one photo
-  if(ST.caps.filter(c=>c.type===(isFace?'face':'body')).length===0){
+  // Ensure at least 2 photos
+  if(photos.length===0){
     const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
     const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
     cx.drawImage(v,0,0);
-    ST.caps.push({type:isFace?'face':'body',b64:cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,','')});
+    photos.push(cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,',''));
   }
 
+  // Store photos
+  const type=isFace?'face':'body';
+  // Keep max 3 best photos (first, middle, last for angle diversity)
+  const best=photos.length<=3?photos:[photos[0],photos[Math.floor(photos.length/2)],photos[photos.length-1]];
+  best.forEach(b64=>ST.caps.push({type,b64}));
+
+  // Average measurements
   const avgMeasurements=allMeas.length>0?avgMeas(allMeas):null;
   ST.measurements=avgMeasurements;
 
   // Combo: face done → body
   if(mode==='combo'&&isFace){
-    speak('Face scan complete. Set up for body scan.');
+    speak("Face scan locked in. Now let's check out the physique. Set up the body scan.");
     document.getElementById('svt').textContent='FACE COMPLETE';
-    document.getElementById('sst').textContent='Setting up body scan…';
+    document.getElementById('sst').textContent='Get ready for body scan…';
     document.getElementById('sbdd').style.background='var(--green)';
     document.getElementById('sbdl').textContent='FULL SCAN — BODY';
     document.getElementById('spf').style.width='0%';
@@ -1064,7 +1172,7 @@ async function startCapture(){
     stopOverlay();
     if(ST.stream){ST.stream.getTracks().forEach(t=>t.stop());ST.stream=null;}
     ST.facing='environment';
-    await new Promise(r=>setTimeout(r,2000));
+    await new Promise(r=>setTimeout(r,2500));
     const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
     ST.stream=stream;const vid=document.getElementById('svid');vid.srcObject=stream;vid.style.transform='scaleX(1)';await vid.play();
     if(ST.mlReady&&poseLandmarker)startLiveOverlay('body');
@@ -1143,6 +1251,9 @@ function showReveal(data){
     const el=document.getElementById('rvsc');el.textContent=score.toFixed(2);el.style.color=t.c;el.classList.add('in');
     playReveal();
     try{navigator.vibrate([50,100,50])}catch{}
+    // Speak the score
+    const sInt=Math.floor(score);const sDec=Math.round((score-sInt)*100);
+    speak(`Your score. ${sInt} point ${sDec<10?'oh '+sDec:sDec}.`);
   },1200);
   setTimeout(()=>{const el=document.getElementById('rvti');el.textContent=t.l;el.style.color=t.c;el.classList.add('in');},1600);
   setTimeout(()=>{document.getElementById('rvsub').classList.add('in');},2200);
@@ -1195,7 +1306,11 @@ function showResults(data){
       hipWidth:['Hip Width','Relative measurement'],
       torsoLength:['Torso Length','Relative measurement'],
       postureAngle:['Posture Angle','~90° = upright'],
-      armSpanRatio:['Arm:Torso Ratio','Proportionality index'],
+      armSpan:['Arm Span','Wrist-to-wrist distance'],
+      armLength:['Avg Arm Length','Shoulder to wrist'],
+      legLength:['Avg Leg Length','Hip to ankle'],
+      upperLowerRatio:['Upper:Lower Ratio','Torso vs legs. ~0.5 = balanced'],
+      heightProxy:['Height Proxy','Head to foot estimate'],
     };
     measEl.innerHTML=Object.entries(m).map(([k,v])=>{
       const info=labels[k]||[k,''];
@@ -1275,7 +1390,7 @@ function flipCam(){
     ST.stream=stream;const v=document.getElementById('svid');v.srcObject=stream;v.style.transform=ST.facing==='user'?'scaleX(-1)':'scaleX(1)';v.play().then(()=>{if(ST.mlReady)startLiveOverlay(ST.mode==='body'||(ST.mode==='combo'&&ST.facing==='environment')?'body':'face');});
   }).catch(e=>warn('Camera flip failed'));
 }
-function abort(){ST.aborted=true;ST.token++;stopOverlay();
+function abort(){ST.aborted=true;ST.token++;stopOverlay();stopBgMusic();
   if(ST.stream){ST.stream.getTracks().forEach(t=>t.stop());ST.stream=null;}
   try{window.speechSynthesis?.cancel();}catch{}
   // Clear captures
@@ -1284,6 +1399,75 @@ function abort(){ST.aborted=true;ST.token++;stopOverlay();
 
 // ═══ SOUND & SPEECH ═══
 let actx=null;
+let bgMusic=null;
+
+// Groovy scan background music — funky bassline + rhythm
+function startBgMusic(){
+  try{
+    if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
+    if(bgMusic)stopBgMusic();
+    const master=actx.createGain();master.gain.value=0.12;master.connect(actx.destination);
+
+    // Funky bass loop
+    const bassNotes=[110,110,147,131,110,110,165,147]; // A2, A2, D3, C3, etc
+    let bassIdx=0;
+    const playBass=()=>{
+      if(!bgMusic)return;
+      const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();
+      o.type='sawtooth';o.frequency.value=bassNotes[bassIdx%bassNotes.length];
+      f.type='lowpass';f.frequency.value=400;
+      o.connect(f);f.connect(g);g.connect(master);
+      g.gain.setValueAtTime(0.5,actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.25);
+      o.start(actx.currentTime);o.stop(actx.currentTime+0.25);
+      bassIdx++;
+    };
+
+    // Hi-hat rhythm
+    const playHat=(loud)=>{
+      if(!bgMusic)return;
+      const buf=actx.createBuffer(1,actx.sampleRate*0.04,actx.sampleRate);
+      const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
+      const s=actx.createBufferSource(),g=actx.createGain(),f=actx.createBiquadFilter();
+      s.buffer=buf;f.type='highpass';f.frequency.value=8000;
+      s.connect(f);f.connect(g);g.connect(master);
+      g.gain.value=loud?0.3:0.15;s.start();
+    };
+
+    // Chord stab (every 4 beats)
+    let chordIdx=0;
+    const chords=[[220,277,330],[196,247,294],[220,277,330],[185,233,277]]; // Am, G, Am, F
+    const playChord=()=>{
+      if(!bgMusic)return;
+      const ch=chords[chordIdx%chords.length];
+      ch.forEach(freq=>{
+        const o=actx.createOscillator(),g=actx.createGain();
+        o.type='triangle';o.frequency.value=freq;
+        o.connect(g);g.connect(master);
+        g.gain.setValueAtTime(0.15,actx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.5);
+        o.start(actx.currentTime);o.stop(actx.currentTime+0.5);
+      });
+      chordIdx++;
+    };
+
+    const BPM=105;const beat=60/BPM;
+    let step=0;
+    bgMusic=setInterval(()=>{
+      if(!actx)return;
+      const s8=step%8; // 8th notes
+      if(s8%2===0)playBass(); // bass on quarter notes
+      playHat(s8===0||s8===4); // loud hat on 1 and 3
+      if(s8===0)playChord(); // chord every bar
+      step++;
+    },beat*500); // 8th note interval
+
+  }catch(e){console.warn('Music error:',e);}
+}
+
+function stopBgMusic(){
+  if(bgMusic){clearInterval(bgMusic);bgMusic=null;}
+}
 function speak(text){
   try{
     if(!('speechSynthesis' in window))return;
@@ -1313,10 +1497,26 @@ function getFrameBrightness(canvas){try{const ctx=canvas.getContext('2d');const 
 
 // ═══ INIT ═══
 function buildTiers(){
-  const descs={GIGACHAD:'Top 5%. Elite genetics. Model tier.',CHAD:'Top 10%. Very attractive. Head-turning.','HIGH VALUE':'Top 20%. Noticeably good looking.','ABOVE AVG':'Top 35%. Cute. Does well on apps.',AVERAGE:'Middle 30%. Normal.',
-  'BELOW AVG':'Bottom 20%. Disadvantages visible.',SUBHUMAN:'Bottom 10%. Significant deficits.',FRAMEMOGGER:'Top 5%. Elite physique.',AESTHETIC:'Top 10%. Impressive.',ATHLETIC:'Top 20%. Clearly trains.',FIT:'Top 35%. Above untrained.',UNDERTRAINED:'Bottom 20%. Needs work.','UNTRAINED SLOB':'Bottom 10%.'};
-  const render=(id,tiers)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=tiers.map(t=>`<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="this.querySelector('.td').style.display=this.querySelector('.td').style.display==='none'?'block':'none'"><div style="width:4px;height:32px;border-radius:2px;background:${t.c};flex-shrink:0"></div><div style="flex:1"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-family:var(--df);font-size:17px;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${t.m.toFixed(2)}+</div></div><div class="td" style="display:none;margin-top:6px;font-size:11px;color:var(--t2);line-height:1.5">${descs[t.l]||''}</div></div><div style="font-size:10px;color:var(--t4)">▼</div></div>`).join('');};
-  render('ftiers',FT);render('btiers',BT);
+  const fd={
+    GIGACHAD:'Exceptional facial genetics. Strong jaw, hunter eyes, high cheekbones, near-perfect symmetry. Turns heads in any room.',
+    CHAD:'Genuinely attractive. Multiple elite features working together. Gets unsolicited compliments. Strong dating app performance.',
+    'HIGH VALUE':'Noticeably good looking. Clear strengths in bone structure or features. Girls look twice. Above most men in a given room.',
+    'ABOVE AVG':'Better than average. Some attractive features. Does reasonably well on dating apps. Could push higher with grooming and leanness.',
+    AVERAGE:'Unremarkable either way. Not ugly, not handsome. The score most men receive. Room for improvement through lifestyle changes.',
+    'BELOW AVG':'Noticeable disadvantages. Struggles on dating apps. May benefit significantly from getting lean, skincare, or grooming improvements.',
+    SUBHUMAN:'Significant structural deficits across multiple traits. The lowest tier is rarely assigned and indicates major areas for potential improvement.'
+  };
+  const bd={
+    FRAMEMOGGER:'Elite physique. Outstanding V-taper, visible muscle separation, low body fat. Commands attention in any setting.',
+    AESTHETIC:'Impressive build. Clear muscle development with good leanness. Fills out clothes well. Noticeable at a beach or pool.',
+    ATHLETIC:'Clearly trains and it shows. Above average muscularity and frame. Decent leanness. Women notice the physique.',
+    FIT:'Above the average untrained male. Some gym work visible. Could push into athletic territory with consistent training and diet.',
+    AVERAGE:'Normal, untrained male physique. Neither impressive nor concerning. Most men fall here. Significant room for improvement.',
+    UNDERTRAINED:'Below average development. Either excess body fat, underdeveloped muscle, or both. Training and nutrition would make a meaningful difference.',
+    'UNTRAINED SLOB':'Significant deficits in muscle, leanness, or both. This tier serves as a wake-up call. Consistent effort produces visible results within months.'
+  };
+  const render=(id,tiers,descs)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=tiers.map(t=>`<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;cursor:pointer" onclick="const d=this.querySelector('.td');d.style.maxHeight=d.style.maxHeight==='0px'?'120px':'0px'"><div style="width:4px;min-height:28px;border-radius:2px;background:${t.c};flex-shrink:0;margin-top:2px"></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-family:var(--df);font-size:16px;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${t.m.toFixed(2)}+</div></div><div class="td" style="max-height:0px;overflow:hidden;transition:max-height .3s ease;margin-top:0"><div style="font-size:11px;color:var(--t2);line-height:1.6;padding-top:8px">${descs[t.l]||''}</div></div></div></div>`).join('');};
+  render('ftiers',FT,fd);render('btiers',BT,bd);
 }
 window.addEventListener('load',()=>{updHome();buildTiers();show('home');});
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
