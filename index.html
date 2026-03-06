@@ -154,7 +154,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sconf{position:absolute;left:50%;bottom:calc(140px + var(--sab));transform:translateX(-50%);z-index:8;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 14px;pointer-events:none;opacity:0;transition:opacity .3s;}
 .sconf.show{opacity:1;}
 .sconf-lbl{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.06em;}
-.sconf-bar{width:60px;height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;}
+.sconf-bar{width:120px;height:8px;background:rgba(255,255,255,.15);border-radius:100px;overflow:hidden;}
 .sconf-fill{height:100%;border-radius:100px;background:var(--sig);transition:width .3s;}
 .sconf-pct{font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.04em;min-width:28px;text-align:right;}
 
@@ -1013,18 +1013,18 @@ async function startCapture(){
      voice:"There you are. Stay right there. I'm reading 478 points on your face right now.",dur:7000,needsLandmarks:true,minFrames:30,capture:true,
      meas:['faceWidthToHeight','jawAngle','symmetryRatio']},
     {id:'left',label:'TURN LEFT',oval:'SHOW ME THE LEFT',status:'Scanning left profile',
-     voice:"Nice. Now slowly turn left. Show me that jawline.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     voice:"Nice. Now slowly turn left. Show me that jawline.",dur:6000,needsLandmarks:true,minFrames:20,
      meas:['jawWidthRatio','cheekboneToJaw']},
     {id:'right',label:'TURN RIGHT',oval:'NOW THE RIGHT',status:'Scanning right profile',
-     voice:"Now the other way. Turn right. Let me see it.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     voice:"Now the other way. Turn right. Let me see it.",dur:6000,needsLandmarks:true,minFrames:20,
      meas:['jawWidthRatio','cheekboneToJaw']},
     {id:'center',label:'EYES ON ME',oval:'LOOK STRAIGHT AHEAD',status:'Capturing front view',
      voice:"Come back to center. Eyes on me. This is the money shot.",dur:5000,needsLandmarks:true,minFrames:20,capture:true,
      meas:['canthalTiltL','canthalTiltR','noseToFaceRatio']},
     {id:'smile',label:'SMILE',oval:'GIVE ME A SMILE',status:'Capturing your smile',
-     voice:"Okay now give me a real smile. Like someone just told you good news. Love it.",dur:4500,needsLandmarks:true,minFrames:10,capture:true},
+     voice:"Okay now give me a real smile. Like someone just told you good news. Love it.",dur:4500,needsLandmarks:true,minFrames:10},
     {id:'tilt',label:'CHIN UP',oval:'CHIN UP SLIGHTLY',status:'Measuring proportions',
-     voice:"Chin up just a bit. Like you just walked in and you own the room.",dur:5000,needsLandmarks:true,minFrames:15,capture:true,
+     voice:"Chin up just a bit. Like you just walked in and you own the room.",dur:5000,needsLandmarks:true,minFrames:15,
      meas:['facialThirds']},
     {id:'final',label:'LOCKING IT IN',oval:'HOLD STILL',status:'Final calibration',
      voice:"Hold it right there. Locking in your final measurements. Almost done.",dur:5000,needsLandmarks:true,minFrames:25},
@@ -1039,21 +1039,21 @@ async function startCapture(){
      voice:"Got you. Arms out slightly. Let me see that frame.",dur:8000,needsLandmarks:true,minFrames:30,capture:true,
      meas:['shoulderToHipRatio','shoulderWidth','hipWidth']},
     {id:'lat',label:'SPREAD EM',oval:'',status:'Measuring V-taper',
-     voice:"Now spread those lats. Show me the width.",dur:7000,needsLandmarks:true,minFrames:25,capture:true,
+     voice:"Now spread those lats. Show me the width.",dur:7000,needsLandmarks:true,minFrames:25,
      meas:['shoulderToHipRatio','shoulderWidth']},
     {id:'side',label:'LEFT SIDE',oval:'',status:'Side profile analysis',
-     voice:"Turn left. Show me the side view.",dur:8000,needsLandmarks:true,minFrames:20,capture:true,
+     voice:"Turn left. Show me the side view.",dur:8000,needsLandmarks:true,minFrames:20,
      meas:['postureAngle','torsoLength']},
     {id:'sideback',label:'RIGHT SIDE',oval:'',status:'Comparing profiles',
-     voice:"Other side. Turn right.",dur:7000,needsLandmarks:true,minFrames:20,capture:true,
+     voice:"Other side. Turn right.",dur:7000,needsLandmarks:true,minFrames:20,
      meas:['postureAngle']},
     {id:'flex',label:'SHOW OFF',oval:'',status:'Capturing your best',
      voice:"Face me and hit your best pose. Show off.",dur:7000,needsLandmarks:true,minFrames:25,capture:true,
      meas:['shoulderToHipRatio','armSpan']},
     {id:'grin',label:'EARNED IT',oval:'',status:'One more thing',
-     voice:"Give me a grin. You earned it.",dur:3000,needsLandmarks:true,minFrames:8,capture:true},
+     voice:"Give me a grin. You earned it.",dur:3000,needsLandmarks:true,minFrames:8},
     {id:'relax',label:'THE REAL YOU',oval:'',status:'Baseline capture',
-     voice:"Now drop everything. Stand natural. The real you.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
+     voice:"Now drop everything. Stand natural. The real you.",dur:6000,needsLandmarks:true,minFrames:20,
      meas:['shoulderToHipRatio','hipWidth','torsoLength']},
     {id:'final',label:'CRUNCHING NUMBERS',oval:'',status:'Processing',
      voice:"That's a wrap. Let me crunch these numbers.",dur:3000,minFrames:0},
@@ -1201,8 +1201,8 @@ async function startCapture(){
           if(pose.meas[1]&&m[pose.meas[1]]){m2.textContent=`${pose.meas[1]}: ${m[pose.meas[1]]}`;m2.classList.add('show');}
         }
 
-        // Capture photo at end of pose (if marked for capture)
-        if(pose.capture&&poseFrames>=(pose.minFrames||1)-5&&!pose._captured){
+        // Capture photo — trigger early (5 frames is enough)
+        if(pose.capture&&poseFrames>=5&&!pose._captured){
           pose._captured=true;
           const cap=document.createElement('canvas');
           const vw=v.videoWidth||640,vh=v.videoHeight||480;
@@ -1245,6 +1245,19 @@ async function startCapture(){
 
     // Reset capture flag
     pose._captured=false;
+
+    // Fallback: if this was a capture pose and we didn't get a photo, grab one anyway
+    if(pose.capture&&!photos.length||(pose.capture&&photos.length<3)){
+      try{
+        const cap=document.createElement('canvas');
+        const vw=v.videoWidth||640,vh=v.videoHeight||480;
+        cap.width=Math.min(vw,1024);cap.height=Math.round(vh*(cap.width/vw));
+        const cx=cap.getContext('2d');
+        if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+        cx.drawImage(v,0,0,cap.width,cap.height);
+        photos.push(cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,',''));
+      }catch(e){}
+    }
 
     // Countdown for setup poses (last 5 seconds)
     if(pose.countdown&&pose.isSetup){
@@ -1303,18 +1316,20 @@ async function startCapture(){
   ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
   document.getElementById('spf').style.width='100%';
 
-  // Ensure at least 2 photos
+  // Ensure at least 1 photo (fallback: capture from live video)
   if(photos.length===0){
-    const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
-    const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
-    cx.drawImage(v,0,0);
-    photos.push(cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,',''));
+    try{
+      const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
+      const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+      cx.drawImage(v,0,0,cap.width,cap.height);
+      photos.push(cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,',''));
+    }catch(e){console.error('Fallback capture failed:',e);}
   }
 
   // Store photos
   const type=isFace?'face':'body';
-  // Keep max 3 best photos (first, middle, last for angle diversity)
-  const best=photos.length<=3?photos:[photos[0],photos[Math.floor(photos.length/2)],photos[photos.length-1]];
+  // Keep max 2 photos (cost control: ~$0.02 per scan)
+  const best=photos.length<=2?photos:[photos[0],photos[photos.length-1]];
   best.forEach(b64=>ST.caps.push({type,b64}));
 
   // Average measurements
@@ -1394,9 +1409,10 @@ async function sendToWorker(measurements){
 async function callAPI(mode,caps,meas){
   const payload={mode,deviceId:DID,frames:caps.map(c=>({photoB64:c.b64})),measurements:meas||undefined};
   try{
-    const r=await Promise.race([fetch(`${API}/scan`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}),new Promise((_,j)=>setTimeout(()=>j(new Error('timeout')),60000))]);
-    if(r.ok){const d=await r.json();if(d&&(d.faceScore||d.bodyScore))return d;return{_err:true,msg:'Invalid response'};}
-    return{_err:true,msg:`Error ${r.status}`};
+    if(caps.length===0){return{_err:true,msg:'No photos captured. Try better positioning.'};}
+    const r=await Promise.race([fetch(`${API}/scan`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}),new Promise((_,j)=>setTimeout(()=>j(new Error('Request timed out after 60s')),60000))]);
+    if(r.ok){const d=await r.json();if(d&&(d.faceScore||d.bodyScore))return d;return{_err:true,msg:'AI returned invalid response. Try again.'};}
+    return{_err:true,msg:`Server error ${r.status}. Try again.`};
   }catch(e){return{_err:true,msg:e.message};}
 }
 
@@ -1700,15 +1716,22 @@ function stopBgMusic(){
 function speak(text){
   try{
     if(!('speechSynthesis' in window))return;
-    window.speechSynthesis.cancel();
-    // iOS workaround: resume synthesis if it's been paused
-    if(window.speechSynthesis.paused)window.speechSynthesis.resume();
-    const u=new SpeechSynthesisUtterance(text);
-    u.rate=1.05;u.pitch=1.0;u.volume=1;
-    const voices=window.speechSynthesis.getVoices();
-    const pref=voices.find(v=>v.name.includes('Samantha'))||voices.find(v=>v.name.includes('Google')&&v.lang.startsWith('en'))||voices.find(v=>v.lang.startsWith('en'));
-    if(pref)u.voice=pref;
-    window.speechSynthesis.speak(u);
+    const ss=window.speechSynthesis;
+    // iOS nuclear option: cancel everything, resume if paused, then speak
+    ss.cancel();
+    if(ss.paused)ss.resume();
+    // Delay after cancel so iOS doesn't eat the next utterance
+    setTimeout(()=>{
+      try{
+        if(ss.paused)ss.resume(); // double-check
+        const u=new SpeechSynthesisUtterance(text);
+        u.rate=1.05;u.pitch=1.0;u.volume=1;
+        const voices=ss.getVoices();
+        const pref=voices.find(v=>v.name.includes('Samantha'))||voices.find(v=>v.name.includes('Google')&&v.lang.startsWith('en'))||voices.find(v=>v.lang.startsWith('en'));
+        if(pref)u.voice=pref;
+        ss.speak(u);
+      }catch(e){}
+    },120);
   }catch(e){}
 }
 // iOS Safari bug: speechSynthesis stops after ~15s. This keeps it alive.
