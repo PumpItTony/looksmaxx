@@ -507,7 +507,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <canvas id="canvas"></canvas>
 <div id="toast"></div>
 
-<script>
+<script type="module">
+import {FaceLandmarker, PoseLandmarker, FilesetResolver} from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm';
 'use strict';
 const API='https://looksmaxx.pumpittony.workers.dev';
 const DL=15;
@@ -523,42 +524,12 @@ const tier=(s,b=false)=>(b?BT:FT).find(t=>s>=t.m)||FT[FT.length-1];
 let ST={mode:null,stream:null,caps:[],facing:'user',aborted:false,token:0,result:null,lbPh:null,lbFil:'all',mlReady:false,onDetect:null};
 let lbC=[];
 
-// ═══ MEDIAPIPE — Dynamic lazy load with retry ═══
+// ═══ MEDIAPIPE — Already imported via static ESM import at top ═══
 let faceLandmarker=null,poseLandmarker=null;
-let _visionReady=null;
-
-function loadVisionBundle(){
-  if(_visionReady)return _visionReady;
-  _visionReady=new Promise((resolve,reject)=>{
-    // Check if already loaded
-    if(window.vision&&window.vision.FaceLandmarker){resolve();return;}
-    const s=document.createElement('script');
-    s.src='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.js';
-    s.crossOrigin='anonymous';
-    s.onload=()=>{
-      // vision_bundle.mjs self-registers to window.vision
-      if(window.vision&&window.vision.FaceLandmarker){resolve();}
-      else{
-        // Sometimes needs a tick to register
-        setTimeout(()=>{
-          if(window.vision&&window.vision.FaceLandmarker)resolve();
-          else reject(new Error('MediaPipe loaded but vision not registered'));
-        },500);
-      }
-    };
-    s.onerror=()=>reject(new Error('Failed to download MediaPipe (check connection)'));
-    document.head.appendChild(s);
-    // Timeout
-    setTimeout(()=>reject(new Error('MediaPipe download timeout (slow connection)')),20000);
-  });
-  return _visionReady;
-}
 
 async function loadFaceLandmarker(){
   if(faceLandmarker)return faceLandmarker;
-  await loadVisionBundle();
-  const {FaceLandmarker,FilesetResolver}=window.vision;
-  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
+  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
   faceLandmarker=await FaceLandmarker.createFromOptions(fr,{
     baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',delegate:'GPU'},
     outputFaceBlendshapes:false,runningMode:'VIDEO',numFaces:1
@@ -568,9 +539,7 @@ async function loadFaceLandmarker(){
 
 async function loadPoseLandmarker(){
   if(poseLandmarker)return poseLandmarker;
-  await loadVisionBundle();
-  const {PoseLandmarker,FilesetResolver}=window.vision;
-  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm');
+  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
   poseLandmarker=await PoseLandmarker.createFromOptions(fr,{
     baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',delegate:'GPU'},
     runningMode:'VIDEO',numPoses:1
@@ -1788,6 +1757,9 @@ function buildTiers(){
 window.addEventListener('load',()=>{updHome();buildTiers();show('home');});
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 window.addEventListener('resize',()=>{const c=document.getElementById('scanc');if(c){c.width=window.innerWidth;c.height=window.innerHeight;}});
+
+// Expose all functions to onclick handlers (required for type=module)
+Object.assign(window,{go,goHome,show,abort,flipCam,startCapture,showFullResults,genShare,natShare,openLB,openLBSub,fLB,subLB,cMod,toast,hPh});
 </script>
 </body>
 </html>
