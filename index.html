@@ -109,10 +109,13 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 /* Scan HUD */
 .shud{position:absolute;bottom:0;left:0;right:0;z-index:15;padding:0 20px calc(24px + var(--sab));display:flex;flex-direction:column;align-items:center;gap:12px;background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.3) 60%,transparent);pointer-events:none;}
 .shud>*{pointer-events:all;}
-.svt{font-family:var(--df);font-size:26px;letter-spacing:.06em;color:#fff;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.9);min-height:34px;}
+.svt{font-family:var(--df);font-size:26px;letter-spacing:.06em;color:#fff;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.9);min-height:34px;transition:font-size .3s,color .3s;}
+.svt.big{font-size:42px;} /* Body mode — readable from 6ft */
 .spb{width:100%;max-width:280px;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;}
+.spb.big{height:8px;max-width:340px;} /* Body mode */
 .spf{height:100%;border-radius:100px;transition:width .4s ease;width:0%;background:var(--sig);}
-.sst{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;}
+.sst{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;transition:font-size .3s;}
+.sst.big{font-size:13px;} /* Body mode */
 .sbtn{font-family:var(--df);font-size:24px;letter-spacing:.14em;color:#fff;background:rgba(34,212,90,.2);border:2px solid rgba(34,212,90,.5);border-radius:100px;padding:18px 52px;cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1);box-shadow:0 0 28px rgba(34,212,90,.3);animation:btnpulse 2s ease-in-out infinite;}
 .sbtn:active{transform:scale(.92);background:rgba(34,212,90,.45);box-shadow:0 0 48px rgba(34,212,90,.55);animation:none;}
 .sbtn.g{background:rgba(93,219,110,.2);border-color:rgba(93,219,110,.5);box-shadow:0 0 28px rgba(93,219,110,.3);}
@@ -399,8 +402,35 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:14px;display:flex;flex-direction:column;gap:16px">
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">SCORING METHODOLOGY</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.7">Scores are computed from a combination of biometric landmark measurements and AI visual analysis. Face scans use 478 tracked facial landmarks to compute jaw angle, canthal tilt, symmetry ratio, and facial proportions. Body scans use 33 pose landmarks to compute shoulder-to-hip ratio, posture angle, and limb proportions. These objective measurements anchor the AI's trait-by-trait assessment.</div>
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">SCORE DISTRIBUTION</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.6">Scores follow a normal distribution centered around 5.50. Most men score between 4.50 and 6.50. Scores above 8.00 represent genuinely exceptional genetics and conditioning.</div>
+<!-- SVG Bell Curve -->
+<svg viewBox="0 0 400 140" style="width:100%;height:auto">
+<defs><linearGradient id="bc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f05252"/><stop offset="15%" stop-color="#f5a623"/><stop offset="35%" stop-color="#9090b0"/><stop offset="50%" stop-color="#8b6cf7"/><stop offset="65%" stop-color="#4f8ef7"/><stop offset="80%" stop-color="#22d45a"/><stop offset="95%" stop-color="#FFD700"/></linearGradient></defs>
+<path d="M20,120 Q20,120 60,118 Q100,115 140,95 Q170,70 200,35 Q230,70 260,95 Q300,115 340,118 Q380,120 380,120 L380,120 L20,120 Z" fill="url(#bc)" opacity=".15"/>
+<path d="M20,120 Q20,120 60,118 Q100,115 140,95 Q170,70 200,35 Q230,70 260,95 Q300,115 340,118 Q380,120 380,120" fill="none" stroke="url(#bc)" stroke-width="2"/>
+<line x1="200" y1="30" x2="200" y2="125" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="200" y="18" text-anchor="middle" fill="rgba(255,255,255,.4)" font-family="DM Mono,monospace" font-size="8">5.50 MEDIAN</text>
+<text x="40" y="135" fill="#f05252" font-family="DM Mono,monospace" font-size="7">1.00</text>
+<text x="120" y="135" fill="#f5a623" font-family="DM Mono,monospace" font-size="7">3.50</text>
+<text x="190" y="135" fill="#9090b0" font-family="DM Mono,monospace" font-size="7">5.50</text>
+<text x="270" y="135" fill="#4f8ef7" font-family="DM Mono,monospace" font-size="7">7.50</text>
+<text x="360" y="135" fill="#FFD700" font-family="DM Mono,monospace" font-size="7">10.0</text>
+</svg>
+</div>
+
+<!-- LOOKSMAXX Combo Infographic -->
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px">
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">LOOKSMAXX COMPOSITE</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.6">The Full LooksMaxx score combines your PSL face score and FrameMog body score into a single composite, weighted by real-world dating market research on what drives attractiveness perception.</div>
+<div style="display:flex;gap:8px;align-items:center">
+<div style="flex:1;background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:10px;text-align:center"><div style="font-family:var(--df);font-size:22px;color:var(--blue)">PSL</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3)">FACE · 55%</div></div>
+<div style="font-family:var(--df);font-size:18px;color:var(--t3)">+</div>
+<div style="flex:1;background:rgba(93,219,110,.08);border:1px solid rgba(93,219,110,.2);border-radius:8px;padding:10px;text-align:center"><div style="font-family:var(--df);font-size:22px;color:var(--green)">FRAME</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3)">BODY · 45%</div></div>
+<div style="font-family:var(--df);font-size:18px;color:var(--t3)">=</div>
+<div style="flex:1;background:rgba(255,255,255,.04);border:1px solid var(--brm);border-radius:8px;padding:10px;text-align:center"><div style="font-family:var(--df);font-size:18px;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">SCORE</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3)">COMPOSITE</div></div>
+</div>
+<div style="font-size:10px;color:var(--t3);line-height:1.5">Face is weighted slightly higher because facial attractiveness research consistently shows it as the stronger driver of first-impression appeal. Body score captures physique, frame, and posture — factors that compound in real-world settings.</div>
 </div>
 
 <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:var(--blue)">PSL FACE TIERS</div>
@@ -416,31 +446,43 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HOW IT WORKS</div></div>
 <div style="padding:14px;display:flex;flex-direction:column;gap:16px">
 
-<div style="display:flex;flex-direction:column;gap:0">
-<div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">1</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">BIOMETRIC FACE SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">MediaPipe Face Landmarker tracks 478 3D facial landmarks in real-time. The scanner guides you through 7 poses over 40 seconds — front, left profile, right profile, center, chin tilt, and calibration — to capture measurements from multiple angles.</div></div>
-</div>
-<div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">2</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">POSE ESTIMATION BODY SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">MediaPipe Pose Landmarker tracks 33 body landmarks across 9 guided poses over 65 seconds. Measures shoulder-to-hip ratio, posture angle, arm and leg proportions, torso length, and frame width through front, side, flex, and relaxed positions.</div></div>
-</div>
-<div style="display:flex;gap:14px;align-items:stretch">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">3</div><div style="width:1px;flex:1;background:var(--brm)"></div></div>
-<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:16px">MEASUREMENT-ANCHORED SCORING</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Computed biometric measurements are sent alongside reference photos to an AI vision model. The measurements serve as objective anchors — jaw angle, symmetry ratio, and posture angle are scored based on actual data, not subjective impression. Visual traits like skin quality and muscle definition are assessed from the reference photo.</div></div>
-</div>
-<div style="display:flex;gap:14px">
-<div style="display:flex;flex-direction:column;align-items:center"><div style="width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:16px;color:var(--t1);flex-shrink:0">4</div></div>
-<div style="flex:1"><div style="font-family:var(--df);font-size:16px">TRAIT BREAKDOWN & INSIGHTS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Each trait is scored individually with a specific insight referencing your actual measurements. The composite score weights traits by their impact on real-world attractiveness perception. Results include your estimated age, height, and body composition alongside actionable recommendations.</div></div>
+<!-- Tech stack visual -->
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="font-family:var(--df);font-size:18px">THE TECHNOLOGY</div>
+<div style="display:flex;gap:8px">
+<div style="flex:1;background:rgba(34,212,90,.06);border:1px solid rgba(34,212,90,.15);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px"><div style="font-family:var(--mf);font-size:18px;color:var(--sig)">478</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3);line-height:1.4">FACE LANDMARKS TRACKED IN REAL-TIME</div></div>
+<div style="flex:1;background:rgba(34,212,90,.06);border:1px solid rgba(34,212,90,.15);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px"><div style="font-family:var(--mf);font-size:18px;color:var(--sig)">33</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3);line-height:1.4">BODY POSE POINTS PER FRAME</div></div>
+<div style="flex:1;background:rgba(34,212,90,.06);border:1px solid rgba(34,212,90,.15);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px"><div style="font-family:var(--mf);font-size:18px;color:var(--sig)">20</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3);line-height:1.4">FRAMES PER SECOND PROCESSED</div></div>
 </div>
 </div>
 
-<div style="font-family:var(--df);font-size:16px;letter-spacing:.05em">SCAN CONDITIONS</div>
+<!-- Process flow -->
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:28px;height:28px;border-radius:6px;background:var(--sig);display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:11px;color:#000;font-weight:700;flex-shrink:0">01</div><div style="width:1px;flex:1;background:rgba(34,212,90,.2)"></div></div>
+<div style="flex:1;padding-bottom:18px"><div style="font-family:var(--df);font-size:15px">LANDMARK DETECTION</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">Google MediaPipe runs on-device ML to track facial geometry or body pose in real-time. No data leaves your phone during scanning. The green mesh overlay shows exactly what the AI sees.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:28px;height:28px;border-radius:6px;background:var(--sig);display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:11px;color:#000;font-weight:700;flex-shrink:0">02</div><div style="width:1px;flex:1;background:rgba(34,212,90,.2)"></div></div>
+<div style="flex:1;padding-bottom:18px"><div style="font-family:var(--df);font-size:15px">GUIDED POSE SEQUENCE</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">The scanner walks you through 7-10 poses — front, profiles, chin tilt, smile for face. Arms out, lat spread, side profiles, flex for body. Each pose captures measurements from a different angle for accuracy.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:28px;height:28px;border-radius:6px;background:var(--sig);display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:11px;color:#000;font-weight:700;flex-shrink:0">03</div><div style="width:1px;flex:1;background:rgba(34,212,90,.2)"></div></div>
+<div style="flex:1;padding-bottom:18px"><div style="font-family:var(--df);font-size:15px">BIOMETRIC COMPUTATION</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">Raw landmark coordinates are converted into objective measurements: jaw angle, canthal tilt, facial symmetry ratio, shoulder-to-hip ratio, posture angle, and proportional indices. These numbers anchor the scoring.</div></div>
+</div>
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:28px;height:28px;border-radius:6px;background:var(--sig);display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:11px;color:#000;font-weight:700;flex-shrink:0">04</div></div>
+<div style="flex:1"><div style="font-family:var(--df);font-size:15px">AI SCORING ENGINE</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">Measurements plus reference photos are analyzed by a vision AI that scores each trait individually. Visual traits (skin, muscle definition) use the photo. Structural traits (jaw, symmetry, frame) use the mathematical measurements. Scores are calibrated against population-level attractiveness research.</div></div>
+</div>
+</div>
+
+<!-- Scan tips -->
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.05em">OPTIMAL SCAN CONDITIONS</div>
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden">
-<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Lighting</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Natural daylight from a side window produces the most accurate landmark detection. Avoid harsh overhead lighting or backlit conditions. Good lighting can meaningfully improve scan quality.</div></div>
-<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Face Scan Distance</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Hold phone at arm's length, eye level. Neutral expression with eyes open. The scanner will guide you through head positions — follow the on-screen prompts.</div></div>
-<div style="padding:13px 15px;border-bottom:1px solid var(--brd)"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Body Scan Setup</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Prop phone at waist height against a wall. Step back 6-8 feet. Shirtless provides the most accurate body composition assessment. The scanner needs to see your full body from head to feet.</div></div>
-<div style="padding:13px 15px"><div style="font-family:var(--df);font-size:13px;color:var(--t1)">Reproducibility</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">Scores may vary slightly between scans due to lighting differences and landmark detection variance. For the most consistent results, scan in the same location with the same lighting conditions.</div></div>
+<div style="padding:12px 15px;border-bottom:1px solid var(--brd);display:flex;gap:10px;align-items:center"><div style="font-family:var(--mf);font-size:14px;color:var(--sig);flex-shrink:0">||</div><div><div style="font-family:var(--df);font-size:12px">LIGHTING</div><div style="font-size:10px;color:var(--t2);line-height:1.5;margin-top:2px">Natural daylight from a side window. Avoid backlit or overhead-only conditions.</div></div></div>
+<div style="padding:12px 15px;border-bottom:1px solid var(--brd);display:flex;gap:10px;align-items:center"><div style="font-family:var(--mf);font-size:14px;color:var(--sig);flex-shrink:0">[:]</div><div><div style="font-family:var(--df);font-size:12px">FACE DISTANCE</div><div style="font-size:10px;color:var(--t2);line-height:1.5;margin-top:2px">Arm's length. Neutral expression. Follow the voice prompts for head positions.</div></div></div>
+<div style="padding:12px 15px;border-bottom:1px solid var(--brd);display:flex;gap:10px;align-items:center"><div style="font-family:var(--mf);font-size:14px;color:var(--sig);flex-shrink:0">/\</div><div><div style="font-family:var(--df);font-size:12px">BODY SETUP</div><div style="font-size:10px;color:var(--t2);line-height:1.5;margin-top:2px">Phone at waist height against wall. 6-8 feet back. Shirtless for accurate body composition.</div></div></div>
+<div style="padding:12px 15px;display:flex;gap:10px;align-items:center"><div style="font-family:var(--mf);font-size:14px;color:var(--sig);flex-shrink:0">~=</div><div><div style="font-family:var(--df);font-size:12px">CONSISTENCY</div><div style="font-size:10px;color:var(--t2);line-height:1.5;margin-top:2px">Same lighting and distance for comparable results between scans.</div></div></div>
 </div>
 <div style="text-align:center;padding:4px 0"><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.08em">LooksMaxx · Fresh Fitness Co LLC</div></div>
 </div>
@@ -682,21 +724,85 @@ function drawFaceMesh(ctx,lm,W,H){
 }
 
 // ═══ DRAW POSE SKELETON ═══
-function drawPose(ctx,landmarks,W,H,color='#5ddb6e'){
-  if(!landmarks)return;
+function drawPose(ctx,lm,W,H){
+  if(!lm)return;
   ctx.save();
-  const connections=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28]];
-  ctx.strokeStyle=color+'80';ctx.lineWidth=2;
-  connections.forEach(([a,b])=>{
-    if(landmarks[a].visibility>0.5&&landmarks[b].visibility>0.5){
-      ctx.beginPath();ctx.moveTo(landmarks[a].x*W,landmarks[a].y*H);ctx.lineTo(landmarks[b].x*W,landmarks[b].y*H);ctx.stroke();
-    }
+  const c='#22d45a';
+  const vis=(i)=>lm[i]&&lm[i].visibility>0.4;
+  const px=(i)=>lm[i].x*W,py=(i)=>lm[i].y*H;
+  const dist=(a,b)=>Math.sqrt((lm[a].x-lm[b].x)**2+(lm[a].y-lm[b].y)**2);
+
+  // ═══ V-TAPER FILL — The signature visual ═══
+  if(vis(11)&&vis(12)&&vis(23)&&vis(24)){
+    // Filled torso quad
+    ctx.fillStyle=c+'0C';
+    ctx.beginPath();
+    ctx.moveTo(px(11),py(11));ctx.lineTo(px(12),py(12));
+    ctx.lineTo(px(24),py(24));ctx.lineTo(px(23),py(23));
+    ctx.closePath();ctx.fill();
+
+    // Bold torso frame
+    ctx.strokeStyle=c+'70';ctx.lineWidth=3;
+    ctx.beginPath();
+    ctx.moveTo(px(11),py(11));ctx.lineTo(px(12),py(12));
+    ctx.moveTo(px(11),py(11));ctx.lineTo(px(23),py(23));
+    ctx.moveTo(px(12),py(12));ctx.lineTo(px(24),py(24));
+    ctx.moveTo(px(23),py(23));ctx.lineTo(px(24),py(24));
+    ctx.stroke();
+
+    // ═══ LIVE MEASUREMENT LABELS ON BODY ═══
+    const sW=dist(11,12);const hW=dist(23,24);const ratio=hW>0?(sW/hW):0;
+    ctx.font='bold 14px "DM Mono",monospace';ctx.textAlign='center';
+
+    // S:H ratio at center of torso
+    const cx2=(px(11)+px(12)+px(23)+px(24))/4;
+    const cy2=(py(11)+py(12)+py(23)+py(24))/4;
+    ctx.fillStyle=c+'DD';
+    ctx.fillText(`S:H ${ratio.toFixed(2)}`,cx2,cy2);
+
+    // Shoulder width label above shoulder line
+    const sy=Math.min(py(11),py(12))-22;
+    ctx.setLineDash([6,4]);ctx.strokeStyle=c+'50';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(px(11),sy);ctx.lineTo(px(12),sy);ctx.stroke();
+    // Arrow endpoints
+    ctx.setLineDash([]);
+    ctx.fillStyle=c+'90';ctx.font='11px "DM Mono",monospace';
+    ctx.fillText('SHOULDERS',( px(11)+px(12))/2,sy-6);
+
+    // Waist width label below waist line
+    const wy=Math.max(py(23),py(24))+22;
+    ctx.setLineDash([6,4]);ctx.strokeStyle=c+'50';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(px(23),wy);ctx.lineTo(px(24),wy);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=c+'90';ctx.font='11px "DM Mono",monospace';
+    ctx.fillText('WAIST',(px(23)+px(24))/2,wy+16);
+
+    // Posture indicator (vertical line from mid-shoulder to mid-hip)
+    const midSx=(px(11)+px(12))/2,midSy=(py(11)+py(12))/2;
+    const midHx=(px(23)+px(24))/2,midHy=(py(23)+py(24))/2;
+    ctx.setLineDash([3,3]);ctx.strokeStyle=c+'30';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(midSx,midSy);ctx.lineTo(midHx,midHy);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Arms — medium weight, visible from distance
+  ctx.strokeStyle=c+'60';ctx.lineWidth=2.5;
+  [[11,13],[13,15],[12,14],[14,16]].forEach(([a,b])=>{
+    if(vis(a)&&vis(b)){ctx.beginPath();ctx.moveTo(px(a),py(a));ctx.lineTo(px(b),py(b));ctx.stroke();}
   });
-  [11,12,13,14,15,16,23,24,25,26,27,28].forEach(i=>{
-    if(landmarks[i].visibility>0.5){
-      ctx.fillStyle=color;ctx.beginPath();ctx.arc(landmarks[i].x*W,landmarks[i].y*H,4,0,Math.PI*2);ctx.fill();
-    }
+
+  // Legs
+  ctx.strokeStyle=c+'40';ctx.lineWidth=2;
+  [[23,25],[25,27],[24,26],[26,28]].forEach(([a,b])=>{
+    if(vis(a)&&vis(b)){ctx.beginPath();ctx.moveTo(px(a),py(a));ctx.lineTo(px(b),py(b));ctx.stroke();}
   });
+
+  // Joints — big enough to see from 6ft
+  const big=[11,12];const med=[13,14,23,24];const sm=[15,16,25,26,27,28];
+  big.forEach(i=>{if(vis(i)){ctx.fillStyle=c;ctx.beginPath();ctx.arc(px(i),py(i),8,0,Math.PI*2);ctx.fill();}});
+  med.forEach(i=>{if(vis(i)){ctx.fillStyle=c+'90';ctx.beginPath();ctx.arc(px(i),py(i),5,0,Math.PI*2);ctx.fill();}});
+  sm.forEach(i=>{if(vis(i)){ctx.fillStyle=c+'50';ctx.beginPath();ctx.arc(px(i),py(i),3,0,Math.PI*2);ctx.fill();}});
+
   ctx.restore();
 }
 
@@ -728,6 +834,7 @@ function go(mode){
   document.getElementById('spf').style.width='0%';
   document.getElementById('sbtn').className='sbtn d'+(isB?' g':'');
   document.getElementById('sbtn').textContent='SCAN';
+  document.getElementById('sbtn').style.display=''; // Ensure visible
   document.getElementById('svt').textContent='INITIALIZING';
   document.getElementById('sst').textContent='';
   document.getElementById('sind').innerHTML='';
@@ -890,9 +997,10 @@ let _wt=null;function warn(msg){const el=document.getElementById('swarn');el.tex
 
 async function startCapture(){
   if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)();}catch{}}
-  startBgMusic();
+  startBgMusic(isFace?'face':'body');
   const mode=ST.mode;const myTk=ST.token;
   const btn=document.getElementById('sbtn');btn.classList.add('d');btn.style.animation='none';
+  btn.style.display='none'; // Hide button completely during scan
   const v=document.getElementById('svid');
   const isFace=mode==='face'||(mode==='combo'&&ST.caps.length===0);
   const isBody=!isFace;
@@ -900,9 +1008,9 @@ async function startCapture(){
   // ═══ GUIDED POSES — The Ride ═══
   const facePoses=[
     {id:'detect',label:'FINDING YOU',oval:'LOOK RIGHT AT ME',status:'Look at the camera',
-     voice:"Alright, let's do this. Look straight at the camera and hold still.",dur:6000,needsLandmarks:true,minFrames:15},
+     voice:"Welcome to the scan. Look right at the camera and hold still for me.",dur:6000,needsLandmarks:true,minFrames:15},
     {id:'front',label:'FRONT SCAN',oval:'PERFECT — HOLD THAT',status:'Mapping your face',
-     voice:"Got you. Hold still. I'm mapping your entire face right now.",dur:7000,needsLandmarks:true,minFrames:30,capture:true,
+     voice:"There you are. Stay right there. I'm reading 478 points on your face right now.",dur:7000,needsLandmarks:true,minFrames:30,capture:true,
      meas:['faceWidthToHeight','jawAngle','symmetryRatio']},
     {id:'left',label:'TURN LEFT',oval:'SHOW ME THE LEFT',status:'Scanning left profile',
      voice:"Nice. Now slowly turn left. Show me that jawline.",dur:6000,needsLandmarks:true,minFrames:20,capture:true,
@@ -914,12 +1022,12 @@ async function startCapture(){
      voice:"Come back to center. Eyes on me. This is the money shot.",dur:5000,needsLandmarks:true,minFrames:20,capture:true,
      meas:['canthalTiltL','canthalTiltR','noseToFaceRatio']},
     {id:'smile',label:'SMILE',oval:'GIVE ME A SMILE',status:'Capturing your smile',
-     voice:"Now give me a smile. A real one. There it is.",dur:3500,needsLandmarks:true,minFrames:10,capture:true},
+     voice:"Okay now give me a real smile. Like someone just told you good news. Love it.",dur:4500,needsLandmarks:true,minFrames:10,capture:true},
     {id:'tilt',label:'CHIN UP',oval:'CHIN UP SLIGHTLY',status:'Measuring proportions',
-     voice:"Chin up a little. Like you own the place.",dur:5000,needsLandmarks:true,minFrames:15,capture:true,
+     voice:"Chin up just a bit. Like you just walked in and you own the room.",dur:5000,needsLandmarks:true,minFrames:15,capture:true,
      meas:['facialThirds']},
     {id:'final',label:'LOCKING IT IN',oval:'HOLD STILL',status:'Final calibration',
-     voice:"Last one. Perfectly still. Locking it in.",dur:5000,needsLandmarks:true,minFrames:25},
+     voice:"Hold it right there. Locking in your final measurements. Almost done.",dur:5000,needsLandmarks:true,minFrames:25},
   ];
 
   const bodyPoses=[
@@ -966,6 +1074,16 @@ async function startCapture(){
   let globalFrames=0;
 
   // ═══ INTRO BEAT — Let the music breathe for 2 seconds ═══
+  // Enlarge HUD for body scans (user is far from phone)
+  if(isBody){
+    document.getElementById('svt').classList.add('big');
+    document.getElementById('sst').classList.add('big');
+    document.querySelector('.spb')?.classList.add('big');
+  }else{
+    document.getElementById('svt').classList.remove('big');
+    document.getElementById('sst').classList.remove('big');
+    document.querySelector('.spb')?.classList.remove('big');
+  }
   document.getElementById('svt').textContent=isFace?'GET READY':'GET READY';
   document.getElementById('sst').textContent=isFace?'Face scan starting…':'Body scan starting…';
   await new Promise(r=>setTimeout(r,2000));
@@ -1022,24 +1140,53 @@ async function startCapture(){
         poseFrames++;
         globalFrames++;
 
+        // Subtle scan tick every 10 frames
+        if(poseFrames%10===0)playScanTick();
+
         // Compute measurements
         const m=isFace?computeFaceMeasurements(lastLandmarks):computeBodyMeasurements(lastLandmarks);
         if(m)allMeas.push(m);
 
-        // Update progress — based on global frames / total needed
+        // Update progress
         const pct=Math.min(100,(globalFrames/totalMinFrames)*100);
         document.getElementById('spf').style.width=pct+'%';
 
-        // Confidence
+        // Confidence with power-up sounds at milestones
+        const prevConf=confidence;
         confidence=Math.min(99,Math.round(pct));
         document.getElementById('sconff').style.width=confidence+'%';
         document.getElementById('sconfp').textContent=Math.round(confidence)+'%';
         document.getElementById('sconff').style.background=confidence>70?'var(--sig)':confidence>40?'var(--amber)':'var(--red)';
+        if(prevConf<25&&confidence>=25)playPowerUp();
+        if(prevConf<50&&confidence>=50)playPowerUp();
+        if(prevConf<75&&confidence>=75)playPowerUp();
 
         // Lock indicator
         if(poseFrames>3){
           document.getElementById('sflock').classList.add('show');
           document.getElementById('sflocklbl').textContent=isFace?'478 Landmarks Locked':'33 Points Tracked';
+        }
+
+        // Body-specific pose validation (check the pose matches what we asked)
+        if(isBody&&pose.id==='side'&&m){
+          // Side pose: shoulders should have significant x-offset (turned)
+          const vis11=lastLandmarks[11],vis12=lastLandmarks[12];
+          if(vis11&&vis12&&Math.abs(vis11.x-vis12.x)<0.05){
+            document.getElementById('sst').textContent='Turn more — show your side';
+          }
+        }
+        if(isBody&&pose.id==='sideback'&&m){
+          const vis11=lastLandmarks[11],vis12=lastLandmarks[12];
+          if(vis11&&vis12&&Math.abs(vis11.x-vis12.x)<0.05){
+            document.getElementById('sst').textContent='Turn more — other side';
+          }
+        }
+        if(isBody&&pose.id==='flex'&&m){
+          // Flex: arms should be raised (wrists above elbows)
+          const w15=lastLandmarks[15],e13=lastLandmarks[13];
+          if(w15&&e13&&w15.y>e13.y+0.05){
+            document.getElementById('sst').textContent='Raise those arms higher';
+          }
         }
 
         // Live measurement display
@@ -1110,14 +1257,25 @@ async function startCapture(){
       }
     }
 
-    // Between-pose confirmation (not after setup, detect, or final)
+    // ═══ VISUAL CONFIRMATION — green flash + whoosh between poses ═══
     if(pi<poses.length-1&&!pose.isSetup&&pose.id!=='detect'&&pose.id!=='final'&&pose.minFrames>0){
+      const ft2=document.getElementById('foval-txt');
+      if(ft2&&isFace)ft2.textContent='✓ CAPTURED';
+      document.getElementById('svt').textContent='✓';
+      document.getElementById('svt').style.color='var(--sig)';
+      document.getElementById('sst').textContent='';
+      try{navigator.vibrate(30);}catch{}
+      playWhoosh();
+
+      // Quick confirmation sound (ascending ding)
+      if(actx){try{const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.setValueAtTime(600,actx.currentTime);o.frequency.linearRampToValueAtTime(900,actx.currentTime+0.1);o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(0.1,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.2);o.start();o.stop(actx.currentTime+0.2);}catch{}}
+
       const conf=confirms[confirmIdx%confirms.length];confirmIdx++;
       speak(conf);
-      try{navigator.vibrate(15);}catch{}
-      await new Promise(r=>setTimeout(r,600));
+      await new Promise(r=>setTimeout(r,800));
+      document.getElementById('svt').style.color='';
     }else if(pi<poses.length-1&&!pose.isSetup){
-      await new Promise(r=>setTimeout(r,300));
+      await new Promise(r=>setTimeout(r,400));
     }
   }
 
@@ -1169,6 +1327,7 @@ async function startCapture(){
     document.getElementById('sbdl').textContent='FULL SCAN — BODY';
     document.getElementById('spf').style.width='0%';
     btn.textContent='SCAN BODY';btn.className='sbtn g';
+    btn.style.display=''; // Show button for body scan
     stopOverlay();
     if(ST.stream){ST.stream.getTracks().forEach(t=>t.stop());ST.stream=null;}
     ST.facing='environment';
@@ -1244,19 +1403,78 @@ function showReveal(data){
   show('reveal');
   const bg=document.getElementById('rvbg');
   bg.style.background=`radial-gradient(circle at 50% 50%,${t.c}20,transparent 70%)`;
-  // Tension build sound
-  playTension();
+
+  // Start dramatic reveal music
+  if(actx){try{
+    // Tension build — rising synth
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.type='sawtooth';const f=actx.createBiquadFilter();f.type='lowpass';f.frequency.setValueAtTime(200,actx.currentTime);f.frequency.linearRampToValueAtTime(2000,actx.currentTime+1.5);
+    o.frequency.setValueAtTime(80,actx.currentTime);o.frequency.linearRampToValueAtTime(200,actx.currentTime+1.5);
+    o.connect(f);f.connect(g);g.connect(actx.destination);
+    g.gain.setValueAtTime(0.04,actx.currentTime);g.gain.linearRampToValueAtTime(0.12,actx.currentTime+1.2);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+1.5);
+    o.start();o.stop(actx.currentTime+1.5);
+  }catch{}}
+
   setTimeout(()=>{bg.style.opacity='1';},200);
+
+  // SCORE SLAM at 1.5s
   setTimeout(()=>{
     const el=document.getElementById('rvsc');el.textContent=score.toFixed(2);el.style.color=t.c;el.classList.add('in');
-    playReveal();
-    try{navigator.vibrate([50,100,50])}catch{}
-    // Speak the score
+
+    // EXPLOSION SOUND — big impact hit + chord
+    if(actx){try{
+      // Impact
+      const kick=actx.createOscillator(),kg=actx.createGain();
+      kick.type='sine';kick.frequency.setValueAtTime(200,actx.currentTime);kick.frequency.exponentialRampToValueAtTime(20,actx.currentTime+0.2);
+      kick.connect(kg);kg.connect(actx.destination);kg.gain.setValueAtTime(0.4,actx.currentTime);kg.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.3);kick.start();kick.stop(actx.currentTime+0.3);
+      // Crash
+      const buf=actx.createBuffer(1,actx.sampleRate*0.4,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
+      const cr=actx.createBufferSource(),cg=actx.createGain();cr.buffer=buf;cr.connect(cg);cg.connect(actx.destination);cg.gain.value=0.15;cr.start();
+      // Victory chord
+      [262,330,392,523].forEach((freq,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=freq;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(0.1,actx.currentTime+0.05*i);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+1);o.start(actx.currentTime+0.05*i);o.stop(actx.currentTime+1);});
+    }catch{}}
+
+    try{navigator.vibrate([100,50,100,50,200])}catch{}
+
+    // PARTICLE EXPLOSION — canvas confetti
+    const cvs=document.createElement('canvas');
+    cvs.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none';
+    cvs.width=window.innerWidth;cvs.height=window.innerHeight;
+    document.getElementById('reveal').appendChild(cvs);
+    const pctx=cvs.getContext('2d');
+    const particles=[];
+    const colors=[t.c,'#fff','#22d45a','#4f8ef7','#FFD700','#f5a623'];
+    for(let i=0;i<60;i++){
+      particles.push({
+        x:cvs.width/2,y:cvs.height/2,
+        vx:(Math.random()-0.5)*12,vy:(Math.random()-0.5)*12-3,
+        size:Math.random()*6+2,color:colors[Math.floor(Math.random()*colors.length)],
+        life:1,decay:Math.random()*0.015+0.008
+      });
+    }
+    let praf;
+    const drawParticles=()=>{
+      pctx.clearRect(0,0,cvs.width,cvs.height);
+      let alive=false;
+      particles.forEach(p=>{
+        if(p.life<=0)return;alive=true;
+        p.x+=p.vx;p.y+=p.vy;p.vy+=0.15;p.life-=p.decay;
+        pctx.globalAlpha=p.life;pctx.fillStyle=p.color;
+        pctx.fillRect(p.x,p.y,p.size,p.size);
+      });
+      pctx.globalAlpha=1;
+      if(alive)praf=requestAnimationFrame(drawParticles);
+      else cvs.remove();
+    };
+    praf=requestAnimationFrame(drawParticles);
+
+    // Speak score
     const sInt=Math.floor(score);const sDec=Math.round((score-sInt)*100);
     speak(`Your score. ${sInt} point ${sDec<10?'oh '+sDec:sDec}.`);
-  },1200);
-  setTimeout(()=>{const el=document.getElementById('rvti');el.textContent=t.l;el.style.color=t.c;el.classList.add('in');},1600);
-  setTimeout(()=>{document.getElementById('rvsub').classList.add('in');},2200);
+  },1500);
+
+  setTimeout(()=>{const el=document.getElementById('rvti');el.textContent=t.l;el.style.color=t.c;el.classList.add('in');},2000);
+  setTimeout(()=>{document.getElementById('rvsub').classList.add('in');},2800);
 }
 
 function showFullResults(){
@@ -1401,67 +1619,73 @@ function abort(){ST.aborted=true;ST.token++;stopOverlay();stopBgMusic();
 let actx=null;
 let bgMusic=null;
 
-// Groovy scan background music — funky bassline + rhythm
-function startBgMusic(){
+// Groovy scan background music — with actual melodies
+function startBgMusic(style){
   try{
     if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
     if(bgMusic)stopBgMusic();
-    const master=actx.createGain();master.gain.value=0.12;master.connect(actx.destination);
-
-    // Funky bass loop
-    const bassNotes=[110,110,147,131,110,110,165,147]; // A2, A2, D3, C3, etc
-    let bassIdx=0;
-    const playBass=()=>{
-      if(!bgMusic)return;
-      const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();
-      o.type='sawtooth';o.frequency.value=bassNotes[bassIdx%bassNotes.length];
-      f.type='lowpass';f.frequency.value=400;
-      o.connect(f);f.connect(g);g.connect(master);
-      g.gain.setValueAtTime(0.5,actx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.25);
-      o.start(actx.currentTime);o.stop(actx.currentTime+0.25);
-      bassIdx++;
-    };
-
-    // Hi-hat rhythm
-    const playHat=(loud)=>{
-      if(!bgMusic)return;
-      const buf=actx.createBuffer(1,actx.sampleRate*0.04,actx.sampleRate);
-      const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
-      const s=actx.createBufferSource(),g=actx.createGain(),f=actx.createBiquadFilter();
-      s.buffer=buf;f.type='highpass';f.frequency.value=8000;
-      s.connect(f);f.connect(g);g.connect(master);
-      g.gain.value=loud?0.3:0.15;s.start();
-    };
-
-    // Chord stab (every 4 beats)
-    let chordIdx=0;
-    const chords=[[220,277,330],[196,247,294],[220,277,330],[185,233,277]]; // Am, G, Am, F
-    const playChord=()=>{
-      if(!bgMusic)return;
-      const ch=chords[chordIdx%chords.length];
-      ch.forEach(freq=>{
-        const o=actx.createOscillator(),g=actx.createGain();
-        o.type='triangle';o.frequency.value=freq;
-        o.connect(g);g.connect(master);
-        g.gain.setValueAtTime(0.15,actx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.5);
-        o.start(actx.currentTime);o.stop(actx.currentTime+0.5);
-      });
-      chordIdx++;
-    };
-
-    const BPM=105;const beat=60/BPM;
+    const master=actx.createGain();master.gain.value=0.10;master.connect(actx.destination);
     let step=0;
-    bgMusic=setInterval(()=>{
-      if(!actx)return;
-      const s8=step%8; // 8th notes
-      if(s8%2===0)playBass(); // bass on quarter notes
-      playHat(s8===0||s8===4); // loud hat on 1 and 3
-      if(s8===0)playChord(); // chord every bar
-      step++;
-    },beat*500); // 8th note interval
 
+    if(style==='face'){
+      // ═══ DISCO GROOVE — Think Let's Groove meets Get Lucky, 118 BPM ═══
+      const BPM=118;const eighth=60/BPM/2*1000;
+      // Catchy melody (pentatonic, earworm)
+      const melody=[0,440,0,523,587,0,523,440,0,392,440,0,523,0,440,392];
+      const bass=[110,0,110,131,147,0,131,110,110,0,110,98,110,0,131,147];
+      bgMusic=setInterval(()=>{
+        if(!actx)return;const s=step%16;
+
+        // Kick — four on floor
+        if(s%4===0){const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.setValueAtTime(140,actx.currentTime);o.frequency.exponentialRampToValueAtTime(35,actx.currentTime+0.1);o.connect(g);g.connect(master);g.gain.setValueAtTime(0.45,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.15);o.start();o.stop(actx.currentTime+0.15);}
+
+        // Hi-hat — 8th notes with accent
+        {const buf=actx.createBuffer(1,actx.sampleRate*0.04,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,s%2===0?2:4);const src=actx.createBufferSource(),g=actx.createGain(),f=actx.createBiquadFilter();src.buffer=buf;f.type='highpass';f.frequency.value=7500;src.connect(f);f.connect(g);g.connect(master);g.gain.value=s%2===0?0.18:0.08;src.start();}
+
+        // Funky bass
+        if(bass[s]){const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();o.type='sawtooth';o.frequency.value=bass[s];f.type='lowpass';f.frequency.value=500;f.Q.value=3;o.connect(f);f.connect(g);g.connect(master);g.gain.setValueAtTime(0.4,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.15);o.start();o.stop(actx.currentTime+0.15);}
+
+        // Melody — bright triangle wave
+        if(melody[s]){const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=melody[s];o.connect(g);g.connect(master);g.gain.setValueAtTime(0.12,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.25);o.start();o.stop(actx.currentTime+0.25);}
+
+        // Disco chord on 1 and 9
+        if(s===0||s===8){const ch=s===0?[220,277,330,440]:[196,247,294,392];ch.forEach(freq=>{const o=actx.createOscillator(),g=actx.createGain();o.type='triangle';o.frequency.value=freq;o.connect(g);g.connect(master);g.gain.setValueAtTime(0.06,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.35);o.start();o.stop(actx.currentTime+0.35);});}
+
+        // Clap on 4 and 12
+        if(s===4||s===12){const buf=actx.createBuffer(1,actx.sampleRate*0.06,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(i<200?1:Math.pow(1-i/d.length,2));const src=actx.createBufferSource(),g=actx.createGain();src.buffer=buf;src.connect(g);g.connect(master);g.gain.value=0.2;src.start();}
+
+        step++;
+      },eighth);
+
+    }else{
+      // ═══ BOUNCY FUNK — Think 24K Magic meets Treasure, 108 BPM ═══
+      const BPM=108;const eighth=60/BPM/2*1000;
+      const melody=[330,0,330,392,440,0,392,330,294,0,330,0,392,0,330,294];
+      const bass=[55,0,55,0,73,73,0,65,55,0,55,0,82,0,73,65];
+      bgMusic=setInterval(()=>{
+        if(!actx)return;const s=step%16;
+
+        // 808 kick
+        if(s===0||s===4||s===10){const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.setValueAtTime(160,actx.currentTime);o.frequency.exponentialRampToValueAtTime(30,actx.currentTime+0.12);o.connect(g);g.connect(master);g.gain.setValueAtTime(0.5,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.2);o.start();o.stop(actx.currentTime+0.2);}
+
+        // 16th hi-hats
+        {const buf=actx.createBuffer(1,actx.sampleRate*0.02,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,5);const src=actx.createBufferSource(),g=actx.createGain(),f=actx.createBiquadFilter();src.buffer=buf;f.type='highpass';f.frequency.value=9000;src.connect(f);f.connect(g);g.connect(master);g.gain.value=(s%4===0)?0.15:0.06;src.start();}
+
+        // Snare on 4 and 12
+        if(s===4||s===12){const buf=actx.createBuffer(1,actx.sampleRate*0.07,actx.sampleRate);const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);const src=actx.createBufferSource(),g=actx.createGain();src.buffer=buf;src.connect(g);g.connect(master);g.gain.value=0.22;src.start();}
+
+        // Deep 808 bass with slide
+        if(bass[s]){const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.setValueAtTime(bass[s],actx.currentTime);o.frequency.exponentialRampToValueAtTime(bass[s]*0.6,actx.currentTime+0.25);o.connect(g);g.connect(master);g.gain.setValueAtTime(0.55,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,actx.currentTime+0.25);o.start();o.stop(actx.currentTime+0.25);}
+
+        // Bouncy melody — square wave filtered
+        if(melody[s]){const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();o.type='square';o.frequency.value=melody[s];f.type='lowpass';f.frequency.value=1500;o.connect(f);f.connect(g);g.connect(master);g.gain.setValueAtTime(0.07,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.18);o.start();o.stop(actx.currentTime+0.18);}
+
+        // Funk stab on off-beats
+        if(s===2||s===6||s===14){const ch=[330,415,494];ch.forEach(freq=>{const o=actx.createOscillator(),g=actx.createGain();o.type='sawtooth';const f=actx.createBiquadFilter();f.type='lowpass';f.frequency.value=800;o.connect(f);f.connect(g);g.connect(master);o.frequency.value=freq;g.gain.setValueAtTime(0.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.1);o.start();o.stop(actx.currentTime+0.1);});}
+
+        step++;
+      },eighth);
+    }
   }catch(e){console.warn('Music error:',e);}
 }
 
@@ -1471,22 +1695,29 @@ function stopBgMusic(){
 function speak(text){
   try{
     if(!('speechSynthesis' in window))return;
-    // Fix #12: Don't cancel if previous speech just started (< 500ms ago)
-    if(window._lastSpeakTime&&Date.now()-window._lastSpeakTime<500)return;
     window.speechSynthesis.cancel();
-    window._lastSpeakTime=Date.now();
+    // iOS workaround: resume synthesis if it's been paused
+    if(window.speechSynthesis.paused)window.speechSynthesis.resume();
     const u=new SpeechSynthesisUtterance(text);
-    u.rate=1.0;u.pitch=0.95;u.volume=1;
+    u.rate=1.05;u.pitch=1.0;u.volume=1;
     const voices=window.speechSynthesis.getVoices();
     const pref=voices.find(v=>v.name.includes('Samantha'))||voices.find(v=>v.name.includes('Google')&&v.lang.startsWith('en'))||voices.find(v=>v.lang.startsWith('en'));
     if(pref)u.voice=pref;
     window.speechSynthesis.speak(u);
-  }catch(e){/* speech not available */}
+  }catch(e){}
 }
+// iOS Safari bug: speechSynthesis stops after ~15s. This keeps it alive.
+setInterval(()=>{if('speechSynthesis' in window&&window.speechSynthesis.paused)window.speechSynthesis.resume();},5000);
 if('speechSynthesis' in window){try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}catch(e){}}
 function playShutter(){try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(.12,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.08);o.start(actx.currentTime);o.stop(actx.currentTime+.08);}catch{}}
 function playTension(){try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.type='sine';o.frequency.setValueAtTime(100,actx.currentTime);o.frequency.linearRampToValueAtTime(400,actx.currentTime+1);g.gain.setValueAtTime(.06,actx.currentTime);g.gain.linearRampToValueAtTime(.15,actx.currentTime+.8);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+1.2);o.start(actx.currentTime);o.stop(actx.currentTime+1.2);}catch{}}
 function playReveal(){try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();[523,659,784].forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.value=f;o.type='sine';const t=actx.currentTime+i*.08;g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.start(t);o.stop(t+.3);});}catch{}}
+// Scanning beep (subtle tick during data collection)
+function playScanTick(){try{if(!actx)return;const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.value=1800;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.03);o.start();o.stop(actx.currentTime+.03);}catch{}}
+// Whoosh transition between poses
+function playWhoosh(){try{if(!actx)return;const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();o.type='sawtooth';f.type='bandpass';f.frequency.setValueAtTime(200,actx.currentTime);f.frequency.linearRampToValueAtTime(2000,actx.currentTime+.15);f.Q.value=1;o.frequency.value=100;o.connect(f);f.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.08,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.2);o.start();o.stop(actx.currentTime+.2);}catch{}}
+// Power-up sound at confidence milestones
+function playPowerUp(){try{if(!actx)return;[400,500,600,800].forEach((freq,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.value=freq;o.connect(g);g.connect(actx.destination);const t=actx.currentTime+i*.06;g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);o.start(t);o.stop(t+.15);});}catch{}}
 
 // ═══ UTILS ═══
 function oMod(id){document.getElementById(id).classList.add('open');}
