@@ -111,13 +111,13 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .shud>*{pointer-events:all;}
 .svt{font-family:var(--df);font-size:26px;letter-spacing:.06em;color:#fff;text-align:center;text-shadow:0 2px 20px rgba(0,0,0,.9);min-height:34px;}
 .spb{width:100%;max-width:280px;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;}
-.spf{height:100%;border-radius:100px;transition:width .4s ease;width:0%;}
+.spf{height:100%;border-radius:100px;transition:width .4s ease;width:0%;background:var(--sig);}
 .sst{font-family:var(--mf);font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;}
-.sbtn{font-family:var(--df);font-size:24px;letter-spacing:.14em;color:#fff;background:rgba(79,142,247,.2);border:2px solid rgba(79,142,247,.5);border-radius:100px;padding:18px 52px;cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1);box-shadow:0 0 28px rgba(79,142,247,.3);animation:btnpulse 2s ease-in-out infinite;}
-.sbtn:active{transform:scale(.92);background:rgba(79,142,247,.45);box-shadow:0 0 48px rgba(79,142,247,.55);animation:none;}
+.sbtn{font-family:var(--df);font-size:24px;letter-spacing:.14em;color:#fff;background:rgba(34,212,90,.2);border:2px solid rgba(34,212,90,.5);border-radius:100px;padding:18px 52px;cursor:pointer;transition:all .2s cubic-bezier(.25,.1,.25,1);box-shadow:0 0 28px rgba(34,212,90,.3);animation:btnpulse 2s ease-in-out infinite;}
+.sbtn:active{transform:scale(.92);background:rgba(34,212,90,.45);box-shadow:0 0 48px rgba(34,212,90,.55);animation:none;}
 .sbtn.g{background:rgba(93,219,110,.2);border-color:rgba(93,219,110,.5);box-shadow:0 0 28px rgba(93,219,110,.3);}
 .sbtn.d{pointer-events:none;opacity:.3;animation:none;filter:grayscale(.5);}
-@keyframes btnpulse{0%,100%{box-shadow:0 0 28px rgba(79,142,247,.3)}50%{box-shadow:0 0 44px rgba(79,142,247,.5)}}
+@keyframes btnpulse{0%,100%{box-shadow:0 0 28px rgba(34,212,90,.3)}50%{box-shadow:0 0 44px rgba(34,212,90,.5)}}
 /* Scan loading overlay */
 .sload{position:absolute;inset:0;z-index:25;background:rgba(9,9,15,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .5s;}
 .sload.hide{opacity:0;pointer-events:none;}
@@ -128,11 +128,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sload-bar{width:200px;height:3px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;}
 .sload-fill{height:100%;border-radius:100px;background:var(--blue);transition:width .3s;}
 /* Warning pill */
-.swarn{position:absolute;top:calc(80px + var(--sat));left:50%;transform:translateX(-50%);z-index:12;background:rgba(240,82,82,.9);border:1px solid var(--red);border-radius:10px;padding:8px 18px;font-family:var(--mf);font-size:11px;color:#fff;text-align:center;max-width:280px;opacity:0;pointer-events:none;transition:opacity .2s;letter-spacing:.04em;}
+.swarn{position:absolute;top:calc(80px + var(--sat));left:50%;transform:translateX(-50%);z-index:12;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(34,212,90,.3);border-radius:12px;padding:10px 20px;font-family:var(--mf);font-size:11px;color:var(--sig);text-align:center;max-width:300px;opacity:0;pointer-events:none;transition:opacity .3s;letter-spacing:.04em;line-height:1.5;}
 .swarn.show{opacity:1;}
 /* Scan indicators (right side) */
 .sind{position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:7;display:flex;flex-direction:column;gap:5px;pointer-events:none;}
-.sip{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border:1px solid rgba(79,142,247,.2);border-radius:6px;padding:4px 10px;font-family:var(--mf);font-size:8px;color:var(--blue);letter-spacing:.05em;opacity:0;transform:translateX(10px);transition:all .3s;}
+.sip{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);border:1px solid rgba(34,212,90,.2);border-radius:6px;padding:4px 10px;font-family:var(--mf);font-size:8px;color:var(--sig);letter-spacing:.05em;opacity:0;transform:translateX(10px);transition:all .3s;}
 .sip.in{opacity:1;transform:translateX(0);}
 .sipd{width:4px;height:4px;border-radius:50%;background:currentColor;animation:dp 1s infinite;}
 
@@ -142,10 +142,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sph.active{opacity:1;}
 .sph.done{opacity:.6;}
 .sph-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.2);transition:all .3s;flex-shrink:0;}
-.sph.active .sph-dot{border-color:var(--blue);background:var(--blue);box-shadow:0 0 10px rgba(79,142,247,.5);}
+.sph.active .sph-dot{border-color:var(--sig);background:var(--sig);box-shadow:0 0 10px rgba(34,212,90,.5);}
 .sph.done .sph-dot{border-color:var(--sig);background:var(--sig);}
 .sph-lbl{font-family:var(--mf);font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
-.sph.active .sph-lbl{color:rgba(255,255,255,.9);}
+.sph.active .sph-lbl{color:var(--sig);}
 
 /* Confidence meter */
 .sconf{position:absolute;left:50%;bottom:calc(140px + var(--sab));transform:translateX(-50%);z-index:8;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 14px;pointer-events:none;opacity:0;transition:opacity .3s;}
@@ -219,15 +219,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .triins{font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.02em;line-height:1.5;font-style:italic;}
 .ract{padding:0 14px;display:flex;flex-direction:column;gap:8px;}
 
-/* HISTORY */
-#history{background:var(--void);}
-.hl{padding:10px 14px;display:flex;flex-direction:column;gap:6px;}
-.hr{background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
-.hrs{font-family:var(--df);font-size:28px;flex-shrink:0;min-width:52px;text-align:center;}
-.hri{flex:1;display:flex;flex-direction:column;gap:2px;}
-.hrt{font-family:var(--df);font-size:14px;letter-spacing:.04em;}
-.hrm{font-family:var(--mf);font-size:9px;color:var(--t3);}
-
 /* LB */
 #lb{background:var(--void);}
 .lbf{display:flex;gap:5px;padding:10px 14px 0;}
@@ -290,9 +281,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="height:8px"></div>
 <div class="hnv">
 <div class="hn" onclick="openLB()"><div class="hni">🏆</div><div class="hnl">Rankings</div></div>
-<div class="hn" onclick="show('history')"><div class="hni">📊</div><div class="hnl">History</div></div>
-<div class="hn" onclick="show('rules')"><div class="hni">📋</div><div class="hnl">Rules</div></div>
-<div class="hn" onclick="show('info')"><div class="hni">🗺️</div><div class="hnl">Info</div></div>
+<div class="hn" onclick="show('rules')"><div class="hni">📋</div><div class="hnl">Tiers</div></div>
+<div class="hn" onclick="show('info')"><div class="hni">🗺️</div><div class="hnl">How It Works</div></div>
 </div>
 <div style="height:8px"></div>
 <div class="usg" id="usg">2 free scans per day</div>
@@ -376,12 +366,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </div>
 </div>
 
-<!-- HISTORY -->
-<div id="history" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HISTORY</div></div>
-<div class="hl" id="hl"></div>
-</div>
-
 <!-- LB -->
 <div id="lb" class="scr sb">
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">RANKINGS</div></div>
@@ -395,47 +379,67 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- RULES -->
 <div id="rules" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">RULES & TIERS</div></div>
-<div style="padding:14px;display:flex;flex-direction:column;gap:14px">
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">What Gets Scored</div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden">
-<div style="padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:2px"><div style="font-family:var(--df);font-size:20px;color:var(--blue)">PSL</div><span class="tag tgb">Face</span></div><div style="font-size:11px;color:var(--t2);line-height:1.6">AI estimates age, ethnicity, and height impression. Scores jawline, eye area, symmetry, bone structure, skin, hair, and overall "does he pull" dating appeal across 10 traits.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:2px"><div style="font-family:var(--df);font-size:20px;color:var(--green)">FRAMEMOG</div><span class="tag tgg">Body</span></div><div style="font-size:11px;color:var(--t2);line-height:1.6">AI estimates height, weight, and body fat. Scores shoulder-to-waist ratio, muscle definition, leanness, posture, frame width, and overall physique dating appeal across 9 traits.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd);background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:4px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:2px"><div style="font-family:var(--df);font-size:18px;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">LOOKSMAXX</div><span class="tag tgd">Combined</span></div><div style="font-size:11px;color:var(--t2);line-height:1.6">Weighted composite of face + body. Not a simple average. Factors in height, build, and overall dating market appeal.</div></div>
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">TIER SYSTEM</div></div>
+<div style="padding:14px;display:flex;flex-direction:column;gap:16px">
+
+<!-- Visual distribution bar -->
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px">
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">WHERE DO YOU FALL?</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.5">50% of men score between 5.00 and 7.00. Each tier represents ~10% of the male population.</div>
+<div style="display:flex;height:28px;border-radius:6px;overflow:hidden;gap:1px">
+<div style="flex:1;background:#f05252;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff;letter-spacing:.04em">1-3</div>
+<div style="flex:1.5;background:#f5a623;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">3.5-5</div>
+<div style="flex:2;background:#9090b0;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">5-6</div>
+<div style="flex:2;background:#8b6cf7;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">6-7</div>
+<div style="flex:1.5;background:#4f8ef7;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">7-8</div>
+<div style="flex:1;background:#22d45a;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#fff">8-9</div>
+<div style="flex:.5;background:#FFD700;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:#000">9+</div>
 </div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">PSL Face Tiers</div>
-<div style="display:flex;flex-direction:column;gap:4px" id="ftiers"></div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">FrameMog Body Tiers</div>
-<div style="display:flex;flex-direction:column;gap:4px" id="btiers"></div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">Score Distribution</div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;font-size:11px;color:var(--t2);line-height:1.8">
-<div>• <b style="color:var(--t1)">5.0</b> — Average. Where ~40% of men fall. Not ugly, not handsome.</div>
-<div>• <b style="color:var(--t1)">6.0</b> — Above average. Top 30%. Does OK on dating apps.</div>
-<div>• <b style="color:var(--t1)">7.0</b> — Noticeably attractive. Top 15%. Girls look twice.</div>
-<div>• <b style="color:var(--t1)">8.0</b> — Very attractive. Top 5%. Head-turning.</div>
-<div>• <b style="color:var(--t1)">9.0+</b> — Extremely rare. Top 1%. Model/athlete tier.</div>
-<div>• <b style="color:var(--t1)">4.0</b> — Below average. Noticeable disadvantages.</div>
-<div>• <b style="color:var(--t1)">1-3</b> — Significant deficits. Rare.</div>
+<div style="display:flex;justify-content:space-between;font-family:var(--mf);font-size:8px;color:var(--t4)"><span>SUBHUMAN</span><span>AVERAGE</span><span>GIGACHAD</span></div>
 </div>
+
+<!-- PSL Tiers -->
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em;color:var(--blue)">PSL FACE TIERS</div>
+<div id="ftiers" style="display:flex;flex-direction:column;gap:6px"></div>
+
+<!-- Body Tiers -->
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em;color:var(--green)">FRAMEMOG BODY TIERS</div>
+<div id="btiers" style="display:flex;flex-direction:column;gap:6px"></div>
 </div>
 </div>
 
 <!-- INFO -->
 <div id="info" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">INFO</div></div>
-<div style="padding:14px;display:flex;flex-direction:column;gap:14px">
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">How It Works</div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden">
-<div style="padding:13px 15px;display:flex;flex-direction:column;gap:4px"><div style="font-family:var(--df);font-size:15px">1. Face Mesh Tracking</div><div style="font-size:11px;color:var(--t2);line-height:1.6">MediaPipe AI maps 478 landmarks on your face in real-time. Computes jaw angle, canthal tilt, symmetry ratio, facial thirds, and bone structure measurements mathematically.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:4px"><div style="font-family:var(--df);font-size:15px">2. Pose Estimation</div><div style="font-size:11px;color:var(--t2);line-height:1.6">33 body landmarks tracked for shoulder width, hip ratio, posture angle, torso proportions. Real measurements from real coordinates.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd);display:flex;flex-direction:column;gap:4px"><div style="font-family:var(--df);font-size:15px">3. AI Vision Analysis</div><div style="font-size:11px;color:var(--t2);line-height:1.6">Photos + landmark measurements sent to Claude AI. Scores each trait against calibrated rubric. Estimates age, height, ethnicity. Generates personalized insights.</div></div>
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HOW IT WORKS</div></div>
+<div style="padding:14px;display:flex;flex-direction:column;gap:16px">
+
+<!-- Animated steps -->
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">1</div><div style="width:2px;flex:1;background:linear-gradient(var(--blue),var(--green))"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">OPEN CAMERA</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">Face scan: hold phone at arm's length, look straight. Body scan: prop phone, step back shirtless.</div></div>
 </div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.18em;text-transform:uppercase;padding-bottom:7px;border-bottom:1px solid var(--brd)">Scan Tips</div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden">
-<div style="padding:13px 15px"><div style="font-family:var(--df);font-size:15px">💡 Lighting</div><div style="font-size:11px;color:var(--t2);line-height:1.6">Natural side light from a window. Avoid overhead or harsh direct light. Good lighting can swing your score 0.5+ points.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd)"><div style="font-family:var(--df);font-size:15px">📐 Face Scan Distance</div><div style="font-size:11px;color:var(--t2);line-height:1.6">Arm's length. Neutral expression. Eyes open. No smile, no squint.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd)"><div style="font-family:var(--df);font-size:15px">👕 Body Scan Setup</div><div style="font-size:11px;color:var(--t2);line-height:1.6">Shirtless. Prop phone at waist height. Step back 6-8 feet. AI needs your actual proportions.</div></div>
-<div style="padding:13px 15px;border-top:1px solid var(--brd)"><div style="font-family:var(--df);font-size:15px">☀️ Best Time</div><div style="font-size:11px;color:var(--t2);line-height:1.6">Morning before eating for body (true baseline). Post-gym for best visual results.</div></div>
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">2</div><div style="width:2px;flex:1;background:linear-gradient(var(--green),var(--amber))"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">AI SCANS YOU</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">478 face landmarks or 33 body landmarks tracked in real-time. Jaw angle, canthal tilt, symmetry, bone structure — all measured mathematically.</div></div>
+</div>
+<div style="display:flex;gap:14px;align-items:stretch">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#fff;flex-shrink:0">3</div><div style="width:2px;flex:1;background:linear-gradient(var(--amber),var(--gold))"></div></div>
+<div style="flex:1;padding-bottom:20px"><div style="font-family:var(--df);font-size:18px">GET YOUR SCORE</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">AI estimates your age, height, ethnicity. Scores 10 traits for face, 9 for body. Gives you a composite score and personalized insights.</div></div>
+</div>
+<div style="display:flex;gap:14px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--df);font-size:18px;color:#000;flex-shrink:0">4</div></div>
+<div style="flex:1"><div style="font-family:var(--df);font-size:18px">SHARE & COMPETE</div><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-top:4px">Share your score card. Post to the global leaderboard. See how you stack up.</div></div>
+</div>
+</div>
+
+<!-- Tips as cards -->
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">SCAN TIPS</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">💡</div><div style="font-family:var(--df);font-size:14px">LIGHTING</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Natural side light. Face a window.</div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">📐</div><div style="font-family:var(--df);font-size:14px">DISTANCE</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Arm's length for face. 6-8ft for body.</div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">😐</div><div style="font-family:var(--df);font-size:14px">EXPRESSION</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Neutral. No smile. Eyes open.</div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><div style="font-size:24px">👕</div><div style="font-family:var(--df);font-size:14px">SHIRTLESS</div><div style="font-size:10px;color:var(--t2);line-height:1.5">Body scan needs real proportions.</div></div>
 </div>
 <div style="text-align:center;padding:4px 0"><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.08em">LooksMaxx · Fresh Fitness Co LLC</div></div>
 </div>
@@ -486,8 +490,11 @@ async function ensureVisionBundle(){
     const s=document.createElement('script');
     s.src='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/vision_bundle.js';
     s.crossOrigin='anonymous';
-    s.onload=res;s.onerror=rej;
+    s.onload=()=>{console.log('Vision bundle loaded');res();};
+    s.onerror=(e)=>{console.error('Vision bundle load error',e);rej(new Error('Failed to load MediaPipe'));};
     document.head.appendChild(s);
+    // Timeout after 15 seconds
+    setTimeout(()=>rej(new Error('MediaPipe load timeout')),15000);
   });
   return _visionLoading;
 }
@@ -554,10 +561,10 @@ function computeFaceMeasurements(landmarks){
   return{
     faceWidthToHeight:(faceWidth/faceHeight).toFixed(3),
     jawWidthRatio:(jawWidth/faceWidth).toFixed(3),
-    jawAngle:jawAngle.toFixed(1),
+    jawAngle:jawAngle.toFixed(2),
     canthalTiltL:leftCT.toFixed(2),
     canthalTiltR:rightCT.toFixed(2),
-    facialThirds:`${(upperThird/totalFace*100).toFixed(1)}/${(midThird/totalFace*100).toFixed(1)}/${(lowerThird/totalFace*100).toFixed(1)}`,
+    facialThirds:`${(upperThird/totalFace*100).toFixed(2)}/${(midThird/totalFace*100).toFixed(2)}/${(lowerThird/totalFace*100).toFixed(2)}`,
     symmetryRatio:symRatio.toFixed(3),
     cheekboneToJaw:(cheekW/jawWidth).toFixed(3),
     noseToFaceRatio:(noseW/faceWidth).toFixed(3),
@@ -579,37 +586,82 @@ function computeBodyMeasurements(landmarks){
 
   return{
     shoulderToHipRatio:stwRatio.toFixed(3),
-    shoulderWidth:(shoulderW*100).toFixed(1),
-    hipWidth:(hipW*100).toFixed(1),
-    torsoLength:(torsoL*100).toFixed(1),
-    postureAngle:postureAngle.toFixed(1),
+    shoulderWidth:(shoulderW*100).toFixed(2),
+    hipWidth:(hipW*100).toFixed(2),
+    torsoLength:(torsoL*100).toFixed(2),
+    postureAngle:postureAngle.toFixed(2),
     armSpanRatio:(armSpan/torsoL).toFixed(3),
   };
 }
 
-// ═══ DRAW FACE MESH ON CANVAS (batched for performance) ═══
-function drawFaceMesh(ctx,landmarks,W,H,color='#4f8ef7'){
-  if(!landmarks)return;
+// ═══ DRAW FACE MESH — Apple Face ID style green tessellation ═══
+const FACE_OVAL=[10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109,10];
+const FACE_TRIS=[[10,338,297],[297,332,284],[284,251,389],[389,356,454],[454,323,361],[361,288,397],[10,109,67],[67,103,54],[54,21,162],[162,127,234],[234,93,132],[132,58,172],[33,133,155],[362,263,249],[1,4,5],[1,5,195],[195,5,4],[168,6,197],[197,195,5]];
+
+function drawFaceMesh(ctx,lm,W,H){
+  if(!lm)return;
   ctx.save();
-  // Batch all small dots into one path
-  ctx.fillStyle=color+'25';ctx.beginPath();
-  for(let i=0;i<landmarks.length;i+=4){const p=landmarks[i];ctx.moveTo(p.x*W+1,p.y*H);ctx.arc(p.x*W,p.y*H,0.8,0,Math.PI*2);}
-  ctx.fill();
-  // Key landmarks as larger dots - single path
-  const keyPts=[10,152,234,454,33,133,362,263,1,172,397,48,278,107,123,352];
-  ctx.fillStyle=color;ctx.beginPath();
-  keyPts.forEach(i=>{const p=landmarks[i];ctx.moveTo(p.x*W+2.5,p.y*H);ctx.arc(p.x*W,p.y*H,2.5,0,Math.PI*2);});
-  ctx.fill();
-  // Connections - single stroke path for jaw, eyes
-  ctx.strokeStyle=color+'60';ctx.lineWidth=1;
+  const c='#22d45a'; // Apple green
+
+  // Draw face oval guide (subtle)
+  ctx.strokeStyle=c+'20';ctx.lineWidth=1.5;
   ctx.beginPath();
-  const jaw=[172,136,150,149,176,148,152,377,400,378,379,365,397];
-  jaw.forEach((idx,i)=>{const x=landmarks[idx].x*W,y=landmarks[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
-  const leye=[33,7,163,144,145,153,154,155,133,33];
-  leye.forEach((idx,i)=>{const x=landmarks[idx].x*W,y=landmarks[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
-  const reye=[362,382,381,380,374,373,390,249,263,362];
-  reye.forEach((idx,i)=>{const x=landmarks[idx].x*W,y=landmarks[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  FACE_OVAL.forEach((idx,i)=>{const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.closePath();ctx.stroke();
+
+  // Tessellation - draw triangulated mesh connections
+  ctx.strokeStyle=c+'18';ctx.lineWidth=0.5;
+  // Connect nearby landmarks to form triangles (sparse tessellation)
+  const step=3;
+  ctx.beginPath();
+  for(let i=0;i<lm.length-step;i+=step){
+    const a=lm[i],b=lm[Math.min(i+step,lm.length-1)];
+    ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(b.x*W,b.y*H);
+    // Cross connections for triangle look
+    if(i+step*2<lm.length){const c2=lm[i+step*2];ctx.moveTo(a.x*W,a.y*H);ctx.lineTo(c2.x*W,c2.y*H);}
+  }
   ctx.stroke();
+
+  // All landmark dots (tiny, green, sparse)
+  ctx.fillStyle=c+'30';ctx.beginPath();
+  for(let i=0;i<lm.length;i+=3){const p=lm[i];ctx.moveTo(p.x*W+0.8,p.y*H);ctx.arc(p.x*W,p.y*H,0.6,0,Math.PI*2);}
+  ctx.fill();
+
+  // Key landmarks — brighter, larger
+  const keyPts=[10,152,234,454,33,133,362,263,1,172,397,48,278,107,123,352,4,168,6];
+  ctx.fillStyle=c;ctx.beginPath();
+  keyPts.forEach(i=>{if(lm[i]){const p=lm[i];ctx.moveTo(p.x*W+2,p.y*H);ctx.arc(p.x*W,p.y*H,2,0,Math.PI*2);}});
+  ctx.fill();
+
+  // Feature outlines — jawline, eyes, nose bridge, lips
+  ctx.strokeStyle=c+'70';ctx.lineWidth=1.2;
+  ctx.beginPath();
+  // Jawline
+  [172,136,150,149,176,148,152,377,400,378,379,365,397].forEach((idx,i)=>{const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  // Left eye
+  ctx.moveTo(lm[33].x*W,lm[33].y*H);
+  [33,7,163,144,145,153,154,155,133,33].forEach((idx,i)=>{const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  // Right eye
+  [362,382,381,380,374,373,390,249,263,362].forEach((idx,i)=>{const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  // Nose bridge
+  [168,6,197,195,5,4,1].forEach((idx,i)=>{const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  // Lips outer
+  [61,146,91,181,84,17,314,405,321,375,291,61].forEach((idx,i)=>{if(lm[idx]){const x=lm[idx].x*W,y=lm[idx].y*H;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}});
+  ctx.stroke();
+
+  // Measurement lines (subtle dashed)
+  ctx.setLineDash([4,4]);ctx.strokeStyle=c+'35';ctx.lineWidth=0.8;
+  ctx.beginPath();
+  // Facial thirds horizontal lines
+  if(lm[107]&&lm[1]){
+    ctx.moveTo(lm[234].x*W,lm[107].y*H);ctx.lineTo(lm[454].x*W,lm[107].y*H); // brow line
+    ctx.moveTo(lm[234].x*W,lm[1].y*H);ctx.lineTo(lm[454].x*W,lm[1].y*H); // nose line
+  }
+  // Symmetry center line
+  if(lm[10]&&lm[152]){ctx.moveTo(lm[10].x*W,lm[10].y*H);ctx.lineTo(lm[152].x*W,lm[152].y*H);}
+  ctx.stroke();
+  ctx.setLineDash([]);
+
   ctx.restore();
 }
 
@@ -633,7 +685,7 @@ function drawPose(ctx,landmarks,W,H,color='#5ddb6e'){
 }
 
 // ═══ SCREENS ═══
-function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');if(id==='history')renderHist();if(id==='home')updHome();}
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');if(id==='home')updHome();}
 function goHome(){abort();show('home');}
 
 // ═══ DAILY LIMIT ═══
@@ -642,27 +694,11 @@ function incScan(){const t=new Date().toISOString().slice(0,10);const d=LS.gj('l
 function updHome(){
   const r=Math.max(0,DL-scanCt());
   document.getElementById('usg').textContent=`${r} of ${DL} free scans remaining today`;
-  const h=LS.gj('lm_h')||[];const el=document.getElementById('hstat');
-  if(!h.length){el.innerHTML='';return;}
-  const best=Math.max(...h.map(r=>r.s));const t=tier(best);
-  el.innerHTML=`<div class="hst">Best: <b style="color:${t.c}">${best.toFixed(1)}</b></div><div class="hst">${h.length} scan${h.length===1?'':'s'}</div>`;
 }
 
-// ═══ HISTORY ═══
-function saveHist(data){
-  const h=LS.gj('lm_h')||[];
-  h.unshift({d:Date.now(),m:ST.mode,s:getScore(data),fs:data.faceScore||null,bs:data.bodyScore||null,t:tier(getScore(data),ST.mode==='body').l});
-  if(h.length>50)h.length=50;
-  LS.sj('lm_h',h);
-}
 function getScore(data){
-  if(ST.mode==='combo'&&data.faceScore&&data.bodyScore)return Math.round(((data.faceScore+data.bodyScore)/2)*10)/10;
+  if(ST.mode==='combo'&&data.faceScore&&data.bodyScore)return Math.round(((data.faceScore+data.bodyScore)/2)*100)/100;
   return ST.mode==='body'?(data.bodyScore||0):(data.faceScore||0);
-}
-function renderHist(){
-  const h=LS.gj('lm_h')||[];const el=document.getElementById('hl');
-  if(!h.length){el.innerHTML='<div style="padding:40px 20px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.1em;line-height:2">NO SCANS YET</div>';return;}
-  el.innerHTML='';h.forEach(r=>{const t=tier(r.s,r.m==='body');const d=new Date(r.d);const row=document.createElement('div');row.className='hr';row.innerHTML=`<div class="hrs" style="color:${t.c}">${r.s.toFixed(1)}</div><div class="hri"><div class="hrt" style="color:${t.c}">${r.t||t.l}</div><div class="hrm">${r.m==='combo'?'Full':r.m==='body'?'Frame':'PSL'} · ${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})} ${d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</div></div>`;el.appendChild(row);});
 }
 
 // ═══ SCAN FLOW ═══
@@ -720,9 +756,9 @@ async function initScan(mode){
       }
     }catch(e){
       console.error('ML load failed:',e);
-      document.getElementById('slts').textContent='AI models unavailable — using photo mode';
+      document.getElementById('slts').textContent='AI scanner: '+e.message;
       mlOk=false;
-      await new Promise(r=>setTimeout(r,1500));
+      await new Promise(r=>setTimeout(r,2000));
     }
     if(ST.token!==myTk)return;
     ST.mlReady=mlOk;
@@ -736,9 +772,12 @@ async function initScan(mode){
     if(!mlOk)document.getElementById('sbtn').classList.remove('d');
     if(mlOk){
       startLiveOverlay(mode);
-      // Enable scan button once detection happens (checked in overlay loop)
       ST.onDetect=()=>{document.getElementById('sbtn').classList.remove('d');document.getElementById('sst').textContent='Ready — tap SCAN';ST.onDetect=null;};
+      // Fallback: enable after 8s even without detection
+      setTimeout(()=>{if(ST.token===myTk&&document.getElementById('sbtn').classList.contains('d')){document.getElementById('sbtn').classList.remove('d');document.getElementById('sst').textContent='Tap SCAN to begin';ST.onDetect=null;}},8000);
     }
+    // Pre-warm speech synthesis
+    try{if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance('');u.volume=0;speechSynthesis.speak(u);}}catch{}
   }catch(e){
     console.error(e);show('camden');
   }
@@ -766,8 +805,8 @@ function startLiveOverlay(mode){
 
     const now=performance.now();
 
-    // Throttle ML inference to ~20fps
-    if(now-lastMLTime>=ML_INTERVAL){
+    // Only run ML if video has data ready
+    if(now-lastMLTime>=ML_INTERVAL&&v.readyState>=2){
       lastMLTime=now;
       const ts=Math.max(now,lastTimestamp+1);
       lastTimestamp=ts;
@@ -820,25 +859,31 @@ let _wt=null;function warn(msg){const el=document.getElementById('swarn');el.tex
 
 // ═══ INTELLIGENT CAPTURE SEQUENCE ═══
 
-// Face scan phases (25-30 seconds total)
+// Face scan phases (~40 seconds - Face ID style)
 const FACE_PHASES=[
-  {id:'detect',label:'Detecting Face',dur:8000,voice:'Hold still. Detecting your face.',requireLandmarks:true},
-  {id:'lock',label:'Locking Landmarks',dur:5000,voice:'Face detected. Locking 478 landmarks.',requireLandmarks:true},
-  {id:'jaw',label:'Jawline Analysis',dur:4000,voice:'Analyzing jawline definition.',meas:['jawAngle','jawWidthRatio']},
-  {id:'eyes',label:'Eye Area Scan',dur:3500,voice:'Scanning eye area and canthal tilt.',meas:['canthalTiltL','canthalTiltR']},
-  {id:'symmetry',label:'Symmetry Mapping',dur:3500,voice:'Mapping facial symmetry.',meas:['symmetryRatio']},
-  {id:'structure',label:'Bone Structure',dur:3500,voice:'Measuring bone structure and proportions.',meas:['cheekboneToJaw','facialThirds']},
-  {id:'skin',label:'Skin & Texture',dur:3000,voice:'Analyzing skin quality and texture.'},
-  {id:'final',label:'Final Capture',dur:3000,voice:'Final calibration. Hold perfectly still.',capture:true},
+  {id:'detect',label:'Detecting Face',dur:5000,voice:'Position your face in the oval. Hold still.',requireLandmarks:true},
+  {id:'lock',label:'Locking Landmarks',dur:5000,voice:'Face detected. Locking 478 biometric landmarks.',requireLandmarks:true},
+  {id:'map',label:'Mapping Geometry',dur:5000,voice:'Mapping facial geometry. Keep holding still.',meas:['faceWidthToHeight','jawWidthRatio'],requireLandmarks:true},
+  {id:'jaw',label:'Jawline Scan',dur:4000,voice:'Scanning jawline and lower third.',meas:['jawAngle']},
+  {id:'eyes',label:'Eye Area Analysis',dur:4000,voice:'Analyzing eye area and canthal tilt.',meas:['canthalTiltL','canthalTiltR']},
+  {id:'symmetry',label:'Symmetry Check',dur:4000,voice:'Measuring bilateral symmetry.',meas:['symmetryRatio']},
+  {id:'structure',label:'Bone Structure',dur:4000,voice:'Evaluating cheekbone projection and facial thirds.',meas:['cheekboneToJaw','facialThirds']},
+  {id:'skin',label:'Skin Analysis',dur:3500,voice:'Scanning skin quality and texture.'},
+  {id:'final',label:'Final Calibration',dur:4000,voice:'Final calibration. Hold perfectly still.',capture:true},
+  {id:'complete',label:'Scan Complete',dur:1500,voice:'Face scan complete.'},
 ];
 
+// Body scan phases (~45 seconds)
 const BODY_PHASES=[
-  {id:'setup',label:'Setup',dur:8000,voice:'Position yourself 6 to 8 feet from the camera. Full body in frame. I will tell you when to begin.',isSetup:true},
-  {id:'detect',label:'Detecting Body',dur:3000,voice:'Detecting your body.'},
-  {id:'front',label:'Front Analysis',dur:5000,voice:'Face the camera. Arms slightly out. Hold still.',meas:['shoulderToHipRatio','shoulderWidth'],capture:true},
-  {id:'turn',label:'Turn to Side',dur:5000,voice:'Now slowly turn to your left side. Hold still.',meas:['postureAngle'],capture:true,waitTurn:true},
-  {id:'flex',label:'Final Pose',dur:5000,voice:'Face the camera. Flex or stand relaxed. Hold still.',capture:true,waitTurn:true},
-  {id:'compute',label:'Computing',dur:2000,voice:'Scan complete. Computing your results.'},
+  {id:'setup',label:'Setup',dur:10000,voice:'Position yourself 6 to 8 feet from the camera. Full body in frame. Remove your shirt. I will tell you when to begin.',isSetup:true},
+  {id:'detect',label:'Detecting Body',dur:5000,voice:'Detecting your body. Stand still.',requireLandmarks:true},
+  {id:'lock',label:'Locking Pose',dur:4000,voice:'Body detected. Locking 33 pose landmarks.'},
+  {id:'front',label:'Front Frame Scan',dur:5000,voice:'Analyzing frame width and shoulder to waist ratio.',meas:['shoulderToHipRatio','shoulderWidth'],capture:true},
+  {id:'measure',label:'Measuring Proportions',dur:4000,voice:'Measuring proportions and muscle definition.'},
+  {id:'turn',label:'Side Profile',dur:6000,voice:'Now slowly turn to your left side. Hold still.',meas:['postureAngle'],capture:true,waitTurn:true},
+  {id:'posture',label:'Posture Analysis',dur:4000,voice:'Analyzing posture alignment.'},
+  {id:'flex',label:'Final Pose',dur:5000,voice:'Face the camera again. Flex or stand relaxed. Hold still.',capture:true,waitTurn:true},
+  {id:'complete',label:'Scan Complete',dur:2000,voice:'Body scan complete. Computing your results.'},
 ];
 
 async function startCapture(){
@@ -896,13 +941,25 @@ async function startCapture(){
     while(Date.now()-phaseStart<phaseDur&&!ST.aborted){
       if(ST.token!==myTk)return;
 
-      // Hard gate: if phase requires landmarks and we don't have them, pause
+      const elapsed2=Date.now()-phaseStart;
+
+      // Coaching gate: if phase requires landmarks and we don't have them
       if(phase.requireLandmarks&&!lastLandmarks){
-        // Don't advance progress, just wait
+        // Coach the user based on how long they've been stuck
+        if(elapsed2>1000&&elapsed2<1500){
+          document.getElementById('sst').textContent=isFace?'Move your face into frame':'Step into frame';
+        }else if(elapsed2>3000&&elapsed2<3500){
+          document.getElementById('sst').textContent=isFace?'Try better lighting — face a window':'Make sure full body is visible';
+          speak(isFace?'Try moving to better light':'Make sure your full body is in frame');
+        }else if(elapsed2>6000&&elapsed2<6500){
+          document.getElementById('sst').textContent='Hold phone steady, look directly at camera';
+          speak('Hold your phone steady and look directly at the camera');
+        }else if(elapsed2>9000&&elapsed2<9500){
+          // After 9s give up waiting and proceed anyway
+          document.getElementById('sst').textContent='Proceeding with available data';
+          break;
+        }
         await new Promise(r=>setTimeout(r,200));
-        // Extend phase duration since we're waiting
-        if(Date.now()-phaseStart>=phaseDur)phaseDur+=1000; // extend by 1s, up to max
-        if(phaseDur>15000)break; // absolute max 15s per phase
         continue;
       }
 
@@ -1016,60 +1073,29 @@ async function startCapture(){
 
   if(ST.aborted||ST.token!==myTk)return;
 
-  // ═══ QUALITY GATE — Cannot proceed with bad scan ═══
-  const hasLandmarks=allMeasurements.length>=5; // need at least 5 measurement frames
-  const hasFrames=bestFrames.length>=1;
-  const minConfidence=30; // minimum confidence threshold
+  // ═══ QUALITY COACHING — Always proceed, but inform user ═══
+  const hasLandmarks=allMeasurements.length>=3;
 
   if(!hasLandmarks&&ST.mlReady){
-    // ML was loaded but never detected a face/body — scan is unusable
-    speak(isFace?'No face was detected during the scan. Please try again with better lighting.':'No body was detected. Make sure your full body is in frame.');
-    document.getElementById('svt').textContent='SCAN FAILED';
-    document.getElementById('sst').textContent=isFace?'Face not detected — try better lighting':'Body not detected — step into frame';
-    document.getElementById('sconf').classList.remove('show');
-    document.getElementById('sflock').classList.remove('show');
-    document.getElementById('sphase').innerHTML='';
-    // Re-enable scan button for retry
-    const btn2=document.getElementById('sbtn');
-    btn2.classList.remove('d');btn2.textContent='RETRY SCAN';btn2.style.animation='';
-    document.getElementById('spf').style.width='0%';
-    document.getElementById('sind').innerHTML='';
-    return; // User must tap retry — stays on scan screen
+    // No landmarks detected at all — still proceed with photos only
+    speak('Limited data captured. Results may be less precise. For best results, try better lighting next time.');
+    document.getElementById('svt').textContent='PROCESSING';
+    document.getElementById('sst').textContent='Limited data — proceeding with photo analysis';
+    await new Promise(r=>setTimeout(r,2000));
+  }else if(confidence<40&&ST.mlReady){
+    speak('Scan captured. For even better results next time, try natural lighting near a window.');
+    await new Promise(r=>setTimeout(r,1500));
   }
 
-  if(confidence<minConfidence&&ST.mlReady){
-    // Confidence too low — warn and let them retry
-    speak('Scan quality is low. Try moving to better lighting.');
-    document.getElementById('svt').textContent='LOW QUALITY SCAN';
-    document.getElementById('sst').textContent='Poor lighting or movement detected';
-    document.getElementById('sphase').innerHTML='';
-    const btn2=document.getElementById('sbtn');
-    btn2.classList.remove('d');btn2.textContent='RETRY SCAN';btn2.style.animation='';
-    document.getElementById('spf').style.width='0%';
-    document.getElementById('sind').innerHTML='';
-    // Don't return — also show a "Use Anyway" option after 3 seconds
-    await new Promise(r=>setTimeout(r,3000));
-    if(ST.aborted||ST.token!==myTk)return;
-    document.getElementById('sst').textContent='Tap RETRY or wait 3s to use current scan';
-    await new Promise(r=>setTimeout(r,3000));
-    if(ST.aborted||ST.token!==myTk)return;
-    // If they haven't tapped retry by now, proceed with what we have
-    document.getElementById('svt').textContent='PROCEEDING';
-    speak('Using current scan data.');
-    await new Promise(r=>setTimeout(r,1000));
-  }
-
-  // Check brightness of current video feed directly (Fix #8: no async Image needed)
-  if(bestFrames.length>0){
+  // Brightness coaching
+  const v2=document.getElementById('svid');
+  if(v2&&v2.readyState>=2){
     const testCap=document.createElement('canvas');testCap.width=64;testCap.height=48;
-    const v2=document.getElementById('svid');
-    if(v2&&v2.readyState>=2){
-      testCap.getContext('2d').drawImage(v2,0,0,64,48);
-      const brightness=getFrameBrightness(testCap);
-      if(brightness<30){
-        warn('Very low lighting detected — results may be less accurate');
-        await new Promise(r=>setTimeout(r,1500));
-      }
+    testCap.getContext('2d').drawImage(v2,0,0,64,48);
+    const brightness=getFrameBrightness(testCap);
+    if(brightness<25){
+      document.getElementById('sst').textContent='Tip: better lighting = better scores';
+      await new Promise(r=>setTimeout(r,1000));
     }
   }
 
@@ -1159,7 +1185,7 @@ async function sendToWorker(measurements){
     if(ST.token!==myTk)return;
     if(fR._err||bR._err){document.getElementById('errmsg').textContent=(fR.msg||'')+(bR.msg||'');show('errscr');return;}
     const merged={faceScore:fR.faceScore||0,bodyScore:bR.bodyScore||0,faceTier:fR.faceTier,bodyTier:bR.bodyTier,faceTraits:fR.faceTraits||[],bodyTraits:bR.bodyTraits||[],insights:[fR.insights,bR.insights].filter(Boolean).join(' ')};
-    ST.result=merged;saveHist(merged);
+    ST.result=merged;
     ST.caps=[];// Fix #1: Free memory after send
     showReveal(merged);
   }else{
@@ -1167,7 +1193,7 @@ async function sendToWorker(measurements){
     const res=await callAPI(ST.mode,caps,measText);
     if(ST.token!==myTk)return;
     if(res._err){document.getElementById('errmsg').textContent=res.msg;show('errscr');return;}
-    ST.result=res;saveHist(res);
+    ST.result=res;
     ST.caps=[];// Fix #1: Free memory
     showReveal(res);
   }
@@ -1192,7 +1218,7 @@ function showReveal(data){
   playTension();
   setTimeout(()=>{bg.style.opacity='1';},200);
   setTimeout(()=>{
-    const el=document.getElementById('rvsc');el.textContent=score.toFixed(1);el.style.color=t.c;el.classList.add('in');
+    const el=document.getElementById('rvsc');el.textContent=score.toFixed(2);el.style.color=t.c;el.classList.add('in');
     playReveal();
     try{navigator.vibrate([50,100,50])}catch{}
   },1200);
@@ -1215,15 +1241,15 @@ function showResults(data){
   document.getElementById('rtit').textContent=isC?'FULL SCAN':isB?'FRAMEMOG':'PSL SCAN';
   document.getElementById('ramb').style.background=`radial-gradient(ellipse at 50% 0%,${t.c}12,transparent 60%)`;
   const arc=document.getElementById('rarc');arc.style.stroke=t.c;arc.style.filter=`drop-shadow(0 0 8px ${t.c}80)`;arc.style.strokeDashoffset='377';
-  document.getElementById('rn').textContent=score.toFixed(1);document.getElementById('rn').style.color=t.c;
+  document.getElementById('rn').textContent=score.toFixed(2);document.getElementById('rn').style.color=t.c;
   document.getElementById('rtr').textContent=t.l;document.getElementById('rtr').style.color=t.c;
   setTimeout(()=>{arc.style.strokeDashoffset=377-(score/10)*377;},80);
   const subEl=document.getElementById('rsubs');
-  if(isC&&data.faceScore&&data.bodyScore){subEl.style.display='grid';const ft=tier(data.faceScore),bt=tier(data.bodyScore,true);document.getElementById('rsf').textContent=data.faceScore.toFixed(1);document.getElementById('rsft').textContent=ft.l;document.getElementById('rsb').textContent=data.bodyScore.toFixed(1);document.getElementById('rsbt').textContent=bt.l;}else subEl.style.display='none';
+  if(isC&&data.faceScore&&data.bodyScore){subEl.style.display='grid';const ft=tier(data.faceScore),bt=tier(data.bodyScore,true);document.getElementById('rsf').textContent=data.faceScore.toFixed(2);document.getElementById('rsft').textContent=ft.l;document.getElementById('rsb').textContent=data.bodyScore.toFixed(2);document.getElementById('rsbt').textContent=bt.l;}else subEl.style.display='none';
   document.getElementById('rtt').textContent=isC?'ALL TRAITS':isB?'BODY TRAITS':'FACE TRAITS';
   document.getElementById('rtsu').textContent=traits.length+' traits';
   const list=document.getElementById('rtl');list.innerHTML='';
-  traits.forEach((tr,i)=>{const tc=tier(tr.score||5);const div=document.createElement('div');div.className='tri';div.innerHTML=`<div class="tritp"><span class="trin">${esc(tr.name)}</span><span class="triv" style="color:${tc.c}">${(tr.score||0).toFixed(1)}</span></div><div class="trib"><div class="trif" id="tf${i}" style="background:${tc.c}"></div></div><div class="triins">${esc(tr.insight||'')}</div>`;list.appendChild(div);setTimeout(()=>{const b=document.getElementById('tf'+i);if(b)b.style.width=((tr.score||0)*10)+'%';},200+i*80);});
+  traits.forEach((tr,i)=>{const tc=tier(tr.score||5);const div=document.createElement('div');div.className='tri';div.innerHTML=`<div class="tritp"><span class="trin">${esc(tr.name)}</span><span class="triv" style="color:${tc.c}">${(tr.score||0).toFixed(2)}</span></div><div class="trib"><div class="trif" id="tf${i}" style="background:${tc.c}"></div></div><div class="triins">${esc(tr.insight||'')}</div>`;list.appendChild(div);setTimeout(()=>{const b=document.getElementById('tf'+i);if(b)b.style.width=((tr.score||0)*10)+'%';},200+i*80);});
   document.getElementById('rins').textContent=data.insights||'—';
   show('results');
 }
@@ -1238,20 +1264,20 @@ function genShare(){
   const g=x.createRadialGradient(W/2,0,0,W/2,0,W*.8);g.addColorStop(0,t.c+'18');g.addColorStop(1,'transparent');x.fillStyle=g;x.fillRect(0,0,W,H/2);
   x.globalAlpha=.03;for(let i=0;i<800;i++){x.fillStyle='#fff';x.fillRect(Math.random()*W,Math.random()*H,1,1);}x.globalAlpha=1;
   x.font='500 16px "DM Mono",monospace';x.fillStyle='rgba(255,255,255,.25)';x.textAlign='center';x.fillText('LOOKSMAXX',W/2,60);
-  x.font='180px "Bebas Neue",sans-serif';x.fillStyle=t.c;x.fillText(score.toFixed(1),W/2,260);
+  x.font='180px "Bebas Neue",sans-serif';x.fillStyle=t.c;x.fillText(score.toFixed(2),W/2,260);
   x.font='56px "Bebas Neue",sans-serif';x.fillText(t.l,W/2,320);
   x.strokeStyle='rgba(255,255,255,.1)';x.lineWidth=1;x.beginPath();x.moveTo(W/2-60,350);x.lineTo(W/2+60,350);x.stroke();
   const ml=ST.mode==='combo'?'FULL LOOKSMAXX SCAN':ST.mode==='body'?'FRAMEMOG':'PSL FACE SCAN';
   x.font='500 14px "DM Mono",monospace';x.fillStyle='rgba(255,255,255,.3)';x.fillText(ml,W/2,385);
   let yS=420;
-  if(ST.mode==='combo'&&ST.result.faceScore&&ST.result.bodyScore){x.font='500 13px "DM Mono",monospace';x.fillStyle='#4f8ef7';x.textAlign='right';x.fillText('PSL '+ST.result.faceScore.toFixed(1),W/2-20,yS);x.fillStyle='#5ddb6e';x.textAlign='left';x.fillText('FRAME '+ST.result.bodyScore.toFixed(1),W/2+20,yS);x.textAlign='center';yS+=40;}
-  x.textAlign='left';traits.slice(0,6).forEach((tr,i)=>{const y=yS+i*48;const tc=tier(tr.score||5);x.font='500 14px "DM Mono",monospace';x.fillStyle='rgba(255,255,255,.35)';x.fillText(tr.name.toUpperCase(),80,y);x.fillStyle='rgba(255,255,255,.06)';x.fillRect(80,y+8,W-200,4);x.fillStyle=tc.c;x.fillRect(80,y+8,(W-200)*((tr.score||0)/10),4);x.textAlign='right';x.font='500 15px "DM Mono",monospace';x.fillStyle=tc.c;x.fillText((tr.score||0).toFixed(1),W-80,y);x.textAlign='left';});
+  if(ST.mode==='combo'&&ST.result.faceScore&&ST.result.bodyScore){x.font='500 13px "DM Mono",monospace';x.fillStyle='#4f8ef7';x.textAlign='right';x.fillText('PSL '+ST.result.faceScore.toFixed(2),W/2-20,yS);x.fillStyle='#5ddb6e';x.textAlign='left';x.fillText('FRAME '+ST.result.bodyScore.toFixed(2),W/2+20,yS);x.textAlign='center';yS+=40;}
+  x.textAlign='left';traits.slice(0,6).forEach((tr,i)=>{const y=yS+i*48;const tc=tier(tr.score||5);x.font='500 14px "DM Mono",monospace';x.fillStyle='rgba(255,255,255,.35)';x.fillText(tr.name.toUpperCase(),80,y);x.fillStyle='rgba(255,255,255,.06)';x.fillRect(80,y+8,W-200,4);x.fillStyle=tc.c;x.fillRect(80,y+8,(W-200)*((tr.score||0)/10),4);x.textAlign='right';x.font='500 15px "DM Mono",monospace';x.fillStyle=tc.c;x.fillText((tr.score||0).toFixed(2),W-80,y);x.textAlign='left';});
   x.textAlign='center';x.font='500 12px "DM Mono",monospace';x.fillStyle='rgba(255,255,255,.15)';x.fillText('LOOKSMAXX.APP · FRESH FITNESS CO',W/2,H-40);
   oMod('shmod');
 }
 function natShare(){
   if(!ST.result)return;const score=getScore(ST.result);const t=tier(score,ST.mode==='body');
-  const text=`I scored ${score.toFixed(1)}/10 on LOOKSMAXX — ${t.l}\nScan yours free`;
+  const text=`I scored ${score.toFixed(2)}/10 on LOOKSMAXX — ${t.l}\nScan yours free`;
   const cv=document.getElementById('shcv');
   if(cv&&navigator.share&&navigator.canShare){cv.toBlob(async b=>{if(!b){fShare(text);return;}const f=new File([b],'looksmaxx.png',{type:'image/png'});try{if(navigator.canShare({files:[f]})){await navigator.share({title:'LOOKSMAXX',text,files:[f]});return;}}catch{}fShare(text);},'image/png');}else fShare(text);
 }
@@ -1265,11 +1291,11 @@ function rLB(){
   let d=[...lbC].filter(e=>e[k]!=null||e.score!=null).sort((a,b)=>(b[k]||b.score||0)-(a[k]||a.score||0));
   const t3=d.slice(0,3);const med=['🥇','🥈','🥉'],cls=['p1','p2','p3'],ord=[1,0,2];
   const pod=document.getElementById('pod');pod.innerHTML='';
-  ord.forEach(i=>{if(!t3[i])return;const e=t3[i],sc=(e[k]||e.score||0),t=tier(sc);const av=e.photo?`<img src="${e.photo}">`:`<div style="font-size:22px">👤</div>`;const s=document.createElement('div');s.className=`ps ${cls[i]}`;s.innerHTML=`<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss">${sc.toFixed(1)}</div><div class="psn">${esc(e.name||'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i+1}</div></div>`;pod.appendChild(s);});
+  ord.forEach(i=>{if(!t3[i])return;const e=t3[i],sc=(e[k]||e.score||0),t=tier(sc);const av=e.photo?`<img src="${e.photo}">`:`<div style="font-size:22px">👤</div>`;const s=document.createElement('div');s.className=`ps ${cls[i]}`;s.innerHTML=`<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss">${sc.toFixed(2)}</div><div class="psn">${esc(e.name||'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i+1}</div></div>`;pod.appendChild(s);});
   document.getElementById('pfl').style.display=t3.length>0?'block':'none';
   const list=document.getElementById('lbl');list.innerHTML='';
   if(!d.length){list.innerHTML='<div style="padding:32px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);line-height:2">NO ENTRIES YET</div>';return;}
-  d.slice(3).forEach((e,i)=>{const sc=(e[k]||e.score||0),t=tier(sc);const av=e.photo?`<img src="${e.photo}">`:`<div style="font-size:15px">👤</div>`;const ml=e.mode==='combo'?'Full':e.mode==='body'?'Frame':'PSL';const row=document.createElement('div');row.className='lr';row.innerHTML=`<div class="lrk">#${i+4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${esc(e.name||'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier||t.l}</span></div></div><div class="lrs" style="color:${t.c}">${sc.toFixed(1)}</div>`;list.appendChild(row);});
+  d.slice(3).forEach((e,i)=>{const sc=(e[k]||e.score||0),t=tier(sc);const av=e.photo?`<img src="${e.photo}">`:`<div style="font-size:15px">👤</div>`;const ml=e.mode==='combo'?'Full':e.mode==='body'?'Frame':'PSL';const row=document.createElement('div');row.className='lr';row.innerHTML=`<div class="lrk">#${i+4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${esc(e.name||'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier||t.l}</span></div></div><div class="lrs" style="color:${t.c}">${sc.toFixed(2)}</div>`;list.appendChild(row);});
 }
 function openLBSub(){if(!ST.result){toast('Scan first');return;}ST.lbPh=null;document.getElementById('pic').innerHTML='<span style="font-size:26px">📷</span>';document.getElementById('plb').textContent='Tap to add photo';document.getElementById('lbn').value='';oMod('lbmod');}
 function hPh(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{ST.lbPh=e.target.result;document.getElementById('pic').innerHTML=`<img src="${e.target.result}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--blue)">`;document.getElementById('plb').textContent='Photo selected ✓';};r.readAsDataURL(f);}
@@ -1326,9 +1352,10 @@ function getFrameBrightness(canvas){try{const ctx=canvas.getContext('2d');const 
 
 // ═══ INIT ═══
 function buildTiers(){
-  const render=(id,tiers)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=tiers.map(t=>`<div style="background:var(--surf);border:1px solid var(--brd);border-radius:9px;padding:10px 13px;display:flex;align-items:center;gap:10px"><div style="width:3px;height:24px;border-radius:2px;background:${t.c};flex-shrink:0"></div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3)">${t.m.toFixed(1)}${t.m===9?'–10.0':t.m===0?'–3.4':'–'+(t.m+0.9).toFixed(1)}</div></div></div>`).join('');};
-  render('ftiers',FT);
-  render('btiers',BT);
+  const descs={GIGACHAD:'Top 5%. Elite genetics. Model tier.',CHAD:'Top 10%. Very attractive. Head-turning.','HIGH VALUE':'Top 20%. Noticeably good looking.','ABOVE AVG':'Top 35%. Cute. Does well on apps.',AVERAGE:'Middle 30%. Normal.',
+  'BELOW AVG':'Bottom 20%. Disadvantages visible.',SUBHUMAN:'Bottom 10%. Significant deficits.',FRAMEMOGGER:'Top 5%. Elite physique.',AESTHETIC:'Top 10%. Impressive.',ATHLETIC:'Top 20%. Clearly trains.',FIT:'Top 35%. Above untrained.',UNDERTRAINED:'Bottom 20%. Needs work.','UNTRAINED SLOB':'Bottom 10%.'};
+  const render=(id,tiers)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=tiers.map(t=>`<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="this.querySelector('.td').style.display=this.querySelector('.td').style.display==='none'?'block':'none'"><div style="width:4px;height:32px;border-radius:2px;background:${t.c};flex-shrink:0"></div><div style="flex:1"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-family:var(--df);font-size:17px;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${t.m.toFixed(2)}+</div></div><div class="td" style="display:none;margin-top:6px;font-size:11px;color:var(--t2);line-height:1.5">${descs[t.l]||''}</div></div><div style="font-size:10px;color:var(--t4)">▼</div></div>`).join('');};
+  render('ftiers',FT);render('btiers',BT);
 }
 window.addEventListener('load',()=>{updHome();buildTiers();show('home');});
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
