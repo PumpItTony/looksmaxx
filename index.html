@@ -479,7 +479,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <canvas id="canvas"></canvas>
 <div id="toast"></div>
 
-<script>
+<script type="module">
 'use strict';
 const API='https://looksmaxx.pumpittony.workers.dev';
 const DL=2;
@@ -495,31 +495,21 @@ const tier=(s,b=false)=>(b?BT:FT).find(t=>s>=t.m)||FT[FT.length-1];
 let ST={mode:null,stream:null,caps:[],facing:'user',aborted:false,token:0,result:null,lbPh:null,lbFil:'all',mlReady:false,onDetect:null};
 let lbC=[];
 
-// ═══ MEDIAPIPE TASKS VISION (Modern API - works on all browsers) ═══
+// ═══ MEDIAPIPE TASKS VISION — ESM Import (the only method that works reliably) ═══
 let faceLandmarker=null,poseLandmarker=null;
-let _visionLoading=null;
+let _visionMod=null;
 
-async function ensureVisionBundle(){
-  if(window.vision)return;
-  if(_visionLoading)return _visionLoading;
-  _visionLoading=new Promise((res,rej)=>{
-    const s=document.createElement('script');
-    s.src='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/vision_bundle.js';
-    s.crossOrigin='anonymous';
-    s.onload=()=>{console.log('Vision bundle loaded');res();};
-    s.onerror=(e)=>{console.error('Vision bundle load error',e);rej(new Error('Failed to load MediaPipe'));};
-    document.head.appendChild(s);
-    // Timeout after 15 seconds
-    setTimeout(()=>rej(new Error('MediaPipe load timeout')),15000);
-  });
-  return _visionLoading;
+async function getVision(){
+  if(_visionMod)return _visionMod;
+  _visionMod=await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/+esm');
+  return _visionMod;
 }
 
 async function loadFaceLandmarker(){
   if(faceLandmarker)return faceLandmarker;
-  await ensureVisionBundle();
-  const {FaceLandmarker,FilesetResolver}=window.vision||window;
-  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+  const vision=await getVision();
+  const {FaceLandmarker,FilesetResolver}=vision.default||vision;
+  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm');
   faceLandmarker=await FaceLandmarker.createFromOptions(fr,{
     baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',delegate:'GPU'},
     outputFaceBlendshapes:false,runningMode:'VIDEO',numFaces:1
@@ -529,9 +519,9 @@ async function loadFaceLandmarker(){
 
 async function loadPoseLandmarker(){
   if(poseLandmarker)return poseLandmarker;
-  await ensureVisionBundle();
-  const {PoseLandmarker,FilesetResolver}=window.vision||window;
-  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+  const vision=await getVision();
+  const {PoseLandmarker,FilesetResolver}=vision.default||vision;
+  const fr=await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm');
   poseLandmarker=await PoseLandmarker.createFromOptions(fr,{
     baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',delegate:'GPU'},
     runningMode:'VIDEO',numPoses:1
@@ -764,25 +754,25 @@ async function initScan(mode){
     let mlOk=true;
     try{
       if(needsFace){
-        document.getElementById('slts').textContent='Loading face landmark model (1.5MB)…';
-        document.getElementById('mlstat').textContent='WASM: loading…';
+        document.getElementById('slts').textContent='Downloading face AI model…';
+        document.getElementById('mlstat').textContent='ESM import: loading…';
         await loadFaceLandmarker();
-        document.getElementById('mlstat').textContent='Face model: ready';
+        document.getElementById('mlstat').textContent='Face model: ready ✓';
         document.getElementById('slf').style.width='60%';
       }
       if(needsBody){
-        document.getElementById('slts').textContent='Loading pose landmark model (3MB)…';
+        document.getElementById('slts').textContent='Downloading pose AI model…';
         document.getElementById('mlstat').textContent='Pose model: loading…';
         await loadPoseLandmarker();
-        document.getElementById('mlstat').textContent='Pose model: ready';
+        document.getElementById('mlstat').textContent='Pose model: ready ✓';
         document.getElementById('slf').style.width='80%';
       }
     }catch(e){
       console.error('ML load failed:',e);
-      document.getElementById('slts').textContent='AI scanner: '+e.message;
-      document.getElementById('mlstat').textContent='ML: '+e.message;
+      document.getElementById('slts').textContent='AI: '+e.message;
+      document.getElementById('mlstat').textContent='ML error: '+e.message;
       mlOk=false;
-      await new Promise(r=>setTimeout(r,2000));
+      await new Promise(r=>setTimeout(r,2500));
     }
     if(ST.token!==myTk)return;
     ST.mlReady=mlOk;
@@ -881,284 +871,194 @@ function stopOverlay(){if(overlayRAF){cancelAnimationFrame(overlayRAF);overlayRA
 
 let _wt=null;function warn(msg){const el=document.getElementById('swarn');el.textContent=msg;el.classList.add('show');if(_wt)clearTimeout(_wt);_wt=setTimeout(()=>el.classList.remove('show'),2500);}
 
-// ═══ INTELLIGENT CAPTURE SEQUENCE ═══
-
-// Face scan phases (~40 seconds - Face ID style)
-const FACE_PHASES=[
-  {id:'detect',label:'Detecting Face',dur:5000,voice:'Position your face in the oval. Hold still.',requireLandmarks:true},
-  {id:'lock',label:'Locking Landmarks',dur:5000,voice:'Face detected. Locking 478 biometric landmarks.',requireLandmarks:true},
-  {id:'map',label:'Mapping Geometry',dur:5000,voice:'Mapping facial geometry. Keep holding still.',meas:['faceWidthToHeight','jawWidthRatio'],requireLandmarks:true},
-  {id:'jaw',label:'Jawline Scan',dur:4000,voice:'Scanning jawline and lower third.',meas:['jawAngle']},
-  {id:'eyes',label:'Eye Area Analysis',dur:4000,voice:'Analyzing eye area and canthal tilt.',meas:['canthalTiltL','canthalTiltR']},
-  {id:'symmetry',label:'Symmetry Check',dur:4000,voice:'Measuring bilateral symmetry.',meas:['symmetryRatio']},
-  {id:'structure',label:'Bone Structure',dur:4000,voice:'Evaluating cheekbone projection and facial thirds.',meas:['cheekboneToJaw','facialThirds']},
-  {id:'skin',label:'Skin Analysis',dur:3500,voice:'Scanning skin quality and texture.'},
-  {id:'final',label:'Final Calibration',dur:4000,voice:'Final calibration. Hold perfectly still.',capture:true},
-  {id:'complete',label:'Scan Complete',dur:1500,voice:'Face scan complete.'},
-];
-
-// Body scan phases (~45 seconds)
-const BODY_PHASES=[
-  {id:'setup',label:'Setup',dur:10000,voice:'Position yourself 6 to 8 feet from the camera. Full body in frame. Remove your shirt. I will tell you when to begin.',isSetup:true},
-  {id:'detect',label:'Detecting Body',dur:5000,voice:'Detecting your body. Stand still.',requireLandmarks:true},
-  {id:'lock',label:'Locking Pose',dur:4000,voice:'Body detected. Locking 33 pose landmarks.'},
-  {id:'front',label:'Front Frame Scan',dur:5000,voice:'Analyzing frame width and shoulder to waist ratio.',meas:['shoulderToHipRatio','shoulderWidth'],capture:true},
-  {id:'measure',label:'Measuring Proportions',dur:4000,voice:'Measuring proportions and muscle definition.'},
-  {id:'turn',label:'Side Profile',dur:6000,voice:'Now slowly turn to your left side. Hold still.',meas:['postureAngle'],capture:true,waitTurn:true},
-  {id:'posture',label:'Posture Analysis',dur:4000,voice:'Analyzing posture alignment.'},
-  {id:'flex',label:'Final Pose',dur:5000,voice:'Face the camera again. Flex or stand relaxed. Hold still.',capture:true,waitTurn:true},
-  {id:'complete',label:'Scan Complete',dur:2000,voice:'Body scan complete. Computing your results.'},
-];
+// ═══ MEDIAPIPE-FIRST SCAN ENGINE ═══
+// Progress driven by LANDMARK DATA, not timers. No detection = no progress.
 
 async function startCapture(){
-  // Fix #11: Initialize AudioContext on this user gesture so reveal sounds work on iOS
   if(!actx){try{actx=new(window.AudioContext||window.webkitAudioContext)();}catch{}}
   const mode=ST.mode;const myTk=ST.token;
   const btn=document.getElementById('sbtn');btn.classList.add('d');btn.style.animation='none';
-  const v=document.getElementById('svid');const c=document.getElementById('scanc');
-  const isBody=mode==='body'||((mode==='combo')&&ST.caps.length>0&&ST.caps[0].type==='face');
+  const v=document.getElementById('svid');
   const isFace=mode==='face'||(mode==='combo'&&ST.caps.length===0);
-  const phases=isFace?FACE_PHASES:BODY_PHASES;
+  const isBody=!isFace;
 
-  // Build phase indicators on left side
-  const phaseEl=document.getElementById('sphase');
-  phaseEl.innerHTML=phases.filter(p=>!p.isSetup).map((p,i)=>`<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${p.label}</div></div>`).join('');
-
-  // Show confidence meter
-  const confEl=document.getElementById('sconf');confEl.classList.add('show');
+  document.getElementById('svt').textContent=isFace?'FACE SCAN':'BODY SCAN';
+  document.getElementById('sst').textContent='Waiting for detection…';
+  document.getElementById('sind').innerHTML='';
+  document.getElementById('sphase').innerHTML='';
+  document.getElementById('sconf').classList.add('show');
   document.getElementById('sconff').style.width='0%';
   document.getElementById('sconfp').textContent='0%';
 
-  let allMeasurements=[];
-  let bestFrames=[];
+  let allMeas=[];
   let confidence=0;
-  let phaseIdx=0;
-  let nonSetupIdx=0;
+  let refPhoto=null;
+  let totalGoodFrames=0;
+  let noDetectStreak=0;
+  const NEEDED=isFace?80:60; // landmark frames needed for complete scan
+  const MAX_TIME=isFace?50000:55000;
+  const t0=Date.now();
 
-  for(let pi=0;pi<phases.length;pi++){
-    if(ST.aborted||ST.token!==myTk)return;
-    const phase=phases[pi];
-    const phaseDur=phase.dur;
+  // Phase names for left panel
+  const phases=isFace?['Detecting','Locking','Jawline','Eyes','Symmetry','Structure','Skin','Calibrate']:['Detecting','Locking','Frame','Proportions','Side','Posture','Final'];
+  document.getElementById('sphase').innerHTML=phases.map((n,i)=>`<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${n}</div></div>`).join('');
 
-    // Update voice and status
-    document.getElementById('svt').textContent=phase.label.toUpperCase();
-    document.getElementById('sst').textContent=phase.voice.split('.')[0];
-    speak(phase.voice);
+  // Face oval text
+  const ft=document.getElementById('foval-txt');
+  const ovalTxts=isFace?['LOOK AT CAMERA','LOCKING LANDMARKS','JAWLINE SCAN','EYE ANALYSIS','SYMMETRY CHECK','BONE STRUCTURE','SKIN SCAN','CALIBRATING']:['STAND IN FRAME','LOCKING POSE','FRAME SCAN','PROPORTIONS','SIDE PROFILE','POSTURE','FINAL'];
 
-    // Update face oval guide text
-    const fovalTxt=document.getElementById('foval-txt');
-    if(fovalTxt&&isFace){
-      const ovalMsgs={detect:'LOOK STRAIGHT AT CAMERA',lock:'HOLD STILL — LOCKING',map:'MAPPING FACIAL GEOMETRY',jaw:'ANALYZING JAWLINE',eyes:'SCANNING EYE AREA',symmetry:'MEASURING SYMMETRY',structure:'BONE STRUCTURE SCAN',skin:'SKIN QUALITY ANALYSIS',final:'FINAL CALIBRATION',complete:'SCAN COMPLETE ✓'};
-      fovalTxt.textContent=ovalMsgs[phase.id]||phase.label.toUpperCase();
-    }
+  speak(isFace?'Position your face in the oval. Hold completely still.':'Stand facing the camera. Full body visible.');
 
-    // Update progress bar
-    const totalDur=phases.reduce((a,p)=>a+p.dur,0);
-    const elapsed=phases.slice(0,pi).reduce((a,p)=>a+p.dur,0);
+  // ═══ MAIN LOOP — landmark-driven ═══
+  while(!ST.aborted&&ST.token===myTk){
+    if(Date.now()-t0>MAX_TIME){speak('Scan timeout. Using available data.');break;}
 
-    // Highlight current phase in left panel
-    if(!phase.isSetup){
-      const phEl=document.getElementById('sph'+nonSetupIdx);
-      if(phEl)phEl.classList.add('active');
-      nonSetupIdx++;
-    }
+    if(lastLandmarks){
+      noDetectStreak=0;
+      totalGoodFrames++;
 
-    // Phase loop — run for duration, collecting data
-    const phaseStart=Date.now();
-    let frameCount=0;
-    let stableCount=0;
-    let prevMeas=null;
+      // Compute measurements every frame
+      const m=isFace?computeFaceMeasurements(lastLandmarks):computeBodyMeasurements(lastLandmarks);
+      if(m)allMeas.push(m);
 
-    while(Date.now()-phaseStart<phaseDur&&!ST.aborted){
-      if(ST.token!==myTk)return;
-
-      const elapsed2=Date.now()-phaseStart;
-
-      // Coaching gate: if phase requires landmarks and we don't have them
-      if(phase.requireLandmarks&&!lastLandmarks){
-        // Coach the user based on how long they've been stuck
-        if(elapsed2>1000&&elapsed2<1500){
-          document.getElementById('sst').textContent=isFace?'Move your face into frame':'Step into frame';
-        }else if(elapsed2>3000&&elapsed2<3500){
-          document.getElementById('sst').textContent=isFace?'Try better lighting — face a window':'Make sure full body is visible';
-          speak(isFace?'Try moving to better light':'Make sure your full body is in frame');
-        }else if(elapsed2>6000&&elapsed2<6500){
-          document.getElementById('sst').textContent='Hold phone steady, look directly at camera';
-          speak('Hold your phone steady and look directly at the camera');
-        }else if(elapsed2>9000&&elapsed2<9500){
-          // After 9s give up waiting and proceed anyway
-          document.getElementById('sst').textContent='Proceeding with available data';
-          break;
-        }
-        await new Promise(r=>setTimeout(r,200));
-        continue;
-      }
-
-      // Update progress
-      const totalElapsed=elapsed+(Date.now()-phaseStart);
-      const pct=Math.min(100,(totalElapsed/totalDur*100));
+      // Progress = data collected / data needed
+      const pct=Math.min(100,(totalGoodFrames/NEEDED)*100);
       document.getElementById('spf').style.width=pct+'%';
 
-      // Collect measurements if landmarks available
-      if(lastLandmarks){
-        const m=isFace?computeFaceMeasurements(lastLandmarks):computeBodyMeasurements(lastLandmarks);
-        if(m){
-          allMeasurements.push(m);
-          frameCount++;
+      // Confidence
+      confidence=Math.min(99,Math.round(pct*0.9+(allMeas.length>10?10:allMeas.length)));
+      document.getElementById('sconff').style.width=confidence+'%';
+      document.getElementById('sconfp').textContent=Math.round(confidence)+'%';
+      document.getElementById('sconff').style.background=confidence>70?'var(--sig)':confidence>40?'var(--amber)':'var(--red)';
 
-          // Check measurement stabilization
-          if(prevMeas){
-            const keys=Object.keys(m);
-            let totalDiff=0;
-            keys.forEach(k=>{const diff=Math.abs(parseFloat(m[k])-parseFloat(prevMeas[k]));if(!isNaN(diff))totalDiff+=diff;});
-            const avgDiff=totalDiff/keys.length;
-            if(avgDiff<0.05)stableCount++;else stableCount=Math.max(0,stableCount-1);
-          }
-          prevMeas=m;
-
-          // Update confidence based on stability + frame count
-          confidence=Math.min(99,Math.round((stableCount/10)*40+(frameCount/20)*30+(allMeasurements.length>5?30:allMeasurements.length*6)));
-          document.getElementById('sconff').style.width=confidence+'%';
-          document.getElementById('sconfp').textContent=confidence+'%';
-          document.getElementById('sconff').style.background=confidence>70?'var(--sig)':confidence>40?'var(--amber)':'var(--red)';
-
-          // Show face lock indicator
-          const flock=document.getElementById('sflock');
-          if(confidence>20){flock.classList.add('show');document.getElementById('sflocklbl').textContent=isFace?'Face Locked':'Body Tracked';}
-
-          // Show live measurements on screen
-          if(phase.meas&&isFace){
-            const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2'),m3=document.getElementById('smeas3');
-            if(phase.meas[0]&&m[phase.meas[0]]){m1.textContent=`${phase.meas[0]}: ${m[phase.meas[0]]}`;m1.classList.add('show');}
-            if(phase.meas[1]&&m[phase.meas[1]]){m2.textContent=`${phase.meas[1]}: ${m[phase.meas[1]]}`;m2.classList.add('show');}
-          }else if(phase.meas&&!isFace){
-            const m1=document.getElementById('smeas1');
-            if(phase.meas[0]&&m[phase.meas[0]]){m1.textContent=`${phase.meas[0]}: ${m[phase.meas[0]]}`;m1.classList.add('show');}
-          }
-        }
-      }else{
-        // No landmarks — show warning for body detect phase
-        if(phase.id==='detect'){
-          document.getElementById('sflock').classList.remove('show');
-        }
+      // Face/body lock indicator
+      if(totalGoodFrames>3){
+        document.getElementById('sflock').classList.add('show');
+        document.getElementById('sflocklbl').textContent=isFace?'478 Landmarks Locked':'33 Points Tracked';
       }
 
-      // Capture high-quality frame on capture phases
-      if(phase.capture&&frameCount>0&&Date.now()-phaseStart>phaseDur*0.6&&bestFrames.length<(isFace?4:3)){
-        // Only capture if we haven't captured this phase yet
-        if(!phase._captured){
-          phase._captured=true;
-          const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
-          try{navigator.vibrate(25)}catch{}
-          playShutter();
-          const cap=document.createElement('canvas');
-          const vw=v.videoWidth||640,vh=v.videoHeight||480;
-          const scale=Math.min(1,1024/Math.max(vw,vh));
-          cap.width=Math.round(vw*scale);cap.height=Math.round(vh*scale);
-          const capCtx=cap.getContext('2d');
-          if(ST.facing==='user'){capCtx.translate(cap.width,0);capCtx.scale(-1,1);}
-          capCtx.drawImage(v,0,0,cap.width,cap.height);
-          bestFrames.push(cap.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,',''));
-        }
+      // Update phase dots
+      const pi=Math.min(phases.length-1,Math.floor(pct/100*phases.length));
+      phases.forEach((_,i)=>{
+        const el=document.getElementById('sph'+i);if(!el)return;
+        if(i<pi){el.classList.remove('active');el.classList.add('done');}
+        else if(i===pi){el.classList.add('active');el.classList.remove('done');}
+        else{el.classList.remove('active','done');}
+      });
+
+      // Update oval text and main label
+      if(ft&&ovalTxts[pi])ft.textContent=ovalTxts[pi];
+      document.getElementById('svt').textContent=phases[pi]?phases[pi].toUpperCase():'SCANNING';
+
+      // Live measurement readouts
+      if(m&&isFace){
+        const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2'),m3=document.getElementById('smeas3');
+        if(m.jawAngle){m1.textContent=`Jaw: ${m.jawAngle}°`;m1.classList.add('show');}
+        if(m.symmetryRatio){m2.textContent=`Sym: ${m.symmetryRatio}`;m2.classList.add('show');}
+        if(m.canthalTiltL){m3.textContent=`CT: ${m.canthalTiltL}`;m3.classList.add('show');}
+      }else if(m&&isBody){
+        const m1=document.getElementById('smeas1'),m2=document.getElementById('smeas2');
+        if(m.shoulderToHipRatio){m1.textContent=`S:H ${m.shoulderToHipRatio}`;m1.classList.add('show');}
+        if(m.postureAngle){m2.textContent=`Post: ${m.postureAngle}°`;m2.classList.add('show');}
       }
 
-      // Wait before next iteration
-      if(phase.waitTurn&&frameCount===0){
-        // Wait for significant movement before proceeding
-        await new Promise(r=>setTimeout(r,200));
-      }else{
-        await new Promise(r=>setTimeout(r,150));
+      // Right-side indicator pills (every ~15 frames)
+      if(m&&totalGoodFrames%15===0){
+        const sind=document.getElementById('sind');
+        const keys=Object.keys(m);const key=keys[Math.floor(Math.random()*keys.length)];
+        const pill=document.createElement('div');pill.className='sip';
+        pill.innerHTML=`<div class="sipd"></div>${key}: ${m[key]}`;
+        sind.appendChild(pill);setTimeout(()=>pill.classList.add('in'),50);
+        while(sind.children.length>3)sind.removeChild(sind.firstChild);
       }
+
+      // Capture ONE reference photo at 50% for Claude (skin, hair, vibe)
+      if(!refPhoto&&pct>50){
+        const cap=document.createElement('canvas');
+        const vw=v.videoWidth||640,vh=v.videoHeight||480;
+        const sc=Math.min(1,1024/Math.max(vw,vh));
+        cap.width=Math.round(vw*sc);cap.height=Math.round(vh*sc);
+        const cx=cap.getContext('2d');
+        if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+        cx.drawImage(v,0,0,cap.width,cap.height);
+        refPhoto=cap.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,','');
+        const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
+        try{navigator.vibrate(25);}catch{}playShutter();
+      }
+
+      // Voice milestones
+      if(totalGoodFrames===5)speak(isFace?'Face locked. Scanning.':'Body locked. Analyzing.');
+      if(totalGoodFrames===Math.floor(NEEDED*0.5))speak('Halfway. Keep holding still.');
+      if(totalGoodFrames===Math.floor(NEEDED*0.85))speak('Almost done.');
+
+      // COMPLETE
+      if(totalGoodFrames>=NEEDED){
+        // Capture final reference photo
+        const cap2=document.createElement('canvas');
+        const vw2=v.videoWidth||640,vh2=v.videoHeight||480;
+        const sc2=Math.min(1,1024/Math.max(vw2,vh2));
+        cap2.width=Math.round(vw2*sc2);cap2.height=Math.round(vh2*sc2);
+        const cx2=cap2.getContext('2d');
+        if(ST.facing==='user'){cx2.translate(cap2.width,0);cx2.scale(-1,1);}
+        cx2.drawImage(v,0,0,cap2.width,cap2.height);
+        const photo2=cap2.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,','');
+        if(refPhoto)ST.caps.push({type:isFace?'face':'body',b64:refPhoto});
+        ST.caps.push({type:isFace?'face':'body',b64:photo2});
+        const fl=document.getElementById('sfl');fl.classList.add('go');setTimeout(()=>fl.classList.remove('go'),100);
+        try{navigator.vibrate(80);}catch{}playShutter();
+        speak('Scan complete.');
+        break;
+      }
+
+    }else{
+      // ═══ NO LANDMARKS — coach user, progress frozen ═══
+      noDetectStreak++;
+      if(noDetectStreak===10)document.getElementById('sst').textContent=isFace?'Position face in the oval':'Step into frame — full body';
+      if(noDetectStreak===40){speak(isFace?'Move closer and look at the camera.':'Make sure your full body is visible.');document.getElementById('sst').textContent=isFace?'Move closer — look at camera':'Full body must be visible';}
+      if(noDetectStreak===80){speak('Try better lighting. Face a window.');document.getElementById('sst').textContent='Try better lighting';}
+      if(noDetectStreak===200){
+        // 10s no detection — take fallback photo and proceed
+        speak('Limited detection. Taking reference photo.');
+        const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
+        const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+        cx.drawImage(v,0,0);
+        ST.caps.push({type:isFace?'face':'body',b64:cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,','')});
+        break;
+      }
+      document.getElementById('sflock').classList.remove('show');
     }
-
-    // Mark phase complete
-    if(!phase.isSetup&&nonSetupIdx>0){
-      const phEl=document.getElementById('sph'+(nonSetupIdx-1));
-      if(phEl){phEl.classList.remove('active');phEl.classList.add('done');}
-    }
-
-    // Clear measurement readouts between phases
-    ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
-
-    // Also capture a frame after non-capture phases (for diversity)
-    if(!phase.capture&&!phase.isSetup&&phase.id!=='detect'&&phase.id!=='compute'&&bestFrames.length<(isFace?4:3)){
-      const cap=document.createElement('canvas');
-      const vw=v.videoWidth||640,vh=v.videoHeight||480;
-      const scale=Math.min(1,1024/Math.max(vw,vh));
-      cap.width=Math.round(vw*scale);cap.height=Math.round(vh*scale);
-      const capCtx=cap.getContext('2d');
-      if(ST.facing==='user'){capCtx.translate(cap.width,0);capCtx.scale(-1,1);}
-      capCtx.drawImage(v,0,0,cap.width,cap.height);
-      bestFrames.push(cap.toDataURL('image/jpeg',0.88).replace('data:image/jpeg;base64,',''));
-    }
-
-    // Show indicator pill
-    const pill=document.createElement('div');
-    pill.className='sip';pill.innerHTML=`<div class="sipd"></div>${phase.label} ✓`;
-    const sind=document.getElementById('sind');
-    sind.appendChild(pill);setTimeout(()=>pill.classList.add('in'),50);
-    while(sind.children.length>4)sind.removeChild(sind.firstChild);
-
-    await new Promise(r=>setTimeout(r,200));
+    await new Promise(r=>setTimeout(r,50)); // ~20fps loop
   }
 
   if(ST.aborted||ST.token!==myTk)return;
 
-  // ═══ QUALITY COACHING — Always proceed, but inform user ═══
-  const hasLandmarks=allMeasurements.length>=3;
-
-  if(!hasLandmarks&&ST.mlReady){
-    // No landmarks detected at all — still proceed with photos only
-    speak('Limited data captured. Results may be less precise. For best results, try better lighting next time.');
-    document.getElementById('svt').textContent='PROCESSING';
-    document.getElementById('sst').textContent='Limited data — proceeding with photo analysis';
-    await new Promise(r=>setTimeout(r,2000));
-  }else if(confidence<40&&ST.mlReady){
-    speak('Scan captured. For even better results next time, try natural lighting near a window.');
-    await new Promise(r=>setTimeout(r,1500));
-  }
-
-  // Brightness coaching
-  const v2=document.getElementById('svid');
-  if(v2&&v2.readyState>=2){
-    const testCap=document.createElement('canvas');testCap.width=64;testCap.height=48;
-    testCap.getContext('2d').drawImage(v2,0,0,64,48);
-    const brightness=getFrameBrightness(testCap);
-    if(brightness<25){
-      document.getElementById('sst').textContent='Tip: better lighting = better scores';
-      await new Promise(r=>setTimeout(r,1000));
-    }
-  }
-
-  // Clean up UI
+  // Clean up
   document.getElementById('sconf').classList.remove('show');
   document.getElementById('sflock').classList.remove('show');
   document.getElementById('sphase').innerHTML='';
+  document.getElementById('sind').innerHTML='';
+  document.getElementById('foval').style.display='none';
+  ['smeas1','smeas2','smeas3'].forEach(id=>document.getElementById(id).classList.remove('show'));
   document.getElementById('spf').style.width='100%';
 
-  // Average measurements
-  const avgMeasurements=allMeasurements.length>0?avgMeas(allMeasurements):null;
-
-  // Ensure we have at least 1 frame
-  if(bestFrames.length===0){
+  // Fallback: ensure at least one photo
+  if(ST.caps.filter(c=>c.type===(isFace?'face':'body')).length===0){
     const cap=document.createElement('canvas');cap.width=v.videoWidth||640;cap.height=v.videoHeight||480;
-    const ctx2=cap.getContext('2d');if(ST.facing==='user'){ctx2.translate(cap.width,0);ctx2.scale(-1,1);}
-    ctx2.drawImage(v,0,0);bestFrames.push(cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,',''));
+    const cx=cap.getContext('2d');if(ST.facing==='user'){cx.translate(cap.width,0);cx.scale(-1,1);}
+    cx.drawImage(v,0,0);
+    ST.caps.push({type:isFace?'face':'body',b64:cap.toDataURL('image/jpeg',0.85).replace('data:image/jpeg;base64,','')});
   }
 
-  // Store captures
-  const type=isFace?'face':'body';
-  bestFrames.forEach(b64=>ST.caps.push({type,b64}));
+  const avgMeasurements=allMeas.length>0?avgMeas(allMeas):null;
+  ST.measurements=avgMeasurements;
 
-  // Combo: face done, now body
-  if(mode==='combo'&&type==='face'){
-    speak('Face scan complete. Now set up for body scan.');
+  // Combo: face done → body
+  if(mode==='combo'&&isFace){
+    speak('Face scan complete. Set up for body scan.');
     document.getElementById('svt').textContent='FACE COMPLETE';
     document.getElementById('sst').textContent='Setting up body scan…';
-    document.getElementById('sind').innerHTML='';
     document.getElementById('sbdd').style.background='var(--green)';
     document.getElementById('sbdl').textContent='FULL SCAN — BODY';
-    document.getElementById('spf').style.background='var(--green)';
     document.getElementById('spf').style.width='0%';
     btn.textContent='SCAN BODY';btn.className='sbtn g';
     stopOverlay();
@@ -1168,27 +1068,17 @@ async function startCapture(){
     const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280},height:{ideal:720}}});
     ST.stream=stream;const vid=document.getElementById('svid');vid.srcObject=stream;vid.style.transform='scaleX(1)';await vid.play();
     if(ST.mlReady&&poseLandmarker)startLiveOverlay('body');
-    // Reset phase captures for body
-    BODY_PHASES.forEach(p=>p._captured=false);
     return;
   }
 
-  // Done — send to worker
-  FACE_PHASES.forEach(p=>p._captured=false);
-  BODY_PHASES.forEach(p=>p._captured=false);
   stopOverlay();
-  ST.measurements=avgMeasurements; // Store for results display
   sendToWorker(avgMeasurements);
 }
 
 function avgMeas(arr){
   if(!arr.length)return null;
-  const keys=Object.keys(arr[0]);
-  const avg={};
-  keys.forEach(k=>{
-    const vals=arr.map(m=>parseFloat(m[k])).filter(v=>!isNaN(v));
-    avg[k]=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(3):'N/A';
-  });
+  const keys=Object.keys(arr[0]);const avg={};
+  keys.forEach(k=>{const vals=arr.map(m=>parseFloat(m[k])).filter(v=>!isNaN(v));avg[k]=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(3):'N/A';});
   return avg;
 }
 
@@ -1388,12 +1278,7 @@ function flipCam(){
 function abort(){ST.aborted=true;ST.token++;stopOverlay();
   if(ST.stream){ST.stream.getTracks().forEach(t=>t.stop());ST.stream=null;}
   try{window.speechSynthesis?.cancel();}catch{}
-  // Fix #7: Reset phase capture flags
-  FACE_PHASES.forEach(p=>p._captured=false);
-  BODY_PHASES.forEach(p=>p._captured=false);
-  // Fix #6: Clear canvas
-  const c=document.getElementById('scanc');if(c){const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);}
-  // Fix #1: Clear accumulated captures
+  // Clear captures
   ST.caps=[];
 }
 
@@ -1436,6 +1321,9 @@ function buildTiers(){
 window.addEventListener('load',()=>{updHome();buildTiers();show('home');});
 document.querySelectorAll('.modal').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
 window.addEventListener('resize',()=>{const c=document.getElementById('scanc');if(c){c.width=window.innerWidth;c.height=window.innerHeight;}});
+
+// Expose functions to onclick handlers (required for type=module)
+Object.assign(window,{go,goHome,show,abort,flipCam,startCapture,showFullResults,genShare,natShare,openLB,openLBSub,fLB,subLB,cMod,toast,hPh});
 </script>
 </body>
 </html>
