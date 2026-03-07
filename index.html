@@ -444,19 +444,19 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
 <div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET MAXX</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
-I'm Maxx, your AI biometric scanner. I use computer vision to map your face and body in real-time, then score your attractiveness on a 1-10 scale using real measurement data.<br><br>
-Here's what happens when you scan:
+I'm Maxx. I scan your face and body and tell you exactly how attractive you are on a scale of 1 to 10. No opinions. No feelings. Just math and AI.<br><br>
+Here's how it works in plain English:
 </div>
 </div>
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--blue)">1</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--blue)">BIOMETRIC CAPTURE</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px"><b style="color:var(--sig)">Face:</b> 478 landmarks are tracked in real-time using MediaPipe AI. That green mesh you see? Each point is a precise coordinate on your face. I guide you through 8 poses — front, profiles, smile, chin angles — to map your complete facial geometry.<br><b style="color:var(--sig)">Body:</b> 33 pose landmarks track your skeleton. I draw a full wireframe mesh over your body, measure shoulder-to-hip ratio live on screen, and capture your physique from multiple angles.</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--blue)">1</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--blue)">THE SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your phone camera lights up 478 invisible points on your face. Think of it like a super detailed connect-the-dots. Maxx guides you through poses to measure every angle. For body scans it tracks 33 points on your skeleton.</div></div></div>
 
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--amber)">2</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--amber)">MATHEMATICAL ANALYSIS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">From those landmarks, I compute objective measurements: jaw angle in degrees, canthal tilt, bilateral symmetry ratio, facial thirds proportions, shoulder-to-hip ratio, posture angle. These aren't opinions — they're math. Hundreds of measurements averaged across every pose with outlier filtering.</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--amber)">2</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--amber)">THE MATH</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Those dots get turned into real measurements. How wide your jaw is. How symmetrical your face is. Your shoulder to waist ratio. Hundreds of readings averaged together. This is real math, not a guess.</div></div></div>
 
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,108,247,.15);border:1px solid rgba(139,108,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:#8b6cf7">3</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:#8b6cf7">AI VISION SCORING</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your measurements + reference photos are sent to an AI vision model. It scores 10 face traits and 9 body traits individually, then computes a weighted composite. The AI is calibrated to a realistic bell curve — 5.50 is average, most men score 5-7. It specifically looks for jawline definition, vascularity, muscle separation, symmetry, and overall dating appeal.</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,108,247,.15);border:1px solid rgba(139,108,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:#8b6cf7">3</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:#8b6cf7">THE AI</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your measurements plus photos go to an AI trained on what makes faces and bodies attractive. It scores you on 10 face traits or 9 body traits. Each one gets its own score. Think of it like having a brutally honest friend who happens to be a scientist.</div></div></div>
 
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--gold)">4</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--gold)">YOUR RESULTS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">You get a detailed trait-by-trait breakdown with individual scores and AI insights, your raw biometric measurements, a composite score, and a tier ranking from SUBHUMAN to GIGACHAD. Share your score card, compete on the global leaderboard, or use the insights to actually improve — the AI tells you exactly what to work on.</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--gold)">4</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--gold)">YOUR LOOKSMAXX SCORE™</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">All your trait scores get combined using our proprietary algorithm into one number: your LooksMaxx Score™. The only score in the world that combines real-time biometric measurements with AI vision analysis. Plus you get a personalized dashboard showing exactly what to improve and how.</div></div></div>
 </div>
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px">
@@ -550,37 +550,37 @@ const LS = {
 const FT = [
   { m: 9, l: 'GIGACHAD', c: '#FFD700' },
   { m: 8, l: 'CHAD', c: '#22d45a' },
-  { m: 7, l: 'HIGH VALUE', c: '#4f8ef7' },
+  { m: 7, l: 'MAIN CHARACTER', c: '#4f8ef7' },
   { m: 6, l: 'ABOVE AVG', c: '#8b6cf7' },
-  { m: 5, l: 'AVERAGE', c: '#9090b0' },
-  { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
-  { m: 0, l: 'SUBHUMAN', c: '#f05252' },
+  { m: 5, l: 'MID', c: '#9090b0' },
+  { m: 3.5, l: 'DOWN BAD', c: '#f5a623' },
+  { m: 0, l: 'UNINSTALL', c: '#f05252' },
 ];
 const BT = [
-  { m: 9, l: 'FRAMEMOGGER', c: '#FFD700' },
+  { m: 9, l: 'GREEK GOD', c: '#FFD700' },
   { m: 8, l: 'AESTHETIC', c: '#22d45a' },
-  { m: 7, l: 'ATHLETIC', c: '#4f8ef7' },
-  { m: 6, l: 'FIT', c: '#8b6cf7' },
-  { m: 5, l: 'AVERAGE', c: '#9090b0' },
-  { m: 3.5, l: 'UNDERTRAINED', c: '#f5a623' },
-  { m: 0, l: 'UNTRAINED SLOB', c: '#f05252' },
+  { m: 7, l: 'BUILT DIFFERENT', c: '#4f8ef7' },
+  { m: 6, l: 'GYM BRO', c: '#8b6cf7' },
+  { m: 5, l: 'SKINNY FAT', c: '#9090b0' },
+  { m: 3.5, l: 'SKIPPED EVERYTHING', c: '#f5a623' },
+  { m: 0, l: 'COUCH POTATO', c: '#f05252' },
 ];
 const FTF = [
-  { m: 9, l: 'IT GIRL', c: '#FFD700' },
+  { m: 9, l: 'THAT GIRL', c: '#FFD700' },
   { m: 8, l: 'BADDIE', c: '#e06090' },
-  { m: 7, l: 'FINE', c: '#4f8ef7' },
+  { m: 7, l: 'MAIN CHARACTER', c: '#4f8ef7' },
   { m: 6, l: 'CUTE', c: '#8b6cf7' },
   { m: 5, l: 'MID', c: '#9090b0' },
-  { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
+  { m: 3.5, l: 'PICK ME', c: '#f5a623' },
   { m: 0, l: 'NPC', c: '#f05252' },
 ];
 const BTF = [
   { m: 9, l: 'GODDESS', c: '#FFD700' },
-  { m: 8, l: 'BADDIE', c: '#e06090' },
-  { m: 7, l: 'SNATCHED', c: '#4f8ef7' },
+  { m: 8, l: 'SNATCHED', c: '#e06090' },
+  { m: 7, l: 'THAT GIRL', c: '#4f8ef7' },
   { m: 6, l: 'FIT', c: '#8b6cf7' },
   { m: 5, l: 'MID', c: '#9090b0' },
-  { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
+  { m: 3.5, l: 'NEEDS WORK', c: '#f5a623' },
   { m: 0, l: 'NPC', c: '#f05252' },
 ];
 const tier = (s, isBody = false) => {
@@ -1475,8 +1475,8 @@ async function startCapture() {
   // ═══ GENDER DETECTION PHASE (face scans only, first 4 seconds) ═══
   if (isFace && !detectedGender) {
     $('svt').textContent = 'ANALYZING';
-    $('sst').textContent = 'Identifying subject…';
-    speak("Hey. I'm Maxx. Hold still for a second.");
+    $('sst').textContent = 'Reading your face…';
+    speak("Hey I'm Maxx. Hold still one sec let me figure out what I'm working with.");
     const detectStart = Date.now();
     let genderVotes = [];
     while (Date.now() - detectStart < 3500 && !ST.aborted) {
@@ -1503,7 +1503,7 @@ async function startCapture() {
     scanEl.style.boxShadow = `inset 0 0 120px ${genderColor}60`;
     $('svt').textContent = isFem ? '♀ FEMALE DETECTED' : '♂ MALE DETECTED';
     $('svt').style.color = genderColor;
-    $('sst').textContent = isFem ? 'Calibrating for female traits' : 'Calibrating for male traits';
+    $('sst').textContent = isFem ? 'Loading female scan protocol' : 'Loading male scan protocol';
     try { navigator.vibrate([40, 20, 60]); } catch {}
     safeOsc(isFem ? 700 : 500, 'sine', 0.2, 0.12, 0.001);
     await sleep(2000);
@@ -1519,89 +1519,88 @@ async function startCapture() {
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "Mapping 478 landmarks now. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "Alright let's do this. I'm lighting up 478 points on your face right now. Pretty cool right? Don't move.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', status: 'Jawline scan',
-      voice: "Turn left. I need your jaw profile.", dur: 6000, needsLM: true, minFrames: 18,
+    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Jawline check',
+      voice: "Turn left for me. I'm checking out that jawline. This is the number one thing people notice.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', status: 'Symmetry check',
-      voice: "Other side. Checking symmetry.", dur: 6000, needsLM: true, minFrames: 18,
+    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry',
+      voice: "Other way. I'm comparing both sides to see how symmetrical you are. Nobody's perfect but let's find out.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Measuring thirds',
-      voice: "Chin up slightly.", dur: 5000, needsLM: true, minFrames: 14,
+    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Proportions',
+      voice: "Chin up a little. I'm dividing your face into thirds. The more even they are the higher you score.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Expression check',
-      voice: "Now smile. A real one.", dur: 5000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'Primary capture',
-      voice: "Drop the smile. Neutral face. Eyes on me.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Smile check',
+      voice: "Give me a smile. Not a fake one. Like you just got a compliment.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'The big one',
+      voice: "OK drop the smile. Look right at me. This is the big one.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Final scan',
-      voice: "Done. Locking in your data.", dur: 3000, needsLM: true, minFrames: 15 },
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Wrapping up',
+      voice: "And that's a wrap. Let's see what the AI thinks.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const facePosesFemale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "Mapping your facial structure. Stay still for me.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "OK I've got 478 points lit up on your face. I'm measuring everything. Cheekbones, eyes, lips, the works. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Bone structure',
-      voice: "Turn left. Checking your cheekbone structure.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I'm looking at your cheekbone structure and how your features flow together.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry check',
-      voice: "Other side. Measuring symmetry.", dur: 6000, needsLM: true, minFrames: 18,
+    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry',
+      voice: "Other side. Checking symmetry. Fun fact, the most attractive faces are almost never perfectly symmetric.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Proportions',
-      voice: "Chin up a little.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up slightly. Measuring your facial proportions now.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE FOR ME', status: 'Smile check',
-      voice: "Give me your best smile.", dur: 5000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'Primary capture',
-      voice: "Neutral face now. Look right at me.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Smile check',
+      voice: "OK now give me that smile. The one you use for selfies.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'The big one',
+      voice: "Neutral face. Look right at me. This is the shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Final scan',
-      voice: "Got it. Data locked.", dur: 3000, needsLM: true, minFrames: 15 },
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Wrapping up',
+      voice: "Done. Let's see what the AI has to say.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const bodyIntroMale = mode === 'body'
-    ? "Hey, I'm Maxx. Time for your body scan. Step back about four feet. Full body in frame. Shirtless works best."
-    : "Body scan. Step back about four feet. Full body in frame.";
+    ? "Hey I'm Maxx. Let's scan that physique. Step back about four feet. I need head to toe. Shirtless if you're brave enough."
+    : "Body time. Step back about four feet. Full body in frame.";
   const bodyIntroFemale = mode === 'body'
-    ? "Hey, I'm Maxx. Let's scan your physique. Step back about four feet. Full body in frame."
-    : "Body scan. Step back so I can see you head to toe.";
+    ? "Hey I'm Maxx. Let's scan your physique. Step back about four feet. Full body in frame."
+    : "Body scan time. Step back so I can see all of you.";
 
   const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntroMale, dur: 8000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "Stand tall. Feet shoulder width.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "There you are. Stand tall.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FRAME SCAN', status: 'Measuring V-taper',
-      voice: "Arms out slightly. Measuring your frame.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio. This is the V-taper. Bigger number means more athletic looking.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
     { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Arms down. Stand natural.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+      voice: "Arms down. Relax. I need to see the real you not the flexed you.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
       meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
     { id: 'approach', label: 'WALK UP', status: 'Get close',
-      voice: "Walk toward the camera. Get about two feet away.", dur: 6000, needsLM: false, capture: true },
-    { id: 'flex', label: 'BEAST MODE', status: 'Flex and hold',
-      voice: "Flex your bicep. Hold it. Three. Two. One.", dur: 5000, needsLM: false, capture: true, beastMode: true },
+      voice: "Walk toward me. Get close. Like two feet away.", dur: 6000, needsLM: false, capture: true },
+    { id: 'flex', label: 'BEAST MODE', status: 'Flex it',
+      voice: "Now flex that bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Got everything. Sending to the AI.", dur: 2000, minFrames: 0 },
+      voice: "Solid. Let's see what the AI says about this physique.", dur: 2000, minFrames: 0 },
   ];
 
   const bodyPosesFemale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntroFemale, dur: 8000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "Stand tall. Feet together.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "I see you. Stand tall.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
-      voice: "Hands on hips. I'm measuring your proportions and waist to hip ratio.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Hands on your hips. I'm measuring your proportions, your waist to hip ratio, all of it. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
-    { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Arms down. Stand natural.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
-      meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
-    { id: 'pose', label: 'STRIKE A POSE', status: 'Your best angle',
-      voice: "Walk toward the camera a little. Now give me your best pose. Own it.", dur: 7000, needsLM: false, capture: true, beastMode: true },
+    { id: 'spin', label: 'SLOW SPIN', status: '360 view',
+      voice: "Now do a slow spin for me. All the way around. Take your time I'm capturing everything.", dur: 10000, needsLM: false, capture: true },
+    { id: 'pose', label: 'YOUR BEST', status: 'Strike a pose',
+      voice: "Face me again. Now give me your best pose. This is your moment. Own it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Love it. Sending to the AI.", dur: 2000, minFrames: 0 },
+      voice: "Love it. Sending everything to the AI.", dur: 2000, minFrames: 0 },
   ];
 
   const poses = isFace
@@ -1637,7 +1636,7 @@ async function startCapture() {
   await sleep(3000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
-  const confirms = ['Good.', 'Captured.', 'Got it.', 'Clean read.', 'Solid data.', 'Logged.'];
+  const confirms = ['Nice.', 'Got that.', 'Clean.', 'Perfect.', 'Locked in.', 'Easy money.'];
   let confirmIdx = 0;
 
   // ═══ POSE LOOP ═══
@@ -1826,7 +1825,7 @@ async function startCapture() {
     }
 
     // Visual confirmation between poses
-    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
+    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','spin','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
       const ft2 = $('foval-txt');
       if (ft2 && isFace) ft2.textContent = '✓ CAPTURED';
       $('svt').textContent = '✓';
@@ -1837,7 +1836,7 @@ async function startCapture() {
       playConfirmDing();
       // Special hype confirmation after money/beast moments
       if (pose.beastMode) {
-        speak("Noted. Strong contraction.");
+        speak(isFem ? "Yep. That's the one." : "Oh yeah. That's what I'm talking about.");
       } else if (pose.moneyShot) {
         // Money shot already handled speech during the pose
         playWhoosh();
@@ -1857,7 +1856,7 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
-  speak(isFace ? "Face scan locked. Good data. Let me process this." : "Body scan complete. All measurements captured. Running analysis now.");
+  speak(isFace ? "Face scan done. Good stuff." : "Body scan done. Let me crunch these numbers.");
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -1894,7 +1893,7 @@ async function startCapture() {
 
   // Combo mode: face done → transition to body
   if (mode === 'combo' && isFace) {
-    speak("Face data locked. Switching to body scan now.");
+    speak("Face is locked in. Now let me see that body.");
     $('svt').textContent = 'FACE ✓';
     $('svt').style.color = 'var(--blue)';
     const measCount = ST.faceMeas.length;
@@ -2146,11 +2145,25 @@ function showReveal(data) {
 
   bg.style.background = `radial-gradient(circle at 50% 50%,${t.c}20,transparent 70%)`;
 
-  // Tension build (starts after gender flash)
-  setTimeout(() => playTension(), 800);
-  setTimeout(() => { bg.style.opacity = '1'; }, 1000);
+  // Sentimental message — fades in after gender flash, before score
+  const msgs = [
+    "Remember — real beauty starts from within.\nNo number defines your worth.",
+    "This is just data, not your story.\nYou are more than any score.",
+    "Confidence is the most attractive trait\nthere is. And that can't be measured.",
+    "Whatever this number says,\nyou can always level up. Always.",
+  ];
+  const sentMsg = document.createElement('div');
+  sentMsg.style.cssText = 'position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);text-align:center;font-family:var(--mf);font-size:13px;color:rgba(255,255,255,.7);line-height:2;letter-spacing:.03em;white-space:pre-line;opacity:0;transition:opacity .8s;z-index:5;max-width:280px';
+  sentMsg.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  revealEl.appendChild(sentMsg);
+  setTimeout(() => { sentMsg.style.opacity = '1'; }, 1400);
+  setTimeout(() => { sentMsg.style.opacity = '0'; setTimeout(() => sentMsg.remove(), 600); }, 3800);
 
-  // Score slam at 2.5s (after gender flash fades)
+  // Tension build
+  setTimeout(() => playTension(), 1800);
+  setTimeout(() => { bg.style.opacity = '1'; }, 2000);
+
+  // Score slam at 4.5s (after sentimental message fades)
   setTimeout(() => {
     const el = $('rvsc'); el.textContent = score.toFixed(2); el.style.color = t.c; el.classList.add('in');
     playRevealImpact();
@@ -2158,16 +2171,16 @@ function showReveal(data) {
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
     const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
-    if (score >= 8.5) speak(`${scoreText}. Exceptional. Top five percent.`);
-    else if (score >= 7.5) speak(`${scoreText}. Impressive. Well above average.`);
-    else if (score >= 6.5) speak(`${scoreText}. Above average. Solid.`);
-    else if (score >= 5.5) speak(`${scoreText}. Average range. Room to improve.`);
-    else if (score >= 4.5) speak(`${scoreText}. Below average. Check the breakdown for what to work on.`);
-    else speak(`${scoreText}. Check the breakdown. The insights will tell you where to focus.`);
-  }, 2500);
+    if (score >= 8.5) speak(`${scoreText}. OK wow. You're actually in the top five percent. I almost never give scores this high. Congrats you won the genetic lottery.`);
+    else if (score >= 7.5) speak(`${scoreText}. Alright alright. That's a strong score. You're turning heads whether you know it or not.`);
+    else if (score >= 6.5) speak(`${scoreText}. Above average. Not bad at all. You've got things to work with.`);
+    else if (score >= 5.5) speak(`${scoreText}. That's average. Look, most people are average. The good news is the dashboard shows you exactly what to fix.`);
+    else if (score >= 4.5) speak(`${scoreText}. Below average. I'm not gonna sugarcoat it. But check the dashboard, there's a clear path up.`);
+    else speak(`${scoreText}. Oof. That's a tough one. Check the dashboard. Seriously. There's work to do but it's doable.`);
+  }, 4500);
 
-  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 3000);
-  setTimeout(() => { $('rvsub').classList.add('in'); }, 3800);
+  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 5000);
+  setTimeout(() => { $('rvsub').classList.add('in'); }, 5800);
 }
 
 // SCAN BEAM — horizontal line sweeps top to bottom like a sci-fi scanner
@@ -3211,7 +3224,7 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.05; u.pitch = 1.08; u.volume = 1;
+    u.rate = 1.1; u.pitch = 1.2; u.volume = 1;
     const voices = ss.getVoices();
     // Youthful male voice — energetic, not deep/old
     const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
@@ -3265,40 +3278,40 @@ function applyGenderTheme(g) {
 // ═══════════════════════════════════════════════════════════════
 function buildTiers() {
   const fd = {
-    GIGACHAD: 'Exceptional facial genetics. Strong jaw, hunter eyes, high cheekbones, near-perfect symmetry.',
-    CHAD: 'Genuinely attractive. Multiple elite features. Gets unsolicited compliments.',
-    'HIGH VALUE': 'Noticeably good looking. Clear strengths in bone structure. Girls look twice.',
-    'ABOVE AVG': 'Better than average. Some attractive features. Does reasonably well on apps.',
-    AVERAGE: 'Unremarkable either way. The score most men receive. Room for improvement.',
-    'BELOW AVG': 'Noticeable disadvantages. May benefit from getting lean, skincare, grooming.',
-    SUBHUMAN: 'Significant deficits across multiple traits. Lowest tier, rarely assigned.',
+    GIGACHAD: 'Top 2%. Walking around looking like a Greek statue. Genetic lottery winner.',
+    CHAD: 'Top 5-10%. Very good looking. Gets approached. Could model.',
+    'MAIN CHARACTER': 'Top 20%. The guy in the room people notice. Strong features.',
+    'ABOVE AVG': 'Better than most. Gets matches. Solid overall.',
+    MID: 'Average. Nothing wrong nothing special. Most of this is fixable.',
+    'DOWN BAD': 'Below average. Multiple areas need work. Check the dashboard.',
+    UNINSTALL: 'Tough score. But there is always a path up. Check the improvement plan.',
   };
   const bd = {
-    FRAMEMOGGER: 'Elite physique. Outstanding V-taper, visible muscle separation, low body fat.',
-    AESTHETIC: 'Impressive build. Clear muscle development with good leanness.',
-    ATHLETIC: 'Clearly trains and it shows. Above average muscularity and frame.',
-    FIT: 'Above the average untrained male. Some gym work visible.',
-    AVERAGE: 'Normal, untrained male physique. Significant room for improvement.',
-    UNDERTRAINED: 'Below average development. Training and nutrition would help.',
-    'UNTRAINED SLOB': 'Significant deficits in muscle, leanness, or both.',
+    'GREEK GOD': 'Elite physique. V-taper, definition, the works. Train for a living type.',
+    AESTHETIC: 'Impressive build. Clear muscle, low body fat. Gym is paying off.',
+    'BUILT DIFFERENT': 'Clearly trains. People can tell you work out.',
+    'GYM BRO': 'Goes to the gym and it shows. Decent foundation.',
+    'SKINNY FAT': 'Average untrained body. The starting line.',
+    'SKIPPED EVERYTHING': 'Below average. Needs a gym membership and a meal plan.',
+    'COUCH POTATO': 'Bottom tier. The only direction is up.',
   };
   const fdf = {
-    'IT GIRL': 'Top 2%. The kind of beauty that stops rooms. Rare genetics + perfect grooming.',
-    BADDIE: 'Top 5-10%. Extremely attractive. Gets DMs from strangers. Could model.',
-    FINE: 'Top 20%. Very pretty. Gets noticed. Strong features with good harmony.',
-    CUTE: 'Above average. Pleasant features, good symmetry. Gets compliments.',
-    MID: 'Average range. Nothing wrong, nothing standout. Room to glow up.',
-    'BELOW AVG': 'Below average. Some areas to improve with skincare, styling.',
-    NPC: 'Significant deficits. Lowest tier.',
+    'THAT GIRL': 'Top 2%. The kind of pretty that stops rooms. Rare genetics.',
+    BADDIE: 'Top 5-10%. Extremely attractive. Gets DMs from strangers.',
+    'MAIN CHARACTER': 'Top 20%. Gets noticed. Strong features with good harmony.',
+    CUTE: 'Above average. Good symmetry. Gets compliments.',
+    MID: 'Average. Nothing wrong nothing standout. Room to glow up.',
+    'PICK ME': 'Below average. Some areas to improve.',
+    NPC: 'Tough score. Check the improvement plan.',
   };
   const bdf = {
-    GODDESS: 'Elite physique. Perfect proportions, visible tone, incredible figure.',
-    BADDIE: 'Head-turning body. Athletic with feminine curves. Gym + genetics.',
-    SNATCHED: 'Clearly fit and it shows. Great waist-to-hip ratio, visible tone.',
-    FIT: 'Above average. Some gym work visible. Good foundation.',
-    MID: 'Average, untrained. Significant room for improvement.',
-    'BELOW AVG': 'Below average development or conditioning.',
-    NPC: 'Significant deficits.',
+    GODDESS: 'Elite figure. Perfect proportions, visible tone. Head turning.',
+    SNATCHED: 'Head-turning body. Athletic with feminine curves.',
+    'THAT GIRL': 'Clearly fit. Great waist-to-hip ratio.',
+    FIT: 'Above average. Good foundation.',
+    MID: 'Average. Room for improvement.',
+    'NEEDS WORK': 'Below average conditioning.',
+    NPC: 'Starting point. Nowhere to go but up.',
   };
   const render = (id, tiers, descs) => {
     const el = $(id); if (!el) return;
