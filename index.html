@@ -299,10 +299,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="scan" class="scr">
 <video id="svid" autoplay playsinline muted></video>
 <canvas id="scanc"></canvas>
-<svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(75vw,300px);height:min(95vw,390px);z-index:4;pointer-events:none;display:none;overflow:visible" viewBox="0 0 260 340">
+<svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(75vw,300px);height:min(95vw,390px);z-index:4;pointer-events:none;display:none;overflow:visible;transition:transform .6s ease" viewBox="0 0 260 340">
   <defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22d45a" stop-opacity=".5"/><stop offset="50%" stop-color="#22d45a" stop-opacity=".2"/><stop offset="100%" stop-color="#22d45a" stop-opacity=".5"/></linearGradient></defs>
   <ellipse cx="130" cy="170" rx="110" ry="148" fill="none" stroke="url(#og)" stroke-width="2.5" stroke-dasharray="6 4"/>
-  <!-- Green target dot — standardizes where everyone looks -->
+  <!-- Green target dot -->
   <circle cx="130" cy="155" r="6" fill="#22d45a" opacity=".9">
     <animate attributeName="opacity" values=".9;.4;.9" dur="1.5s" repeatCount="indefinite"/>
   </circle>
@@ -312,6 +312,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   </circle>
   <text x="130" y="195" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="8" letter-spacing="1.5" opacity=".5">LOOK AT THE DOT</text>
   <text x="130" y="32" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2" opacity=".6" id="foval-txt">POSITION FACE IN OVAL</text>
+  <!-- Directional arrow — hidden by default, shown on left/right/up poses -->
+  <g id="foval-arrow" style="display:none;transition:opacity .3s">
+    <!-- Left arrow (← ) -->
+    <polygon id="farrow-left" points="15,170 40,150 40,190" fill="#22d45a" opacity=".6" style="display:none">
+      <animate attributeName="opacity" values=".6;.25;.6" dur="1s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Right arrow (→) -->
+    <polygon id="farrow-right" points="245,170 220,150 220,190" fill="#22d45a" opacity=".6" style="display:none">
+      <animate attributeName="opacity" values=".6;.25;.6" dur="1s" repeatCount="indefinite"/>
+    </polygon>
+    <!-- Up arrow (↑) -->
+    <polygon id="farrow-up" points="130,5 110,30 150,30" fill="#22d45a" opacity=".6" style="display:none">
+      <animate attributeName="opacity" values=".6;.25;.6" dur="1s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
 </svg>
 <!-- Body positioning guide — shown during body scans -->
 <svg id="bguide" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(40vw,180px);height:min(80vh,500px);z-index:3;pointer-events:none;display:none;overflow:visible;opacity:.25" viewBox="0 0 100 300">
@@ -340,12 +355,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
 </div>
 <div class="shud" id="shud">
-<div id="maxxSub" style="position:absolute;bottom:100%;left:0;right:0;padding:0 14px 8px;pointer-events:none;display:none">
-<div style="background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px">
-<div style="width:6px;height:6px;border-radius:50%;background:var(--sig);flex-shrink:0;animation:maxxPulse 1s infinite"></div>
-<div style="font-family:var(--mf);font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.02em;line-height:1.5" id="maxxSubText"></div>
-</div>
-</div>
 <div class="svt" id="svt">INITIALIZING</div>
 <div class="spb"><div class="spf" id="spf" style="background:var(--blue)"></div></div>
 <div class="sst" id="sst"></div>
@@ -1293,12 +1302,12 @@ function show(id) {
 function goHome() {
   abort();
   applyGenderTheme('male');
-  const sub = $('maxxSub');
-  if (sub) sub.style.display = 'none';
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
   $('foval').style.filter = '';
+  $('foval').style.transform = 'translate(-50%,-55%)';
+  const ag = $('foval-arrow'); if (ag) ag.style.display = 'none';
   $('bguide').style.display = 'none';
   $('sflock').classList.remove('show');
   $('sconf').classList.remove('show');
@@ -1677,46 +1686,46 @@ async function startCapture() {
 
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
-    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
+    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
       voice: "Alright let's do this. I can see you. Putting a ton of little dots on your face right now. Kind of like a blueprint. Don't move.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Jawline check',
+    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Jawline check',
       voice: "Turn left for me. I'm checking out that jawline. This is the number one thing people notice.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry',
+    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
       voice: "Other way. I'm comparing both sides to see how symmetrical you are. Nobody's perfect but let's find out.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Proportions',
+    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
       voice: "Chin up a little. I'm dividing your face into thirds. The more even they are the higher you score.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Smile check',
+    { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
       voice: "Give me a smile. Not a fake one. Like you just got a compliment.", dur: 5000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'The big one',
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
       voice: "OK drop the smile. Look right at me. This is the big one.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Wrapping up',
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
       voice: "And that's a wrap. Let's see what the AI thinks.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const facePosesFemale = [
-    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
+    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
       voice: "OK I can see you. Mapping your face right now. Eyes, cheekbones, jawline, all of it. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Bone structure',
+    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Bone structure',
       voice: "Turn left. I'm looking at your cheekbone structure and how your features flow together.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry',
+    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
       voice: "Other side. Checking symmetry. Fun fact, the most attractive faces are almost never perfectly symmetric.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Proportions',
+    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
       voice: "Chin up slightly. Measuring your facial proportions now.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Smile check',
+    { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
       voice: "OK now give me that smile. The one you use for selfies.", dur: 5000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'The big one',
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
       voice: "Neutral face. Look right at me. This is the shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Wrapping up',
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
       voice: "Done. Let's see what the AI has to say.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
@@ -1810,6 +1819,24 @@ async function startCapture() {
     $('sst').textContent = pose.status || '';
     const ft = $('foval-txt');
     if (ft && pose.oval) ft.textContent = pose.oval;
+
+    // Directional arrows on oval
+    if (isFace && pose.ovalDir) {
+      const arrowG = $('foval-arrow');
+      const aL = $('farrow-left'), aR = $('farrow-right'), aU = $('farrow-up');
+      if (arrowG) { arrowG.style.display = 'block'; }
+      if (aL) aL.style.display = pose.ovalDir === 'left' ? 'block' : 'none';
+      if (aR) aR.style.display = pose.ovalDir === 'right' ? 'block' : 'none';
+      if (aU) aU.style.display = pose.ovalDir === 'up' ? 'block' : 'none';
+      // Shift oval position to guide user
+      const ov = $('foval');
+      if (ov) {
+        if (pose.ovalDir === 'left') ov.style.transform = 'translate(-42%,-55%)';
+        else if (pose.ovalDir === 'right') ov.style.transform = 'translate(-58%,-55%)';
+        else if (pose.ovalDir === 'up') ov.style.transform = 'translate(-50%,-60%)';
+        else ov.style.transform = 'translate(-50%,-55%)';
+      }
+    }
     speak(pose.voice);
 
     // THE SHOT — countdown + scan beam before capture
@@ -1958,13 +1985,16 @@ async function startCapture() {
 
       } else if (!pose.isSetup) {
         noDetect++;
-        if (noDetect === 8) $('sst').textContent = isFace ? "Can't see you. Get in the oval." : "Lost tracking. Step into frame.";
-        if (noDetect === 30) {
-          speak(isFace ? "Move back into the oval." : "Step back so I can see you.");
+        if (noDetect === 5) $('sst').textContent = isFace ? "I lost you. Get back in the oval." : "Lost tracking. Step into frame.";
+        if (noDetect === 15) {
+          speak(isFace ? "I can't see your face. Move into the oval now." : "Step back so I can see your full body.");
           $('sst').textContent = 'Reacquiring…';
         }
-        if (noDetect === 60) $('sst').textContent = 'Tip: good lighting makes a huge difference.';
-        if (noDetect > 100 && (Date.now() - poseStart) > pose.dur) break;
+        if (noDetect === 35) {
+          speak(isFace ? "Still can't see you. Face the camera. Good lighting helps." : "Still lost. Make sure your whole body is visible.");
+          $('sst').textContent = 'Good lighting makes a huge difference.';
+        }
+        if (noDetect > 80 && (Date.now() - poseStart) > pose.dur) break;
         if (pose.needsLM !== false) $('sflock').classList.remove('show');
       }
 
@@ -2033,6 +2063,10 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
+  // Reset oval
+  $('foval').style.display = 'none';
+  $('foval').style.transform = 'translate(-50%,-55%)';
+  const arrowGrp = $('foval-arrow'); if (arrowGrp) arrowGrp.style.display = 'none';
   // Store scan quality grade
   const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
   ST.scanGrade = grade;
@@ -2310,7 +2344,6 @@ async function callAPI(mode, photos, meas) {
 // DRAMATIC REVEAL
 // ═══════════════════════════════════════════════════════════════
 function showReveal(data) {
-  const sub = $('maxxSub'); if (sub) sub.style.display = 'none';
   const score = getScore(data);
   const t = tier(score, ST.mode === 'body');
   const isFem = ST.gender === 'female';
@@ -3502,17 +3535,6 @@ function voiceSlug(text) {
 
 function speak(text) {
   if (!text) return;
-  // Show subtitle
-  const subEl = $('maxxSub');
-  const subText = $('maxxSubText');
-  if (subEl && subText) {
-    subEl.style.display = 'block';
-    subText.textContent = text;
-    const dur = Math.max(3000, text.length * 65);
-    clearTimeout(window._subTimer);
-    window._subTimer = setTimeout(() => { if (subEl) subEl.style.display = 'none'; }, dur);
-  }
-
   const slug = voiceSlug(text);
 
   // Try pre-recorded MP3 first
