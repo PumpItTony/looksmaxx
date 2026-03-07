@@ -259,6 +259,36 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </head>
 <body>
 
+<!-- ACCESS GATE — Remove this entire block when ready to go public -->
+<div id="accessGate" style="position:fixed;inset:0;background:var(--void);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px">
+<div style="font-family:var(--df);font-size:clamp(48px,14vw,72px);letter-spacing:.02em;line-height:.9;text-align:center"><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">LOOKS</span><br><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">MAXX</span></div>
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.14em">EARLY ACCESS · V4</div>
+<div style="margin-top:12px;width:100%;max-width:280px">
+<input type="text" id="accessCode" placeholder="Enter access code" style="width:100%;background:var(--surf);border:1px solid var(--brm);border-radius:10px;padding:14px;font-family:var(--mf);font-size:14px;color:var(--t1);text-align:center;letter-spacing:.2em;outline:none" autocomplete="off" autofocus>
+</div>
+<button onclick="checkAccess()" style="width:100%;max-width:280px;padding:14px;border-radius:12px;background:var(--blue);color:#fff;font-family:var(--bf);font-size:14px;font-weight:600;border:none;cursor:pointer">UNLOCK</button>
+<div id="accessErr" style="font-family:var(--mf);font-size:10px;color:var(--red);opacity:0;transition:opacity .3s">Invalid code</div>
+</div>
+<script>
+// ACCESS GATE — Change this code to whatever you want
+const ACCESS_CODE = 'FRESHFIT26';
+function checkAccess() {
+  const input = document.getElementById('accessCode').value.trim().toUpperCase();
+  if (input === ACCESS_CODE) {
+    localStorage.setItem('lm_access', 'granted');
+    document.getElementById('accessGate').style.display = 'none';
+  } else {
+    document.getElementById('accessErr').style.opacity = '1';
+    setTimeout(() => document.getElementById('accessErr').style.opacity = '0', 2000);
+  }
+}
+document.getElementById('accessCode').addEventListener('keydown', e => { if (e.key === 'Enter') checkAccess(); });
+// Auto-unlock if previously granted
+if (localStorage.getItem('lm_access') === 'granted') {
+  document.getElementById('accessGate').style.display = 'none';
+}
+</script>
+
 <!-- HOME -->
 <div id="home" class="scr on sb">
 <div class="ha"></div>
@@ -430,6 +460,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- LB -->
 <div id="lb" class="scr sb">
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">RANKINGS</div></div>
+<div class="lbf"><div class="lf on" id="lf-t-all" onclick="fLBt('all')">All Time</div><div class="lf" id="lf-t-week" onclick="fLBt('week')">This Week</div><div class="lf" id="lf-t-today" onclick="fLBt('today')">Today</div></div>
 <div class="lbf"><div class="lf on" id="lf-all" onclick="fLB('all')">All</div><div class="lf" id="lf-male" onclick="fLB('male')">♂ Male</div><div class="lf" id="lf-female" onclick="fLB('female')">♀ Female</div><div class="lf" id="lf-face" onclick="fLB('face')">Face</div><div class="lf" id="lf-frame" onclick="fLB('frame')">Frame</div></div>
 <div class="pod" id="pod"></div>
 <div class="pfl" id="pfl" style="display:none"></div>
@@ -511,14 +542,14 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- SCORE DISPLAY -->
 <div style="text-align:center;padding:0 14px;flex-shrink:0">
 <div style="display:flex;justify-content:center;gap:16px;margin-bottom:4px">
-  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">FACE</div><div style="font-family:var(--df);font-size:20px;transition:color .2s" id="tFaceName">GIGACHAD</div></div>
+  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">FACE</div><div style="font-family:var(--df);font-size:20px;transition:color .2s" id="tFaceName">GOD TIER</div></div>
   <div style="width:1px;background:var(--brd)"></div>
   <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">BODY</div><div style="font-family:var(--df);font-size:20px;transition:color .2s" id="tBodyName">GREEK GOD</div></div>
 </div>
 <div style="text-align:center;margin-bottom:6px">
   <div style="font-family:var(--mf);font-size:7px;letter-spacing:.15em;color:var(--t4)">COMBINED LOOKSMAXX TIER</div>
-  <div style="font-family:var(--df);font-size:26px;letter-spacing:.08em;transition:color .2s" id="tComboName">GIGACHAD</div>
-  <div style="font-family:var(--mf);font-size:9px;color:var(--t3)" id="tComboScore">9.00+</div>
+  <div style="font-family:var(--df);font-size:26px;letter-spacing:.08em;transition:color .2s" id="tComboName">GOD TIER</div>
+  <div style="font-family:var(--mf);font-size:9px;color:var(--t3)" id="tComboScore">8.50+</div>
 </div>
 <div style="font-size:11px;color:var(--t2);line-height:1.5;min-height:32px;transition:opacity .2s" id="tierDescDisplay"></div>
 </div>
@@ -714,40 +745,32 @@ const LS = {
 // TIER SYSTEM
 // ═══════════════════════════════════════════════════════════════
 const FT = [
-  { m: 9, l: 'GIGACHAD', c: '#FFD700' },
-  { m: 8, l: 'CHAD', c: '#22d45a' },
-  { m: 7, l: 'MAIN CHARACTER', c: '#4f8ef7' },
-  { m: 6, l: 'ABOVE AVG', c: '#8b6cf7' },
-  { m: 5, l: 'MID', c: '#9090b0' },
-  { m: 3.5, l: 'DOWN BAD', c: '#f5a623' },
-  { m: 0, l: 'UNINSTALL', c: '#f05252' },
+  { m: 8.5, l: 'GOD TIER', c: '#FFD700' },
+  { m: 7, l: 'MAIN CHARACTER', c: '#22d45a' },
+  { m: 5, l: 'AVERAGE JOE', c: '#9090b0' },
+  { m: 3.5, l: 'HARD TIMES', c: '#f5a623' },
+  { m: 0, l: "IT'S OVER", c: '#f05252' },
 ];
 const BT = [
-  { m: 9, l: 'GREEK GOD', c: '#FFD700' },
-  { m: 8, l: 'AESTHETIC', c: '#22d45a' },
-  { m: 7, l: 'BUILT DIFFERENT', c: '#4f8ef7' },
-  { m: 6, l: 'GYM BRO', c: '#8b6cf7' },
-  { m: 5, l: 'SKINNY FAT', c: '#9090b0' },
-  { m: 3.5, l: 'SKIPPED EVERYTHING', c: '#f5a623' },
-  { m: 0, l: 'COUCH POTATO', c: '#f05252' },
+  { m: 8.5, l: 'GREEK GOD', c: '#FFD700' },
+  { m: 7, l: 'PRO ATHLETE', c: '#22d45a' },
+  { m: 5, l: 'AVERAGE JOE', c: '#9090b0' },
+  { m: 3.5, l: 'HOLDING ON', c: '#f5a623' },
+  { m: 0, l: 'WASTE OF ABILITY', c: '#f05252' },
 ];
 const FTF = [
-  { m: 9, l: 'THAT GIRL', c: '#FFD700' },
-  { m: 8, l: 'BADDIE', c: '#e06090' },
-  { m: 7, l: 'MAIN CHARACTER', c: '#4f8ef7' },
-  { m: 6, l: 'CUTE', c: '#8b6cf7' },
-  { m: 5, l: 'MID', c: '#9090b0' },
-  { m: 3.5, l: 'PICK ME', c: '#f5a623' },
-  { m: 0, l: 'NPC', c: '#f05252' },
+  { m: 8.5, l: 'GODDESS', c: '#FFD700' },
+  { m: 7, l: 'BADDIE', c: '#e06090' },
+  { m: 5, l: 'GIRL NEXT DOOR', c: '#9090b0' },
+  { m: 3.5, l: 'HARD TIMES', c: '#f5a623' },
+  { m: 0, l: "IT'S OVER", c: '#f05252' },
 ];
 const BTF = [
-  { m: 9, l: 'GODDESS', c: '#FFD700' },
-  { m: 8, l: 'SNATCHED', c: '#e06090' },
-  { m: 7, l: 'THAT GIRL', c: '#4f8ef7' },
-  { m: 6, l: 'FIT', c: '#8b6cf7' },
-  { m: 5, l: 'MID', c: '#9090b0' },
-  { m: 3.5, l: 'NEEDS WORK', c: '#f5a623' },
-  { m: 0, l: 'NPC', c: '#f05252' },
+  { m: 8.5, l: 'SHOW STOPPER', c: '#FFD700' },
+  { m: 7, l: 'THAT GIRL', c: '#e06090' },
+  { m: 5, l: 'AVERAGE', c: '#9090b0' },
+  { m: 3.5, l: 'HOLDING ON', c: '#f5a623' },
+  { m: 0, l: 'WASTE OF ABILITY', c: '#f05252' },
 ];
 const tier = (s, isBody = false) => {
   const f = ST.gender === 'female';
@@ -773,6 +796,7 @@ let ST = {
   bodyMeas: [],       // body measurements array (per-pose)
   lbPh: null,         // leaderboard photo data URL
   lbFil: 'all',       // leaderboard filter
+  lbTime: 'all',      // leaderboard time window: 'all' | 'week' | 'today'
   mlReady: false,     // ML models loaded
   gender: null,       // Set by AI from scan results
 };
@@ -1312,6 +1336,7 @@ function goHome() {
   $('sflock').classList.remove('show');
   $('sconf').classList.remove('show');
   $('svt').classList.remove('big');
+  $('svt').style.fontSize = ''; // Defensive reset from countdown
   $('sst').classList.remove('big');
   document.querySelector('.spb')?.classList.remove('big');
   $('svt').style.color = ''; // Reset from money shot gold / combo blue
@@ -1402,6 +1427,7 @@ function go(mode) {
   $('sbtn').textContent = 'SCAN';
   $('sbtn').style.display = '';
   $('svt').textContent = 'INITIALIZING';
+  $('svt').style.fontSize = ''; // Defensive reset from countdown 72px
   $('sst').textContent = '';
   $('sind').innerHTML = '';
   $('swarn').classList.remove('show');
@@ -1467,7 +1493,8 @@ async function initScan(mode) {
     await sleep(400);
 
     $('sload').classList.add('hide');
-    // Check lighting quality
+    // Check lighting quality — Maxx warns vocally if bad
+    let lightQuality = 'good';
     try {
       const tempC = document.createElement('canvas');
       tempC.width = 64; tempC.height = 48;
@@ -1476,7 +1503,14 @@ async function initScan(mode) {
       let brightness = 0;
       for (let i = 0; i < imgData.length; i += 16) brightness += imgData[i] * 0.299 + imgData[i+1] * 0.587 + imgData[i+2] * 0.114;
       brightness /= (imgData.length / 16);
-      if (brightness < 50) showWarn('Low light detected — move closer to a window for better results');
+      if (brightness < 35) {
+        lightQuality = 'bad';
+        showWarn('Very low light — your score will be affected. Move to a brighter spot.');
+        speak("Heads up. Your lighting is really low right now. If you can move closer to a window or turn on a light, your score will be way more accurate.");
+      } else if (brightness < 55) {
+        lightQuality = 'low';
+        showWarn('Low light detected — a brighter spot will improve your score');
+      }
     } catch {}
     $('svt').textContent = mode === 'body' ? 'FULL BODY IN FRAME' : 'POSITION YOUR FACE IN FRAME';
     $('sst').textContent = mlOk ? 'Waiting for detection…' : 'Camera ready — tap to scan';
@@ -1644,7 +1678,7 @@ async function startCapture() {
   if (isFace && !detectedGender) {
     $('svt').textContent = 'ANALYZING';
     $('sst').textContent = 'Reading your face…';
-    speak("Hey. I'm Maxx. See that green dot? Look right at it and hold still for me.");
+    speak("Hey. I'm Maxx. See that green dot? Look right at it and hold still. Good lighting makes a big difference so make sure your face is well lit.");
     const detectStart = Date.now();
     let genderVotes = [];
     while (Date.now() - detectStart < 3500 && !ST.aborted) {
@@ -1687,90 +1721,95 @@ async function startCapture() {
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "Alright let's do this. I can see you. Putting a ton of little dots on your face right now. Kind of like a blueprint. Don't move.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Jawline check',
-      voice: "Turn left for me. I'm checking out that jawline. This is the number one thing people notice.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I'm checking your jawline. Gonial angle, forward growth, the whole lower third. This carries heavy weight.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other way. I'm comparing both sides to see how symmetrical you are. Nobody's perfect but let's find out.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Other way. I'm comparing both sides now. Symmetry ratio is one of the biggest factors in your score.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up a little. I'm dividing your face into thirds. The more even they are the higher you score.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up. I'm measuring your facial thirds right now. Forehead, midface, lower third. The more balanced the better.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
     { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "Give me a smile. Not a fake one. Like you just got a compliment.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "Give me a real smile. Not a forced one. Think of something funny.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "OK drop the smile. Look right at me. This is the big one.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      voice: "Drop the smile. Neutral face. Look right at me. This is the money shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "And that's a wrap. Let's see what the AI thinks.", dur: 3000, needsLM: true, minFrames: 15 },
+      voice: "Got it. Sending everything to the AI.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const facePosesFemale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "OK I can see you. Mapping your face right now. Eyes, cheekbones, jawline, all of it. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Bone structure',
-      voice: "Turn left. I'm looking at your cheekbone structure and how your features flow together.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I'm looking at your cheekbone projection and how your jawline flows. This is important.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other side. Checking symmetry. Fun fact, the most attractive faces are almost never perfectly symmetric.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Other side. Comparing both sides for symmetry. Nobody's perfectly even but the closer the better.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up slightly. Measuring your facial proportions now.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up slightly. Measuring your facial proportions. The balance between your forehead, midface, and chin.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
     { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "OK now give me that smile. The one you use for selfies.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "Now give me that smile. A real one. The one you use when you see your best friend.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "Neutral face. Look right at me. This is the shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      voice: "Neutral face now. Look right at me. This is the shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "Done. Let's see what the AI has to say.", dur: 3000, needsLM: true, minFrames: 15 },
+      voice: "Done. Sending it all to the AI.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const bodyIntroMale = mode === 'body'
-    ? "Hey I'm Maxx. Body scan time. Prop your phone at chest height against something. Like a book on a shelf works great. Step back about four feet so I can see all of you."
-    : "Body scan. Prop your phone at chest height against something. Step back about four feet.";
+    ? "Hey I'm Maxx. Body scan. Here's what I need. Prop your phone at chest height. A shelf, a stack of books, lean it against something. Step back about four feet. And make sure there's good light on you. Natural light from a window is best."
+    : "Body scan time. Prop your phone at chest height against something stable. Step back four feet. Good lighting matters.";
   const bodyIntroFemale = mode === 'body'
-    ? "Hey I'm Maxx. Let's do this. Prop your phone at chest height, like lean it against something on a shelf. Step back about four feet."
-    : "Body scan. Prop your phone at chest height. Step back so I can see all of you.";
+    ? "Hey I'm Maxx. Let's do this. Prop your phone at chest height. Like lean it against something on a shelf or a counter. Step back about four feet. Good lighting will make a big difference."
+    : "Body scan. Prop your phone at chest height, step back about four feet. Good lighting helps.";
 
   const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntroMale, dur: 9000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "There you are. Stand up straight for me.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "There you are. Stand up straight. Arms relaxed at your sides.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FRAME SCAN', status: 'Measuring your build',
-      voice: "Arms out a little. I'm seeing how wide your shoulders are compared to your waist. This is what people notice first.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
+    { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
+      voice: "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.", dur: 6000, needsLM: true, minFrames: 15, capture: true,
+      meas: ['postureAngle'] },
     { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Do a slow spin. All the way around. I'm getting every angle.", dur: 9000, needsLM: false, capture: true },
-    { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Face me. Arms down. Just stand normal. I need the unflexed version of you.", dur: 5000, needsLM: true, minFrames: 12, capture: true,
-      meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
-    { id: 'approach', label: 'WALK UP', status: 'Get close',
-      voice: "Walk toward me. Get close. Like two feet away.", dur: 5000, needsLM: false, capture: true },
+      voice: "Now do a slow spin. All the way around. Take your time. I'm getting every angle.", dur: 9000, needsLM: false, capture: true },
+    { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
+      voice: "Face me. Hit me with your best pose. Whatever you got. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
     { id: 'flex', label: 'BEAST MODE', status: 'Show me what you got',
-      voice: "Now flex. Bicep. Hard as you can. Hold it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
+      voice: "Now get close. Flex that bicep. Hard as you can. Hold it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "That's it. Let's see what the AI thinks.", dur: 2000, minFrames: 0 },
+      voice: "That's it. Sending everything to the AI now.", dur: 2000, minFrames: 0 },
   ];
 
   const bodyPosesFemale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntroFemale, dur: 9000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "I see you. Stand tall for me.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "I see you. Stand tall. Shoulders back.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
-      voice: "Hands on your hips. I'm looking at your proportions and your waist to hip ratio. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
+    { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
+      voice: "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.", dur: 6000, needsLM: true, minFrames: 15, capture: true,
+      meas: ['postureAngle'] },
     { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 10000, needsLM: false, capture: true },
+      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 9000, needsLM: false, capture: true },
+    { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
+      voice: "Face me. Hit me with your best pose. Whatever feels right. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
     { id: 'runway', label: 'RUNWAY', status: 'Work it',
-      voice: "Now walk toward the camera like it's a runway. Give me your best strut.", dur: 7000, needsLM: false, capture: true, beastMode: true },
+      voice: "Now walk toward the camera. Like it's a runway. Give me your best strut.", dur: 7000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Yes. Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
+      voice: "Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
   ];
 
   const poses = isFace
@@ -1806,7 +1845,9 @@ async function startCapture() {
   await sleep(3000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
-  const confirms = ['Nice.', 'Got that.', 'Clean.', 'Perfect.', 'Locked in.', 'Easy money.'];
+  const confirms = isFem
+    ? ['Beautiful.', 'Got that.', 'Perfect.', 'Love it.', 'Good.', 'Gorgeous.']
+    : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
   let confirmIdx = 0;
 
   // ═══ POSE LOOP ═══
@@ -1839,6 +1880,25 @@ async function startCapture() {
     }
     speak(pose.voice);
 
+    // GLOW CHECK — female smile pose gets sparkle effect + pink glow
+    if (pose.id === 'smile' && isFem) {
+      ensureAudioPlaying();
+      await sleep(2500); // Let them settle into the smile
+      if (!ST.aborted) {
+        const scanEl = $('scan');
+        const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 180);
+        scanEl.style.boxShadow = 'inset 0 0 80px rgba(224,96,144,.3)';
+        scanEl.style.transition = 'box-shadow 0.3s';
+        spawnSparkleRain();
+        safeOsc(880, 'sine', 0.06, 0.15, 0.001);
+        safeOsc(1109, 'sine', 0.04, 0.12, 0.002); // major third for sparkle
+        $('svt').textContent = 'GLOW CHECK ✨';
+        $('svt').style.color = '#e06090';
+        try { navigator.vibrate([40, 20, 40]); } catch {}
+        setTimeout(() => { scanEl.style.boxShadow = ''; $('svt').style.color = ''; }, 3000);
+      }
+    }
+
     // THE SHOT — countdown + scan beam before capture
     if (pose.moneyShot && pose.hasCountdown) {
       ensureAudioPlaying();
@@ -1864,6 +1924,29 @@ async function startCapture() {
         scanEl.style.boxShadow = 'inset 0 0 60px rgba(34,212,90,.3)';
         setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1200);
         setTimeout(() => { scanEl.style.boxShadow = ''; $('svt').style.color = ''; }, 4000);
+      }
+    }
+
+    // SIGNATURE POSE — 3-2-1 countdown with flash for "your best pose" moment
+    if (pose.id === 'signature' && pose.hasCountdown) {
+      ensureAudioPlaying();
+      for (let cd = 3; cd >= 1; cd--) {
+        if (ST.aborted) break;
+        $('svt').textContent = cd.toString();
+        $('svt').style.fontSize = '72px';
+        safeOsc(cd === 1 ? 880 : 660, 'sine', 0.12, 0.15, 0.001);
+        try { navigator.vibrate(30); } catch {}
+        await sleep(900);
+      }
+      $('svt').style.fontSize = '';
+      if (!ST.aborted) {
+        $('svt').textContent = 'CAPTURED';
+        $('svt').style.color = 'var(--sig)';
+        const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 200);
+        safeOsc(1200, 'sine', 0.08, 0.06, 0.001); // shutter click
+        speak(isFem ? "Love that energy. Got it." : "That's the one. Locked in.");
+        try { navigator.vibrate([60, 30, 100]); } catch {}
+        setTimeout(() => { $('svt').style.color = ''; }, 1500);
       }
     }
 
@@ -1965,6 +2048,8 @@ async function startCapture() {
           if ((pose.id === 'side' || pose.id === 'sideback') && lastLandmarks[11] && lastLandmarks[12]) {
             if (Math.abs(lastLandmarks[11].x - lastLandmarks[12].x) < 0.05) {
               $('sst').textContent = 'Turn more — show your side profile';
+            } else if (Math.abs(lastLandmarks[11].x - lastLandmarks[12].x) > 0.03) {
+              $('sst').textContent = 'Good angle. Hold that.';
             }
           }
           if (pose.id === 'flex' && lastLandmarks[15] && lastLandmarks[13]) {
@@ -1985,14 +2070,14 @@ async function startCapture() {
 
       } else if (!pose.isSetup) {
         noDetect++;
-        if (noDetect === 5) $('sst').textContent = isFace ? "I lost you. Get back in the oval." : "Lost tracking. Step into frame.";
+        if (noDetect === 5) $('sst').textContent = isFace ? "I lost you. Get back in the oval." : "Lost tracking. Make sure your full body is visible.";
         if (noDetect === 15) {
-          speak(isFace ? "I can't see your face. Move into the oval now." : "Step back so I can see your full body.");
+          speak(isFace ? "I can't see your face. Move into the oval and check your lighting." : "I lost you. Step back further and make sure there's light on you.");
           $('sst').textContent = 'Reacquiring…';
         }
         if (noDetect === 35) {
-          speak(isFace ? "Still can't see you. Face the camera. Good lighting helps." : "Still lost. Make sure your whole body is visible.");
-          $('sst').textContent = 'Good lighting makes a huge difference.';
+          speak(isFace ? "Still can't see you. Face the camera straight on. Natural light from a window helps a lot." : "Still lost. You might be too close or your lighting might be too low. Step back and try near a window.");
+          $('sst').textContent = 'Better lighting = better tracking';
         }
         if (noDetect > 80 && (Date.now() - poseStart) > pose.dur) break;
         if (pose.needsLM !== false) $('sflock').classList.remove('show');
@@ -2032,7 +2117,7 @@ async function startCapture() {
     }
 
     // Visual confirmation between poses
-    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','spin','runway','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
+    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','signature','pose','spin','runway','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
       const ft2 = $('foval-txt');
       if (ft2 && isFace) ft2.textContent = '✓ CAPTURED';
       $('svt').textContent = '✓';
@@ -2043,7 +2128,7 @@ async function startCapture() {
       playConfirmDing();
       // Special hype confirmation after money/beast moments
       if (pose.beastMode) {
-        speak(isFem ? "Yep. That's the one." : "Oh yeah. That's what I'm talking about.");
+        speak(isFem ? "Yes. That was it. The AI is going to love that." : "Oh yeah. That's what I'm talking about.");
       } else if (pose.moneyShot) {
         // Money shot already handled speech during the pose
         playWhoosh();
@@ -2070,7 +2155,9 @@ async function startCapture() {
   // Store scan quality grade
   const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
   ST.scanGrade = grade;
-  speak(isFace ? "Face scan done. I got everything I need." : "Body scan done. Processing your data now.");
+  speak(isFace
+    ? (isFem ? "Face scan complete. The AI is going to love this data." : "Face scan complete. Got everything I need.")
+    : (isFem ? "Body scan complete. Sending your data to the AI now." : "Body scan complete. Processing your data now."));
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -2094,9 +2181,18 @@ async function startCapture() {
     try { photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE)); } catch {}
   }
 
-  // Store captures (max photos for cost control: 2 face, 3 body)
-  const maxPhotos = isBody ? 3 : 2;
-  const best = photos.length <= maxPhotos ? photos : [photos[0], photos[Math.floor(photos.length/2)], photos[photos.length-1]].slice(0, maxPhotos);
+  // Store captures (max photos for cost control: 2 face, 4 body — keeps front, signature, flex)
+  const maxPhotos = isBody ? 4 : 2;
+  let best;
+  if (photos.length <= maxPhotos) {
+    best = photos;
+  } else if (isBody && photos.length >= 3) {
+    // Smart selection: first (frame scan), second (spin/natural), second-to-last (signature), last (flex/runway)
+    const picks = [0, 1, photos.length - 2, photos.length - 1];
+    best = [...new Set(picks)].sort((a, b) => a - b).slice(0, maxPhotos).map(i => photos[i]);
+  } else {
+    best = [photos[0], photos[photos.length - 1]].slice(0, maxPhotos);
+  }
   if (isFace) {
     ST.faceCaps = best;
     ST.faceMeas = allMeas;
@@ -2265,6 +2361,7 @@ async function sendToWorker() {
       bodyTraits: bR.bodyTraits || [],
       insights: [fR.insights, bR.insights].filter(Boolean).join(' '),
       gender: fR.gender || bR.gender || 'male',
+      estimatedAge: fR.estimatedAge || bR.estimatedAge || null,
     };
     ST.gender = merged.gender;
     applyGenderTheme(ST.gender);
@@ -2369,12 +2466,19 @@ function showReveal(data) {
   bg.style.background = `radial-gradient(circle at 50% 50%,${t.c}20,transparent 70%)`;
 
   // Sentimental message — fades in after gender flash, before score
-  const msgs = [
-    "Remember — real beauty starts from within.\nNo number defines your worth.",
-    "This is just data, not your story.\nYou are more than any score.",
-    "Confidence is the most attractive trait\nthere is. And that can't be measured.",
-    "Whatever this number says,\nyou can always level up. Always.",
+  const maleMessages = [
+    "This is just a number.\nWhat you do with it is what matters.",
+    "The scan sees your face.\nIt doesn't see your potential.",
+    "Every score is a snapshot.\nNot a verdict. Not a ceiling.",
+    "No algorithm knows your full story.\nBut the data doesn't lie either.",
   ];
+  const femaleMessages = [
+    "This is data, not a definition.\nYou're more than any number.",
+    "Beauty has a thousand forms.\nThis measures one of them.",
+    "Every face tells a story.\nThe score is just one chapter.",
+    "The algorithm sees structure.\nIt can't see what makes you, you.",
+  ];
+  const msgs = isFem ? femaleMessages : maleMessages;
   const sentMsg = document.createElement('div');
   sentMsg.style.cssText = 'position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);text-align:center;font-family:var(--mf);font-size:13px;color:rgba(255,255,255,.7);line-height:2;letter-spacing:.03em;white-space:pre-line;opacity:0;transition:opacity .8s;z-index:5;max-width:280px';
   sentMsg.textContent = msgs[Math.floor(Math.random() * msgs.length)];
@@ -2394,12 +2498,19 @@ function showReveal(data) {
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
     const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
-    if (score >= 8.5) speak(`${scoreText}. OK wow. You're actually in the top five percent. I almost never give scores this high. Congrats you won the genetic lottery.`);
-    else if (score >= 7.5) speak(`${scoreText}. Alright alright. That's a strong score. You're turning heads whether you know it or not.`);
-    else if (score >= 6.5) speak(`${scoreText}. Above average. Not bad at all. You've got things to work with.`);
-    else if (score >= 5.5) speak(`${scoreText}. That's average. Look, most people are average. The good news is the dashboard shows you exactly what to fix.`);
-    else if (score >= 4.5) speak(`${scoreText}. Below average. I'm not gonna sugarcoat it. But check the dashboard, there's a clear path up.`);
-    else speak(`${scoreText}. Oof. That's a tough one. Check the dashboard. Seriously. There's work to do but it's doable.`);
+    if (isFem) {
+      if (score >= 8.5) speak(`${scoreText}. OK wow. You are stunning. Top two or three percent. The AI almost never gives scores this high.`);
+      else if (score >= 7.0) speak(`${scoreText}. That's a really strong score. You've got features that stand out. The breakdown shows you exactly where.`);
+      else if (score >= 5.0) speak(`${scoreText}. That's about average. Most people are. The dashboard has your glow up plan. There's easy wins in there.`);
+      else if (score >= 3.5) speak(`${scoreText}. That's a tough one. But the dashboard shows you exactly what to work on. Small changes add up.`);
+      else speak(`${scoreText}. The algorithm went there. Check the dashboard though. Seriously. There's a path forward.`);
+    } else {
+      if (score >= 8.5) speak(`${scoreText}. Hold on. That's elite. You're in the top two or three percent of people I've ever scanned. The genetic lottery came through.`);
+      else if (score >= 7.0) speak(`${scoreText}. That's a strong score. You're clearly above average. People notice you when you walk into a room.`);
+      else if (score >= 5.0) speak(`${scoreText}. That's average. Most people on the planet are right here. Good news is the dashboard shows you exactly where to level up.`);
+      else if (score >= 3.5) speak(`${scoreText}. I'm not gonna lie to you. That's below average. But the dashboard has your game plan. Stick with it.`);
+      else speak(`${scoreText}. Yeah. The algorithm said what it said. Look, check the dashboard. There's work to do but everybody starts somewhere.`);
+    }
   }, 4500);
 
   setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 5000);
@@ -2558,7 +2669,10 @@ function spawnConfetti(color) {
   $('reveal').appendChild(cvs);
   const pctx = cvs.getContext('2d');
   const particles = [];
-  const colors = [color, '#fff', '#22d45a', '#4f8ef7', '#FFD700', '#f5a623'];
+  const isFemConf = ST.gender === 'female';
+  const colors = isFemConf
+    ? [color, '#fff', '#e06090', '#d64f8a', '#FFD700', '#ff85b2']
+    : [color, '#fff', '#22d45a', '#4f8ef7', '#FFD700', '#f5a623'];
   for (let i = 0; i < 60; i++) {
     particles.push({
       x: cvs.width / 2, y: cvs.height / 2,
@@ -2674,9 +2788,11 @@ function showResults(data) {
     }).join('');
   } else { measWrap.style.display = 'none'; }
 
-  if (data.estimatedAge || data.estimatedHeight) {
-    const profile = [data.estimatedAge ? `Age: ${data.estimatedAge}` : '', data.estimatedEthnicity || '', data.estimatedHeight ? `Height: ${data.estimatedHeight}` : '', data.estimatedWeight || '', data.estimatedBF ? `BF: ${data.estimatedBF}` : ''].filter(Boolean).join(' · ');
-    if (profile) $('rde').textContent = profile;
+  if (data.estimatedAge) {
+    const ageTag = document.createElement('div');
+    ageTag.style.cssText = 'font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:4px;letter-spacing:.04em';
+    ageTag.textContent = `Est. age: ${data.estimatedAge}`;
+    rde.appendChild(ageTag);
   }
 
   show('results');
@@ -2701,29 +2817,48 @@ function openDashboard() {
   const bottom3 = sorted.slice(-3).reverse();
   const genderColor = isFem ? '#e06090' : '#4f8ef7';
 
-  // Build improvement suggestions based on weak traits
+  // Build improvement suggestions based on weak traits (gender-aware)
   const suggestions = bottom3.map(tr => {
     const n = tr.name.toLowerCase();
-    if (n.includes('skin')) return { area: tr.name, tip: 'Start a consistent AM/PM skincare routine: cleanser, moisturizer, SPF. Consider retinol for texture.', icon: '🧴' };
-    if (n.includes('hair')) return { area: tr.name, tip: 'Find a good barber/stylist who understands face shape. Quality haircut is the fastest upgrade.', icon: '✂️' };
-    if (n.includes('posture')) return { area: tr.name, tip: 'Do face pulls, wall slides, and thoracic spine extensions daily. 5 min/day changes everything in 30 days.', icon: '🧘' };
-    if (n.includes('jaw') || n.includes('lower third')) return { area: tr.name, tip: 'Lose body fat to reveal jaw definition. Mewing and proper tongue posture can help over time.', icon: '💪' };
-    if (n.includes('body fat') || n.includes('lean')) return { area: tr.name, tip: 'Caloric deficit with high protein (1g/lb bodyweight). Prioritize weight training over cardio.', icon: '🥩' };
-    if (n.includes('muscle') || n.includes('chest') || n.includes('arm') || n.includes('tone')) return { area: tr.name, tip: 'Progressive overload 3-4x/week. Compound lifts: bench, squat, deadlift, OHP. Eat in a slight surplus.', icon: '🏋️' };
-    if (n.includes('shoulder') || n.includes('frame') || n.includes('v-taper') || n.includes('waist')) return { area: tr.name, tip: 'Lateral raises, OHP, and pull-ups 3x/week to build shoulder width. Waist control through core work and diet.', icon: '📐' };
-    if (n.includes('symmetry')) return { area: tr.name, tip: 'Symmetry is mostly genetic but good sleep, hydration, and unilateral exercises can help balance.', icon: '⚖️' };
-    if (n.includes('proportion') || n.includes('figure')) return { area: tr.name, tip: 'Focus training on lagging body parts. Full body routines build the most balanced physique.', icon: '📏' };
-    if (n.includes('eye') || n.includes('lash')) return { area: tr.name, tip: 'Good sleep, hydration, and under-eye care. Brow grooming frames the eyes.', icon: '👁️' };
-    if (n.includes('lip') || n.includes('smile')) return { area: tr.name, tip: 'Stay hydrated, use lip balm, and practice smiling naturally in the mirror.', icon: '😊' };
-    if (n.includes('nose')) return { area: tr.name, tip: 'Nose is mostly genetic. Contouring makeup can adjust appearance. Overall facial harmony matters more than any single feature.', icon: '👃' };
-    return { area: tr.name, tip: `Focus on improving ${tr.name.toLowerCase()} through consistent effort and research.`, icon: '📈' };
+    if (isFem) {
+      // Female-specific advice
+      if (n.includes('skin')) return { area: tr.name, tip: 'Double cleanse at night, vitamin C serum in AM, SPF every day. A good retinol 2-3x/week transforms texture in 8 weeks.', icon: '✨' };
+      if (n.includes('hair')) return { area: tr.name, tip: 'A cut that frames your face shape is the fastest upgrade. Deep conditioning weekly. Volume at the roots makes a big difference.', icon: '💇' };
+      if (n.includes('posture')) return { area: tr.name, tip: 'Pilates and yoga are game changers for posture. Wall angels and thoracic extensions daily. 5 min/day, visible change in 3 weeks.', icon: '🧘' };
+      if (n.includes('jaw') || n.includes('bone') || n.includes('lower third')) return { area: tr.name, tip: 'Bone structure is mostly genetic. Contouring can sculpt cheekbones and jawline visually. Facial yoga may help tone over time.', icon: '💎' };
+      if (n.includes('body fat') || n.includes('lean')) return { area: tr.name, tip: 'Strength training 3x/week + walking daily. High protein diet. Pilates for core definition. Slow and consistent beats crash dieting every time.', icon: '🥗' };
+      if (n.includes('tone') || n.includes('arm') || n.includes('shoulder')) return { area: tr.name, tip: 'Light weights, high reps for tone. Pilates, barre, or resistance bands 3-4x/week. Focus on arms, shoulders, and back for that defined look.', icon: '💪' };
+      if (n.includes('waist') || n.includes('hip') || n.includes('figure')) return { area: tr.name, tip: 'Waist-to-hip ratio improves with glute work (hip thrusts, squats) and core training (planks, ab work). Diet matters for waist definition.', icon: '⌛' };
+      if (n.includes('symmetry')) return { area: tr.name, tip: 'Symmetry is mostly genetic. Good sleep, hydration, and even skincare application help. Makeup can balance asymmetries beautifully.', icon: '⚖️' };
+      if (n.includes('eye') || n.includes('lash')) return { area: tr.name, tip: 'Lash serums work. Brow shaping frames the eye area. Good sleep eliminates under-eye puffiness. Castor oil is a cheap natural option.', icon: '👁️' };
+      if (n.includes('lip') || n.includes('smile')) return { area: tr.name, tip: 'Lip care: exfoliate gently, hydrate with balm, and overlining slightly can enhance fullness. A genuine smile is universally the most attractive thing.', icon: '💋' };
+      if (n.includes('nose')) return { area: tr.name, tip: 'Nose shape is genetic. Contouring can reshape appearance significantly. Facial harmony matters more than any single feature.', icon: '✨' };
+      if (n.includes('femininity') || n.includes('vibe')) return { area: tr.name, tip: 'Femininity reads through grooming details: brows, lashes, skin glow, and how you carry yourself. Confidence and posture amplify everything.', icon: '🌸' };
+      if (n.includes('proportion') || n.includes('leg') || n.includes('glute')) return { area: tr.name, tip: 'Hip thrusts, Romanian deadlifts, and walking lunges 3x/week. Progressive overload builds shape. Glute growth takes 3-6 months of consistency.', icon: '🍑' };
+      return { area: tr.name, tip: `Focus on ${tr.name.toLowerCase()} through consistent routines. Small daily efforts compound.`, icon: '📈' };
+    } else {
+      // Male advice (existing)
+      if (n.includes('skin')) return { area: tr.name, tip: 'Start a consistent AM/PM skincare routine: cleanser, moisturizer, SPF. Consider retinol for texture.', icon: '🧴' };
+      if (n.includes('hair')) return { area: tr.name, tip: 'Find a good barber who understands face shape. A quality haircut is the fastest upgrade you can make.', icon: '✂️' };
+      if (n.includes('posture')) return { area: tr.name, tip: 'Do face pulls, wall slides, and thoracic spine extensions daily. 5 min/day changes everything in 30 days.', icon: '🧘' };
+      if (n.includes('jaw') || n.includes('lower third')) return { area: tr.name, tip: 'Lose body fat to reveal jaw definition. Proper tongue posture and chewing hard foods can help over time.', icon: '💪' };
+      if (n.includes('body fat') || n.includes('lean')) return { area: tr.name, tip: 'Caloric deficit with high protein. Prioritize weight training over cardio. Track your intake for real results.', icon: '🥩' };
+      if (n.includes('muscle') || n.includes('chest') || n.includes('arm') || n.includes('tone')) return { area: tr.name, tip: 'Progressive overload 3-4x/week. Compound lifts: bench, squat, deadlift, overhead press. Eat in a slight surplus.', icon: '🏋️' };
+      if (n.includes('shoulder') || n.includes('frame') || n.includes('v-taper') || n.includes('waist')) return { area: tr.name, tip: 'Lateral raises, overhead press, and pull-ups 3x/week to build shoulder width. Waist control through core work and diet.', icon: '📐' };
+      if (n.includes('symmetry')) return { area: tr.name, tip: 'Symmetry is mostly genetic but good sleep, hydration, and unilateral exercises can help balance.', icon: '⚖️' };
+      if (n.includes('proportion') || n.includes('figure')) return { area: tr.name, tip: 'Focus training on lagging body parts. Full body routines build the most balanced physique.', icon: '📏' };
+      if (n.includes('eye') || n.includes('lash')) return { area: tr.name, tip: 'Good sleep, hydration, and under-eye care. Brow grooming frames the eyes.', icon: '👁️' };
+      if (n.includes('lip') || n.includes('smile')) return { area: tr.name, tip: 'Stay hydrated, use lip balm, and practice smiling naturally.', icon: '😊' };
+      if (n.includes('nose')) return { area: tr.name, tip: 'Nose is mostly genetic. Overall facial harmony matters more than any single feature.', icon: '👃' };
+      return { area: tr.name, tip: `Focus on improving ${tr.name.toLowerCase()} through consistent effort.`, icon: '📈' };
+    }
   });
 
   const html = `
     <div style="text-align:center;padding:8px 0">
       <div style="font-family:var(--df);font-size:48px;color:${t.c}">${score.toFixed(2)}</div>
       <div style="font-family:var(--df);font-size:18px;color:${t.c};letter-spacing:.08em">${t.l}</div>
-      <div style="font-family:var(--mf);font-size:10px;color:var(--t3);margin-top:4px">${isFem ? '♀ Female' : '♂ Male'} · ${ST.mode === 'combo' ? 'Full Scan' : ST.mode === 'body' ? 'Body' : 'Face'}</div>
+      <div style="font-family:var(--mf);font-size:10px;color:var(--t3);margin-top:4px">${isFem ? '♀ Female' : '♂ Male'}${d.estimatedAge ? ' · Est. ' + d.estimatedAge : ''} · ${ST.mode === 'combo' ? 'Full Scan' : ST.mode === 'body' ? 'Body' : 'Face'}</div>
     </div>
 
     <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px">
@@ -2883,10 +3018,27 @@ function fLB(f) {
   });
   renderLB();
 }
+function fLBt(t) {
+  ST.lbTime = t;
+  ['all', 'week', 'today'].forEach(x => {
+    const el = $('lf-t-' + x);
+    if (el) el.classList.toggle('on', x === t);
+  });
+  renderLB();
+}
 function renderLB() {
   const f = ST.lbFil;
   const k = f === 'face' ? 'faceScore' : f === 'frame' ? 'frameScore' : 'score';
   let d = [...lbCache].filter(e => e[k] != null || e.score != null);
+  // Time filter
+  const now = Date.now();
+  if (ST.lbTime === 'today') {
+    const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+    d = d.filter(e => e.date && e.date >= todayStart.getTime());
+  } else if (ST.lbTime === 'week') {
+    const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+    d = d.filter(e => e.date && e.date >= weekAgo);
+  }
   // Gender filter
   if (f === 'male') d = d.filter(e => e.gender !== 'female');
   if (f === 'female') d = d.filter(e => e.gender === 'female');
@@ -2903,12 +3055,12 @@ function renderLB() {
     const av = photo && photo.startsWith('data:image/') ? `<img src="${photo}">` : '<div style="font-size:22px">👤</div>';
     const s = document.createElement('div');
     s.className = `ps ${cls[i]}`;
-    s.innerHTML = `<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss" style="color:${scoreColor}">${sc.toFixed(2)}</div><div class="psn">${esc(e.name || 'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i + 1}</div></div>`;
+    s.innerHTML = `<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss" style="color:${scoreColor}">${sc.toFixed(2)}</div><div class="psn">${esc(e.name || 'anon')}</div><div style="font-family:var(--mf);font-size:8px;color:${t.c};letter-spacing:.06em;margin-top:2px">${e.tier || t.l}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i + 1}</div></div>`;
     pod.appendChild(s);
   });
   $('pfl').style.display = t3.length > 0 ? 'block' : 'none';
   const list = $('lbl'); list.innerHTML = '';
-  if (!d.length) { list.innerHTML = '<div style="padding:32px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);line-height:2">NO ENTRIES YET</div>'; return; }
+  if (!d.length) { list.innerHTML = '<div style="padding:32px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);line-height:2">NO ENTRIES YET' + (ST.lbTime !== 'all' ? '<br>Try "All Time"' : '') + '</div>'; return; }
   d.slice(3).forEach((e, i) => {
     const sc = (e[k] || e.score || 0), t = tier(sc);
     const isFem3 = e.gender === 'female';
@@ -2917,9 +3069,10 @@ function renderLB() {
     const av = photo && photo.startsWith('data:image/') ? `<img src="${photo}">` : '<div style="font-size:15px">👤</div>';
     const ml = e.mode === 'combo' ? 'Full' : e.mode === 'body' ? 'Frame' : 'PSL';
     const gIcon = isFem3 ? '♀' : '♂';
+    const tierBadge = `<span style="display:inline-block;font-family:var(--mf);font-size:7px;letter-spacing:.06em;padding:2px 6px;border-radius:100px;background:${t.c}15;color:${t.c};border:1px solid ${t.c}30">${e.tier || t.l}</span>`;
     const row = document.createElement('div');
     row.className = 'lr';
-    row.innerHTML = `<div class="lrk">#${i + 4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${gIcon} ${esc(e.name || 'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier || t.l}</span></div></div><div class="lrs" style="color:${scoreColor}">${sc.toFixed(2)}</div>`;
+    row.innerHTML = `<div class="lrk">#${i + 4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${gIcon} ${esc(e.name || 'anon')}</div><div class="lrm">${ml} · ${tierBadge}</div></div><div class="lrs" style="color:${scoreColor}">${sc.toFixed(2)}</div>`;
     list.appendChild(row);
   });
 }
@@ -3610,9 +3763,38 @@ function applyGenderTheme(g) {
   if (g === 'female') {
     root.style.setProperty('--sig', '#e06090');
     root.style.setProperty('--blue', '#d64f8a');
+    // Update face oval to pink
+    const ovalStops = document.querySelectorAll('#og stop');
+    ovalStops.forEach(s => s.setAttribute('stop-color', '#e06090'));
+    const ovalEllipse = document.querySelector('#foval ellipse');
+    if (ovalEllipse) ovalEllipse.setAttribute('stroke', 'url(#og)');
+    // Target dot
+    document.querySelectorAll('#foval circle').forEach(c => {
+      if (c.getAttribute('fill') === '#22d45a') c.setAttribute('fill', '#e06090');
+      if (c.getAttribute('stroke') === '#22d45a') c.setAttribute('stroke', '#e06090');
+    });
+    // Oval text
+    document.querySelectorAll('#foval text').forEach(t => t.setAttribute('fill', '#e06090'));
+    // Directional arrows
+    document.querySelectorAll('#foval-arrow polygon').forEach(p => p.setAttribute('fill', '#e06090'));
+    // Progress bar
+    const spf = $('spf');
+    if (spf) spf.style.background = '#e06090';
+    // Scan badge dot
+    const sbdd = $('sbdd');
+    if (sbdd) sbdd.style.background = '#e06090';
   } else {
     root.style.setProperty('--sig', '#22d45a');
     root.style.setProperty('--blue', '#4f8ef7');
+    // Reset oval to green
+    const ovalStops = document.querySelectorAll('#og stop');
+    ovalStops.forEach(s => s.setAttribute('stop-color', '#22d45a'));
+    document.querySelectorAll('#foval circle').forEach(c => {
+      if (c.getAttribute('fill') === '#e06090') c.setAttribute('fill', '#22d45a');
+      if (c.getAttribute('stroke') === '#e06090') c.setAttribute('stroke', '#22d45a');
+    });
+    document.querySelectorAll('#foval text').forEach(t => t.setAttribute('fill', '#22d45a'));
+    document.querySelectorAll('#foval-arrow polygon').forEach(p => p.setAttribute('fill', '#22d45a'));
   }
 }
 
@@ -3623,20 +3805,20 @@ function applyGenderTheme(g) {
 // TIER EXPLORER — Dual Face + Body morphing Maxx robot
 // ═══════════════════════════════════════════════════════════════
 const tierFaceM = [
-  { l: 'GIGACHAD', c: '#FFD700', m: 9 },{ l: 'CHAD', c: '#22d45a', m: 8 },{ l: 'MAIN CHARACTER', c: '#4f8ef7', m: 7 },
-  { l: 'ABOVE AVG', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'DOWN BAD', c: '#f5a623', m: 3.5 },{ l: 'UNINSTALL', c: '#f05252', m: 0 },
+  { l: 'GOD TIER', c: '#FFD700', m: 8.5 },{ l: 'MAIN CHARACTER', c: '#22d45a', m: 7 },
+  { l: 'AVERAGE JOE', c: '#9090b0', m: 5 },{ l: 'HARD TIMES', c: '#f5a623', m: 3.5 },{ l: "IT'S OVER", c: '#f05252', m: 0 },
 ];
 const tierBodyM = [
-  { l: 'GREEK GOD', c: '#FFD700', m: 9 },{ l: 'AESTHETIC', c: '#22d45a', m: 8 },{ l: 'BUILT DIFFERENT', c: '#4f8ef7', m: 7 },
-  { l: 'GYM BRO', c: '#8b6cf7', m: 6 },{ l: 'SKINNY FAT', c: '#9090b0', m: 5 },{ l: 'SKIPPED EVERYTHING', c: '#f5a623', m: 3.5 },{ l: 'COUCH POTATO', c: '#f05252', m: 0 },
+  { l: 'GREEK GOD', c: '#FFD700', m: 8.5 },{ l: 'PRO ATHLETE', c: '#22d45a', m: 7 },
+  { l: 'AVERAGE JOE', c: '#9090b0', m: 5 },{ l: 'HOLDING ON', c: '#f5a623', m: 3.5 },{ l: 'WASTE OF ABILITY', c: '#f05252', m: 0 },
 ];
 const tierFaceF = [
-  { l: 'THAT GIRL', c: '#FFD700', m: 9 },{ l: 'BADDIE', c: '#e06090', m: 8 },{ l: 'MAIN CHARACTER', c: '#4f8ef7', m: 7 },
-  { l: 'CUTE', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'PICK ME', c: '#f5a623', m: 3.5 },{ l: 'NPC', c: '#f05252', m: 0 },
+  { l: 'GODDESS', c: '#FFD700', m: 8.5 },{ l: 'BADDIE', c: '#e06090', m: 7 },
+  { l: 'GIRL NEXT DOOR', c: '#9090b0', m: 5 },{ l: 'HARD TIMES', c: '#f5a623', m: 3.5 },{ l: "IT'S OVER", c: '#f05252', m: 0 },
 ];
 const tierBodyF = [
-  { l: 'GODDESS', c: '#FFD700', m: 9 },{ l: 'SNATCHED', c: '#e06090', m: 8 },{ l: 'THAT GIRL', c: '#4f8ef7', m: 7 },
-  { l: 'FIT', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'NEEDS WORK', c: '#f5a623', m: 3.5 },{ l: 'NPC', c: '#f05252', m: 0 },
+  { l: 'SHOW STOPPER', c: '#FFD700', m: 8.5 },{ l: 'THAT GIRL', c: '#e06090', m: 7 },
+  { l: 'AVERAGE', c: '#9090b0', m: 5 },{ l: 'HOLDING ON', c: '#f5a623', m: 3.5 },{ l: 'WASTE OF ABILITY', c: '#f05252', m: 0 },
 ];
 let tGender = 'male', tFaceIdx = 0, tBodyIdx = 0;
 
@@ -3806,7 +3988,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap, switchTierTab, pickFace, pickBody,
+  genShare, natShare, openLB, openLBSub, fLB, fLBt, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap, switchTierTab, pickFace, pickBody,
 });
 </script>
 </body>
