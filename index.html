@@ -280,7 +280,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="hn" onclick="show('info')"><div class="hni">🗺️</div><div class="hnl">How It Works</div></div>
 </div>
 <div style="height:8px"></div>
-<div class="usg" id="usg">Free scans remaining today</div>
+<div class="usg" id="usg" onclick="debugTap()">Free scans remaining today</div>
 <div style="padding:8px 0;text-align:center"><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">◎ Fresh Fitness Co LLC</div></div>
 </div>
 </div>
@@ -377,9 +377,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:0 14px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--t3);text-transform:uppercase">AI Insights</div><div style="font-size:13px;color:var(--t2);line-height:1.65" id="rins">—</div></div></div>
 <div style="height:12px"></div>
 <div class="ract">
-<button class="btn bp" onclick="genShare()">📤 Share Score Card</button>
+<button class="btn bp" onclick="openDashboard()">📊 View Dashboard</button>
+<button class="btn bs" style="background:rgba(79,142,247,.08);border-color:rgba(79,142,247,.2)" onclick="genShare()">📤 Share Score Card</button>
 <button class="btn bg" onclick="challengeFriend()">🔥 Challenge a Friend</button>
-<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">🏆 Submit to Leaderboard</button>
+<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">🏆 Leaderboard</button>
 <button class="btn bs" onclick="go(ST.mode)">↩ Rescan</button>
 <button class="btn bs" style="border:none;color:var(--t4)" onclick="goHome()">Home</button>
 </div>
@@ -479,6 +480,12 @@ Here's what happens when you scan:
 </div>
 
 </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash" class="scr sb">
+<div class="sh"><div class="bk" onclick="show('results')">←</div><div class="sht">YOUR DASHBOARD</div></div>
+<div style="padding:14px;display:flex;flex-direction:column;gap:14px" id="dashContent"></div>
 </div>
 
 <!-- LIMIT -->
@@ -739,6 +746,19 @@ function computeBodyMeasurements(landmarks) {
   const armSpan = vis(15) && vis(16) ? dist(15, 16) : 0;
   const heightProxy = vis(0) && vis(27) ? dist(0, 27) : 0;
 
+  // Phone tilt estimation — if phone is propped low and tilted up,
+  // head appears higher in frame than expected. Detect this and note it.
+  let tiltNote = 'level';
+  if (vis(0) && vis(27)) {
+    const headY = p[0].y;  // 0 = top of frame
+    const feetY = p[27].y; // should be near bottom
+    const span = feetY - headY;
+    const headPct = headY / (feetY || 0.01); // how far down is head relative to feet
+    // Level camera: head at ~0.05-0.15 of frame. Tilted up: head at 0.25+
+    if (headPct > 0.3 && span < 0.5) tiltNote = 'phone_tilted_up';
+    else if (headPct > 0.2) tiltNote = 'slight_tilt';
+  }
+
   return {
     shoulderToHipRatio: stwRatio.toFixed(3),
     shoulderWidth: (shoulderW * 100).toFixed(1),
@@ -750,6 +770,7 @@ function computeBodyMeasurements(landmarks) {
     upperLowerRatio: upperLowerRatio.toFixed(3),
     armSpan: (armSpan * 100).toFixed(1),
     heightProxy: (heightProxy * 100).toFixed(1),
+    cameraTilt: tiltNote,
   };
 }
 
@@ -1417,41 +1438,99 @@ function capturePhoto(v, maxDim) {
 // ═══════════════════════════════════════════════════════════════
 // GUIDED SCAN ENGINE — The core experience
 // ═══════════════════════════════════════════════════════════════
-async function startCapture() {
-  if (ST.scanning) return; // Prevent double-tap
-  ST.scanning = true;
 
-  // Initialize audio context (already created in go() from user gesture)
+// Client-side gender estimate from face landmarks
+function estimateGender(lm) {
+  if (!lm || lm.length < 478) return 'male'; // default
+  // Jaw width (landmarks 234, 454) vs face height (10, 152)
+  const jawW = Math.abs(lm[234].x - lm[454].x);
+  const faceH = Math.abs(lm[10].y - lm[152].y);
+  const ratio = jawW / (faceH || 0.001);
+  // Males: wider jaw relative to face height (ratio > 0.85 typically)
+  // Females: narrower jaw, more tapered (ratio < 0.82 typically)
+  // Also check brow ridge prominence: distance from brow (107) to eye (33)
+  const browDist = Math.abs(lm[107].y - lm[33].y);
+  const maleScore = (ratio > 0.84 ? 1 : 0) + (browDist > 0.025 ? 1 : 0);
+  return maleScore >= 1 ? 'male' : 'female';
+}
+
+async function startCapture() {
+  if (ST.scanning) return;
+  ST.scanning = true;
   initAudio();
   const mode = ST.mode;
   const myTk = ST.token;
   const btn = $('sbtn');
   btn.classList.add('d'); btn.style.animation = 'none'; btn.style.display = 'none';
-  // Disable flip during capture
   $('flipb').classList.add('disabled');
   const v = $('svid');
   const isFace = mode === 'face' || (mode === 'combo' && ST.bodyCaps.length === 0 && ST.faceCaps.length === 0);
   const isBody = !isFace;
 
+  // Use debug gender override if set, otherwise detect during scan
+  let detectedGender = ST._debugGender || null;
+
   startBgMusic(isFace ? 'face' : 'body');
 
-  // ═══ POSE DEFINITIONS ═══
-  const facePoses = [
-    { id: 'intro', label: 'WELCOME', oval: 'LOOK AT ME', status: 'Initializing',
-      voice: "Hey. I'm Maxx. Look straight at the camera and hold still for me.", dur: 7000, needsLM: true, minFrames: 12 },
+  // ═══ GENDER DETECTION PHASE (face scans only, first 4 seconds) ═══
+  if (isFace && !detectedGender) {
+    $('svt').textContent = 'ANALYZING';
+    $('sst').textContent = 'Identifying subject…';
+    speak("Hey. I'm Maxx. Hold still for a second.");
+    const detectStart = Date.now();
+    let genderVotes = [];
+    while (Date.now() - detectStart < 3500 && !ST.aborted) {
+      if (lastLandmarks) {
+        genderVotes.push(estimateGender(lastLandmarks));
+      }
+      await sleep(100);
+    }
+    if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
+    // Majority vote
+    const femCount = genderVotes.filter(g => g === 'female').length;
+    detectedGender = femCount > genderVotes.length / 2 ? 'female' : 'male';
+  }
+  if (!detectedGender) detectedGender = 'male';
+  ST.gender = detectedGender;
+  const isFem = detectedGender === 'female';
+
+  // ═══ GENDER FLASH ═══
+  if (isFace) {
+    applyGenderTheme(detectedGender);
+    const genderColor = isFem ? '#e06090' : '#4f8ef7';
+    const scanEl = $('scan');
+    scanEl.style.transition = 'none';
+    scanEl.style.boxShadow = `inset 0 0 120px ${genderColor}60`;
+    $('svt').textContent = isFem ? '♀ FEMALE DETECTED' : '♂ MALE DETECTED';
+    $('svt').style.color = genderColor;
+    $('sst').textContent = isFem ? 'Calibrating for female traits' : 'Calibrating for male traits';
+    try { navigator.vibrate([40, 20, 60]); } catch {}
+    safeOsc(isFem ? 700 : 500, 'sine', 0.2, 0.12, 0.001);
+    await sleep(2000);
+    scanEl.style.boxShadow = '';
+    $('svt').style.color = '';
+    if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
+    // Switch music to female style if needed
+    if (isFem) { stopBgMusic(); startBgMusic('female_face'); }
+  }
+  // For body scans, carry gender from face scan (combo) or default
+  if (isBody && isFem) { stopBgMusic(); startBgMusic('female_body'); }
+
+  // ═══ POSE DEFINITIONS — gender specific ═══
+  const facePosesMale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "Got you. Mapping 478 landmarks now. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "Mapping 478 landmarks now. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', status: 'Jawline scan',
-      voice: "Turn your head left. I need your jaw profile.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I need your jaw profile.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', status: 'Symmetry check',
-      voice: "Other side. Turn right. Checking symmetry.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Other side. Checking symmetry.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Measuring thirds',
-      voice: "Back to center. Chin up slightly.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up slightly.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Expression check',
+    { id: 'smile', label: 'SMILE', oval: 'SMILE', status: 'Expression check',
       voice: "Now smile. A real one.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'Primary capture',
       voice: "Drop the smile. Neutral face. Eyes on me.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
@@ -1460,13 +1539,38 @@ async function startCapture() {
       voice: "Done. Locking in your data.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
-  const bodyIntro = mode === 'body'
+  const facePosesFemale = [
+    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
+      voice: "Mapping your facial structure. Stay still for me.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
+    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Bone structure',
+      voice: "Turn left. Checking your cheekbone structure.", dur: 6000, needsLM: true, minFrames: 18,
+      meas: ['jawWidthRatio', 'cheekboneToJaw'] },
+    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', status: 'Symmetry check',
+      voice: "Other side. Measuring symmetry.", dur: 6000, needsLM: true, minFrames: 18,
+      meas: ['jawWidthRatio', 'cheekboneToJaw'] },
+    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Proportions',
+      voice: "Chin up a little.", dur: 5000, needsLM: true, minFrames: 14,
+      meas: ['facialThirds'] },
+    { id: 'smile', label: 'SMILE', oval: 'SMILE FOR ME', status: 'Smile check',
+      voice: "Give me your best smile.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'Primary capture',
+      voice: "Neutral face now. Look right at me.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Final scan',
+      voice: "Got it. Data locked.", dur: 3000, needsLM: true, minFrames: 15 },
+  ];
+
+  const bodyIntroMale = mode === 'body'
     ? "Hey, I'm Maxx. Time for your body scan. Step back about four feet. Full body in frame. Shirtless works best."
     : "Body scan. Step back about four feet. Full body in frame.";
+  const bodyIntroFemale = mode === 'body'
+    ? "Hey, I'm Maxx. Let's scan your physique. Step back about four feet. Full body in frame."
+    : "Body scan. Step back so I can see you head to toe.";
 
-  const bodyPoses = [
+  const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntro, dur: 8000, isSetup: true, countdown: true },
+      voice: bodyIntroMale, dur: 8000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
       voice: "Stand tall. Feet shoulder width.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FRAME SCAN', status: 'Measuring V-taper',
@@ -1475,13 +1579,34 @@ async function startCapture() {
     { id: 'relax', label: 'NATURAL', status: 'Baseline',
       voice: "Arms down. Stand natural.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
       meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
-    { id: 'flex', label: 'BEAST MODE', status: 'Close-up flex',
-      voice: "Walk toward the camera. Get close. Flex your bicep. Show me the detail.", dur: 10000, needsLM: false, capture: true, beastMode: true },
+    { id: 'approach', label: 'WALK UP', status: 'Get close',
+      voice: "Walk toward the camera. Get about two feet away.", dur: 6000, needsLM: false, capture: true },
+    { id: 'flex', label: 'BEAST MODE', status: 'Flex and hold',
+      voice: "Flex your bicep. Hold it. Three. Two. One.", dur: 5000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
       voice: "Got everything. Sending to the AI.", dur: 2000, minFrames: 0 },
   ];
 
-  const poses = isFace ? facePoses : bodyPoses;
+  const bodyPosesFemale = [
+    { id: 'setup', label: 'SET UP', status: 'Get in position',
+      voice: bodyIntroFemale, dur: 8000, isSetup: true, countdown: true },
+    { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
+      voice: "Stand tall. Feet together.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
+      voice: "Hands on hips. I'm measuring your proportions and waist to hip ratio.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
+    { id: 'relax', label: 'NATURAL', status: 'Baseline',
+      voice: "Arms down. Stand natural.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+      meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
+    { id: 'pose', label: 'STRIKE A POSE', status: 'Your best angle',
+      voice: "Walk toward the camera a little. Now give me your best pose. Own it.", dur: 7000, needsLM: false, capture: true, beastMode: true },
+    { id: 'final', label: 'DONE', status: 'Processing',
+      voice: "Love it. Sending to the AI.", dur: 2000, minFrames: 0 },
+  ];
+
+  const poses = isFace
+    ? (isFem ? facePosesFemale : facePosesMale)
+    : (isFem ? bodyPosesFemale : bodyPosesMale);
 
   // Build phase panel
   $('sphase').innerHTML = poses.map((p, i) => `<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${p.id}</div></div>`).join('');
@@ -1701,7 +1826,7 @@ async function startCapture() {
     }
 
     // Visual confirmation between poses
-    if (pi < poses.length - 1 && !pose.isSetup && pose.id !== 'detect' && pose.id !== 'intro' && pose.id !== 'final' && (pose.minFrames || 0) > 0) {
+    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
       const ft2 = $('foval-txt');
       if (ft2 && isFace) ft2.textContent = '✓ CAPTURED';
       $('svt').textContent = '✓';
@@ -1999,33 +2124,50 @@ async function callAPI(mode, photos, meas) {
 function showReveal(data) {
   const score = getScore(data);
   const t = tier(score, ST.mode === 'body');
+  const isFem = ST.gender === 'female';
+  const genderColor = isFem ? '#e06090' : '#4f8ef7';
   show('reveal');
   const bg = $('rvbg');
+
+  // Gender identification flash — blue for male, pink for female
+  const revealEl = $('reveal');
+  revealEl.style.background = genderColor;
+  revealEl.style.transition = 'background 1.5s ease';
+  const genderLabel = document.createElement('div');
+  genderLabel.style.cssText = `position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);font-family:var(--df);font-size:42px;color:#fff;letter-spacing:.1em;opacity:0;transition:opacity .3s;z-index:5`;
+  genderLabel.textContent = isFem ? '♀' : '♂';
+  revealEl.appendChild(genderLabel);
+  setTimeout(() => { genderLabel.style.opacity = '1'; }, 100);
+  setTimeout(() => {
+    genderLabel.style.opacity = '0';
+    revealEl.style.background = '';
+    setTimeout(() => genderLabel.remove(), 400);
+  }, 1200);
+
   bg.style.background = `radial-gradient(circle at 50% 50%,${t.c}20,transparent 70%)`;
 
-  // Tension build
-  playTension();
-  setTimeout(() => { bg.style.opacity = '1'; }, 200);
+  // Tension build (starts after gender flash)
+  setTimeout(() => playTension(), 800);
+  setTimeout(() => { bg.style.opacity = '1'; }, 1000);
 
-  // Score slam at 1.5s
+  // Score slam at 2.5s (after gender flash fades)
   setTimeout(() => {
     const el = $('rvsc'); el.textContent = score.toFixed(2); el.style.color = t.c; el.classList.add('in');
     playRevealImpact();
     try { navigator.vibrate([100, 50, 100, 50, 200]); } catch {}
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
-    // MAX reacts to the score differently based on tier
     const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
-    if (score >= 8.5) speak(`${scoreText}. Exceptional. You're in the top five percent. I don't give scores like this often.`);
-    else if (score >= 7.5) speak(`${scoreText}. Very impressive. You scored well above average. Real genetic advantage here.`);
-    else if (score >= 6.5) speak(`${scoreText}. Above average. You've got solid fundamentals to work with.`);
-    else if (score >= 5.5) speak(`${scoreText}. Average range. Not bad, not great. There's clear room for improvement though.`);
-    else if (score >= 4.5) speak(`${scoreText}. Below average. But the data shows specific areas you can target to move up.`);
-    else speak(`${scoreText}. Low score. I know that's not what you wanted to hear. Check the breakdown — the actionable insights are what matter.`);
-  }, 1500);
+    if (score >= 8.5) speak(`${scoreText}. Exceptional. Top five percent.`);
+    else if (score >= 7.5) speak(`${scoreText}. Impressive. Well above average.`);
+    else if (score >= 6.5) speak(`${scoreText}. Above average. Solid.`);
+    else if (score >= 5.5) speak(`${scoreText}. Average range. Room to improve.`);
+    else if (score >= 4.5) speak(`${scoreText}. Below average. Check the breakdown for what to work on.`);
+    else speak(`${scoreText}. Check the breakdown. The insights will tell you where to focus.`);
+  }, 2500);
 
-  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 2000);
-  setTimeout(() => { $('rvsub').classList.add('in'); }, 2800);
+  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 3000);
+  setTimeout(() => { $('rvsub').classList.add('in'); }, 3800);
 }
 
 // SCAN BEAM — horizontal line sweeps top to bottom like a sci-fi scanner
@@ -2125,7 +2267,7 @@ function spawnConfetti(color) {
 function showFullResults() {
   ['rvsc', 'rvti', 'rvsub'].forEach(id => { $(id).classList.remove('in'); });
   $('rvbg').style.opacity = '0';
-  // FIX #10: Remove any orphaned confetti canvases
+  $('reveal').style.background = ''; // Reset gender flash
   $('reveal').querySelectorAll('canvas').forEach(c => c.remove());
   showResults(ST.result);
 }
@@ -2218,6 +2360,101 @@ function showResults(data) {
 // ═══════════════════════════════════════════════════════════════
 // SHARE CARD — Canvas-generated PNG
 // ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD — personalized improvement plan
+// ═══════════════════════════════════════════════════════════════
+function openDashboard() {
+  if (!ST.result) { toast('Scan first'); return; }
+  const d = ST.result;
+  const isFem = ST.gender === 'female';
+  const score = getScore(d);
+  const t = tier(score, ST.mode === 'body');
+  const allTraits = [...(d.faceTraits || []), ...(d.bodyTraits || [])];
+  const sorted = [...allTraits].sort((a, b) => b.score - a.score);
+  const top3 = sorted.slice(0, 3);
+  const bottom3 = sorted.slice(-3).reverse();
+  const genderColor = isFem ? '#e06090' : '#4f8ef7';
+
+  // Build improvement suggestions based on weak traits
+  const suggestions = bottom3.map(tr => {
+    const n = tr.name.toLowerCase();
+    if (n.includes('skin')) return { area: tr.name, tip: 'Start a consistent AM/PM skincare routine: cleanser, moisturizer, SPF. Consider retinol for texture.', icon: '🧴' };
+    if (n.includes('hair')) return { area: tr.name, tip: 'Find a good barber/stylist who understands face shape. Quality haircut is the fastest upgrade.', icon: '✂️' };
+    if (n.includes('posture')) return { area: tr.name, tip: 'Do face pulls, wall slides, and thoracic spine extensions daily. 5 min/day changes everything in 30 days.', icon: '🧘' };
+    if (n.includes('jaw') || n.includes('lower third')) return { area: tr.name, tip: 'Lose body fat to reveal jaw definition. Mewing and proper tongue posture can help over time.', icon: '💪' };
+    if (n.includes('body fat') || n.includes('lean')) return { area: tr.name, tip: 'Caloric deficit with high protein (1g/lb bodyweight). Prioritize weight training over cardio.', icon: '🥩' };
+    if (n.includes('muscle') || n.includes('chest') || n.includes('arm') || n.includes('tone')) return { area: tr.name, tip: 'Progressive overload 3-4x/week. Compound lifts: bench, squat, deadlift, OHP. Eat in a slight surplus.', icon: '🏋️' };
+    if (n.includes('shoulder') || n.includes('frame') || n.includes('v-taper') || n.includes('waist')) return { area: tr.name, tip: 'Lateral raises, OHP, and pull-ups 3x/week to build shoulder width. Waist control through core work and diet.', icon: '📐' };
+    if (n.includes('symmetry')) return { area: tr.name, tip: 'Symmetry is mostly genetic but good sleep, hydration, and unilateral exercises can help balance.', icon: '⚖️' };
+    if (n.includes('proportion') || n.includes('figure')) return { area: tr.name, tip: 'Focus training on lagging body parts. Full body routines build the most balanced physique.', icon: '📏' };
+    if (n.includes('eye') || n.includes('lash')) return { area: tr.name, tip: 'Good sleep, hydration, and under-eye care. Brow grooming frames the eyes.', icon: '👁️' };
+    if (n.includes('lip') || n.includes('smile')) return { area: tr.name, tip: 'Stay hydrated, use lip balm, and practice smiling naturally in the mirror.', icon: '😊' };
+    if (n.includes('nose')) return { area: tr.name, tip: 'Nose is mostly genetic. Contouring makeup can adjust appearance. Overall facial harmony matters more than any single feature.', icon: '👃' };
+    return { area: tr.name, tip: `Focus on improving ${tr.name.toLowerCase()} through consistent effort and research.`, icon: '📈' };
+  });
+
+  const html = `
+    <div style="text-align:center;padding:8px 0">
+      <div style="font-family:var(--df);font-size:48px;color:${t.c}">${score.toFixed(2)}</div>
+      <div style="font-family:var(--df);font-size:18px;color:${t.c};letter-spacing:.08em">${t.l}</div>
+      <div style="font-family:var(--mf);font-size:10px;color:var(--t3);margin-top:4px">${isFem ? '♀ Female' : '♂ Male'} · ${ST.mode === 'combo' ? 'Full Scan' : ST.mode === 'body' ? 'Body' : 'Face'}</div>
+    </div>
+
+    <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:var(--sig);margin-bottom:12px">TOP STRENGTHS</div>
+      ${top3.map((tr, i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;${i < 2 ? 'border-bottom:1px solid var(--brd)' : ''}">
+        <div><div style="font-size:13px;color:var(--t1)">${tr.name}</div><div style="font-size:10px;color:var(--t3);margin-top:2px">${(tr.insight || '').slice(0, 80)}</div></div>
+        <div style="font-family:var(--df);font-size:20px;color:var(--sig)">${tr.score.toFixed(2)}</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:var(--amber);margin-bottom:12px">AREAS TO IMPROVE</div>
+      ${bottom3.map((tr, i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;${i < 2 ? 'border-bottom:1px solid var(--brd)' : ''}">
+        <div><div style="font-size:13px;color:var(--t1)">${tr.name}</div><div style="font-size:10px;color:var(--t3);margin-top:2px">${(tr.insight || '').slice(0, 80)}</div></div>
+        <div style="font-family:var(--df);font-size:20px;color:var(--amber)">${tr.score.toFixed(2)}</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;color:${genderColor};margin-bottom:12px">YOUR IMPROVEMENT PLAN</div>
+      ${suggestions.map(s => `<div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--brd)">
+        <div style="font-size:24px;flex-shrink:0">${s.icon}</div>
+        <div><div style="font-size:12px;color:var(--t1);font-weight:600">${s.area}</div><div style="font-size:11px;color:var(--t2);line-height:1.6;margin-top:3px">${s.tip}</div></div>
+      </div>`).join('')}
+    </div>
+
+    ${d.insights ? `<div style="background:linear-gradient(155deg,rgba(79,142,247,.05),rgba(93,219,110,.03));border:1px solid var(--brm);border-radius:14px;padding:18px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;margin-bottom:8px">AI INSIGHTS</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.7">${esc(d.insights)}</div>
+    </div>` : ''}
+
+    ${ST.measurements ? `<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.05em;margin-bottom:8px">RAW BIOMETRICS</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        ${Object.entries(ST.measurements).filter(([k,v]) => v !== 'N/A' && v !== 'level').map(([k, v]) => `<div style="background:var(--void);border:1px solid var(--brd);border-radius:6px;padding:6px 8px"><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">${k}</div><div style="font-family:var(--df);font-size:14px;color:var(--t1)">${v}</div></div>`).join('')}
+      </div>
+    </div>` : ''}
+  `;
+  $('dashContent').innerHTML = html;
+  show('dash');
+}
+
+// Debug: triple-tap usage text to toggle female test mode
+let _debugTaps = 0, _debugTimer = null;
+function debugTap() {
+  _debugTaps++;
+  if (_debugTimer) clearTimeout(_debugTimer);
+  _debugTimer = setTimeout(() => { _debugTaps = 0; }, 800);
+  if (_debugTaps >= 5) {
+    _debugTaps = 0;
+    ST._debugGender = ST._debugGender === 'female' ? null : 'female';
+    const active = ST._debugGender === 'female';
+    applyGenderTheme(active ? 'female' : 'male');
+    toast(active ? '♀ Test mode: Female' : '♂ Test mode off');
+  }
+}
+
 function genShare() {
   if (!ST.result) return;
   const score = getScore(ST.result), t = tier(score, ST.mode === 'body');
@@ -2629,6 +2866,64 @@ function startBgMusic(style) {
       step++;
     }, eighth);
 
+  } else if (style === 'female_face' || style === 'female_body') {
+    // Female: lighter, chill R&B / lo-fi feel
+    const BPM = 90, eighth = 60 / BPM / 2 * 1000;
+    const melody = style === 'female_face'
+      ? [523, 0, 659, 0, 784, 659, 0, 523, 0, 587, 0, 523, 659, 0, 784, 0]
+      : [440, 0, 523, 0, 659, 0, 587, 523, 440, 0, 523, 0, 587, 0, 659, 523];
+    const bass = [131, 0, 131, 0, 165, 0, 147, 0, 131, 0, 131, 0, 147, 0, 165, 131];
+
+    bgMusicInterval = setInterval(() => {
+      if (!actx) return;
+      if (step % 16 === 0) ensureAudioPlaying();
+      const s = step % 16;
+      const now = actx.currentTime;
+      // Soft kick
+      if (s % 4 === 0) {
+        try {
+          const o = actx.createOscillator(), g = actx.createGain();
+          o.type = 'sine'; o.frequency.setValueAtTime(100, now); o.frequency.exponentialRampToValueAtTime(40, now + 0.08);
+          o.connect(g); g.connect(musicGain); g.gain.setValueAtTime(0.3, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+          o.start(); o.stop(now + 0.1);
+        } catch {}
+      }
+      // Soft hi-hat on off-beats
+      if (s % 2 === 1) {
+        try {
+          const len = Math.ceil(actx.sampleRate * 0.03);
+          const buf = actx.createBuffer(1, len, actx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 4);
+          const src = actx.createBufferSource(), g = actx.createGain(), f = actx.createBiquadFilter();
+          src.buffer = buf; f.type = 'highpass'; f.frequency.value = 8000;
+          src.connect(f); f.connect(g); g.connect(musicGain); g.gain.value = 0.06;
+          src.start();
+        } catch {}
+      }
+      // Melody — sine wave, softer
+      if (melody[s]) {
+        try {
+          const o = actx.createOscillator(), g = actx.createGain();
+          o.type = 'sine'; o.frequency.value = melody[s];
+          o.connect(g); g.connect(musicGain);
+          g.gain.setValueAtTime(0.08, now); g.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          o.start(); o.stop(now + 0.3);
+        } catch {}
+      }
+      // Bass
+      if (bass[s]) {
+        try {
+          const o = actx.createOscillator(), g = actx.createGain(), f = actx.createBiquadFilter();
+          o.type = 'sine'; o.frequency.value = bass[s]; f.type = 'lowpass'; f.frequency.value = 400;
+          o.connect(f); f.connect(g); g.connect(musicGain);
+          g.gain.setValueAtTime(0.25, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          o.start(); o.stop(now + 0.2);
+        } catch {}
+      }
+      step++;
+    }, eighth);
+
   } else {
     // Body: bouncy funk
     const BPM = 108, eighth = 60 / BPM / 2 * 1000;
@@ -2916,10 +3211,10 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.0; u.pitch = 0.92; u.volume = 1;
+    u.rate = 1.05; u.pitch = 1.08; u.volume = 1;
     const voices = ss.getVoices();
-    // Male voice — works across iOS/Android/Desktop
-    const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|Fred|David|Thomas|Gordon|Rishi/i;
+    // Youthful male voice — energetic, not deep/old
+    const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
     const pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => v.name.includes('Google UK English Male')) ||
@@ -3033,7 +3328,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend,
+  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap,
 });
 </script>
 </body>
