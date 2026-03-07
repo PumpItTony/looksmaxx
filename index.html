@@ -262,10 +262,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="hstat" id="hstat"></div>
 </div>
 <div class="pills">
-<div class="pill" style="cursor:pointer" id="gm" onclick="setGender('male')"><div class="pilld" style="background:var(--blue)"></div>Male</div>
-<div class="pill" style="cursor:pointer;opacity:.4" id="gf" onclick="setGender('female')"><div class="pilld" style="background:#e06090"></div>Female</div>
-<div class="pill"><div class="pilld" style="background:var(--sig)"></div>Free to Scan</div>
-<div class="pill"><div class="pilld" style="background:var(--green)"></div>AI-Powered</div>
+<div class="pill"><div class="pilld" style="background:var(--sig)"></div>AI Auto-Detects Gender</div>
+<div class="pill"><div class="pilld" style="background:var(--blue)"></div>Free to Scan</div>
+<div class="pill"><div class="pilld" style="background:var(--green)"></div>478 + 33 Landmarks</div>
 </div>
 <div style="height:14px"></div>
 <div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + Body · 19 traits · ~2 min · AI biometric analysis</div></div><div class="cmba">→</div></div></div>
@@ -391,7 +390,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- LB -->
 <div id="lb" class="scr sb">
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">RANKINGS</div></div>
-<div class="lbf"><div class="lf on" id="lf-all" onclick="fLB('all')">All</div><div class="lf" id="lf-face" onclick="fLB('face')">Face</div><div class="lf" id="lf-frame" onclick="fLB('frame')">Frame</div></div>
+<div class="lbf"><div class="lf on" id="lf-all" onclick="fLB('all')">All</div><div class="lf" id="lf-male" onclick="fLB('male')">♂ Male</div><div class="lf" id="lf-female" onclick="fLB('female')">♀ Female</div><div class="lf" id="lf-face" onclick="fLB('face')">Face</div><div class="lf" id="lf-frame" onclick="fLB('frame')">Frame</div></div>
 <div class="pod" id="pod"></div>
 <div class="pfl" id="pfl" style="display:none"></div>
 <div class="lbl" id="lbl"></div>
@@ -403,7 +402,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:14px;display:flex;flex-direction:column;gap:16px">
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
 <div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">SCORE DISTRIBUTION</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.6">Scores follow a normal distribution centered around 5.50. Most men score between 4.50 and 6.50. Scores above 8.00 represent genuinely exceptional genetics and conditioning.</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.6">Scores follow a normal distribution centered around 5.50. Most people score between 4.50 and 6.50. Scores above 8.00 represent exceptional genetics and conditioning.</div>
 <svg viewBox="0 0 400 140" style="width:100%;height:auto">
 <defs><linearGradient id="bc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f05252"/><stop offset="15%" stop-color="#f5a623"/><stop offset="35%" stop-color="#9090b0"/><stop offset="50%" stop-color="#8b6cf7"/><stop offset="65%" stop-color="#4f8ef7"/><stop offset="80%" stop-color="#22d45a"/><stop offset="95%" stop-color="#FFD700"/></linearGradient></defs>
 <path d="M20,120 Q20,120 60,118 Q100,115 140,95 Q170,70 200,35 Q230,70 260,95 Q300,115 340,118 Q380,120 380,120 L380,120 L20,120 Z" fill="url(#bc)" opacity=".15"/>
@@ -418,12 +417,20 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </svg>
 </div>
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--blue)">FACE TIERS</div>
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--blue)">♂ MALE FACE TIERS</div>
 <div id="ftiers"></div>
 </div>
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--green)">BODY TIERS</div>
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:#e06090">♀ FEMALE FACE TIERS</div>
+<div id="ftiers_f"></div>
+</div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--green)">♂ MALE BODY TIERS</div>
 <div id="btiers"></div>
+</div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:#e06090">♀ FEMALE BODY TIERS</div>
+<div id="btiers_f"></div>
 </div>
 </div>
 </div>
@@ -434,9 +441,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:14px;display:flex;flex-direction:column;gap:14px">
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
-<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET MAX</div>
+<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET MAXX</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
-I'm Max, your AI biometric scanner. I use computer vision to map your face and body in real-time, then score your attractiveness on a 1-10 scale using real measurement data.<br><br>
+I'm Maxx, your AI biometric scanner. I use computer vision to map your face and body in real-time, then score your attractiveness on a 1-10 scale using real measurement data.<br><br>
 Here's what happens when you scan:
 </div>
 </div>
@@ -455,7 +462,7 @@ Here's what happens when you scan:
 <div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">TIPS FOR BEST RESULTS</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
 <b style="color:var(--sig)">Lighting matters most.</b> Face a window. Natural, even light lets the AI see your actual features — shadows create phantom jawlines and false definitions.<br><br>
-<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow Max's prompts — each pose captures different measurement data.<br><br>
+<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow Maxx's prompts — each pose captures different measurement data.<br><br>
 <b style="color:var(--green)">Body scans:</b> Prop your phone 4-5 feet away, leaned against a wall or object. Stand in front of a plain background. Shirtless gets significantly more accurate muscle, body fat, and vascularity readings.<br><br>
 <b style="color:var(--gold)">Want the best score?</b> Good lighting + good posture + following every prompt. The AI rewards you for what it can actually see.
 </div>
@@ -552,22 +559,22 @@ const BT = [
   { m: 0, l: 'UNTRAINED SLOB', c: '#f05252' },
 ];
 const FTF = [
-  { m: 9, l: 'SUPERMODEL', c: '#FFD700' },
-  { m: 8, l: 'STUNNING', c: '#e06090' },
-  { m: 7, l: 'GORGEOUS', c: '#4f8ef7' },
-  { m: 6, l: 'PRETTY', c: '#8b6cf7' },
-  { m: 5, l: 'AVERAGE', c: '#9090b0' },
+  { m: 9, l: 'IT GIRL', c: '#FFD700' },
+  { m: 8, l: 'BADDIE', c: '#e06090' },
+  { m: 7, l: 'FINE', c: '#4f8ef7' },
+  { m: 6, l: 'CUTE', c: '#8b6cf7' },
+  { m: 5, l: 'MID', c: '#9090b0' },
   { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
-  { m: 0, l: 'LOW', c: '#f05252' },
+  { m: 0, l: 'NPC', c: '#f05252' },
 ];
 const BTF = [
-  { m: 9, l: 'FITNESS MODEL', c: '#FFD700' },
-  { m: 8, l: 'STUNNER', c: '#e06090' },
-  { m: 7, l: 'FIT QUEEN', c: '#4f8ef7' },
-  { m: 6, l: 'TONED', c: '#8b6cf7' },
-  { m: 5, l: 'AVERAGE', c: '#9090b0' },
+  { m: 9, l: 'GODDESS', c: '#FFD700' },
+  { m: 8, l: 'BADDIE', c: '#e06090' },
+  { m: 7, l: 'SNATCHED', c: '#4f8ef7' },
+  { m: 6, l: 'FIT', c: '#8b6cf7' },
+  { m: 5, l: 'MID', c: '#9090b0' },
   { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
-  { m: 0, l: 'LOW', c: '#f05252' },
+  { m: 0, l: 'NPC', c: '#f05252' },
 ];
 const tier = (s, isBody = false) => {
   const f = ST.gender === 'female';
@@ -594,7 +601,7 @@ let ST = {
   lbPh: null,         // leaderboard photo data URL
   lbFil: 'all',       // leaderboard filter
   mlReady: false,     // ML models loaded
-  gender: 'male',     // 'male' | 'female'
+  gender: null,       // Set by AI from scan results
 };
 let lbCache = [];
 
@@ -1107,6 +1114,7 @@ function show(id) {
 
 function goHome() {
   abort();
+  applyGenderTheme('male'); // Reset theme
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
@@ -1430,56 +1438,47 @@ async function startCapture() {
   // ═══ POSE DEFINITIONS ═══
   const facePoses = [
     { id: 'intro', label: 'WELCOME', oval: 'LOOK AT ME', status: 'Initializing',
-      voice: "Hey, I'm Max, your scan guide. Look straight at the camera and hold still.", dur: 8000, needsLM: true, minFrames: 12 },
+      voice: "Hey. I'm Maxx. Look straight at the camera and hold still for me.", dur: 7000, needsLM: true, minFrames: 12 },
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "Got you. Mapping 478 landmarks right now. Jaw angle, cheekbone width, symmetry. Don't move.", dur: 8000, needsLM: true, minFrames: 30, capture: true,
+      voice: "Got you. Mapping 478 landmarks now. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', status: 'Jawline scan',
-      voice: "Turn your head left. I need your jaw and cheekbone profile.", dur: 7000, needsLM: true, minFrames: 20,
+      voice: "Turn your head left. I need your jaw profile.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', status: 'Symmetry check',
-      voice: "Other side. Turn right. Comparing left and right for symmetry.", dur: 7000, needsLM: true, minFrames: 20,
+      voice: "Other side. Turn right. Checking symmetry.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Expression check',
-      voice: "Back to center. Give me a real smile. Like you just heard good news.", dur: 5500, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'HOLD PERFECTLY STILL', status: 'Primary capture',
-      voice: "Drop the smile. Neutral face. Eyes right here. This is the shot.", dur: 7000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
-      meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Measuring thirds',
-      voice: "Chin up slightly. Measuring facial proportions.", dur: 5000, needsLM: true, minFrames: 15,
+      voice: "Back to center. Chin up slightly.", dur: 5000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
+    { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Expression check',
+      voice: "Now smile. A real one.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', status: 'Primary capture',
+      voice: "Drop the smile. Neutral face. Eyes on me.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Final scan',
-      voice: "Final calibration. Almost done.", dur: 4000, needsLM: true, minFrames: 20 },
+      voice: "Done. Locking in your data.", dur: 3000, needsLM: true, minFrames: 15 },
   ];
 
   const bodyIntro = mode === 'body'
-    ? "Hey, I'm Max. Time for your body scan. Prop your phone at chest height, step back about four feet so I can see you head to toe. Shirtless works best."
+    ? "Hey, I'm Maxx. Time for your body scan. Step back about four feet. Full body in frame. Shirtless works best."
     : "Body scan. Step back about four feet. Full body in frame.";
 
   const bodyPoses = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntro, dur: 10000, isSetup: true, countdown: true },
+      voice: bodyIntro, dur: 8000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "Stand tall. Feet shoulder width.", dur: 6000, needsLM: true, minFrames: 12 },
-    { id: 'front', label: 'FRAME SCAN', status: 'Measuring frame',
-      voice: "Arms out slightly. Measuring your V-taper ratio.", dur: 8000, needsLM: true, minFrames: 28, capture: true,
-      meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth'] },
-    { id: 'lat', label: 'LAT SPREAD', status: 'Width check',
-      voice: "Spread your lats. Show me the width.", dur: 7000, needsLM: true, minFrames: 22,
-      meas: ['shoulderToHipRatio', 'shoulderWidth'] },
-    { id: 'side', label: 'SIDE VIEW', status: 'Posture scan',
-      voice: "Turn to your left. Side profile.", dur: 7000, needsLM: true, minFrames: 18,
-      meas: ['postureAngle', 'torsoLength'] },
-    { id: 'sideback', label: 'OTHER SIDE', status: 'Comparing',
-      voice: "Other side. Turn right.", dur: 6000, needsLM: true, minFrames: 18,
-      meas: ['postureAngle'] },
+      voice: "Stand tall. Feet shoulder width.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'front', label: 'FRAME SCAN', status: 'Measuring V-taper',
+      voice: "Arms out slightly. Measuring your frame.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
     { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Face me. Arms down. Stand natural. This is your baseline.", dur: 6000, needsLM: true, minFrames: 18, capture: true,
-      meas: ['shoulderToHipRatio', 'hipWidth', 'torsoLength'] },
+      voice: "Arms down. Stand natural.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+      meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
     { id: 'flex', label: 'BEAST MODE', status: 'Close-up flex',
-      voice: "Now walk toward the camera. Get close. About two feet away. Give me your best bicep flex. I need to see the detail.", dur: 10000, needsLM: false, capture: true, beastMode: true },
+      voice: "Walk toward the camera. Get close. Flex your bicep. Show me the detail.", dur: 10000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Got everything. Sending to the AI.", dur: 3000, minFrames: 0 },
+      voice: "Got everything. Sending to the AI.", dur: 2000, minFrames: 0 },
   ];
 
   const poses = isFace ? facePoses : bodyPoses;
@@ -1528,17 +1527,32 @@ async function startCapture() {
     if (ft && pose.oval) ft.textContent = pose.oval;
     speak(pose.voice);
 
-    // THE SHOT — scan beam sweeps across face + flash + sound
-    if (pose.moneyShot) {
+    // THE SHOT — countdown + scan beam before capture
+    if (pose.moneyShot && pose.hasCountdown) {
       ensureAudioPlaying();
-      playMoneyDrop();
-      spawnScanBeam(); // Horizontal beam sweeps top to bottom
-      const scanEl = $('scan');
-      scanEl.style.boxShadow = 'inset 0 0 60px rgba(34,212,90,.3)';
-      setTimeout(() => { const fl2 = $('sfl'); fl2.classList.add('go'); setTimeout(() => fl2.classList.remove('go'), 120); }, 800);
-      setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1200);
-      setTimeout(() => { scanEl.style.boxShadow = ''; }, 4000);
-      try { navigator.vibrate([60, 30, 100]); } catch {}
+      // 3-2-1 countdown
+      for (let cd = 3; cd >= 1; cd--) {
+        if (ST.aborted) break;
+        $('svt').textContent = cd.toString();
+        $('svt').style.fontSize = '72px';
+        safeOsc(cd === 1 ? 880 : 660, 'sine', 0.12, 0.15, 0.001);
+        try { navigator.vibrate(30); } catch {}
+        await sleep(900);
+      }
+      $('svt').style.fontSize = '';
+      if (!ST.aborted) {
+        // Scan beam sweeps + flash + sound
+        $('svt').textContent = 'SCANNING';
+        $('svt').style.color = 'var(--sig)';
+        playMoneyDrop();
+        spawnScanBeam();
+        const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 200);
+        try { navigator.vibrate([60, 30, 100]); } catch {}
+        const scanEl = $('scan');
+        scanEl.style.boxShadow = 'inset 0 0 60px rgba(34,212,90,.3)';
+        setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1200);
+        setTimeout(() => { scanEl.style.boxShadow = ''; $('svt').style.color = ''; }, 4000);
+      }
     }
 
     // BEAST MODE — body scan flex moment (green themed)
@@ -1633,7 +1647,7 @@ async function startCapture() {
         }
 
         // Capture photo
-        if (pose.capture && poseFrames >= 5 && !posePhotoCaptured) {
+        if (pose.capture && poseFrames >= (pose.needsLM === false ? 1 : 5) && !posePhotoCaptured) {
           posePhotoCaptured = true;
           photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE));
           const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 100);
@@ -1643,14 +1657,23 @@ async function startCapture() {
 
       } else if (!pose.isSetup) {
         noDetect++;
-        if (noDetect === 8) $('sst').textContent = isFace ? "I can't see you. Center your face in the oval." : "I've lost tracking. Step back into frame.";
+        if (noDetect === 8) $('sst').textContent = isFace ? "Can't see you. Get in the oval." : "Lost tracking. Step into frame.";
         if (noDetect === 30) {
-          speak(isFace ? "I've lost your face. Move back into the oval and make sure you're well lit." : "I need to see your full body. Try four to five feet from the camera with good lighting.");
+          speak(isFace ? "Move back into the oval." : "Step back so I can see you.");
           $('sst').textContent = 'Reacquiring…';
         }
-        if (noDetect === 60) $('sst').textContent = isFace ? 'Tip: natural light from a window gives the best results.' : 'Tip: plain background, good lighting, full body in frame.';
+        if (noDetect === 60) $('sst').textContent = 'Tip: good lighting makes a huge difference.';
         if (noDetect > 100 && (Date.now() - poseStart) > pose.dur) break;
-        $('sflock').classList.remove('show');
+        if (pose.needsLM !== false) $('sflock').classList.remove('show');
+      }
+
+      // Time-based capture for close-up poses where landmarks may not be visible
+      if (pose.capture && pose.needsLM === false && !posePhotoCaptured && (Date.now() - poseStart) > 4000) {
+        posePhotoCaptured = true;
+        photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE));
+        const fl3 = $('sfl'); fl3.classList.add('go'); setTimeout(() => fl3.classList.remove('go'), 100);
+        try { navigator.vibrate(20); } catch {}
+        playShutter();
       }
 
       await sleep(50);
@@ -1894,7 +1917,10 @@ async function sendToWorker() {
       faceTraits: fR.faceTraits || [],
       bodyTraits: bR.bodyTraits || [],
       insights: [fR.insights, bR.insights].filter(Boolean).join(' '),
+      gender: fR.gender || bR.gender || 'male',
     };
+    ST.gender = merged.gender;
+    applyGenderTheme(ST.gender);
     ST.result = merged;
     ST.measurements = { ...faceMeasAvg, ...bodyMeasAvg };
     // Free photo memory after API call
@@ -1908,6 +1934,8 @@ async function sendToWorker() {
     const res = await callAPI(ST.mode, caps, measText);
     if (ST.token !== myTk) { clearInterval(statusInterval); return; }
     if (res._err) { clearInterval(statusInterval); $('errmsg').textContent = res.msg; show('errscr'); return; }
+    ST.gender = res.gender || 'male';
+    applyGenderTheme(ST.gender);
     ST.result = res;
     ST.measurements = measAvg;
     // Free photo memory after API call
@@ -1933,7 +1961,6 @@ async function callAPI(mode, photos, meas) {
   const payload = {
     mode,
     deviceId: DID,
-    gender: ST.gender,
     frames: photos.map(b64 => ({ photoB64: b64 })),
     measurements: meas || undefined,
   };
@@ -2287,24 +2314,32 @@ async function openLB() {
 }
 function fLB(f) {
   ST.lbFil = f;
-  ['all', 'face', 'frame'].forEach(x => $('lf-' + x).classList.toggle('on', x === f));
+  ['all', 'male', 'female', 'face', 'frame'].forEach(x => {
+    const el = $('lf-' + x);
+    if (el) el.classList.toggle('on', x === f);
+  });
   renderLB();
 }
 function renderLB() {
   const f = ST.lbFil;
   const k = f === 'face' ? 'faceScore' : f === 'frame' ? 'frameScore' : 'score';
-  let d = [...lbCache].filter(e => e[k] != null || e.score != null).sort((a, b) => (b[k] || b.score || 0) - (a[k] || a.score || 0));
+  let d = [...lbCache].filter(e => e[k] != null || e.score != null);
+  // Gender filter
+  if (f === 'male') d = d.filter(e => e.gender !== 'female');
+  if (f === 'female') d = d.filter(e => e.gender === 'female');
+  d.sort((a, b) => (b[k] || b.score || 0) - (a[k] || a.score || 0));
   const t3 = d.slice(0, 3);
   const med = ['🥇', '🥈', '🥉'], cls = ['p1', 'p2', 'p3'], ord = [1, 0, 2];
   const pod = $('pod'); pod.innerHTML = '';
   ord.forEach(i => {
     if (!t3[i]) return;
     const e = t3[i], sc = (e[k] || e.score || 0), t = tier(sc);
-    // FIX #9: Server now sends hasPhoto boolean, not raw data
+    const isFem = e.gender === 'female';
+    const scoreColor = isFem ? '#e06090' : 'var(--blue)';
     const av = '<div style="font-size:22px">👤</div>';
     const s = document.createElement('div');
     s.className = `ps ${cls[i]}`;
-    s.innerHTML = `<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss">${sc.toFixed(2)}</div><div class="psn">${esc(e.name || 'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i + 1}</div></div>`;
+    s.innerHTML = `<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss" style="color:${scoreColor}">${sc.toFixed(2)}</div><div class="psn">${esc(e.name || 'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i + 1}</div></div>`;
     pod.appendChild(s);
   });
   $('pfl').style.display = t3.length > 0 ? 'block' : 'none';
@@ -2312,11 +2347,14 @@ function renderLB() {
   if (!d.length) { list.innerHTML = '<div style="padding:32px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);line-height:2">NO ENTRIES YET</div>'; return; }
   d.slice(3).forEach((e, i) => {
     const sc = (e[k] || e.score || 0), t = tier(sc);
+    const isFem = e.gender === 'female';
+    const scoreColor = isFem ? '#e06090' : 'var(--blue)';
     const av = '<div style="font-size:15px">👤</div>';
     const ml = e.mode === 'combo' ? 'Full' : e.mode === 'body' ? 'Frame' : 'PSL';
+    const gIcon = isFem ? '♀' : '♂';
     const row = document.createElement('div');
     row.className = 'lr';
-    row.innerHTML = `<div class="lrk">#${i + 4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${esc(e.name || 'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier || t.l}</span></div></div><div class="lrs" style="color:${t.c}">${sc.toFixed(2)}</div>`;
+    row.innerHTML = `<div class="lrk">#${i + 4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${gIcon} ${esc(e.name || 'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier || t.l}</span></div></div><div class="lrs" style="color:${scoreColor}">${sc.toFixed(2)}</div>`;
     list.appendChild(row);
   });
 }
@@ -2359,7 +2397,7 @@ async function subLB() {
   const entry = {
     id: Date.now().toString(), name, score,
     faceScore: d.faceScore || null, frameScore: d.bodyScore || null,
-    tier: t.l, mode: ST.mode, photo: ST.lbPh || null, deviceId: DID, date: Date.now(),
+    tier: t.l, mode: ST.mode, gender: ST.gender || 'male', photo: ST.lbPh || null, deviceId: DID, date: Date.now(),
   };
   try {
     const r = await fetch(`${API}/lb`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(entry) });
@@ -2502,7 +2540,7 @@ function startBgMusic(style) {
   stopBgMusic();
 
   const musicGain = actx.createGain();
-  musicGain.gain.value = 0.10;
+  musicGain.gain.value = 0.30;
   musicGain.connect(masterGain);
   let step = 0;
 
@@ -2878,15 +2916,13 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.0; u.pitch = 0.95; u.volume = 1;
+    u.rate = 1.0; u.pitch = 0.92; u.volume = 1;
     const voices = ss.getVoices();
-    // Male voice preference — natural sounding
-    const pref = voices.find(v => v.name === 'Daniel' && v.lang.startsWith('en')) || // iOS British male
-                 voices.find(v => v.name === 'Aaron') || // iOS US male
-                 voices.find(v => v.name.includes('Male') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.name.includes('James') && v.lang.startsWith('en')) ||
+    // Male voice — works across iOS/Android/Desktop
+    const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|Fred|David|Thomas|Gordon|Rishi/i;
+    const pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
+                 voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => v.name.includes('Google UK English Male')) ||
-                 voices.find(v => /\b(Daniel|Aaron|James|Tom|Arthur|Oliver)\b/.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
                  voices.find(v => v.lang.startsWith('en'));
     if (pref) u.voice = pref;
@@ -2918,12 +2954,15 @@ function toast(m, d = 2500) {
 }
 function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-function setGender(g) {
-  ST.gender = g;
-  $('gm').style.opacity = g === 'male' ? '1' : '.4';
-  $('gf').style.opacity = g === 'female' ? '1' : '.4';
-  $('gm').style.border = g === 'male' ? '1px solid var(--blue)' : '1px solid var(--brm)';
-  $('gf').style.border = g === 'female' ? '1px solid #e06090' : '1px solid var(--brm)';
+function applyGenderTheme(g) {
+  const root = document.documentElement;
+  if (g === 'female') {
+    root.style.setProperty('--sig', '#e06090');
+    root.style.setProperty('--blue', '#d64f8a');
+  } else {
+    root.style.setProperty('--sig', '#22d45a');
+    root.style.setProperty('--blue', '#4f8ef7');
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2948,12 +2987,32 @@ function buildTiers() {
     UNDERTRAINED: 'Below average development. Training and nutrition would help.',
     'UNTRAINED SLOB': 'Significant deficits in muscle, leanness, or both.',
   };
+  const fdf = {
+    'IT GIRL': 'Top 2%. The kind of beauty that stops rooms. Rare genetics + perfect grooming.',
+    BADDIE: 'Top 5-10%. Extremely attractive. Gets DMs from strangers. Could model.',
+    FINE: 'Top 20%. Very pretty. Gets noticed. Strong features with good harmony.',
+    CUTE: 'Above average. Pleasant features, good symmetry. Gets compliments.',
+    MID: 'Average range. Nothing wrong, nothing standout. Room to glow up.',
+    'BELOW AVG': 'Below average. Some areas to improve with skincare, styling.',
+    NPC: 'Significant deficits. Lowest tier.',
+  };
+  const bdf = {
+    GODDESS: 'Elite physique. Perfect proportions, visible tone, incredible figure.',
+    BADDIE: 'Head-turning body. Athletic with feminine curves. Gym + genetics.',
+    SNATCHED: 'Clearly fit and it shows. Great waist-to-hip ratio, visible tone.',
+    FIT: 'Above average. Some gym work visible. Good foundation.',
+    MID: 'Average, untrained. Significant room for improvement.',
+    'BELOW AVG': 'Below average development or conditioning.',
+    NPC: 'Significant deficits.',
+  };
   const render = (id, tiers, descs) => {
     const el = $(id); if (!el) return;
     el.innerHTML = tiers.map(t => `<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-top:6px" onclick="const d=this.querySelector('.td');d.style.maxHeight=d.style.maxHeight==='0px'?'120px':'0px'"><div style="width:4px;min-height:28px;border-radius:2px;background:${t.c};flex-shrink:0;margin-top:2px"></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-family:var(--df);font-size:16px;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${t.m.toFixed(2)}+</div></div><div class="td" style="max-height:0px;overflow:hidden;transition:max-height .3s ease"><div style="font-size:11px;color:var(--t2);line-height:1.6;padding-top:8px">${descs[t.l] || ''}</div></div></div></div>`).join('');
   };
   render('ftiers', FT, fd);
+  render('ftiers_f', FTF, fdf);
   render('btiers', BT, bd);
+  render('btiers_f', BTF, bdf);
 }
 
 window.addEventListener('load', () => {
@@ -2974,7 +3033,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, setGender,
+  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend,
 });
 </script>
 </body>
