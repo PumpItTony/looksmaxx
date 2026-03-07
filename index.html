@@ -433,9 +433,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:14px;display:flex;flex-direction:column;gap:14px">
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
-<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET THE LOOKSMAXX BOT</div>
+<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET MAX</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
-I'm an AI biometric scanner. I use the same facial landmark technology as Apple Face ID — except instead of unlocking your phone, I'm scoring your attractiveness on a 1-10 scale using real data.<br><br>
+I'm Max, your AI biometric scanner. I use computer vision to map your face and body in real-time, then score your attractiveness on a 1-10 scale using real measurement data.<br><br>
 Here's what happens when you scan:
 </div>
 </div>
@@ -454,7 +454,7 @@ Here's what happens when you scan:
 <div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">TIPS FOR BEST RESULTS</div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">
 <b style="color:var(--sig)">Lighting matters most.</b> Face a window. Natural, even light lets the AI see your actual features — shadows create phantom jawlines and false definitions.<br><br>
-<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow KAREN's prompts — each pose captures different measurement data.<br><br>
+<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow Max's prompts — each pose captures different measurement data.<br><br>
 <b style="color:var(--green)">Body scans:</b> Prop your phone 4-5 feet away, leaned against a wall or object. Stand in front of a plain background. Shirtless gets significantly more accurate muscle, body fat, and vascularity readings.<br><br>
 <b style="color:var(--gold)">Want the best score?</b> Good lighting + good posture + following every prompt. The AI rewards you for what it can actually see.
 </div>
@@ -760,7 +760,7 @@ function getVideoTransform(video, canvas) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// DRAW FACE MESH — Apple Face ID Style (with proper coordinate mapping)
+// DRAW FACE MESH — Biometric wireframe overlay (with proper coordinate mapping)
 // ═══════════════════════════════════════════════════════════════
 const FACE_OVAL = [10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109,10];
 
@@ -1405,60 +1405,60 @@ async function startCapture() {
 
   // ═══ POSE DEFINITIONS ═══
   const facePoses = [
-    { id: 'detect', label: 'INITIALIZING', oval: 'LOOK AT ME', status: 'Acquiring target',
-      voice: "Hi. I'm the LooksMaxx Bot. I'm going to scan your face using 478 biometric landmarks, the same technology used in Apple Face ID. Look right at the camera for me.", dur: 8000, needsLM: true, minFrames: 15 },
-    { id: 'front', label: 'MAPPING FACE', oval: 'PERFECT — HOLD THAT', status: 'Reading 478 landmarks',
-      voice: "Got you. I'm mapping your facial structure right now. Jaw angle, cheekbone width, the ratio of your face height to width. These are mathematically precise measurements. Hold still.", dur: 8000, needsLM: true, minFrames: 30, capture: true,
+    { id: 'intro', label: 'WELCOME', oval: 'LOOK AT ME', status: 'Initializing',
+      voice: "Hey. I'm Max. I'll be running your scan today. I'm going to map 478 biometric landmarks on your face and score you across 10 traits. Just follow my lead. Look straight at the camera.", dur: 10000, needsLM: true, minFrames: 10 },
+    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD THAT', status: 'Mapping facial structure',
+      voice: "Good. I've got a lock on your face. Right now I'm measuring your jaw angle, cheekbone width, and the ratio of your face height to width. These are mathematically precise. Hold still for me.", dur: 9000, needsLM: true, minFrames: 30, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT PROFILE', oval: 'SHOW ME THE LEFT', status: 'Measuring jawline',
-      voice: "Now slowly turn to your left. I need your profile to measure your jaw angle and mandibular definition. A strong jawline is the number one male attractiveness trait according to research.", dur: 7000, needsLM: true, minFrames: 20,
+    { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', status: 'Measuring jawline',
+      voice: "Turn your head to the left slowly. I need your profile to calculate your jaw angle and mandibular definition. Jawline is the number one male attractiveness trait in the research.", dur: 8000, needsLM: true, minFrames: 20,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT PROFILE', oval: 'NOW THE RIGHT', status: 'Comparing symmetry',
-      voice: "Other side now. Turn right. I'm comparing your left and right profiles to calculate bilateral symmetry. Perfect faces have a symmetry ratio of one point zero. Very few people actually have that.", dur: 7000, needsLM: true, minFrames: 20,
+    { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', status: 'Calculating symmetry',
+      voice: "Other side. Turn right. I'm comparing both profiles to compute your bilateral symmetry ratio. A perfect score is one point zero. Almost nobody has that.", dur: 8000, needsLM: true, minFrames: 20,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'center', label: 'MONEY SHOT', oval: '💰 HOLD STILL 💰', status: 'Locking your best angle',
-      voice: "Back to center. Eyes on me. Right here.", dur: 8000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
+    { id: 'smile', label: 'SMILE', oval: 'SMILE FOR ME', status: 'Analyzing expression',
+      voice: "Back to center. Now give me a genuine smile. I'm measuring how your facial harmony shifts with expression. Some faces gain two full points with the right smile.", dur: 6000, needsLM: true, minFrames: 12 },
+    { id: 'center', label: 'THE SHOT', oval: 'HOLD PERFECTLY STILL', status: 'Capturing primary reference',
+      voice: "Drop the smile. Neutral face. Eyes on me.", dur: 9000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'smile', label: 'SMILE CHECK', oval: 'GIVE ME A SMILE', status: 'Analyzing expression',
-      voice: "Give me a real smile. I'm checking how your facial harmony changes with expression. Attractiveness isn't static. Some faces gain two full points when they smile.", dur: 5500, needsLM: true, minFrames: 10 },
-    { id: 'tilt', label: 'PROPORTIONS', oval: 'CHIN UP SLIGHTLY', status: 'Measuring facial thirds',
-      voice: "Chin up a little. I'm measuring your facial thirds. The ideal face divides into three equal sections: forehead to brows, brows to nose, and nose to chin. Let me see yours.", dur: 6000, needsLM: true, minFrames: 15,
+    { id: 'tilt', label: 'PROPORTIONS', oval: 'CHIN UP', status: 'Measuring facial thirds',
+      voice: "Chin up slightly. I'm dividing your face into thirds. Forehead to brows, brows to nose, nose to chin. The ideal split is equal thirds. Let me see yours.", dur: 7000, needsLM: true, minFrames: 15,
       meas: ['facialThirds'] },
     { id: 'final', label: 'FINALIZING', oval: 'HOLD STILL', status: 'Final calibration',
-      voice: "Hold right there. Running final calibration on all nine measurement vectors. Cross-referencing with the photos I captured. Almost done.", dur: 6000, needsLM: true, minFrames: 25 },
+      voice: "Hold that. Running final calibration across all measurement vectors. Cross-referencing photos. Almost there.", dur: 6000, needsLM: true, minFrames: 25 },
   ];
 
   const bodyIntro = mode === 'body'
-    ? "Hi, I'm the LooksMaxx Bot. I'm going to scan your physique using 33 body pose landmarks and AI vision analysis. Prop your phone against something stable about four to five feet away. I need to see your full body head to toe. Shirtless will get you the most accurate reading. I'll count you in."
-    : "Alright, body scan time. Prop your phone against something stable about four to five feet away. I need to see your full body head to toe. Shirtless will get you the most accurate reading. I'll count you in.";
+    ? "Hey. I'm Max. Time to scan your physique. I'll be tracking 33 body landmarks and measuring your frame, posture, and proportions. Prop your phone against something about four to five feet away. Full body in frame. Shirtless gets the most accurate read. I'll count you in."
+    : "Body scan. Prop your phone against something about four to five feet away. Full body in frame. Shirtless for accuracy. I'll count you in.";
 
   const bodyPoses = [
-    { id: 'setup', label: 'SET THE STAGE', status: 'Get in position',
+    { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntro, dur: 12000, isSetup: true, countdown: true },
     { id: 'detect', label: 'ACQUIRING', status: 'Locking on',
-      voice: "I see you. I'm tracking 33 body landmarks using pose estimation AI. Stand tall, feet shoulder width. Let me calibrate.", dur: 7000, needsLM: true, minFrames: 15 },
-    { id: 'front', label: 'FRAME SCAN', status: 'Measuring frame width',
-      voice: "Arms out slightly. I'm measuring your shoulder to hip ratio. This is the V-taper. It's the single most important indicator of an athletic male physique. Wider shoulders and a narrow waist equals a higher score.", dur: 9000, needsLM: true, minFrames: 30, capture: true,
+      voice: "Stand tall. Feet shoulder width. Let me lock onto your landmarks.", dur: 7000, needsLM: true, minFrames: 15 },
+    { id: 'front', label: 'FRAME SCAN', status: 'Measuring frame',
+      voice: "Arms out slightly. I'm measuring your shoulder to hip ratio. This is the V-taper. It's the most important indicator of an athletic male build. Wider shoulders, narrow waist, higher score.", dur: 9000, needsLM: true, minFrames: 30, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth'] },
-    { id: 'lat', label: 'LAT SPREAD', status: 'Measuring V-taper',
-      voice: "Now spread your lats. Push your elbows out. I'm re-measuring your shoulder width with your lats engaged. The difference between relaxed and engaged tells me about muscle development.", dur: 8000, needsLM: true, minFrames: 25,
+    { id: 'lat', label: 'LAT SPREAD', status: 'V-taper engaged',
+      voice: "Spread your lats. Push elbows out. I'm comparing your engaged width to your relaxed frame. That difference tells me about actual muscle development.", dur: 8000, needsLM: true, minFrames: 25,
       meas: ['shoulderToHipRatio', 'shoulderWidth'] },
     { id: 'side', label: 'LEFT SIDE', status: 'Measuring posture',
-      voice: "Turn to your left. I need your side profile to measure posture angle. A perfectly upright posture is ninety degrees. Forward head posture significantly reduces perceived attractiveness and can lose you a full point.", dur: 8000, needsLM: true, minFrames: 20,
+      voice: "Turn left. Side profile. I'm reading your posture angle. Ninety degrees is perfectly upright. Forward head posture can cost you a full point on the score.", dur: 8000, needsLM: true, minFrames: 20,
       meas: ['postureAngle', 'torsoLength'] },
     { id: 'sideback', label: 'RIGHT SIDE', status: 'Cross-referencing',
-      voice: "Other side. Turn right. I'm cross-referencing both profiles to verify the posture measurement and check for lateral imbalances.", dur: 7000, needsLM: true, minFrames: 20,
+      voice: "Other side. Turn right. Cross-referencing both profiles for posture and lateral balance.", dur: 7000, needsLM: true, minFrames: 20,
       meas: ['postureAngle'] },
-    { id: 'flex', label: 'BEAST MODE', status: 'Show me everything',
-      voice: "Face me. Hit your hardest flex. Arms up. Squeeze everything. Show me peak contraction. I'm looking for muscle separation, vascularity, and definition.", dur: 9000, needsLM: true, minFrames: 30, capture: true, beastMode: true,
+    { id: 'flex', label: 'BEAST MODE', status: 'Peak contraction',
+      voice: "Face me. Hit your hardest double bicep. Arms up. Squeeze everything. I'm looking for muscle separation, vascularity, and definition. Show me peak contraction.", dur: 9000, needsLM: true, minFrames: 30, capture: true, beastMode: true,
       meas: ['shoulderToHipRatio', 'armSpan'] },
-    { id: 'grin', label: 'EARNED IT', status: 'Almost there',
-      voice: "Give me a grin. You earned that one.", dur: 3500, needsLM: true, minFrames: 8 },
-    { id: 'relax', label: 'NATURAL', status: 'Baseline capture',
-      voice: "Drop everything. Arms down. Stand completely natural. This is your baseline. I'm comparing your relaxed frame to your flexed frame to estimate muscle mass versus bone structure.", dur: 7000, needsLM: true, minFrames: 20, capture: true,
+    { id: 'closeup', label: 'UP CLOSE', status: 'Detail capture',
+      voice: "Step toward the camera. About two feet. Give me a side chest or a single bicep. I need to see muscle detail up close.", dur: 8000, needsLM: false, capture: true },
+    { id: 'relax', label: 'NATURAL', status: 'Baseline',
+      voice: "Step back. Stand completely natural. Arms down. Relaxed. This is your baseline. I'm comparing it to your flexed state to separate muscle from bone structure.", dur: 7000, needsLM: true, minFrames: 20,
       meas: ['shoulderToHipRatio', 'hipWidth', 'torsoLength'] },
     { id: 'final', label: 'PROCESSING', status: 'Computing',
-      voice: "Scan complete. I have all the data I need. Sending your measurements and photos to the AI for scoring.", dur: 3000, minFrames: 0 },
+      voice: "Scan complete. Sending your measurements and photos to the AI now.", dur: 3000, minFrames: 0 },
   ];
 
   const poses = isFace ? facePoses : bodyPoses;
@@ -1487,11 +1487,12 @@ async function startCapture() {
   }
 
   $('svt').textContent = isFace ? 'FACE SCAN' : 'BODY SCAN';
-  $('sst').textContent = isFace ? 'Initializing biometric capture…' : 'Initializing pose tracking…';
-  await sleep(2000);
+  $('sst').textContent = 'Initializing…';
+  // Let the music breathe for 3 seconds before MAX starts talking
+  await sleep(3000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
-  const confirms = ['Good data.', 'Captured.', 'Got it.', 'Processing.', 'Clean read.', 'Excellent.'];
+  const confirms = ['Good.', 'Captured.', 'Got it.', 'Clean read.', 'Solid data.', 'Logged.'];
   let confirmIdx = 0;
 
   // ═══ POSE LOOP ═══
@@ -1506,65 +1507,46 @@ async function startCapture() {
     if (ft && pose.oval) ft.textContent = pose.oval;
     speak(pose.voice);
 
-    // MONEY SHOT — 8-second cinematic face scan climax
+    // THE SHOT — cinematic primary capture moment
     if (pose.moneyShot) {
       ensureAudioPlaying();
       const scanEl = $('scan');
       const ovalEl = $('foval');
 
-      // Phase 1 (0s): Dramatic pause — music dips, screen darkens
-      // Darken the scan view
-      scanEl.style.transition = 'filter 0.5s';
-      scanEl.style.filter = 'brightness(0.6)';
-      $('svt').textContent = '...';
+      // Phase 1: Screen dims, tension builds
+      scanEl.style.transition = 'filter 0.6s';
+      scanEl.style.filter = 'brightness(0.5)';
       $('sst').textContent = '';
-      await sleep(1200);
+      await sleep(1500);
       if (ST.aborted) { scanEl.style.filter = ''; return; }
 
-      // Phase 2 (1.2s): Buildup — rising tension + text reveal
+      // Phase 2: Rising tension audio + text
       playMoneyBuildup();
-      $('svt').textContent = 'MONEY';
-      $('svt').style.color = '#FFD700';
-      scanEl.style.filter = 'brightness(0.8)';
-      await sleep(800);
+      $('svt').textContent = 'CAPTURING';
+      $('svt').style.color = 'var(--gold)';
+      scanEl.style.filter = 'brightness(0.7)';
+      await sleep(1000);
       if (ST.aborted) { scanEl.style.filter = ''; $('svt').style.color = ''; return; }
 
-      // Phase 3 (2.0s): THE DROP — flash, full brightness, gold glow, money + flames
-      $('svt').textContent = '💰 MONEY SHOT 💰';
+      // Phase 3: THE CAPTURE — sharp flash, full brightness, gold accent
       scanEl.style.filter = '';
-      scanEl.style.boxShadow = 'inset 0 0 100px rgba(255,215,0,.5), inset 0 0 250px rgba(255,140,0,.2)';
-      scanEl.style.transition = 'box-shadow 0.3s, filter 0.2s';
-      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 200);
-      try { navigator.vibrate([60, 30, 60, 30, 120]); } catch {}
+      scanEl.style.transition = 'filter 0.1s';
+      scanEl.style.boxShadow = 'inset 0 0 80px rgba(255,215,0,.3)';
+      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 180);
+      try { navigator.vibrate([80, 40, 120]); } catch {}
       playMoneyDrop();
-      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 30px rgba(255,215,0,.8))';
-      spawnMoneyRain();
-      spawnFlameEffect();
-      speak("This is it. The money shot. Hold still and look incredible.");
+      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 20px rgba(255,215,0,.6))';
+      spawnScanParticles('gold');
+      speak("Locked in. That's the one.");
+      $('sst').textContent = 'Primary reference captured';
 
-      // Phase 4 (3.5s): Gold particle burst
-      setTimeout(() => {
-        if (!ST.aborted) {
-          spawnScanParticles('gold');
-          try { navigator.vibrate([30, 15, 60]); } catch {}
-        }
-      }, 1500);
-
-      // Phase 5 (4.5s): Victory sting
-      setTimeout(() => {
-        if (!ST.aborted) {
-          playMoneySting();
-          $('sst').textContent = 'Locked in';
-        }
-      }, 2500);
-
-      // Phase 6 (6.5s): Fade effects
+      // Phase 4: Clean fade
       setTimeout(() => {
         scanEl.style.boxShadow = '';
         scanEl.style.filter = '';
         if (ovalEl) ovalEl.style.filter = '';
         $('svt').style.color = '';
-      }, 6500);
+      }, 4000);
     }
 
     // BEAST MODE — body scan flex moment (green themed)
@@ -1597,6 +1579,11 @@ async function startCapture() {
     sind.appendChild(pill); setTimeout(() => pill.classList.add('in'), 50);
     while (sind.children.length > 4) sind.removeChild(sind.firstChild);
 
+    // Calculate minimum speech time from word count (rate 0.92 ≈ ~160 wpm)
+    const wordsInVoice = (pose.voice || '').split(/\s+/).length;
+    const estSpeechMs = Math.ceil((wordsInVoice / 160) * 60 * 1000) + 1500; // +1.5s buffer
+    const effectiveDur = Math.max(pose.dur, estSpeechMs);
+
     // Pose data collection
     const poseStart = Date.now();
     let poseFrames = 0;
@@ -1604,9 +1591,9 @@ async function startCapture() {
 
     while (!ST.aborted && ST.token === myTk) {
       const elapsed = Date.now() - poseStart;
-      if (poseFrames >= (pose.minFrames || 0) && elapsed >= pose.dur) break;
-      if (elapsed > pose.dur * 2.5) break;
-      if (pose.isSetup && elapsed >= pose.dur) break;
+      if (poseFrames >= (pose.minFrames || 0) && elapsed >= effectiveDur) break;
+      if (elapsed > effectiveDur * 2.5) break;
+      if (pose.isSetup && elapsed >= effectiveDur) break;
 
       if (lastLandmarks && !pose.isSetup) {
         noDetect = 0;
@@ -1715,7 +1702,7 @@ async function startCapture() {
       playConfirmDing();
       // Special hype confirmation after money/beast moments
       if (pose.beastMode) {
-        speak("Impressive contraction. I've seen what I need.");
+        speak("Noted. Strong contraction.");
       } else if (pose.moneyShot) {
         // Money shot already handled speech during the pose
         playWhoosh();
@@ -1735,7 +1722,7 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
-  speak(isFace ? "Face scan complete. Strong dataset. Let me process this." : "Body scan complete. I have everything I need. Let me run the analysis.");
+  speak(isFace ? "Face scan locked. Good data. Let me process this." : "Body scan complete. All measurements captured. Running analysis now.");
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -1772,7 +1759,7 @@ async function startCapture() {
 
   // Combo mode: face done → transition to body
   if (mode === 'combo' && isFace) {
-    speak("Face data locked in. Now I need your body. Let me switch cameras.");
+    speak("Face data locked. Switching to body scan now.");
     $('svt').textContent = 'FACE ✓';
     $('svt').style.color = 'var(--blue)';
     const measCount = ST.faceMeas.length;
@@ -2023,7 +2010,7 @@ function showReveal(data) {
     try { navigator.vibrate([100, 50, 100, 50, 200]); } catch {}
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
-    // KAREN reacts to the score differently based on tier
+    // MAX reacts to the score differently based on tier
     const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
     if (score >= 8.5) speak(`${scoreText}. Exceptional. You're in the top five percent. I don't give scores like this often.`);
     else if (score >= 7.5) speak(`${scoreText}. Very impressive. You scored well above average. Real genetic advantage here.`);
@@ -2804,212 +2791,6 @@ function playMoneyDrop() {
   } catch {}
 }
 
-// 🔥 FLAME EFFECT — fire particles rising from bottom
-function spawnFlameEffect() {
-  const scanEl = $('scan');
-  const cvs = document.createElement('canvas');
-  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:19;pointer-events:none';
-  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-  scanEl.appendChild(cvs);
-  const ctx = cvs.getContext('2d');
-  const W = cvs.width, H = cvs.height;
-  const flames = [];
-  const flameColors = ['#FF4500', '#FF6B00', '#FF8C00', '#FFA500', '#FFD700', '#FFEC8B'];
-  let startTime = Date.now();
-
-  function spawnFlames(count) {
-    for (let i = 0; i < count; i++) {
-      flames.push({
-        x: Math.random() * W,
-        y: H + 10 + Math.random() * 30,
-        vy: -(2 + Math.random() * 4),
-        vx: (Math.random() - 0.5) * 2,
-        size: 3 + Math.random() * 8,
-        color: flameColors[Math.floor(Math.random() * flameColors.length)],
-        life: 1,
-        decay: 0.008 + Math.random() * 0.008,
-      });
-    }
-  }
-
-  // Waves of flame
-  spawnFlames(20);
-  const t2 = setTimeout(() => spawnFlames(15), 500);
-  const t3 = setTimeout(() => spawnFlames(15), 1000);
-  const t4 = setTimeout(() => spawnFlames(10), 1500);
-  const t5 = setTimeout(() => spawnFlames(10), 2000);
-
-  const draw = () => {
-    ctx.clearRect(0, 0, W, H);
-    let alive = false;
-    flames.forEach(p => {
-      if (p.life <= 0) return; alive = true;
-      p.y += p.vy;
-      p.x += p.vx + (Math.random() - 0.5) * 1.5; // Flicker
-      p.life -= p.decay;
-      p.size *= 0.995; // Shrink as it rises
-
-      ctx.globalAlpha = p.life * 0.8;
-      ctx.fillStyle = p.color;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Glow
-      ctx.globalAlpha = p.life * 0.3;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1;
-    if (alive && Date.now() - startTime < 5000) {
-      requestAnimationFrame(draw);
-    } else {
-      clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5);
-      cvs.remove();
-    }
-  };
-  requestAnimationFrame(draw);
-}
-
-// Particle burst during scan — themed by color
-function spawnScanParticles(theme) {
-  const scanEl = $('scan');
-  const cvs = document.createElement('canvas');
-  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:20;pointer-events:none';
-  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-  scanEl.appendChild(cvs);
-  const pctx = cvs.getContext('2d');
-  const particles = [];
-  const colors = theme === 'blue'
-    ? ['#4f8ef7', '#6ea8ff', '#fff', '#a0c4ff', '#FFD700']
-    : theme === 'gold'
-    ? ['#FFD700', '#FFA500', '#FFEC8B', '#fff', '#DAA520', '#F0E68C']
-    : ['#22d45a', '#5ddb6e', '#4f8ef7', '#fff', '#FFD700'];
-  const cx = cvs.width / 2, cy = cvs.height / 2;
-  for (let i = 0; i < 50; i++) {
-    const angle = (Math.PI * 2 * i) / 50 + (Math.random() - 0.5) * 0.5;
-    const speed = 4 + Math.random() * 10;
-    particles.push({
-      x: cx, y: cy,
-      vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
-      size: Math.random() * 5 + 1,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      life: 1, decay: Math.random() * 0.015 + 0.012,
-    });
-  }
-  const draw = () => {
-    pctx.clearRect(0, 0, cvs.width, cvs.height);
-    let alive = false;
-    particles.forEach(p => {
-      if (p.life <= 0) return; alive = true;
-      p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.life -= p.decay; p.vx *= 0.98;
-      pctx.globalAlpha = p.life;
-      pctx.fillStyle = p.color;
-      pctx.beginPath(); pctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); pctx.fill();
-    });
-    pctx.globalAlpha = 1;
-    if (alive) requestAnimationFrame(draw); else cvs.remove();
-  };
-  requestAnimationFrame(draw);
-}
-
-// 💰 MONEY RAIN — gold symbols falling from the top of screen for ~4 seconds
-function spawnMoneyRain() {
-  const scanEl = $('scan');
-  const cvs = document.createElement('canvas');
-  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:20;pointer-events:none';
-  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-  scanEl.appendChild(cvs);
-  const pctx = cvs.getContext('2d');
-  const W = cvs.width, H = cvs.height;
-  const symbols = ['💰', '💵', '💎', '🪙', '✨', '⭐'];
-  const drops = [];
-
-  // Spawn drops in waves
-  function spawnWave(count) {
-    for (let i = 0; i < count; i++) {
-      drops.push({
-        x: Math.random() * W,
-        y: -20 - Math.random() * 100,
-        vy: 1.5 + Math.random() * 3,
-        vx: (Math.random() - 0.5) * 1.5,
-        size: 14 + Math.random() * 18,
-        symbol: symbols[Math.floor(Math.random() * symbols.length)],
-        spin: (Math.random() - 0.5) * 0.1,
-        angle: Math.random() * Math.PI * 2,
-        life: 1,
-        decay: 0.003 + Math.random() * 0.002,
-      });
-    }
-  }
-
-  // Initial burst + staggered waves
-  spawnWave(15);
-  const w2 = setTimeout(() => spawnWave(12), 800);
-  const w3 = setTimeout(() => spawnWave(10), 1600);
-  const w4 = setTimeout(() => spawnWave(8), 2400);
-
-  let startTime = Date.now();
-  const draw = () => {
-    pctx.clearRect(0, 0, W, H);
-    let alive = false;
-    drops.forEach(d => {
-      if (d.life <= 0) return;
-      alive = true;
-      d.y += d.vy;
-      d.x += d.vx;
-      d.angle += d.spin;
-      d.life -= d.decay;
-      if (d.y > H + 30) d.life = 0;
-
-      pctx.save();
-      pctx.globalAlpha = Math.min(1, d.life * 2);
-      pctx.translate(d.x, d.y);
-      pctx.rotate(d.angle);
-      pctx.font = `${d.size}px sans-serif`;
-      pctx.textAlign = 'center';
-      pctx.fillText(d.symbol, 0, 0);
-      pctx.restore();
-    });
-
-    // Time limit: 5 seconds max
-    if (alive && Date.now() - startTime < 5000) {
-      requestAnimationFrame(draw);
-    } else {
-      clearTimeout(w2); clearTimeout(w3); clearTimeout(w4);
-      cvs.remove();
-    }
-  };
-  requestAnimationFrame(draw);
-}
-
-// Money sting — triumphant hit at peak of money shot
-function playMoneySting() {
-  if (!actx || !masterGain) return;
-  ensureAudioPlaying();
-  try {
-    const now = actx.currentTime;
-    // Major chord stab (C major in high register)
-    [1047, 1319, 1568, 2093].forEach((freq, i) => {
-      const o = actx.createOscillator(), g = actx.createGain();
-      o.type = 'triangle'; o.frequency.value = freq;
-      o.connect(g); g.connect(masterGain);
-      g.gain.setValueAtTime(0.12, now);
-      g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-      o.start(now); o.stop(now + 0.6);
-    });
-    // Sub punch
-    const sub = actx.createOscillator(), sg = actx.createGain();
-    sub.type = 'sine'; sub.frequency.value = 80;
-    sub.connect(sg); sg.connect(masterGain);
-    sg.gain.setValueAtTime(0.25, now);
-    sg.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-    sub.start(now); sub.stop(now + 0.3);
-    // Shimmer
-    safeNoise(0.2, 0.08, 6000);
-  } catch {}
-}
 function playTension() {
   if (!actx || !masterGain) return;
   ensureAudioPlaying();
@@ -3079,17 +2860,16 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 0.95; u.pitch = 1.1; u.volume = 1;
+    u.rate = 0.92; u.pitch = 0.85; u.volume = 1;
     const voices = ss.getVoices();
-    // Prefer voices with personality — Samantha (iOS) sounds most human-like
-    // Karen from Spongebob: confident, slightly sardonic, intelligent computer
-    const pref = voices.find(v => v.name.includes('Samantha')) ||
-                 voices.find(v => v.name.includes('Karen')) ||
-                 voices.find(v => v.name.includes('Moira')) ||
-                 voices.find(v => v.name.includes('Tessa')) ||
-                 voices.find(v => v.name.includes('Google UK English Female')) ||
-                 voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
+    // MAX voice: confident male, clear, slightly robotic — think JARVIS
+    const pref = voices.find(v => v.name.includes('Daniel') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.name.includes('Alex') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.name.includes('Tom') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.name.includes('Google UK English Male')) ||
+                 voices.find(v => v.name.includes('Google') && v.lang.startsWith('en') && v.name.includes('Male')) ||
+                 voices.find(v => v.name.includes('Aaron')) ||
+                 voices.find(v => v.name.includes('Fred')) ||
                  voices.find(v => v.lang.startsWith('en'));
     if (pref) u.voice = pref;
     u.onerror = () => {}; u.onend = () => {};
