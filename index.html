@@ -294,6 +294,17 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <ellipse cx="130" cy="170" rx="110" ry="148" fill="none" stroke="url(#og)" stroke-width="2.5" stroke-dasharray="6 4"/>
   <text x="130" y="32" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2" opacity=".6" id="foval-txt">POSITION FACE IN OVAL</text>
 </svg>
+<!-- Body positioning guide — shown during body scans -->
+<svg id="bguide" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(40vw,180px);height:min(80vh,500px);z-index:3;pointer-events:none;display:none;overflow:visible;opacity:.25" viewBox="0 0 100 300">
+  <!-- Simple body outline -->
+  <circle cx="50" cy="22" r="16" fill="none" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="50" y1="38" x2="50" y2="100" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="50" y1="55" x2="15" y2="90" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="50" y1="55" x2="85" y2="90" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="50" y1="100" x2="30" y2="180" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="50" y1="100" x2="70" y2="180" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="50" y="210" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="7" letter-spacing="1" id="bguide-txt">ALIGN BODY HERE</text>
+</svg>
 <div id="mlstat" style="position:absolute;bottom:calc(180px + var(--sab));left:50%;transform:translateX(-50%);z-index:8;font-family:var(--mf);font-size:8px;color:rgba(34,212,90,.5);letter-spacing:.06em;text-align:center;pointer-events:none"></div>
 <div class="sfl" id="sfl"></div>
 <div class="swarn" id="swarn"></div>
@@ -367,7 +378,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="height:12px"></div>
 <div class="ract">
 <button class="btn bp" onclick="genShare()">📤 Share Score Card</button>
-<button class="btn bg" onclick="openLBSub()">🏆 Submit to Leaderboard</button>
+<button class="btn bg" onclick="challengeFriend()">🔥 Challenge a Friend</button>
+<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">🏆 Submit to Leaderboard</button>
 <button class="btn bs" onclick="go(ST.mode)">↩ Rescan</button>
 <button class="btn bs" style="border:none;color:var(--t4)" onclick="goHome()">Home</button>
 </div>
@@ -419,30 +431,45 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div id="info" class="scr sb">
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HOW IT WORKS</div></div>
 <div style="padding:14px;display:flex;flex-direction:column;gap:14px">
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">THE TECHNOLOGY</div>
-<div style="font-size:12px;color:var(--t2);line-height:1.7">
-<b style="color:var(--sig)">Step 1 — Biometric Capture</b><br>
-MediaPipe maps 478 facial landmarks or 33 body pose points in real-time. The guided scan walks you through poses to capture every angle.<br><br>
-<b style="color:var(--blue)">Step 2 — Mathematical Analysis</b><br>
-Raw landmark coordinates are used to compute jaw angle, canthal tilt, facial symmetry, shoulder-to-hip ratio, posture angle, and more. These are objective measurements.<br><br>
-<b style="color:var(--amber)">Step 3 — AI Scoring</b><br>
-Reference photos + biometric measurements are sent to Claude AI for holistic assessment. The AI scores individual traits and provides a composite score calibrated to a realistic bell curve.<br><br>
-<b style="color:var(--gold)">Step 4 — Results</b><br>
-You get a detailed breakdown of every trait, your biometric measurements, AI insights, and an overall tier ranking. Share your score card or compete on the leaderboard.
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET THE LOOKSMAXX BOT</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+I'm an AI biometric scanner. I use the same facial landmark technology as Apple Face ID — except instead of unlocking your phone, I'm scoring your attractiveness on a 1-10 scale using real data.<br><br>
+Here's what happens when you scan:
 </div>
 </div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">TIPS FOR BEST RESULTS</div>
-<div style="font-size:12px;color:var(--t2);line-height:1.7">
-• <b>Lighting is everything</b> — face a window or use bright, even lighting<br>
-• <b>Camera at eye level</b> for face scans<br>
-• <b>Prop phone 6ft away</b> for body scans (lean against a wall)<br>
-• <b>Plain background</b> helps the AI focus on you<br>
-• <b>Shirtless body scans</b> get more accurate muscle/BF scores<br>
-• <b>Follow the voice prompts</b> — each pose captures different data
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--blue)">1</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--blue)">BIOMETRIC CAPTURE</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px"><b style="color:var(--sig)">Face:</b> 478 landmarks are tracked in real-time using MediaPipe AI. That green mesh you see? Each point is a precise coordinate on your face. I guide you through 8 poses — front, profiles, smile, chin angles — to map your complete facial geometry.<br><b style="color:var(--sig)">Body:</b> 33 pose landmarks track your skeleton. I draw a full wireframe mesh over your body, measure shoulder-to-hip ratio live on screen, and capture your physique from multiple angles.</div></div></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--amber)">2</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--amber)">MATHEMATICAL ANALYSIS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">From those landmarks, I compute objective measurements: jaw angle in degrees, canthal tilt, bilateral symmetry ratio, facial thirds proportions, shoulder-to-hip ratio, posture angle. These aren't opinions — they're math. Hundreds of measurements averaged across every pose with outlier filtering.</div></div></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,108,247,.15);border:1px solid rgba(139,108,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:#8b6cf7">3</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:#8b6cf7">AI VISION SCORING</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your measurements + reference photos are sent to an AI vision model. It scores 10 face traits and 9 body traits individually, then computes a weighted composite. The AI is calibrated to a realistic bell curve — 5.50 is average, most men score 5-7. It specifically looks for jawline definition, vascularity, muscle separation, symmetry, and overall dating appeal.</div></div></div>
+
+<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--gold)">4</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--gold)">YOUR RESULTS</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">You get a detailed trait-by-trait breakdown with individual scores and AI insights, your raw biometric measurements, a composite score, and a tier ranking from SUBHUMAN to GIGACHAD. Share your score card, compete on the global leaderboard, or use the insights to actually improve — the AI tells you exactly what to work on.</div></div></div>
+</div>
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px">
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">TIPS FOR BEST RESULTS</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+<b style="color:var(--sig)">Lighting matters most.</b> Face a window. Natural, even light lets the AI see your actual features — shadows create phantom jawlines and false definitions.<br><br>
+<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow KAREN's prompts — each pose captures different measurement data.<br><br>
+<b style="color:var(--green)">Body scans:</b> Prop your phone 4-5 feet away, leaned against a wall or object. Stand in front of a plain background. Shirtless gets significantly more accurate muscle, body fat, and vascularity readings.<br><br>
+<b style="color:var(--gold)">Want the best score?</b> Good lighting + good posture + following every prompt. The AI rewards you for what it can actually see.
 </div>
 </div>
+
+<div style="background:linear-gradient(155deg,rgba(79,142,247,.06),rgba(93,219,110,.04));border:1px solid var(--brm);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px">
+<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">THE TECH SPECS</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--blue);letter-spacing:.08em">FACE LANDMARKS</div><div style="font-family:var(--df);font-size:22px">478</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">per frame @ 20fps</div></div>
+<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--green);letter-spacing:.08em">BODY LANDMARKS</div><div style="font-family:var(--df);font-size:22px">33</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">pose estimation</div></div>
+<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--amber);letter-spacing:.08em">FACE TRAITS</div><div style="font-family:var(--df);font-size:22px">10</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">individually scored</div></div>
+<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--gold);letter-spacing:.08em">BODY TRAITS</div><div style="font-family:var(--df);font-size:22px">9</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">individually scored</div></div>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -474,7 +501,7 @@ import {FaceLandmarker, PoseLandmarker, FilesetResolver} from 'https://cdn.jsdel
 const API = 'https://looksmaxx.pumpittony.workers.dev';
 const DAILY_LIMIT = 20;
 const MAX_PHOTO_DIM_FACE = 640; // Face is close to camera
-const MAX_PHOTO_DIM_BODY = 1024; // Body is 6ft away — need detail for vascularity/definition
+const MAX_PHOTO_DIM_BODY = 1024; // Body is 4-5ft away — need detail for vascularity/definition
 const COMBO_FACE_WEIGHT = 0.55;
 const COMBO_BODY_WEIGHT = 0.45;
 
@@ -807,19 +834,120 @@ function drawPose(ctx, lm, tx) {
   if (!lm) return;
   ctx.save();
   const c = '#22d45a';
-  const vis = (i) => lm[i] && (lm[i].visibility || 0) > 0.4;
+  const vis = (i) => lm[i] && (lm[i].visibility || 0) > 0.35;
   const X = (i) => tx.x(lm[i].x), Y = (i) => tx.y(lm[i].y);
   const dist = (a, b) => Math.sqrt((lm[a].x - lm[b].x) ** 2 + (lm[a].y - lm[b].y) ** 2);
+  const midX = (a, b) => (X(a) + X(b)) / 2, midY = (a, b) => (Y(a) + Y(b)) / 2;
+  const pulse = 0.5 + 0.5 * Math.sin(Date.now() / 400); // Scanning pulse animation
 
-  // V-taper fill
+  // ═══ BODY OUTLINE SILHOUETTE — filled wireframe mesh ═══
+  // Build body contour from landmarks if enough are visible
   if (vis(11) && vis(12) && vis(23) && vis(24)) {
-    ctx.fillStyle = c + '0C';
-    ctx.beginPath();
-    ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(12), Y(12));
-    ctx.lineTo(X(24), Y(24)); ctx.lineTo(X(23), Y(23));
-    ctx.closePath(); ctx.fill();
+    // Shoulder width for body outline expansion
+    const sW = Math.abs(X(12) - X(11));
+    const expand = sW * 0.15; // How much to expand outline beyond landmarks
 
-    ctx.strokeStyle = c + '70'; ctx.lineWidth = 3;
+    // ═══ TORSO MESH FILL — translucent green body shape ═══
+    ctx.fillStyle = c + '08';
+    ctx.strokeStyle = c + '25';
+    ctx.lineWidth = 1.5;
+
+    // Full torso polygon (expanded beyond landmarks for body shape)
+    ctx.beginPath();
+    // Neck area (between shoulders, above)
+    const neckY = Math.min(Y(11), Y(12)) - sW * 0.2;
+    const neckW = sW * 0.15;
+    ctx.moveTo(midX(11, 12) - neckW, neckY);
+    ctx.lineTo(midX(11, 12) + neckW, neckY);
+    // Right shoulder (landmark 12) — expanded out
+    ctx.lineTo(X(12) + expand, Y(12));
+    // Right arm connection
+    if (vis(14)) ctx.lineTo(X(12) + expand * 0.3, midY(12, 24));
+    // Right hip
+    ctx.lineTo(X(24) + expand * 0.6, Y(24));
+    // Crotch area
+    ctx.lineTo(midX(23, 24), Math.max(Y(23), Y(24)) + sW * 0.15);
+    // Left hip
+    ctx.lineTo(X(23) - expand * 0.6, Y(23));
+    // Left arm connection
+    if (vis(13)) ctx.lineTo(X(11) - expand * 0.3, midY(11, 23));
+    // Left shoulder
+    ctx.lineTo(X(11) - expand, Y(11));
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // ═══ TESSELLATION GRID inside torso ═══
+    ctx.strokeStyle = c + '12';
+    ctx.lineWidth = 0.5;
+    const torsoTop = Math.min(Y(11), Y(12));
+    const torsoBot = Math.max(Y(23), Y(24));
+    const torsoH = torsoBot - torsoTop;
+    const torsoL2 = Math.min(X(11), X(23));
+    const torsoR = Math.max(X(12), X(24));
+    // Horizontal grid lines
+    ctx.beginPath();
+    for (let row = 0; row < 6; row++) {
+      const y = torsoTop + (torsoH * row) / 5;
+      const progress = row / 5;
+      const leftEdge = X(11) + (X(23) - X(11)) * progress - expand * (1 - progress * 0.4);
+      const rightEdge = X(12) + (X(24) - X(12)) * progress + expand * (1 - progress * 0.4);
+      ctx.moveTo(leftEdge, y);
+      ctx.lineTo(rightEdge, y);
+    }
+    // Vertical grid lines
+    for (let col = 0; col < 5; col++) {
+      const frac = col / 4;
+      const topX = X(11) + (X(12) - X(11)) * frac;
+      const botX = X(23) + (X(24) - X(23)) * frac;
+      ctx.moveTo(topX - expand * (1 - frac) + expand * frac, torsoTop);
+      ctx.lineTo(botX - expand * 0.6 * (1 - frac) + expand * 0.6 * frac, torsoBot);
+    }
+    // Diagonal cross-hatching for mesh effect
+    for (let row = 0; row < 5; row++) {
+      const y1 = torsoTop + (torsoH * row) / 5;
+      const y2 = torsoTop + (torsoH * (row + 1)) / 5;
+      const p1 = row / 5, p2 = (row + 1) / 5;
+      for (let col = 0; col < 4; col++) {
+        const f1 = col / 4, f2 = (col + 1) / 4;
+        const x1t = X(11) + (X(12) - X(11)) * f1;
+        const x2b = X(23) + (X(24) - X(23)) * f2;
+        ctx.moveTo(x1t, y1);
+        ctx.lineTo(x2b, y2);
+      }
+    }
+    ctx.stroke();
+
+    // ═══ MUSCLE GROUP OUTLINES ═══
+    // Chest line (pec separation)
+    const chestY = torsoTop + torsoH * 0.25;
+    ctx.strokeStyle = c + '30';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(midX(11, 12), chestY - torsoH * 0.05);
+    ctx.lineTo(midX(11, 12), chestY + torsoH * 0.1);
+    ctx.stroke();
+
+    // Ab lines (horizontal)
+    ctx.strokeStyle = c + '20';
+    ctx.beginPath();
+    const absTop = torsoTop + torsoH * 0.4;
+    const absBot = torsoBot - torsoH * 0.05;
+    const absW = sW * 0.25;
+    const mx = midX(11, 12);
+    for (let i = 0; i < 4; i++) {
+      const y = absTop + ((absBot - absTop) * i) / 3;
+      ctx.moveTo(mx - absW, y);
+      ctx.lineTo(mx + absW, y);
+    }
+    // Ab center line
+    ctx.moveTo(mx, absTop);
+    ctx.lineTo(mx, absBot);
+    ctx.stroke();
+
+    // ═══ BOLD TORSO FRAME — V-taper outline ═══
+    ctx.strokeStyle = c + '80';
+    ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(12), Y(12));
     ctx.moveTo(X(11), Y(11)); ctx.lineTo(X(23), Y(23));
@@ -827,52 +955,119 @@ function drawPose(ctx, lm, tx) {
     ctx.moveTo(X(23), Y(23)); ctx.lineTo(X(24), Y(24));
     ctx.stroke();
 
-    // Live measurement labels
-    const sW = dist(11, 12), hW = dist(23, 24), ratio = hW > 0 ? (sW / hW) : 0;
-    ctx.font = 'bold 16px "DM Mono",monospace'; ctx.textAlign = 'center';
-    const cx2 = (X(11) + X(12) + X(23) + X(24)) / 4;
-    const cy2 = (Y(11) + Y(12) + Y(23) + Y(24)) / 4;
-    ctx.fillStyle = c + 'DD';
+    // ═══ LIVE MEASUREMENTS ON BODY ═══
+    const sWr = dist(11, 12), hW = dist(23, 24), ratio = hW > 0 ? (sWr / hW) : 0;
+    ctx.font = 'bold 16px "DM Mono",monospace';
+    ctx.textAlign = 'center';
+
+    // S:H ratio at torso center
+    const cx2 = midX(11, 12) + (midX(23, 24) - midX(11, 12)) * 0.5;
+    const cy2 = torsoTop + torsoH * 0.5;
+    ctx.fillStyle = c + 'EE';
     ctx.fillText(`S:H ${ratio.toFixed(2)}`, cx2, cy2);
 
-    const sy = Math.min(Y(11), Y(12)) - 26;
-    ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '50'; ctx.lineWidth = 1;
+    // Shoulder measurement line
+    const sy = Math.min(Y(11), Y(12)) - 30;
+    ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '60'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(X(11), sy); ctx.lineTo(X(12), sy); ctx.stroke();
+    // Arrow heads
     ctx.setLineDash([]);
-    ctx.fillStyle = c + '90'; ctx.font = '13px "DM Mono",monospace';
-    ctx.fillText('SHOULDERS', (X(11) + X(12)) / 2, sy - 8);
+    ctx.fillStyle = c + 'AA'; ctx.font = '13px "DM Mono",monospace';
+    ctx.fillText('SHOULDERS', midX(11, 12), sy - 10);
 
-    const wy = Math.max(Y(23), Y(24)) + 26;
-    ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '50'; ctx.lineWidth = 1;
+    // Waist measurement line
+    const wy = Math.max(Y(23), Y(24)) + 30;
+    ctx.setLineDash([6, 4]); ctx.strokeStyle = c + '60'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(X(23), wy); ctx.lineTo(X(24), wy); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = c + '90'; ctx.font = '13px "DM Mono",monospace';
-    ctx.fillText('WAIST', (X(23) + X(24)) / 2, wy + 18);
+    ctx.fillStyle = c + 'AA'; ctx.font = '13px "DM Mono",monospace';
+    ctx.fillText('WAIST', midX(23, 24), wy + 20);
 
-    // Posture line
-    const midSx = (X(11) + X(12)) / 2, midSy = (Y(11) + Y(12)) / 2;
-    const midHx = (X(23) + X(24)) / 2, midHy = (Y(23) + Y(24)) / 2;
-    ctx.setLineDash([3, 3]); ctx.strokeStyle = c + '30'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(midSx, midSy); ctx.lineTo(midHx, midHy); ctx.stroke();
+    // Posture line (vertical plumb line)
+    const midSx = midX(11, 12), midSy = midY(11, 12);
+    const midHx = midX(23, 24), midHy = midY(23, 24);
+    ctx.setLineDash([3, 3]); ctx.strokeStyle = c + '40'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(midSx, midSy - 20); ctx.lineTo(midHx, midHy + 20); ctx.stroke();
     ctx.setLineDash([]);
+
+    // Height line (right side)
+    if (vis(0) && vis(27)) {
+      const hx = Math.max(X(12), X(24)) + sW * 0.4;
+      ctx.setLineDash([4, 4]); ctx.strokeStyle = c + '30'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(hx, Y(0)); ctx.lineTo(hx, Y(27)); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = c + '60'; ctx.font = '10px "DM Mono",monospace';
+      ctx.save(); ctx.translate(hx + 12, (Y(0) + Y(27)) / 2); ctx.rotate(-Math.PI / 2);
+      ctx.fillText('HEIGHT', 0, 0); ctx.restore();
+    }
   }
 
-  // Arms
-  ctx.strokeStyle = c + '60'; ctx.lineWidth = 3;
+  // ═══ ARM WIREFRAME — with muscle volume ═══
+  ctx.lineWidth = 3;
   [[11,13],[13,15],[12,14],[14,16]].forEach(([a, b]) => {
-    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke(); }
+    if (vis(a) && vis(b)) {
+      // Arm outline (thicker, represents arm volume)
+      ctx.strokeStyle = c + '20'; ctx.lineWidth = 12;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke();
+      // Core line
+      ctx.strokeStyle = c + '70'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke();
+    }
   });
+  ctx.lineCap = 'butt';
 
-  // Legs
-  ctx.strokeStyle = c + '40'; ctx.lineWidth = 2.5;
+  // ═══ LEG WIREFRAME — with volume ═══
   [[23,25],[25,27],[24,26],[26,28]].forEach(([a, b]) => {
-    if (vis(a) && vis(b)) { ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke(); }
+    if (vis(a) && vis(b)) {
+      ctx.strokeStyle = c + '15'; ctx.lineWidth = 14;
+      ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke();
+      ctx.strokeStyle = c + '50'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(X(a), Y(a)); ctx.lineTo(X(b), Y(b)); ctx.stroke();
+    }
   });
+  ctx.lineCap = 'butt';
 
-  // Joints
-  [11, 12].forEach(i => { if (vis(i)) { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(X(i), Y(i), 9, 0, Math.PI * 2); ctx.fill(); } });
-  [13, 14, 23, 24].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '90'; ctx.beginPath(); ctx.arc(X(i), Y(i), 6, 0, Math.PI * 2); ctx.fill(); } });
-  [15, 16, 25, 26, 27, 28].forEach(i => { if (vis(i)) { ctx.fillStyle = c + '50'; ctx.beginPath(); ctx.arc(X(i), Y(i), 4, 0, Math.PI * 2); ctx.fill(); } });
+  // ═══ JOINTS — pulsing green nodes ═══
+  const jointAlpha = Math.round(180 + 75 * pulse).toString(16).padStart(2, '0');
+  // Major joints (shoulders)
+  [11, 12].forEach(i => { if (vis(i)) {
+    ctx.fillStyle = c; ctx.beginPath(); ctx.arc(X(i), Y(i), 10, 0, Math.PI * 2); ctx.fill();
+    // Pulsing glow
+    ctx.fillStyle = c + '20'; ctx.beginPath(); ctx.arc(X(i), Y(i), 10 + 6 * pulse, 0, Math.PI * 2); ctx.fill();
+  }});
+  // Medium joints (elbows, hips)
+  [13, 14, 23, 24].forEach(i => { if (vis(i)) {
+    ctx.fillStyle = c + '99'; ctx.beginPath(); ctx.arc(X(i), Y(i), 7, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = c + '15'; ctx.beginPath(); ctx.arc(X(i), Y(i), 7 + 4 * pulse, 0, Math.PI * 2); ctx.fill();
+  }});
+  // Small joints (wrists, knees, ankles)
+  [15, 16, 25, 26, 27, 28].forEach(i => { if (vis(i)) {
+    ctx.fillStyle = c + '60'; ctx.beginPath(); ctx.arc(X(i), Y(i), 4, 0, Math.PI * 2); ctx.fill();
+  }});
+
+  // ═══ HEAD CIRCLE (if nose visible) ═══
+  if (vis(0)) {
+    const headR = vis(11) && vis(12) ? Math.abs(X(12) - X(11)) * 0.25 : 20;
+    ctx.strokeStyle = c + '40'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(X(0), Y(0) - headR * 0.3, headR, 0, Math.PI * 2); ctx.stroke();
+    // Head fill
+    ctx.fillStyle = c + '06';
+    ctx.beginPath(); ctx.arc(X(0), Y(0) - headR * 0.3, headR, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // ═══ SCANNING PULSE RING — radiates from body center ═══
+  if (vis(11) && vis(12) && vis(23) && vis(24)) {
+    const bx = (X(11) + X(12) + X(23) + X(24)) / 4;
+    const by = (Y(11) + Y(12) + Y(23) + Y(24)) / 4;
+    const maxR = Math.abs(X(12) - X(11)) * 1.5;
+    const scanR = maxR * ((Date.now() % 2000) / 2000);
+    const scanAlpha = 1 - scanR / maxR;
+    ctx.strokeStyle = c + Math.round(scanAlpha * 30).toString(16).padStart(2, '0');
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(bx, by, scanR, 0, Math.PI * 2); ctx.stroke();
+  }
 
   ctx.restore();
 }
@@ -892,6 +1087,7 @@ function goHome() {
   // Clean scan screen
   $('foval').style.display = 'none';
   $('foval').style.filter = '';
+  $('bguide').style.display = 'none';
   $('sflock').classList.remove('show');
   $('sconf').classList.remove('show');
   $('svt').classList.remove('big');
@@ -992,6 +1188,7 @@ function go(mode) {
   $('slf').style.width = '0%';
   $('slspin').style.borderTopColor = isB ? 'var(--green)' : 'var(--blue)';
   $('foval').style.display = (mode === 'face' || mode === 'combo') ? 'block' : 'none';
+  $('bguide').style.display = (mode === 'body') ? 'block' : 'none';
   $('mlstat').textContent = '';
   // Enable flip button
   $('flipb').classList.remove('disabled');
@@ -1049,7 +1246,18 @@ async function initScan(mode) {
     await sleep(400);
 
     $('sload').classList.add('hide');
-    $('svt').textContent = mode === 'body' ? 'STEP BACK — FULL BODY IN FRAME' : 'POSITION YOUR FACE IN FRAME';
+    // Check lighting quality
+    try {
+      const tempC = document.createElement('canvas');
+      tempC.width = 64; tempC.height = 48;
+      tempC.getContext('2d').drawImage(v, 0, 0, 64, 48);
+      const imgData = tempC.getContext('2d').getImageData(0, 0, 64, 48).data;
+      let brightness = 0;
+      for (let i = 0; i < imgData.length; i += 16) brightness += imgData[i] * 0.299 + imgData[i+1] * 0.587 + imgData[i+2] * 0.114;
+      brightness /= (imgData.length / 16);
+      if (brightness < 50) showWarn('Low light detected — move closer to a window for better results');
+    } catch {}
+    $('svt').textContent = mode === 'body' ? 'FULL BODY IN FRAME' : 'POSITION YOUR FACE IN FRAME';
     $('sst').textContent = mlOk ? 'Waiting for detection…' : 'Camera ready — tap to scan';
     if (!mlOk) $('sbtn').classList.remove('d');
     if (mlOk) {
@@ -1197,56 +1405,60 @@ async function startCapture() {
 
   // ═══ POSE DEFINITIONS ═══
   const facePoses = [
-    { id: 'detect', label: 'FINDING YOU', oval: 'LOOK RIGHT AT ME', status: 'Look at the camera',
-      voice: "Welcome to the scan. Look right at the camera and hold still for me.", dur: 6000, needsLM: true, minFrames: 15 },
-    { id: 'front', label: 'FRONT SCAN', oval: 'PERFECT — HOLD THAT', status: 'Mapping your face',
-      voice: "There you are. Stay right there. I'm reading 478 points on your face right now.", dur: 7000, needsLM: true, minFrames: 30, capture: true,
+    { id: 'detect', label: 'INITIALIZING', oval: 'LOOK AT ME', status: 'Acquiring target',
+      voice: "Hi. I'm the LooksMaxx Bot. I'm going to scan your face using 478 biometric landmarks, the same technology used in Apple Face ID. Look right at the camera for me.", dur: 8000, needsLM: true, minFrames: 15 },
+    { id: 'front', label: 'MAPPING FACE', oval: 'PERFECT — HOLD THAT', status: 'Reading 478 landmarks',
+      voice: "Got you. I'm mapping your facial structure right now. Jaw angle, cheekbone width, the ratio of your face height to width. These are mathematically precise measurements. Hold still.", dur: 8000, needsLM: true, minFrames: 30, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'TURN LEFT', oval: 'SHOW ME THE LEFT', status: 'Scanning left profile',
-      voice: "Nice. Now slowly turn left. Show me that jawline.", dur: 6000, needsLM: true, minFrames: 20,
+    { id: 'left', label: 'LEFT PROFILE', oval: 'SHOW ME THE LEFT', status: 'Measuring jawline',
+      voice: "Now slowly turn to your left. I need your profile to measure your jaw angle and mandibular definition. A strong jawline is the number one male attractiveness trait according to research.", dur: 7000, needsLM: true, minFrames: 20,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'TURN RIGHT', oval: 'NOW THE RIGHT', status: 'Scanning right profile',
-      voice: "Now the other way. Turn right. Let me see it.", dur: 6000, needsLM: true, minFrames: 20,
+    { id: 'right', label: 'RIGHT PROFILE', oval: 'NOW THE RIGHT', status: 'Comparing symmetry',
+      voice: "Other side now. Turn right. I'm comparing your left and right profiles to calculate bilateral symmetry. Perfect faces have a symmetry ratio of one point zero. Very few people actually have that.", dur: 7000, needsLM: true, minFrames: 20,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'center', label: 'MONEY SHOT', oval: '💰 HOLD STILL 💰', status: 'Locking your best angle',
-      voice: "Come back to center. Eyes right at me. This is the money shot.", dur: 8000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
+      voice: "Back to center. Eyes on me. Right here.", dur: 8000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Capturing your smile',
-      voice: "Okay now give me a real smile. Like someone just told you good news.", dur: 4500, needsLM: true, minFrames: 10 },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP SLIGHTLY', status: 'Measuring proportions',
-      voice: "Chin up just a bit. Like you just walked in and you own the room.", dur: 5000, needsLM: true, minFrames: 15,
+    { id: 'smile', label: 'SMILE CHECK', oval: 'GIVE ME A SMILE', status: 'Analyzing expression',
+      voice: "Give me a real smile. I'm checking how your facial harmony changes with expression. Attractiveness isn't static. Some faces gain two full points when they smile.", dur: 5500, needsLM: true, minFrames: 10 },
+    { id: 'tilt', label: 'PROPORTIONS', oval: 'CHIN UP SLIGHTLY', status: 'Measuring facial thirds',
+      voice: "Chin up a little. I'm measuring your facial thirds. The ideal face divides into three equal sections: forehead to brows, brows to nose, and nose to chin. Let me see yours.", dur: 6000, needsLM: true, minFrames: 15,
       meas: ['facialThirds'] },
-    { id: 'final', label: 'LOCKING IT IN', oval: 'HOLD STILL', status: 'Final calibration',
-      voice: "Hold it right there. Locking in your final measurements.", dur: 5000, needsLM: true, minFrames: 25 },
+    { id: 'final', label: 'FINALIZING', oval: 'HOLD STILL', status: 'Final calibration',
+      voice: "Hold right there. Running final calibration on all nine measurement vectors. Cross-referencing with the photos I captured. Almost done.", dur: 6000, needsLM: true, minFrames: 25 },
   ];
+
+  const bodyIntro = mode === 'body'
+    ? "Hi, I'm the LooksMaxx Bot. I'm going to scan your physique using 33 body pose landmarks and AI vision analysis. Prop your phone against something stable about four to five feet away. I need to see your full body head to toe. Shirtless will get you the most accurate reading. I'll count you in."
+    : "Alright, body scan time. Prop your phone against something stable about four to five feet away. I need to see your full body head to toe. Shirtless will get you the most accurate reading. I'll count you in.";
 
   const bodyPoses = [
     { id: 'setup', label: 'SET THE STAGE', status: 'Get in position',
-      voice: "Time to show what you're working with. Prop your phone against a wall, step back about 6 feet. Shirtless gets the best results.", dur: 10000, isSetup: true, countdown: true },
-    { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "Stand tall. Feet shoulder width. Let me find you.", dur: 7000, needsLM: true, minFrames: 15 },
-    { id: 'front', label: 'ARMS OUT', status: 'Measuring frame',
-      voice: "Got you. Arms out slightly. Let me see that frame.", dur: 8000, needsLM: true, minFrames: 30, capture: true,
+      voice: bodyIntro, dur: 12000, isSetup: true, countdown: true },
+    { id: 'detect', label: 'ACQUIRING', status: 'Locking on',
+      voice: "I see you. I'm tracking 33 body landmarks using pose estimation AI. Stand tall, feet shoulder width. Let me calibrate.", dur: 7000, needsLM: true, minFrames: 15 },
+    { id: 'front', label: 'FRAME SCAN', status: 'Measuring frame width',
+      voice: "Arms out slightly. I'm measuring your shoulder to hip ratio. This is the V-taper. It's the single most important indicator of an athletic male physique. Wider shoulders and a narrow waist equals a higher score.", dur: 9000, needsLM: true, minFrames: 30, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth'] },
-    { id: 'lat', label: 'SPREAD EM', status: 'Measuring V-taper',
-      voice: "Now spread those lats. Show me the width.", dur: 7000, needsLM: true, minFrames: 25,
+    { id: 'lat', label: 'LAT SPREAD', status: 'Measuring V-taper',
+      voice: "Now spread your lats. Push your elbows out. I'm re-measuring your shoulder width with your lats engaged. The difference between relaxed and engaged tells me about muscle development.", dur: 8000, needsLM: true, minFrames: 25,
       meas: ['shoulderToHipRatio', 'shoulderWidth'] },
-    { id: 'side', label: 'LEFT SIDE', status: 'Side profile',
-      voice: "Turn left. Show me the side view.", dur: 8000, needsLM: true, minFrames: 20,
+    { id: 'side', label: 'LEFT SIDE', status: 'Measuring posture',
+      voice: "Turn to your left. I need your side profile to measure posture angle. A perfectly upright posture is ninety degrees. Forward head posture significantly reduces perceived attractiveness and can lose you a full point.", dur: 8000, needsLM: true, minFrames: 20,
       meas: ['postureAngle', 'torsoLength'] },
-    { id: 'sideback', label: 'RIGHT SIDE', status: 'Comparing profiles',
-      voice: "Other side. Turn right.", dur: 7000, needsLM: true, minFrames: 20,
+    { id: 'sideback', label: 'RIGHT SIDE', status: 'Cross-referencing',
+      voice: "Other side. Turn right. I'm cross-referencing both profiles to verify the posture measurement and check for lateral imbalances.", dur: 7000, needsLM: true, minFrames: 20,
       meas: ['postureAngle'] },
     { id: 'flex', label: 'BEAST MODE', status: 'Show me everything',
-      voice: "Hit your hardest flex. Arms up. Squeeze everything. Show me what you got.", dur: 8000, needsLM: true, minFrames: 30, capture: true, beastMode: true,
+      voice: "Face me. Hit your hardest flex. Arms up. Squeeze everything. Show me peak contraction. I'm looking for muscle separation, vascularity, and definition.", dur: 9000, needsLM: true, minFrames: 30, capture: true, beastMode: true,
       meas: ['shoulderToHipRatio', 'armSpan'] },
     { id: 'grin', label: 'EARNED IT', status: 'Almost there',
-      voice: "Give me a grin. You earned it.", dur: 3500, needsLM: true, minFrames: 8 },
-    { id: 'relax', label: 'THE REAL YOU', status: 'Baseline capture',
-      voice: "Now drop everything. Stand natural. The real you.", dur: 6000, needsLM: true, minFrames: 20, capture: true,
+      voice: "Give me a grin. You earned that one.", dur: 3500, needsLM: true, minFrames: 8 },
+    { id: 'relax', label: 'NATURAL', status: 'Baseline capture',
+      voice: "Drop everything. Arms down. Stand completely natural. This is your baseline. I'm comparing your relaxed frame to your flexed frame to estimate muscle mass versus bone structure.", dur: 7000, needsLM: true, minFrames: 20, capture: true,
       meas: ['shoulderToHipRatio', 'hipWidth', 'torsoLength'] },
-    { id: 'final', label: 'CRUNCHING NUMBERS', status: 'Processing',
-      voice: "That's a wrap. Let me crunch these numbers.", dur: 3000, minFrames: 0 },
+    { id: 'final', label: 'PROCESSING', status: 'Computing',
+      voice: "Scan complete. I have all the data I need. Sending your measurements and photos to the AI for scoring.", dur: 3000, minFrames: 0 },
   ];
 
   const poses = isFace ? facePoses : bodyPoses;
@@ -1274,12 +1486,12 @@ async function startCapture() {
     document.querySelector('.spb')?.classList.remove('big');
   }
 
-  $('svt').textContent = 'GET READY';
-  $('sst').textContent = isFace ? 'Face scan starting…' : 'Body scan starting…';
+  $('svt').textContent = isFace ? 'FACE SCAN' : 'BODY SCAN';
+  $('sst').textContent = isFace ? 'Initializing biometric capture…' : 'Initializing pose tracking…';
   await sleep(2000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
-  const confirms = ['Got it.', 'Perfect.', 'Nice.', 'Good.', 'Looking good.', 'Solid.'];
+  const confirms = ['Good data.', 'Captured.', 'Got it.', 'Processing.', 'Clean read.', 'Excellent.'];
   let confirmIdx = 0;
 
   // ═══ POSE LOOP ═══
@@ -1294,48 +1506,65 @@ async function startCapture() {
     if (ft && pose.oval) ft.textContent = pose.oval;
     speak(pose.voice);
 
-    // MONEY SHOT — epic 5-second face scan moment with money rain
+    // MONEY SHOT — 8-second cinematic face scan climax
     if (pose.moneyShot) {
       ensureAudioPlaying();
       const scanEl = $('scan');
-
-      // Phase 1 (0s): Scanner sweep + flash + blue glow
-      playMoneyShot();
-      scanEl.style.boxShadow = 'inset 0 0 80px rgba(79,142,247,.45), inset 0 0 200px rgba(79,142,247,.15)';
-      scanEl.style.transition = 'box-shadow 0.5s';
-      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 150);
-      try { navigator.vibrate([40, 20, 40, 20, 80]); } catch {}
-      // Pulse the face oval gold
       const ovalEl = $('foval');
-      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 25px rgba(255,215,0,.7))';
-      $('svt').textContent = '💰 MONEY SHOT 💰';
+
+      // Phase 1 (0s): Dramatic pause — music dips, screen darkens
+      // Darken the scan view
+      scanEl.style.transition = 'filter 0.5s';
+      scanEl.style.filter = 'brightness(0.6)';
+      $('svt').textContent = '...';
+      $('sst').textContent = '';
+      await sleep(1200);
+      if (ST.aborted) { scanEl.style.filter = ''; return; }
+
+      // Phase 2 (1.2s): Buildup — rising tension + text reveal
+      playMoneyBuildup();
+      $('svt').textContent = 'MONEY';
       $('svt').style.color = '#FFD700';
-      $('sst').textContent = 'This is the one — hold it';
+      scanEl.style.filter = 'brightness(0.8)';
+      await sleep(800);
+      if (ST.aborted) { scanEl.style.filter = ''; $('svt').style.color = ''; return; }
 
-      // Phase 2 (0.5s): Gold/money rain from top of screen
-      setTimeout(() => { if (!ST.aborted) spawnMoneyRain(); }, 500);
+      // Phase 3 (2.0s): THE DROP — flash, full brightness, gold glow, money + flames
+      $('svt').textContent = '💰 MONEY SHOT 💰';
+      scanEl.style.filter = '';
+      scanEl.style.boxShadow = 'inset 0 0 100px rgba(255,215,0,.5), inset 0 0 250px rgba(255,140,0,.2)';
+      scanEl.style.transition = 'box-shadow 0.3s, filter 0.2s';
+      const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 200);
+      try { navigator.vibrate([60, 30, 60, 30, 120]); } catch {}
+      playMoneyDrop();
+      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 30px rgba(255,215,0,.8))';
+      spawnMoneyRain();
+      spawnFlameEffect();
+      speak("This is it. The money shot. Hold still and look incredible.");
 
-      // Phase 3 (1.8s): Blue particle burst + second voice
+      // Phase 4 (3.5s): Gold particle burst
       setTimeout(() => {
         if (!ST.aborted) {
           spawnScanParticles('gold');
           try { navigator.vibrate([30, 15, 60]); } catch {}
-          speak("There it is. That's the one.");
+        }
+      }, 1500);
+
+      // Phase 5 (4.5s): Victory sting
+      setTimeout(() => {
+        if (!ST.aborted) {
+          playMoneySting();
           $('sst').textContent = 'Locked in';
         }
-      }, 1800);
+      }, 2500);
 
-      // Phase 4 (3s): Victory sting
-      setTimeout(() => {
-        if (!ST.aborted) playMoneySting();
-      }, 3000);
-
-      // Phase 5 (5s): Fade effects
+      // Phase 6 (6.5s): Fade effects
       setTimeout(() => {
         scanEl.style.boxShadow = '';
+        scanEl.style.filter = '';
         if (ovalEl) ovalEl.style.filter = '';
         $('svt').style.color = '';
-      }, 5000);
+      }, 6500);
     }
 
     // BEAST MODE — body scan flex moment (green themed)
@@ -1440,12 +1669,12 @@ async function startCapture() {
 
       } else if (!pose.isSetup) {
         noDetect++;
-        if (noDetect === 8) $('sst').textContent = isFace ? "Where'd you go? Get in the oval" : "I need to see you — step into frame";
+        if (noDetect === 8) $('sst').textContent = isFace ? "I can't see you. Center your face in the oval." : "I've lost tracking. Step back into frame.";
         if (noDetect === 30) {
-          speak(isFace ? "Hey, I lost you. Get back in the oval for me." : "Step back a bit so I can see your whole body.");
-          $('sst').textContent = 'Come back…';
+          speak(isFace ? "I've lost your face. Move back into the oval and make sure you're well lit." : "I need to see your full body. Try four to five feet from the camera with good lighting.");
+          $('sst').textContent = 'Reacquiring…';
         }
-        if (noDetect === 60) $('sst').textContent = 'Pro tip: face a window. Lighting is everything.';
+        if (noDetect === 60) $('sst').textContent = isFace ? 'Tip: natural light from a window gives the best results.' : 'Tip: plain background, good lighting, full body in frame.';
         if (noDetect > 100 && (Date.now() - poseStart) > pose.dur) break;
         $('sflock').classList.remove('show');
       }
@@ -1486,9 +1715,9 @@ async function startCapture() {
       playConfirmDing();
       // Special hype confirmation after money/beast moments
       if (pose.beastMode) {
-        speak("That's what I'm talking about.");
+        speak("Impressive contraction. I've seen what I need.");
       } else if (pose.moneyShot) {
-        // Money shot already handled speech during the pose — just play sounds
+        // Money shot already handled speech during the pose
         playWhoosh();
       } else {
         speak(confirms[confirmIdx % confirms.length]);
@@ -1506,7 +1735,7 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
-  speak(isFace ? "Nice work. That was a solid scan." : "You killed it. Let me see what we're working with.");
+  speak(isFace ? "Face scan complete. Strong dataset. Let me process this." : "Body scan complete. I have everything I need. Let me run the analysis.");
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -1521,6 +1750,7 @@ async function startCapture() {
   $('sphase').innerHTML = '';
   $('sind').innerHTML = '';
   $('foval').style.display = 'none';
+  $('bguide').style.display = 'none';
   ['smeas1', 'smeas2', 'smeas3'].forEach(id => $(id).classList.remove('show'));
   $('spf').style.width = '100%';
 
@@ -1542,7 +1772,7 @@ async function startCapture() {
 
   // Combo mode: face done → transition to body
   if (mode === 'combo' && isFace) {
-    speak("Face scan locked in. Now let's check out the physique.");
+    speak("Face data locked in. Now I need your body. Let me switch cameras.");
     $('svt').textContent = 'FACE ✓';
     $('svt').style.color = 'var(--blue)';
     const measCount = ST.faceMeas.length;
@@ -1563,8 +1793,11 @@ async function startCapture() {
     await sleep(2500);
     if (ST.aborted || ST.token !== myTk) return;
     $('svt').style.color = ''; // Reset from blue/gold
-    $('svt').textContent = 'STEP BACK — FULL BODY IN FRAME';
+    $('svt').textContent = 'FULL BODY IN FRAME';
     $('sst').textContent = 'Switching to back camera…';
+    // Switch guides
+    $('foval').style.display = 'none';
+    $('bguide').style.display = 'block';
     // Show body scan HUD in big mode
     $('svt').classList.add('big');
     $('sst').classList.add('big');
@@ -1790,7 +2023,14 @@ function showReveal(data) {
     try { navigator.vibrate([100, 50, 100, 50, 200]); } catch {}
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
-    speak(`Your score. ${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}.`);
+    // KAREN reacts to the score differently based on tier
+    const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
+    if (score >= 8.5) speak(`${scoreText}. Exceptional. You're in the top five percent. I don't give scores like this often.`);
+    else if (score >= 7.5) speak(`${scoreText}. Very impressive. You scored well above average. Real genetic advantage here.`);
+    else if (score >= 6.5) speak(`${scoreText}. Above average. You've got solid fundamentals to work with.`);
+    else if (score >= 5.5) speak(`${scoreText}. Average range. Not bad, not great. There's clear room for improvement though.`);
+    else if (score >= 4.5) speak(`${scoreText}. Below average. But the data shows specific areas you can target to move up.`);
+    else speak(`${scoreText}. Low score. I know that's not what you wanted to hear. Check the breakdown — the actionable insights are what matter.`);
   }, 1500);
 
   setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 2000);
@@ -1960,15 +2200,22 @@ function genShare() {
     x.textAlign = 'right'; x.font = '500 15px "DM Mono",monospace'; x.fillStyle = tc.c; x.fillText((tr.score || 0).toFixed(2), W - 80, y);
     x.textAlign = 'left';
   });
-  x.textAlign = 'center'; x.font = '500 12px "DM Mono",monospace'; x.fillStyle = 'rgba(255,255,255,.15)';
-  x.fillText('LOOKSMAXX · FRESH FITNESS CO', W / 2, H - 40);
+  x.textAlign = 'center'; x.font = '500 13px "DM Mono",monospace'; x.fillStyle = 'rgba(255,255,255,.25)';
+  x.fillText('SCAN YOURS FREE', W / 2, H - 60);
+  x.font = '500 11px "DM Mono",monospace'; x.fillStyle = 'rgba(255,255,255,.15)';
+  x.fillText('pumpittony.github.io/looksmaxx', W / 2, H - 38);
   oMod('shmod');
 }
 
 function natShare() {
   if (!ST.result) return;
   const score = getScore(ST.result), t = tier(score, ST.mode === 'body');
-  const text = `I scored ${score.toFixed(2)}/10 on LOOKSMAXX — ${t.l}\nScan yours free`;
+  const texts = [
+    `I just got scanned by an AI and scored ${score.toFixed(2)}/10 — ${t.l}. Think you can beat me?`,
+    `AI scanned my face with 478 landmarks and gave me a ${score.toFixed(2)}. ${t.l} tier. What are you?`,
+    `${score.toFixed(2)}/10 — ${t.l}. The AI doesn't lie. Get your score:`,
+  ];
+  const text = texts[Math.floor(Math.random() * texts.length)] + '\npumpittony.github.io/looksmaxx';
   const cv = $('shcv');
   if (cv && navigator.share && navigator.canShare) {
     cv.toBlob(async b => {
@@ -1982,6 +2229,19 @@ function natShare() {
 function fallbackShare(t) {
   if (navigator.share) navigator.share({ title: 'LOOKSMAXX', text: t }).catch(() => {});
   else { try { navigator.clipboard.writeText(t); toast('Copied!'); } catch { toast(t, 3000); } }
+}
+
+function challengeFriend() {
+  if (!ST.result) { toast('Scan first'); return; }
+  const score = getScore(ST.result), t = tier(score, ST.mode === 'body');
+  const text = `I just scored ${score.toFixed(2)}/10 (${t.l}) on LOOKSMAXX. I dare you to beat me. Scan yourself: pumpittony.github.io/looksmaxx`;
+  if (navigator.share) {
+    navigator.share({ title: 'LOOKSMAXX Challenge', text }).catch(() => {
+      try { navigator.clipboard.writeText(text); toast('Challenge link copied!'); } catch {}
+    });
+  } else {
+    try { navigator.clipboard.writeText(text); toast('Challenge copied to clipboard!'); } catch { toast(text, 4000); }
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2459,59 +2719,157 @@ function playBeastDrop() {
   } catch {}
 }
 
-// MONEY SHOT — cinematic lock-on sound (blue) for face scan
-function playMoneyShot() {
+// MONEY SHOT — buildup rising tension
+function playMoneyBuildup() {
   if (!actx || !masterGain) return;
   ensureAudioPlaying();
   try {
     const now = actx.currentTime;
-    // Ascending lock-on sweep (sci-fi scanner feel)
-    const sweep = actx.createOscillator(), sg = actx.createGain();
-    sweep.type = 'sine';
-    sweep.frequency.setValueAtTime(300, now);
-    sweep.frequency.exponentialRampToValueAtTime(1200, now + 0.25);
-    sweep.frequency.setValueAtTime(1200, now + 0.25);
-    sweep.connect(sg); sg.connect(masterGain);
-    sg.gain.setValueAtTime(0.15, now);
-    sg.gain.linearRampToValueAtTime(0.2, now + 0.2);
-    sg.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-    sweep.start(); sweep.stop(now + 0.5);
+    // Rising filtered noise (tension)
+    const len = Math.ceil(actx.sampleRate * 2.0);
+    const buf = actx.createBuffer(1, len, actx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.5;
+    const src = actx.createBufferSource(), g = actx.createGain(), f = actx.createBiquadFilter();
+    src.buffer = buf; f.type = 'bandpass'; f.Q.value = 5;
+    f.frequency.setValueAtTime(200, now);
+    f.frequency.exponentialRampToValueAtTime(3000, now + 1.8);
+    src.connect(f); f.connect(g); g.connect(masterGain);
+    g.gain.setValueAtTime(0.02, now);
+    g.gain.linearRampToValueAtTime(0.12, now + 1.8);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+    src.start(now); src.stop(now + 2.0);
 
-    // Lock confirmation tone (double beep like a target lock)
-    [0, 0.15].forEach((delay) => {
-      const o = actx.createOscillator(), g = actx.createGain();
-      o.type = 'sine'; o.frequency.value = 880;
-      o.connect(g); g.connect(masterGain);
-      const t = now + 0.3 + delay;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.18, t + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
-      o.start(t); o.stop(t + 0.1);
-    });
-
-    // Warm chord swell (major, blue/hopeful feel)
-    [523, 659, 784, 1047].forEach((freq, i) => {
-      const o = actx.createOscillator(), g = actx.createGain();
-      o.type = 'triangle'; o.frequency.value = freq;
-      o.connect(g); g.connect(masterGain);
-      const t = now + 0.5;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.06, t + 0.15);
-      g.gain.exponentialRampToValueAtTime(0.001, t + 0.8);
-      o.start(t); o.stop(t + 0.8);
-    });
-
-    // Shimmer noise layer
-    const shimLen = Math.ceil(actx.sampleRate * 0.3);
-    const shimBuf = actx.createBuffer(1, shimLen, actx.sampleRate);
-    const shimD = shimBuf.getChannelData(0);
-    for (let i = 0; i < shimD.length; i++) shimD[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / shimD.length, 3);
-    const shimSrc = actx.createBufferSource(), shimG = actx.createGain(), shimF = actx.createBiquadFilter();
-    shimSrc.buffer = shimBuf; shimF.type = 'bandpass'; shimF.frequency.value = 4000; shimF.Q.value = 2;
-    shimSrc.connect(shimF); shimF.connect(shimG); shimG.connect(masterGain);
-    shimG.gain.value = 0.06;
-    shimSrc.start(now + 0.25);
+    // Sub rumble building
+    const sub = actx.createOscillator(), sg = actx.createGain();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(30, now);
+    sub.frequency.linearRampToValueAtTime(60, now + 1.8);
+    sub.connect(sg); sg.connect(masterGain);
+    sg.gain.setValueAtTime(0.05, now);
+    sg.gain.linearRampToValueAtTime(0.3, now + 1.8);
+    sg.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+    sub.start(now); sub.stop(now + 2.0);
   } catch {}
+}
+
+// MONEY SHOT — the drop (impact + hype chord)
+function playMoneyDrop() {
+  if (!actx || !masterGain) return;
+  ensureAudioPlaying();
+  try {
+    const now = actx.currentTime;
+    // Massive sub impact
+    const kick = actx.createOscillator(), kg = actx.createGain();
+    kick.type = 'sine'; kick.frequency.setValueAtTime(120, now);
+    kick.frequency.exponentialRampToValueAtTime(25, now + 0.3);
+    kick.connect(kg); kg.connect(masterGain);
+    kg.gain.setValueAtTime(0.6, now);
+    kg.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+    kick.start(now); kick.stop(now + 0.4);
+
+    // Crash cymbal
+    const crashLen = Math.ceil(actx.sampleRate * 0.5);
+    const crashBuf = actx.createBuffer(1, crashLen, actx.sampleRate);
+    const cd = crashBuf.getChannelData(0);
+    for (let i = 0; i < cd.length; i++) cd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / cd.length, 1.5);
+    const cr = actx.createBufferSource(), cg2 = actx.createGain(), cf = actx.createBiquadFilter();
+    cr.buffer = crashBuf; cf.type = 'highpass'; cf.frequency.value = 3000;
+    cr.connect(cf); cf.connect(cg2); cg2.connect(masterGain); cg2.gain.value = 0.2;
+    cr.start(now);
+
+    // Major 7th chord — rich, triumphant, golden
+    [440, 554, 659, 831, 1047].forEach((freq, i) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = i < 2 ? 'sawtooth' : 'triangle';
+      const lpf = actx.createBiquadFilter(); lpf.type = 'lowpass'; lpf.frequency.value = 2000 + i * 500;
+      o.frequency.value = freq;
+      o.connect(lpf); lpf.connect(g); g.connect(masterGain);
+      g.gain.setValueAtTime(0.1, now);
+      g.gain.linearRampToValueAtTime(0.15, now + 0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+      o.start(now); o.stop(now + 1.5);
+    });
+
+    // Ascending sparkle (money shower audio)
+    [1319, 1568, 1760, 2093, 2349].forEach((freq, i) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      o.connect(g); g.connect(masterGain);
+      const t = now + 0.1 + i * 0.08;
+      g.gain.setValueAtTime(0.08, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+      o.start(t); o.stop(t + 0.3);
+    });
+  } catch {}
+}
+
+// 🔥 FLAME EFFECT — fire particles rising from bottom
+function spawnFlameEffect() {
+  const scanEl = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:19;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  scanEl.appendChild(cvs);
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  const flames = [];
+  const flameColors = ['#FF4500', '#FF6B00', '#FF8C00', '#FFA500', '#FFD700', '#FFEC8B'];
+  let startTime = Date.now();
+
+  function spawnFlames(count) {
+    for (let i = 0; i < count; i++) {
+      flames.push({
+        x: Math.random() * W,
+        y: H + 10 + Math.random() * 30,
+        vy: -(2 + Math.random() * 4),
+        vx: (Math.random() - 0.5) * 2,
+        size: 3 + Math.random() * 8,
+        color: flameColors[Math.floor(Math.random() * flameColors.length)],
+        life: 1,
+        decay: 0.008 + Math.random() * 0.008,
+      });
+    }
+  }
+
+  // Waves of flame
+  spawnFlames(20);
+  const t2 = setTimeout(() => spawnFlames(15), 500);
+  const t3 = setTimeout(() => spawnFlames(15), 1000);
+  const t4 = setTimeout(() => spawnFlames(10), 1500);
+  const t5 = setTimeout(() => spawnFlames(10), 2000);
+
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    let alive = false;
+    flames.forEach(p => {
+      if (p.life <= 0) return; alive = true;
+      p.y += p.vy;
+      p.x += p.vx + (Math.random() - 0.5) * 1.5; // Flicker
+      p.life -= p.decay;
+      p.size *= 0.995; // Shrink as it rises
+
+      ctx.globalAlpha = p.life * 0.8;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Glow
+      ctx.globalAlpha = p.life * 0.3;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (alive && Date.now() - startTime < 5000) {
+      requestAnimationFrame(draw);
+    } else {
+      clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5);
+      cvs.remove();
+    }
+  };
+  requestAnimationFrame(draw);
 }
 
 // Particle burst during scan — themed by color
@@ -2721,10 +3079,17 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.05; u.pitch = 1.0; u.volume = 1;
+    u.rate = 0.95; u.pitch = 1.1; u.volume = 1;
     const voices = ss.getVoices();
+    // Prefer voices with personality — Samantha (iOS) sounds most human-like
+    // Karen from Spongebob: confident, slightly sardonic, intelligent computer
     const pref = voices.find(v => v.name.includes('Samantha')) ||
+                 voices.find(v => v.name.includes('Karen')) ||
+                 voices.find(v => v.name.includes('Moira')) ||
+                 voices.find(v => v.name.includes('Tessa')) ||
+                 voices.find(v => v.name.includes('Google UK English Female')) ||
                  voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.lang.startsWith('en') && v.name.includes('Female')) ||
                  voices.find(v => v.lang.startsWith('en'));
     if (pref) u.voice = pref;
     u.onerror = () => {}; u.onend = () => {};
@@ -2804,7 +3169,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend,
+  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend,
 });
 </script>
 </body>
