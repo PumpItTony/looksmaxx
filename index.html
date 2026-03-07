@@ -1630,7 +1630,6 @@ async function startCapture() {
   let detectedGender = ST._debugGender || null;
 
   startBgMusic(isFace ? 'face' : 'body');
-  showMaxx();
 
   // ═══ GENDER DETECTION PHASE (face scans only, first 4 seconds) ═══
   if (isFace && !detectedGender) {
@@ -1744,7 +1743,7 @@ async function startCapture() {
     { id: 'approach', label: 'WALK UP', status: 'Get close',
       voice: "Walk toward me. Get close. Like two feet away.", dur: 5000, needsLM: false, capture: true },
     { id: 'flex', label: 'BEAST MODE', status: 'Show me what you got',
-      voice: "Now flex. Bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
+      voice: "Now flex. Bicep. Hard as you can. Hold it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
       voice: "That's it. Let's see what the AI thinks.", dur: 2000, minFrames: 0 },
   ];
@@ -2034,7 +2033,6 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
-  hideMaxx();
   // Store scan quality grade
   const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
   ST.scanGrade = grade;
@@ -2974,7 +2972,6 @@ function abort() {
   ST.token++;
   stopOverlay();
   stopBgMusic();
-  hideMaxx();
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
   try { window.speechSynthesis?.cancel(); } catch {}
   ST.faceCaps = [];
@@ -3647,7 +3644,7 @@ function morphMaxx() {
   ft.forEach((_, i) => { const p = $('fp'+i); if(p){p.style.background=i===tFaceIdx?ft[i].c+'15':'transparent';p.style.borderColor=i===tFaceIdx?ft[i].c:ft[i].c+'30';p.style.transform=i===tFaceIdx?'scale(1.06)':'scale(1)';} });
   bt.forEach((_, i) => { const p = $('bp'+i); if(p){p.style.background=i===tBodyIdx?bt[i].c+'15':'transparent';p.style.borderColor=i===tBodyIdx?bt[i].c:bt[i].c+'30';p.style.transform=i===tBodyIdx?'scale(1.06)':'scale(1)';} });
 
-  // Update tier name labels
+  // Labels
   $('tFaceName').textContent = f.l; $('tFaceName').style.color = f.c;
   $('tBodyName').textContent = b.l; $('tBodyName').style.color = b.c;
 
@@ -3675,64 +3672,80 @@ function morphMaxx() {
 
   // ═══ MORPH THE ROBOT ═══
 
-  // FACE: Eyes — bigger and brighter for higher face score
-  const eyeSize = 4 + fp * 8;
-  const el = document.getElementById('tEyeL'), er = document.getElementById('tEyeR');
-  if(el) { el.setAttribute('r', eyeSize); el.style.fill = f.c; el.style.stroke = f.c; }
-  if(er) { er.setAttribute('r', eyeSize); er.style.fill = f.c; er.style.stroke = f.c; }
+  // HEAD shape — good face = wider jaw (wider head bottom), bad face = round/narrow
+  const headW = 90 + fp * 40;  // 90-130
+  const headH = 75 + fp * 15;  // 75-90, taller = more angular
+  const headRx = 32 - fp * 10; // 32-22, less round = more angular/defined
+  const head = document.getElementById('tHead');
+  if(head) { head.setAttribute('width', headW); head.setAttribute('x', 90 - headW/2); head.setAttribute('height', headH); head.setAttribute('rx', headRx); head.setAttribute('ry', headRx); head.style.stroke = f.c; }
 
-  // FACE: Mouth — wide smile for high, thin line for low
+  // VISOR adapts to head
+  const visor = document.getElementById('tVisor');
+  const vw = headW - 20; const vh = headH - 26;
+  if(visor) { visor.setAttribute('width', vw); visor.setAttribute('x', 90 - vw/2); visor.setAttribute('height', vh); visor.style.stroke = f.c; }
+
+  // EYES — bigger + brighter for higher face
+  const eyeSize = 5 + fp * 7;
+  const eyeSpacing = 16 + fp * 6;
+  const el = document.getElementById('tEyeL'), er = document.getElementById('tEyeR');
+  if(el) { el.setAttribute('r', eyeSize); el.setAttribute('cx', 90 - eyeSpacing); el.style.fill = f.c; el.style.stroke = f.c; el.style.opacity = 0.5 + fp * 0.4; }
+  if(er) { er.setAttribute('r', eyeSize); er.setAttribute('cx', 90 + eyeSpacing); er.style.fill = f.c; er.style.stroke = f.c; er.style.opacity = 0.5 + fp * 0.4; }
+
+  // MOUTH — wide confident for high, thin droopy for low
   const mouth = document.getElementById('tMouth');
   if(mouth) {
-    const mw = 15 + fp * 50; const mh = 2 + fp * 5;
+    const mw = 20 + fp * 40; const mh = 2 + fp * 4;
     mouth.setAttribute('width', mw); mouth.setAttribute('x', 90 - mw/2);
     mouth.setAttribute('height', mh); mouth.style.fill = f.c;
-    mouth.style.opacity = 0.3 + fp * 0.5;
+    mouth.style.opacity = 0.3 + fp * 0.4;
+    mouth.setAttribute('y', 18 + headH - 16);
   }
 
-  // FACE: Head + visor color
-  const head = document.getElementById('tHead');
-  const visor = document.getElementById('tVisor');
-  if(head) head.style.stroke = f.c;
-  if(visor) visor.style.stroke = f.c;
+  // Antenna + colors
   document.getElementById('tAnt').style.stroke = f.c;
   document.getElementById('tAntDot').style.fill = f.c;
 
-  // BODY: Torso width — wider for higher body score
+  // TORSO — V-taper for good body (wide shoulders, narrow waist) vs boxy/round for bad
   const torso = document.getElementById('tTorso');
   const chest = document.getElementById('tChest');
+  const shoulderW = 80 + bp * 50;   // 80-130 wide
+  const torsoH = 55 + bp * 25;      // 55-80 tall
+  const waistPinch = bp * 12;        // V-taper narrowing at bottom (only good bodies)
+
   if(torso) {
-    const tw = 70 + bp * 50; const tx = 90 - tw/2;
-    torso.setAttribute('width', tw); torso.setAttribute('x', tx);
-    torso.setAttribute('height', 50 + bp * 30);
+    torso.setAttribute('width', shoulderW);
+    torso.setAttribute('x', 90 - shoulderW/2);
+    torso.setAttribute('height', torsoH);
+    torso.setAttribute('rx', bp < 0.3 ? 20 : 14); // rounder for fat
     torso.style.stroke = b.c;
   }
   if(chest) {
-    const cw = 50 + bp * 40; const cx = 90 - cw/2;
-    chest.setAttribute('width', cw); chest.setAttribute('x', cx);
-    chest.setAttribute('height', 30 + bp * 16);
+    const cw = shoulderW - 20;
+    chest.setAttribute('width', cw); chest.setAttribute('x', 90 - cw/2);
+    chest.setAttribute('height', torsoH - 20);
     chest.style.stroke = b.c;
   }
 
-  // BODY: Arms — thicker and wider for higher body score
+  // ARMS — thick & spread for muscular, thin & close for weak
   const armL = document.getElementById('tArmL'), armR = document.getElementById('tArmR');
   const handL = document.getElementById('tHandL'), handR = document.getElementById('tHandR');
-  const armSpread = 20 + bp * 20;
-  const armWidth = 2 + bp * 3;
-  if(armL) { armL.setAttribute('x2', 90 - 45 - armSpread); armL.setAttribute('stroke-width', armWidth); armL.style.stroke = b.c; armL.style.opacity = 0.4 + bp * 0.5; }
-  if(armR) { armR.setAttribute('x2', 90 + 45 + armSpread); armR.setAttribute('stroke-width', armWidth); armR.style.stroke = b.c; armR.style.opacity = 0.4 + bp * 0.5; }
-  if(handL) { handL.setAttribute('cx', 90 - 47 - armSpread); handL.setAttribute('r', 2 + bp * 3); handL.style.fill = b.c; }
-  if(handR) { handR.setAttribute('cx', 90 + 47 + armSpread); handR.setAttribute('r', 2 + bp * 3); handR.style.fill = b.c; }
+  const armSpread = 15 + bp * 30;
+  const armW = 2 + bp * 3.5;
+  const armEndY = 130 + torsoH * 0.3;
+  if(armL) { armL.setAttribute('x1', 90 - shoulderW/2); armL.setAttribute('x2', 90 - shoulderW/2 - armSpread); armL.setAttribute('y2', armEndY); armL.setAttribute('stroke-width', armW); armL.style.stroke = b.c; armL.style.opacity = 0.4 + bp * 0.5; }
+  if(armR) { armR.setAttribute('x1', 90 + shoulderW/2); armR.setAttribute('x2', 90 + shoulderW/2 + armSpread); armR.setAttribute('y2', armEndY); armR.setAttribute('stroke-width', armW); armR.style.stroke = b.c; armR.style.opacity = 0.4 + bp * 0.5; }
+  if(handL) { handL.setAttribute('cx', 90 - shoulderW/2 - armSpread - 2); handL.setAttribute('cy', armEndY + 2); handL.setAttribute('r', 2 + bp * 3); handL.style.fill = b.c; }
+  if(handR) { handR.setAttribute('cx', 90 + shoulderW/2 + armSpread + 2); handR.setAttribute('cy', armEndY + 2); handR.setAttribute('r', 2 + bp * 3); handR.style.fill = b.c; }
 
-  // BODY: Core glow
-  const core = document.getElementById('tCore');
-  if(core) { core.style.fill = b.c; core.setAttribute('r', 3 + bp * 5); core.style.opacity = 0.2 + bp * 0.5; }
-
-  // BODY: Neck width
+  // NECK — thick for built, thin for weak
   const neck = document.getElementById('tNeck');
-  if(neck) { const nw = 28 + bp * 16; neck.setAttribute('width', nw); neck.setAttribute('x', 90 - nw/2); neck.style.stroke = b.c; }
+  if(neck) { const nw = 24 + bp * 20; neck.setAttribute('width', nw); neck.setAttribute('x', 90 - nw/2); neck.style.stroke = b.c; }
 
-  // COMBINED: Overall glow size and color (mix of face + body)
+  // CORE glow
+  const core = document.getElementById('tCore');
+  if(core) { core.style.fill = b.c; core.style.opacity = 0.15 + bp * 0.4; }
+
+  // GLOW — combined
   const glow = $('tierGlow');
   if(glow) {
     const avg = (fp + bp) / 2;
@@ -3742,13 +3755,13 @@ function morphMaxx() {
     glow.style.background = `radial-gradient(circle,${mixC}${avg > 0.5 ? '35' : avg > 0.2 ? '18' : '08'} 0%,transparent 70%)`;
   }
 
-  // Ring
+  // Ring color
   const r1 = $('tierR1');
   if(r1) { const c = r1.querySelector('circle'); if(c) { c.style.stroke = fp >= bp ? f.c : b.c; c.style.opacity = 0.05 + ((fp+bp)/2) * 0.25; } }
 
   // Shadow
   const shadow = document.getElementById('tShadow');
-  if(shadow) { shadow.setAttribute('rx', 25 + bp * 25); shadow.style.fill = b.c; }
+  if(shadow) { shadow.setAttribute('rx', 20 + bp * 25); shadow.style.fill = b.c; }
 }
 
 function buildTiers() { buildTierPills(); morphMaxx(); }
