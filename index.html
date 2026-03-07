@@ -135,7 +135,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @keyframes maxxPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
 .ttab{flex:1;padding:8px 0;text-align:center;font-family:var(--mf);font-size:9px;letter-spacing:.08em;color:var(--t3);border-radius:8px;cursor:pointer;border:1px solid var(--brd);background:transparent;transition:all .2s}
 .ttab.on{background:var(--surf);color:var(--t1);border-color:var(--sig)}
-.mc-s{stroke:#22d45a}.mc-f{fill:#22d45a}
+
 .sload-t{font-family:var(--df);font-size:22px;letter-spacing:.1em;}
 .sload-s{font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.08em;text-align:center;line-height:1.8;}
 .sload-bar{width:200px;height:3px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;}
@@ -335,29 +335,6 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="smeas" id="smeas1" style="top:30%;right:14px"></div>
 <div class="smeas" id="smeas2" style="top:40%;right:14px"></div>
 <div class="smeas" id="smeas3" style="top:50%;right:14px"></div>
-<!-- MAXX — Robot Character (matches tier page) -->
-<div id="maxxBot" style="position:absolute;bottom:calc(195px + var(--sab));left:6px;z-index:25;pointer-events:none;display:none;animation:maxxFloat 3s ease-in-out infinite">
-<svg width="42" height="66" viewBox="0 0 180 280" style="filter:drop-shadow(0 3px 16px rgba(34,212,90,.25))">
-  <line x1="90" y1="18" x2="90" y2="4" stroke-width="2.5" class="mc-s" opacity=".6"/>
-  <circle cx="90" cy="4" r="3.5" class="mc-f" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="1.2s" repeatCount="indefinite"/></circle>
-  <rect x="30" y="18" width="120" height="85" rx="28" ry="28" fill="#0d1117" stroke-width="2.5" class="mc-s"/>
-  <rect x="42" y="32" width="96" height="52" rx="18" fill="#0a0e14" stroke-width="1.2" opacity=".85" class="mc-s"/>
-  <circle cx="68" cy="55" r="9" stroke-width="1.5" class="mc-f mc-s" opacity=".9" id="maxxEyeL"><animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite"/></circle>
-  <circle cx="68" cy="55" r="3" fill="#0a0e14"/>
-  <circle cx="112" cy="55" r="9" stroke-width="1.5" class="mc-f mc-s" opacity=".9" id="maxxEyeR"><animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite" begin=".3s"/></circle>
-  <circle cx="112" cy="55" r="3" fill="#0a0e14"/>
-  <rect x="62" y="76" width="56" height="5" rx="2.5" opacity=".5" class="mc-f" id="maxxMouth"><animate attributeName="width" values="56;35;56;42;56" dur="2.2s" repeatCount="indefinite"/><animate attributeName="x" values="62;72;62;69;62" dur="2.2s" repeatCount="indefinite"/></rect>
-  <rect x="72" y="103" width="36" height="16" rx="5" fill="#0d1117" stroke-width="1.5" class="mc-s" opacity=".5"/>
-  <rect x="38" y="118" width="104" height="70" rx="14" fill="#0d1117" stroke-width="2" class="mc-s"/>
-  <circle cx="90" cy="148" r="5" class="mc-f" opacity=".4"><animate attributeName="opacity" values=".4;.15;.4" dur="2s" repeatCount="indefinite"/></circle>
-  <line x1="38" y1="130" x2="16" y2="155" stroke-width="2.5" stroke-linecap="round" class="mc-s" opacity=".6"/>
-  <circle cx="14" cy="157" r="3.5" class="mc-f" opacity=".35"/>
-  <line x1="142" y1="130" x2="164" y2="155" stroke-width="2.5" stroke-linecap="round" class="mc-s" opacity=".6"/>
-  <circle cx="166" cy="157" r="3.5" class="mc-f" opacity=".35"/>
-  <ellipse cx="90" cy="210" rx="35" ry="5" opacity=".06" class="mc-f"><animate attributeName="rx" values="30;40;30" dur="3s" repeatCount="indefinite"/></ellipse>
-</svg>
-<div style="font-family:var(--mf);font-size:7px;letter-spacing:.2em;text-align:center;margin-top:0;opacity:.5;color:#22d45a" id="maxxLabel">MAXX</div>
-</div>
 <div class="stp">
 <div class="sbdg"><div class="sbdd" id="sbdd" style="background:var(--blue)"></div><div class="sbdl" id="sbdl">PSL SCAN</div></div>
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
@@ -524,10 +501,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- SCORE DISPLAY -->
 <div style="text-align:center;padding:0 14px;flex-shrink:0">
-<div style="display:flex;justify-content:center;gap:16px;margin-bottom:6px">
-  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">FACE</div><div style="font-family:var(--df);font-size:22px;transition:color .2s" id="tFaceName">GIGACHAD</div></div>
+<div style="display:flex;justify-content:center;gap:16px;margin-bottom:4px">
+  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">FACE</div><div style="font-family:var(--df);font-size:20px;transition:color .2s" id="tFaceName">GIGACHAD</div></div>
   <div style="width:1px;background:var(--brd)"></div>
-  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">BODY</div><div style="font-family:var(--df);font-size:22px;transition:color .2s" id="tBodyName">GREEK GOD</div></div>
+  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">BODY</div><div style="font-family:var(--df);font-size:20px;transition:color .2s" id="tBodyName">GREEK GOD</div></div>
+</div>
+<div style="text-align:center;margin-bottom:6px">
+  <div style="font-family:var(--mf);font-size:7px;letter-spacing:.15em;color:var(--t4)">COMBINED LOOKSMAXX TIER</div>
+  <div style="font-family:var(--df);font-size:26px;letter-spacing:.08em;transition:color .2s" id="tComboName">GIGACHAD</div>
+  <div style="font-family:var(--mf);font-size:9px;color:var(--t3)" id="tComboScore">9.00+</div>
 </div>
 <div style="font-size:11px;color:var(--t2);line-height:1.5;min-height:32px;transition:opacity .2s" id="tierDescDisplay"></div>
 </div>
@@ -1311,11 +1293,8 @@ function show(id) {
 function goHome() {
   abort();
   applyGenderTheme('male');
-  const maxxEl = $('maxxBot');
-  if (maxxEl) { maxxEl.style.display = 'none'; maxxEl.style.bottom = 'calc(195px + var(--sab))'; }
   const sub = $('maxxSub');
   if (sub) sub.style.display = 'none';
-  clearInterval(_mouthInterval);
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
@@ -1637,9 +1616,6 @@ function estimateGender(lm) {
 async function startCapture() {
   if (ST.scanning) return;
   ST.scanning = true;
-  // Show Maxx at scan position
-  const maxxEl = $('maxxBot');
-  if (maxxEl) { maxxEl.style.display = 'block'; maxxEl.style.bottom = 'calc(195px + var(--sab))'; }
   initAudio();
   const mode = ST.mode;
   const myTk = ST.token;
@@ -2199,9 +2175,6 @@ async function sendToWorker() {
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
   incScan();
   show('analyzing');
-  // Show Maxx on analyzing screen
-  const maxxClone = $('maxxBot');
-  if (maxxClone) { maxxClone.style.display = 'block'; maxxClone.style.bottom = 'calc(80px + var(--sab))'; }
   const myTk = ST.token;
 
   // Show thumbnails
@@ -2339,9 +2312,7 @@ async function callAPI(mode, photos, meas) {
 // DRAMATIC REVEAL
 // ═══════════════════════════════════════════════════════════════
 function showReveal(data) {
-  const mb = $('maxxBot'); if (mb) { mb.style.display = 'none'; mb.style.bottom = 'calc(195px + var(--sab))'; }
   const sub = $('maxxSub'); if (sub) sub.style.display = 'none';
-  clearInterval(_mouthInterval);
   const score = getScore(data);
   const t = tier(score, ST.mode === 'body');
   const isFem = ST.gender === 'female';
@@ -3532,7 +3503,6 @@ function voiceSlug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 }
 
-let _mouthInterval = null;
 function speak(text) {
   if (!text) return;
   // Show subtitle
@@ -3545,60 +3515,27 @@ function speak(text) {
     clearTimeout(window._subTimer);
     window._subTimer = setTimeout(() => { if (subEl) subEl.style.display = 'none'; }, dur);
   }
-  // Animate Maxx mouth
-  const mouth = $('maxxMouth');
-  if (mouth) {
-    clearInterval(_mouthInterval);
-    const dur = Math.max(2500, text.length * 60);
-    _mouthInterval = setInterval(() => {
-      const h = 2 + Math.random() * 7;
-      mouth.setAttribute('height', h.toFixed(1));
-      mouth.setAttribute('y', (36 - h / 2).toFixed(1));
-      mouth.setAttribute('opacity', '0.8');
-    }, 120);
-    setTimeout(() => {
-      clearInterval(_mouthInterval);
-      _mouthInterval = null;
-      if (mouth) { mouth.setAttribute('height', '3'); mouth.setAttribute('y', '35'); mouth.setAttribute('opacity', '0.5'); }
-    }, dur);
-  }
-  // Glow eyes brighter when speaking
-  const eyeL = $('maxxEyeL'), eyeR = $('maxxEyeR');
-  if (eyeL) eyeL.setAttribute('opacity', '1');
-  if (eyeR) eyeR.setAttribute('opacity', '1');
-  setTimeout(() => { if (eyeL) eyeL.setAttribute('opacity', '.8'); if (eyeR) eyeR.setAttribute('opacity', '.8'); }, Math.max(2500, text.length * 60));
 
   const slug = voiceSlug(text);
-
-  // Make Maxx "talk"
-  const maxxEl = $('maxx');
-  if (maxxEl) maxxEl.classList.add('talking');
-  const stopTalking = () => { if (maxxEl) maxxEl.classList.remove('talking'); };
 
   // Try pre-recorded MP3 first
   if (audioCache[slug]) {
     audioCache[slug].currentTime = 0;
-    audioCache[slug].onended = stopTalking;
     audioCache[slug].play().catch(() => {});
     return;
   }
 
   const audio = new Audio(`${AUDIO_BASE}${slug}.mp3`);
   audio.volume = 1;
-  audio.onended = stopTalking;
   const playPromise = audio.play();
   if (playPromise) {
     playPromise.then(() => {
       audioCache[slug] = audio;
     }).catch(() => {
       speakFallback(text);
-      // Stop talking animation after estimated speech time
-      const words = text.split(/\s+/).length;
-      setTimeout(stopTalking, (words / 2.5) * 1000);
     });
   } else {
     speakFallback(text);
-    setTimeout(stopTalking, 3000);
   }
 }
 
@@ -3651,7 +3588,6 @@ function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 function applyGenderTheme(g) {
   const root = document.documentElement;
-  const c = g === 'female' ? '#e06090' : '#22d45a';
   if (g === 'female') {
     root.style.setProperty('--sig', '#e06090');
     root.style.setProperty('--blue', '#d64f8a');
@@ -3659,11 +3595,6 @@ function applyGenderTheme(g) {
     root.style.setProperty('--sig', '#22d45a');
     root.style.setProperty('--blue', '#4f8ef7');
   }
-  // Recolor all Maxx elements across app
-  document.querySelectorAll('.mc-f').forEach(el => { el.setAttribute('fill', c); el.style.fill = c; });
-  document.querySelectorAll('.mc-s').forEach(el => { el.setAttribute('stroke', c); el.style.stroke = c; });
-  const lbl = $('maxxLabel');
-  if (lbl) lbl.style.color = c;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3719,6 +3650,14 @@ function morphMaxx() {
   // Update tier name labels
   $('tFaceName').textContent = f.l; $('tFaceName').style.color = f.c;
   $('tBodyName').textContent = b.l; $('tBodyName').style.color = b.c;
+
+  // Combined LooksMaxx tier (55% face, 45% body)
+  const comboScore = f.m * 0.55 + b.m * 0.45;
+  const comboTiers = tGender === 'male' ? FT : FTF;
+  const comboTier = comboTiers.find(t => comboScore >= t.m) || comboTiers[comboTiers.length - 1];
+  $('tComboName').textContent = comboTier.l;
+  $('tComboName').style.color = comboTier.c;
+  $('tComboScore').textContent = comboScore >= 9 ? '9.00+' : comboScore.toFixed(2);
 
   // Description
   const descEl = $('tierDescDisplay');
