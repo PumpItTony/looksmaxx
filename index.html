@@ -262,8 +262,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="hstat" id="hstat"></div>
 </div>
 <div class="pills">
+<div class="pill" style="cursor:pointer" id="gm" onclick="setGender('male')"><div class="pilld" style="background:var(--blue)"></div>Male</div>
+<div class="pill" style="cursor:pointer;opacity:.4" id="gf" onclick="setGender('female')"><div class="pilld" style="background:#e06090"></div>Female</div>
 <div class="pill"><div class="pilld" style="background:var(--sig)"></div>Free to Scan</div>
-<div class="pill"><div class="pilld" style="background:var(--blue)"></div>No Sign-Up</div>
 <div class="pill"><div class="pilld" style="background:var(--green)"></div>AI-Powered</div>
 </div>
 <div style="height:14px"></div>
@@ -550,7 +551,29 @@ const BT = [
   { m: 3.5, l: 'UNDERTRAINED', c: '#f5a623' },
   { m: 0, l: 'UNTRAINED SLOB', c: '#f05252' },
 ];
-const tier = (s, isBody = false) => (isBody ? BT : FT).find(t => s >= t.m) || FT[FT.length - 1];
+const FTF = [
+  { m: 9, l: 'SUPERMODEL', c: '#FFD700' },
+  { m: 8, l: 'STUNNING', c: '#e06090' },
+  { m: 7, l: 'GORGEOUS', c: '#4f8ef7' },
+  { m: 6, l: 'PRETTY', c: '#8b6cf7' },
+  { m: 5, l: 'AVERAGE', c: '#9090b0' },
+  { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
+  { m: 0, l: 'LOW', c: '#f05252' },
+];
+const BTF = [
+  { m: 9, l: 'FITNESS MODEL', c: '#FFD700' },
+  { m: 8, l: 'STUNNER', c: '#e06090' },
+  { m: 7, l: 'FIT QUEEN', c: '#4f8ef7' },
+  { m: 6, l: 'TONED', c: '#8b6cf7' },
+  { m: 5, l: 'AVERAGE', c: '#9090b0' },
+  { m: 3.5, l: 'BELOW AVG', c: '#f5a623' },
+  { m: 0, l: 'LOW', c: '#f05252' },
+];
+const tier = (s, isBody = false) => {
+  const f = ST.gender === 'female';
+  const arr = isBody ? (f ? BTF : BT) : (f ? FTF : FT);
+  return arr.find(t => s >= t.m) || arr[arr.length - 1];
+};
 
 // ═══════════════════════════════════════════════════════════════
 // APP STATE — Single source of truth
@@ -571,6 +594,7 @@ let ST = {
   lbPh: null,         // leaderboard photo data URL
   lbFil: 'all',       // leaderboard filter
   mlReady: false,     // ML models loaded
+  gender: 'male',     // 'male' | 'female'
 };
 let lbCache = [];
 
@@ -1159,7 +1183,7 @@ function go(mode) {
     ...ST,
     mode,
     stream: null,
-    facing: mode === 'body' ? 'environment' : 'user',
+    facing: 'user', // Always front camera — user sees themselves
     aborted: false,
     scanning: false,
     token: ++ST.token,
@@ -1419,44 +1443,43 @@ async function startCapture() {
     { id: 'smile', label: 'SMILE', oval: 'GIVE ME A SMILE', status: 'Expression check',
       voice: "Back to center. Give me a real smile. Like you just heard good news.", dur: 5500, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'HOLD PERFECTLY STILL', status: 'Primary capture',
-      voice: "Drop the smile. Neutral face. Eyes right here. This is the shot.", dur: 8000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
+      voice: "Drop the smile. Neutral face. Eyes right here. This is the shot.", dur: 7000, needsLM: true, minFrames: 20, capture: true, moneyShot: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', status: 'Measuring thirds',
-      voice: "Chin up slightly. Measuring your facial proportions.", dur: 6000, needsLM: true, minFrames: 15,
+      voice: "Chin up slightly. Measuring facial proportions.", dur: 5000, needsLM: true, minFrames: 15,
       meas: ['facialThirds'] },
-    { id: 'final', label: 'FINALIZING', oval: 'HOLD STILL', status: 'Final scan',
-      voice: "Almost done. Final calibration. Hold that.", dur: 5000, needsLM: true, minFrames: 25 },
+    { id: 'final', label: 'DONE', oval: 'HOLD STILL', status: 'Final scan',
+      voice: "Final calibration. Almost done.", dur: 4000, needsLM: true, minFrames: 20 },
   ];
 
   const bodyIntro = mode === 'body'
-    ? "Hey, I'm Max. Prop your phone about four feet away. Full body in frame. Shirtless works best. I'll count you in."
-    : "Body scan. Prop your phone about four feet away. Full body in frame. I'll count you in.";
+    ? "Hey, I'm Max. Time for your body scan. Prop your phone at chest height, step back about four feet so I can see you head to toe. Shirtless works best."
+    : "Body scan. Step back about four feet. Full body in frame.";
 
   const bodyPoses = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
       voice: bodyIntro, dur: 10000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "Stand tall. Feet shoulder width. Let me lock on.", dur: 6000, needsLM: true, minFrames: 12 },
+      voice: "Stand tall. Feet shoulder width.", dur: 6000, needsLM: true, minFrames: 12 },
     { id: 'front', label: 'FRAME SCAN', status: 'Measuring frame',
-      voice: "Arms out slightly. Measuring your shoulder to hip ratio now. This is the V-taper.", dur: 8000, needsLM: true, minFrames: 30, capture: true,
+      voice: "Arms out slightly. Measuring your V-taper ratio.", dur: 8000, needsLM: true, minFrames: 28, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth'] },
-    { id: 'lat', label: 'LAT SPREAD', status: 'V-taper engaged',
-      voice: "Spread your lats. Push elbows out. Show me the width.", dur: 7000, needsLM: true, minFrames: 25,
+    { id: 'lat', label: 'LAT SPREAD', status: 'Width check',
+      voice: "Spread your lats. Show me the width.", dur: 7000, needsLM: true, minFrames: 22,
       meas: ['shoulderToHipRatio', 'shoulderWidth'] },
-    { id: 'side', label: 'LEFT SIDE', status: 'Posture check',
-      voice: "Turn left. I need your side profile for posture angle.", dur: 7000, needsLM: true, minFrames: 20,
+    { id: 'side', label: 'SIDE VIEW', status: 'Posture scan',
+      voice: "Turn to your left. Side profile.", dur: 7000, needsLM: true, minFrames: 18,
       meas: ['postureAngle', 'torsoLength'] },
-    { id: 'sideback', label: 'RIGHT SIDE', status: 'Comparing sides',
-      voice: "Other side. Turn right.", dur: 6000, needsLM: true, minFrames: 20,
+    { id: 'sideback', label: 'OTHER SIDE', status: 'Comparing',
+      voice: "Other side. Turn right.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['postureAngle'] },
-    { id: 'flex', label: 'BEAST MODE', status: 'Peak contraction',
-      voice: "Face me. Double bicep. Flex everything. Show me what you've got.", dur: 8000, needsLM: true, minFrames: 25, capture: true, beastMode: true,
-      meas: ['shoulderToHipRatio', 'armSpan'] },
     { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Drop it. Stand natural. Arms down. This is your baseline.", dur: 6000, needsLM: true, minFrames: 20, capture: true,
+      voice: "Face me. Arms down. Stand natural. This is your baseline.", dur: 6000, needsLM: true, minFrames: 18, capture: true,
       meas: ['shoulderToHipRatio', 'hipWidth', 'torsoLength'] },
+    { id: 'flex', label: 'BEAST MODE', status: 'Close-up flex',
+      voice: "Now walk toward the camera. Get close. About two feet away. Give me your best bicep flex. I need to see the detail.", dur: 10000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "That's it. Sending your data to the AI now.", dur: 3000, minFrames: 0 },
+      voice: "Got everything. Sending to the AI.", dur: 3000, minFrames: 0 },
   ];
 
   const poses = isFace ? facePoses : bodyPoses;
@@ -1505,27 +1528,17 @@ async function startCapture() {
     if (ft && pose.oval) ft.textContent = pose.oval;
     speak(pose.voice);
 
-    // THE SHOT — non-blocking visual moment during active data collection
+    // THE SHOT — scan beam sweeps across face + flash + sound
     if (pose.moneyShot) {
       ensureAudioPlaying();
-      const scanEl = $('scan');
-      const ovalEl = $('foval');
-      // Quick dim + gold accent (all non-blocking)
-      scanEl.style.transition = 'box-shadow 0.5s';
-      scanEl.style.boxShadow = 'inset 0 0 80px rgba(255,215,0,.25)';
-      if (ovalEl) ovalEl.style.filter = 'drop-shadow(0 0 15px rgba(255,215,0,.5))';
-      $('svt').style.color = 'var(--gold)';
       playMoneyDrop();
-      // Fade flash after 200ms
-      setTimeout(() => { const fl2 = $('sfl'); fl2.classList.add('go'); setTimeout(() => fl2.classList.remove('go'), 150); }, 500);
-      // Particles at 1s
-      setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1000);
-      // Clean up at 5s
-      setTimeout(() => {
-        scanEl.style.boxShadow = '';
-        if (ovalEl) ovalEl.style.filter = '';
-        $('svt').style.color = '';
-      }, 5000);
+      spawnScanBeam(); // Horizontal beam sweeps top to bottom
+      const scanEl = $('scan');
+      scanEl.style.boxShadow = 'inset 0 0 60px rgba(34,212,90,.3)';
+      setTimeout(() => { const fl2 = $('sfl'); fl2.classList.add('go'); setTimeout(() => fl2.classList.remove('go'), 120); }, 800);
+      setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1200);
+      setTimeout(() => { scanEl.style.boxShadow = ''; }, 4000);
+      try { navigator.vibrate([60, 30, 100]); } catch {}
     }
 
     // BEAST MODE — body scan flex moment (green themed)
@@ -1743,35 +1756,25 @@ async function startCapture() {
     $('sbdl').textContent = 'FULL SCAN — BODY';
     $('spf').style.width = '0%';
     $('spf').style.background = 'var(--green)';
-    btn.textContent = 'SCAN BODY'; btn.className = 'sbtn g d'; // FIX: Start disabled until detection
+    btn.textContent = 'SCAN BODY'; btn.className = 'sbtn g d';
     btn.style.display = '';
-    // FIX #5: Keep flip disabled during camera transition
-    $('flipb').classList.add('disabled');
+    $('flipb').classList.remove('disabled');
     stopOverlay();
-    if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
-    ST.facing = 'environment';
-    ST.scanning = false; // Allow scan button to work again
-    await sleep(2500);
+    // Keep the same camera stream — just switch from face to body overlay
+    ST.scanning = false;
+    await sleep(2000);
     if (ST.aborted || ST.token !== myTk) return;
-    $('svt').style.color = ''; // Reset from blue/gold
+    $('svt').style.color = '';
     $('svt').textContent = 'FULL BODY IN FRAME';
-    $('sst').textContent = 'Switching to back camera…';
-    // Switch guides
+    $('sst').textContent = 'Step back so I can see you head to toe';
     $('foval').style.display = 'none';
     $('bguide').style.display = 'block';
-    // Show body scan HUD in big mode
     $('svt').classList.add('big');
     $('sst').classList.add('big');
     document.querySelector('.spb')?.classList.add('big');
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } } });
-    if (ST.aborted || ST.token !== myTk) { stream.getTracks().forEach(t => t.stop()); return; }
-    ST.stream = stream;
-    const vid = $('svid'); vid.srcObject = stream; vid.style.transform = 'scaleX(1)';
-    await vid.play();
+    // Start body overlay on existing stream
     if (ST.mlReady && poseLandmarker) {
       startLiveOverlay('body');
-      $('flipb').classList.remove('disabled'); // FIX #5: Now safe to flip
-      // FIX #2: Gate body scan button behind detection (same pattern as initial scan)
       const bodyTk = ST.token;
       ST.onDetect = () => {
         btn.classList.remove('d');
@@ -1786,8 +1789,7 @@ async function startCapture() {
         }
       }, 8000);
     } else {
-      btn.classList.remove('d'); // No ML — enable immediately
-      $('flipb').classList.remove('disabled');
+      btn.classList.remove('d');
     }
     return;
   }
@@ -1931,6 +1933,7 @@ async function callAPI(mode, photos, meas) {
   const payload = {
     mode,
     deviceId: DID,
+    gender: ST.gender,
     frames: photos.map(b64 => ({ photoB64: b64 })),
     measurements: meas || undefined,
   };
@@ -1996,6 +1999,69 @@ function showReveal(data) {
 
   setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 2000);
   setTimeout(() => { $('rvsub').classList.add('in'); }, 2800);
+}
+
+// SCAN BEAM — horizontal line sweeps top to bottom like a sci-fi scanner
+function spawnScanBeam() {
+  const scanEl = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:20;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  scanEl.appendChild(cvs);
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  let y = 0;
+  const speed = H / 50;
+  const draw = () => {
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(0, 0, W, H);
+    const grad = ctx.createLinearGradient(0, y - 4, 0, y + 4);
+    grad.addColorStop(0, 'rgba(34,212,90,0)');
+    grad.addColorStop(0.5, 'rgba(34,212,90,0.7)');
+    grad.addColorStop(1, 'rgba(34,212,90,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, y - 4, W, 8);
+    ctx.fillStyle = 'rgba(34,212,90,0.12)';
+    ctx.fillRect(0, y - 25, W, 50);
+    y += speed;
+    if (y < H + 30) requestAnimationFrame(draw);
+    else { ctx.fillStyle = 'rgba(34,212,90,0.08)'; ctx.fillRect(0, 0, W, H); setTimeout(() => cvs.remove(), 400); }
+  };
+  requestAnimationFrame(draw);
+}
+
+// Particle burst — themed by color
+function spawnScanParticles(theme) {
+  const scanEl = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:20;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  scanEl.appendChild(cvs);
+  const pctx = cvs.getContext('2d');
+  const particles = [];
+  const colors = theme === 'gold' ? ['#FFD700','#FFA500','#FFEC8B','#fff','#DAA520']
+    : ['#22d45a','#5ddb6e','#4f8ef7','#fff','#FFD700'];
+  const cx = cvs.width / 2, cy = cvs.height / 2;
+  for (let i = 0; i < 40; i++) {
+    const angle = (Math.PI * 2 * i) / 40 + (Math.random() - 0.5) * 0.5;
+    const speed = 3 + Math.random() * 8;
+    particles.push({ x: cx, y: cy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+      size: Math.random() * 4 + 1, color: colors[Math.floor(Math.random() * colors.length)],
+      life: 1, decay: Math.random() * 0.018 + 0.012 });
+  }
+  const draw = () => {
+    pctx.clearRect(0, 0, cvs.width, cvs.height);
+    let alive = false;
+    particles.forEach(p => {
+      if (p.life <= 0) return; alive = true;
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life -= p.decay; p.vx *= 0.98;
+      pctx.globalAlpha = p.life; pctx.fillStyle = p.color;
+      pctx.beginPath(); pctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); pctx.fill();
+    });
+    pctx.globalAlpha = 1;
+    if (alive) requestAnimationFrame(draw); else cvs.remove();
+  };
+  requestAnimationFrame(draw);
 }
 
 function spawnConfetti(color) {
@@ -2419,7 +2485,19 @@ function safeNoise(duration, volume, highpass) {
 }
 
 function startBgMusic(style) {
-  if (!actx || !masterGain) return; // initAudio already called in startCapture
+  // Self-healing: create audio chain if it doesn't exist
+  if (!actx) {
+    try {
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch { return; }
+  }
+  if (!masterGain) {
+    try {
+      masterGain = actx.createGain();
+      masterGain.gain.value = 1.0;
+      masterGain.connect(actx.destination);
+    } catch { return; }
+  }
   ensureAudioPlaying();
   stopBgMusic();
 
@@ -2800,12 +2878,16 @@ function speak(text) {
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.0; u.pitch = 1.0; u.volume = 1;
+    u.rate = 1.0; u.pitch = 0.95; u.volume = 1;
     const voices = ss.getVoices();
-    // Natural voice — just pick the best English voice available
-    const pref = voices.find(v => v.name.includes('Samantha')) ||
+    // Male voice preference — natural sounding
+    const pref = voices.find(v => v.name === 'Daniel' && v.lang.startsWith('en')) || // iOS British male
+                 voices.find(v => v.name === 'Aaron') || // iOS US male
+                 voices.find(v => v.name.includes('Male') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.name.includes('James') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.name.includes('Google UK English Male')) ||
+                 voices.find(v => /\b(Daniel|Aaron|James|Tom|Arthur|Oliver)\b/.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.lang.startsWith('en-') && v.localService) ||
                  voices.find(v => v.lang.startsWith('en'));
     if (pref) u.voice = pref;
     u.onerror = () => {}; u.onend = () => {};
@@ -2836,6 +2918,13 @@ function toast(m, d = 2500) {
 }
 function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function setGender(g) {
+  ST.gender = g;
+  $('gm').style.opacity = g === 'male' ? '1' : '.4';
+  $('gf').style.opacity = g === 'female' ? '1' : '.4';
+  $('gm').style.border = g === 'male' ? '1px solid var(--blue)' : '1px solid var(--brm)';
+  $('gf').style.border = g === 'female' ? '1px solid #e06090' : '1px solid var(--brm)';
+}
 
 // ═══════════════════════════════════════════════════════════════
 // INIT
@@ -2885,7 +2974,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend,
+  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, setGender,
 });
 </script>
 </body>
