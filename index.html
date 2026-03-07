@@ -133,6 +133,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @keyframes maxxSpeak{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,212,90,.4))}50%{filter:drop-shadow(0 2px 20px rgba(34,212,90,.8))}}
 @keyframes maxxSpin{to{transform:rotate(360deg)}}
 @keyframes maxxPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.ttab{flex:1;padding:8px 0;text-align:center;font-family:var(--mf);font-size:9px;letter-spacing:.08em;color:var(--t3);border-radius:8px;cursor:pointer;border:1px solid var(--brd);background:transparent;transition:all .2s}
+.ttab.on{background:var(--surf);color:var(--t1);border-color:var(--sig)}
+.mc-s{stroke:#22d45a}.mc-f{fill:#22d45a}
 .sload-t{font-family:var(--df);font-size:22px;letter-spacing:.1em;}
 .sload-s{font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.08em;text-align:center;line-height:1.8;}
 .sload-bar{width:200px;height:3px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;}
@@ -266,7 +269,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="hstat" id="hstat"></div>
 </div>
 <div class="pills">
-<div class="pill"><div class="pilld" style="background:var(--sig)"></div>Works for guys & girls</div>
+<div class="pill"><div class="pilld" style="background:var(--sig)"></div>Better lighting = better score</div>
 <div class="pill"><div class="pilld" style="background:var(--blue)"></div>100% free</div>
 <div class="pill"><div class="pilld" style="background:var(--green)"></div>Guided by Maxx AI</div>
 </div>
@@ -286,7 +289,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="height:8px"></div>
 <div class="usg" id="usg" onclick="debugTap()">Free scans remaining today</div>
 <div style="padding:8px 0;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">
-<svg width="22" height="22" viewBox="0 0 56 56" style="opacity:.4"><rect x="8" y="10" width="40" height="32" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="21" cy="26" r="4" fill="currentColor"/><circle cx="35" cy="26" r="4" fill="currentColor"/><rect x="18" y="34" width="20" height="3" rx="1.5" fill="currentColor" opacity=".5"/><line x1="28" y1="10" x2="28" y2="4" stroke="currentColor" stroke-width="2"/><circle cx="28" cy="3" r="2" fill="currentColor"/></svg>
+<svg width="22" height="27" viewBox="0 0 64 78" style="opacity:.4"><line x1="32" y1="8" x2="32" y2="0" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="0" r="2.5" fill="currentColor"/><rect x="8" y="8" width="48" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="26" r="5" fill="currentColor"/><circle cx="42" cy="26" r="5" fill="currentColor"/><rect x="24" y="35" width="16" height="3" rx="1.5" fill="currentColor" opacity=".5"/><rect x="18" y="47" width="28" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
 <div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">Powered by Maxx AI · Fresh Fitness Co</div>
 </div>
 </div>
@@ -332,54 +335,40 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="smeas" id="smeas1" style="top:30%;right:14px"></div>
 <div class="smeas" id="smeas2" style="top:40%;right:14px"></div>
 <div class="smeas" id="smeas3" style="top:50%;right:14px"></div>
-<!-- MAXX — Holographic AI Companion HUD -->
-<div id="maxxBot" style="position:absolute;bottom:calc(195px + var(--sab));left:12px;z-index:25;pointer-events:none;display:none">
-<div style="position:relative;width:56px;height:56px">
-  <!-- Outer rotating ring -->
-  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;animation:maxxSpin 8s linear infinite">
-    <circle cx="28" cy="28" r="26" fill="none" stroke="var(--sig)" stroke-width=".5" opacity=".15" stroke-dasharray="4 8"/>
-  </svg>
-  <!-- Inner counter-rotating ring -->
-  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;animation:maxxSpin 5s linear infinite reverse">
-    <circle cx="28" cy="28" r="22" fill="none" stroke="var(--sig)" stroke-width=".7" opacity=".25" stroke-dasharray="12 6 4 6"/>
-  </svg>
-  <!-- Core glow -->
-  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0">
-    <defs>
-      <radialGradient id="maxxGlow"><stop offset="0%" stop-color="var(--sig)" stop-opacity=".4"/><stop offset="70%" stop-color="var(--sig)" stop-opacity=".05"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-    </defs>
-    <circle cx="28" cy="28" r="18" fill="url(#maxxGlow)">
-      <animate attributeName="r" values="16;19;16" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <!-- Core dot -->
-    <circle cx="28" cy="28" r="3" fill="var(--sig)" opacity=".9">
-      <animate attributeName="r" values="3;4;3" dur="1.5s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values=".9;.5;.9" dur="1.5s" repeatCount="indefinite"/>
-    </circle>
-  </svg>
-  <!-- Audio waveform bars (animate when speaking) -->
-  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0" id="maxxWave" style="opacity:.3">
-    <rect x="19" y="24" width="2" height="8" rx="1" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="4;10;6;8;4" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="26;23;25;24;26" dur=".6s" repeatCount="indefinite"/></rect>
-    <rect x="23" y="22" width="2" height="12" rx="1" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="8;4;12;6;8" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="24;26;22;25;24" dur=".5s" repeatCount="indefinite"/></rect>
-    <rect x="27" y="21" width="2" height="14" rx="1" fill="var(--sig)" opacity=".8"><animate attributeName="height" values="12;6;14;8;12" dur=".55s" repeatCount="indefinite"/><animate attributeName="y" values="22;25;21;24;22" dur=".55s" repeatCount="indefinite"/></rect>
-    <rect x="31" y="22" width="2" height="12" rx="1" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="6;12;4;10;6" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="25;22;26;23;25" dur=".5s" repeatCount="indefinite"/></rect>
-    <rect x="35" y="24" width="2" height="8" rx="1" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="8;4;10;6;8" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="24;26;23;25;24" dur=".6s" repeatCount="indefinite"/></rect>
-  </svg>
-  <!-- Crosshair lines -->
-  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;opacity:.2">
-    <line x1="28" y1="4" x2="28" y2="12" stroke="var(--sig)" stroke-width=".5"/>
-    <line x1="28" y1="44" x2="28" y2="52" stroke="var(--sig)" stroke-width=".5"/>
-    <line x1="4" y1="28" x2="12" y2="28" stroke="var(--sig)" stroke-width=".5"/>
-    <line x1="44" y1="28" x2="52" y2="28" stroke="var(--sig)" stroke-width=".5"/>
-  </svg>
-</div>
-<div style="font-family:var(--mf);font-size:7px;color:var(--sig);letter-spacing:.2em;text-align:center;margin-top:3px;opacity:.5" id="maxxLabel">MAXX</div>
+<!-- MAXX — Robot Character (matches tier page) -->
+<div id="maxxBot" style="position:absolute;bottom:calc(195px + var(--sab));left:6px;z-index:25;pointer-events:none;display:none;animation:maxxFloat 3s ease-in-out infinite">
+<svg width="42" height="66" viewBox="0 0 180 280" style="filter:drop-shadow(0 3px 16px rgba(34,212,90,.25))">
+  <line x1="90" y1="18" x2="90" y2="4" stroke-width="2.5" class="mc-s" opacity=".6"/>
+  <circle cx="90" cy="4" r="3.5" class="mc-f" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="1.2s" repeatCount="indefinite"/></circle>
+  <rect x="30" y="18" width="120" height="85" rx="28" ry="28" fill="#0d1117" stroke-width="2.5" class="mc-s"/>
+  <rect x="42" y="32" width="96" height="52" rx="18" fill="#0a0e14" stroke-width="1.2" opacity=".85" class="mc-s"/>
+  <circle cx="68" cy="55" r="9" stroke-width="1.5" class="mc-f mc-s" opacity=".9" id="maxxEyeL"><animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite"/></circle>
+  <circle cx="68" cy="55" r="3" fill="#0a0e14"/>
+  <circle cx="112" cy="55" r="9" stroke-width="1.5" class="mc-f mc-s" opacity=".9" id="maxxEyeR"><animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite" begin=".3s"/></circle>
+  <circle cx="112" cy="55" r="3" fill="#0a0e14"/>
+  <rect x="62" y="76" width="56" height="5" rx="2.5" opacity=".5" class="mc-f" id="maxxMouth"><animate attributeName="width" values="56;35;56;42;56" dur="2.2s" repeatCount="indefinite"/><animate attributeName="x" values="62;72;62;69;62" dur="2.2s" repeatCount="indefinite"/></rect>
+  <rect x="72" y="103" width="36" height="16" rx="5" fill="#0d1117" stroke-width="1.5" class="mc-s" opacity=".5"/>
+  <rect x="38" y="118" width="104" height="70" rx="14" fill="#0d1117" stroke-width="2" class="mc-s"/>
+  <circle cx="90" cy="148" r="5" class="mc-f" opacity=".4"><animate attributeName="opacity" values=".4;.15;.4" dur="2s" repeatCount="indefinite"/></circle>
+  <line x1="38" y1="130" x2="16" y2="155" stroke-width="2.5" stroke-linecap="round" class="mc-s" opacity=".6"/>
+  <circle cx="14" cy="157" r="3.5" class="mc-f" opacity=".35"/>
+  <line x1="142" y1="130" x2="164" y2="155" stroke-width="2.5" stroke-linecap="round" class="mc-s" opacity=".6"/>
+  <circle cx="166" cy="157" r="3.5" class="mc-f" opacity=".35"/>
+  <ellipse cx="90" cy="210" rx="35" ry="5" opacity=".06" class="mc-f"><animate attributeName="rx" values="30;40;30" dur="3s" repeatCount="indefinite"/></ellipse>
+</svg>
+<div style="font-family:var(--mf);font-size:7px;letter-spacing:.2em;text-align:center;margin-top:0;opacity:.5;color:#22d45a" id="maxxLabel">MAXX</div>
 </div>
 <div class="stp">
 <div class="sbdg"><div class="sbdd" id="sbdd" style="background:var(--blue)"></div><div class="sbdl" id="sbdl">PSL SCAN</div></div>
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
 </div>
 <div class="shud" id="shud">
+<div id="maxxSub" style="position:absolute;bottom:100%;left:0;right:0;padding:0 14px 8px;pointer-events:none;display:none">
+<div style="background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px">
+<div style="width:6px;height:6px;border-radius:50%;background:var(--sig);flex-shrink:0;animation:maxxPulse 1s infinite"></div>
+<div style="font-family:var(--mf);font-size:10px;color:rgba(255,255,255,.8);letter-spacing:.02em;line-height:1.5" id="maxxSubText"></div>
+</div>
+</div>
 <div class="svt" id="svt">INITIALIZING</div>
 <div class="spb"><div class="spf" id="spf" style="background:var(--blue)"></div></div>
 <div class="sst" id="sst"></div>
@@ -395,10 +384,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- ANALYZING -->
 <div id="analyzing" class="scr">
-<div class="azr"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(34,212,90,.12)" stroke-width="6"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--sig)" stroke-width="6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="200"/></svg><div class="azi" style="font-size:20px;font-family:var(--mf);color:var(--sig)">AI</div></div>
+<div class="azr"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(34,212,90,.12)" stroke-width="6"/><circle cx="60" cy="60" r="50" fill="none" stroke-width="6" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="200" style="stroke:var(--sig)" /></svg><div class="azi" style="font-size:20px;font-family:var(--mf);color:var(--sig)">AI</div></div>
 <div class="azt" id="azt">ANALYZING</div>
-<div class="azs">Processing biometrics<span class="azd"><span>.</span><span>.</span><span>.</span></span></div>
-<div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.06em;margin-top:8px;text-align:center">COMPUTING TRAIT SCORES FROM LANDMARK DATA</div>
+<div class="azs" id="azStatus">Processing biometrics<span class="azd"><span>.</span><span>.</span><span>.</span></span></div>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.06em;margin-top:8px;text-align:center" id="azDetail">COMPUTING TRAIT SCORES</div>
 <div class="azfr" id="azfr"></div>
 </div>
 
@@ -441,7 +430,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <button class="btn bs" style="background:rgba(79,142,247,.08);border-color:rgba(79,142,247,.2)" onclick="genShare()">📤 Share Score Card</button>
 <button class="btn bg" onclick="challengeFriend()">🔥 Challenge a Friend</button>
 <button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">🏆 Leaderboard</button>
-<button class="btn bs" onclick="go(ST.mode)">↩ Rescan</button>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;margin:4px 14px;text-align:center">
+<div style="font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.08em;margin-bottom:4px">WANT A HIGHER SCORE?</div>
+<div style="font-size:11px;color:var(--t3);line-height:1.6">Better lighting, steadier poses, and following every prompt gives Maxx more data to work with. Natural light from a window is a game changer.</div>
+</div>
+<button class="btn bs" onclick="go(ST.mode)" style="margin-top:4px">↩ Rescan with better conditions</button>
 <button class="btn bs" style="border:none;color:var(--t4)" onclick="goHome()">Home</button>
 </div>
 <div style="height:8px"></div>
@@ -459,40 +452,98 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- RULES / TIERS -->
 <div id="rules" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">TIER SYSTEM</div></div>
-<div style="padding:14px;display:flex;flex-direction:column;gap:16px">
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em">SCORE DISTRIBUTION</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.6">Scores follow a normal distribution centered around 5.50. Most people score between 4.50 and 6.50. Scores above 8.00 represent exceptional genetics and conditioning.</div>
-<svg viewBox="0 0 400 140" style="width:100%;height:auto">
-<defs><linearGradient id="bc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f05252"/><stop offset="15%" stop-color="#f5a623"/><stop offset="35%" stop-color="#9090b0"/><stop offset="50%" stop-color="#8b6cf7"/><stop offset="65%" stop-color="#4f8ef7"/><stop offset="80%" stop-color="#22d45a"/><stop offset="95%" stop-color="#FFD700"/></linearGradient></defs>
-<path d="M20,120 Q20,120 60,118 Q100,115 140,95 Q170,70 200,35 Q230,70 260,95 Q300,115 340,118 Q380,120 380,120 L380,120 L20,120 Z" fill="url(#bc)" opacity=".15"/>
-<path d="M20,120 Q20,120 60,118 Q100,115 140,95 Q170,70 200,35 Q230,70 260,95 Q300,115 340,118 Q380,120 380,120" fill="none" stroke="url(#bc)" stroke-width="2" opacity=".5"/>
-<text x="40" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#f05252" opacity=".6">1</text>
-<text x="100" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#f5a623" opacity=".6">3.5</text>
-<text x="160" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#9090b0" opacity=".6">5</text>
-<text x="200" y="26" font-family="'DM Mono',monospace" font-size="8" fill="#8b6cf7" opacity=".6">5.5</text>
-<text x="240" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#4f8ef7" opacity=".6">6.5</text>
-<text x="300" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#22d45a" opacity=".6">8</text>
-<text x="360" y="136" font-family="'DM Mono',monospace" font-size="8" fill="#FFD700" opacity=".6">10</text>
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">TIER EXPLORER</div></div>
+<div style="display:flex;flex-direction:column;height:calc(100% - 52px);overflow:hidden">
+
+<!-- Gender toggle -->
+<div style="display:flex;gap:6px;padding:8px 14px 4px;flex-shrink:0">
+<div class="ttab on" onclick="switchTierTab('male')">♂ MALE</div>
+<div class="ttab" onclick="switchTierTab('female')">♀ FEMALE</div>
+</div>
+
+<!-- THE MAXX ROBOT — full body, morphs on face + body independently -->
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;overflow:hidden">
+<div id="tierGlow" style="position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(34,212,90,.2) 0%,transparent 70%);transition:all .4s"></div>
+<!-- Scan ring -->
+<svg width="220" height="220" viewBox="0 0 220 220" style="position:absolute;top:calc(50% - 130px);left:calc(50% - 110px)" id="tierR1">
+  <circle cx="110" cy="110" r="105" fill="none" stroke-width=".5" opacity=".15" stroke-dasharray="6 10" style="stroke:#22d45a;animation:maxxSpin 10s linear infinite"/>
+</svg>
+
+<svg width="180" height="280" viewBox="0 0 180 280" style="position:relative;z-index:2;filter:drop-shadow(0 4px 20px rgba(34,212,90,.2))" id="tierBot">
+  <!-- ANTENNA -->
+  <line x1="90" y1="18" x2="90" y2="4" stroke-width="2" style="stroke:#22d45a" opacity=".6" id="tAnt"/>
+  <circle cx="90" cy="4" r="3" style="fill:#22d45a" opacity=".8" id="tAntDot">
+    <animate attributeName="opacity" values=".8;.3;.8" dur="1.2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- HEAD -->
+  <rect x="30" y="18" width="120" height="85" rx="28" ry="28" fill="#0d1117" stroke-width="2.5" style="stroke:#22d45a" id="tHead"/>
+  <!-- VISOR -->
+  <rect x="42" y="32" width="96" height="52" rx="18" fill="#0a0e14" stroke-width="1.2" opacity=".85" style="stroke:#22d45a" id="tVisor"/>
+  <!-- LEFT EYE -->
+  <circle cx="68" cy="55" r="10" stroke-width="1.5" style="fill:#22d45a;stroke:#22d45a" opacity=".9" id="tEyeL">
+    <animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="68" cy="55" r="3.5" fill="#0a0e14"/>
+  <!-- RIGHT EYE -->
+  <circle cx="112" cy="55" r="10" stroke-width="1.5" style="fill:#22d45a;stroke:#22d45a" opacity=".9" id="tEyeR">
+    <animate attributeName="opacity" values=".9;.5;.9" dur="3s" repeatCount="indefinite" begin=".3s"/>
+  </circle>
+  <circle cx="112" cy="55" r="3.5" fill="#0a0e14"/>
+  <!-- MOUTH -->
+  <rect x="62" y="76" width="56" height="5" rx="2.5" opacity=".6" style="fill:#22d45a" id="tMouth"/>
+  <!-- EAR NODES -->
+  <circle cx="28" cy="58" r="6" fill="#0d1117" stroke-width="1.2" style="stroke:#22d45a" opacity=".5"/>
+  <circle cx="152" cy="58" r="6" fill="#0d1117" stroke-width="1.2" style="stroke:#22d45a" opacity=".5"/>
+
+  <!-- NECK -->
+  <rect x="72" y="103" width="36" height="16" rx="5" fill="#0d1117" stroke-width="1.5" style="stroke:#22d45a" opacity=".5" id="tNeck"/>
+
+  <!-- BODY / TORSO -->
+  <rect x="38" y="118" width="104" height="70" rx="14" fill="#0d1117" stroke-width="2" style="stroke:#22d45a" id="tTorso"/>
+  <!-- CHEST PLATE -->
+  <rect x="52" y="128" width="76" height="40" rx="10" fill="#0a0e14" stroke-width="1" opacity=".6" style="stroke:#22d45a" id="tChest"/>
+  <!-- CORE LIGHT -->
+  <circle cx="90" cy="148" r="6" style="fill:#22d45a" opacity=".5" id="tCore">
+    <animate attributeName="opacity" values=".5;.2;.5" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <!-- LEFT ARM -->
+  <line x1="38" y1="130" x2="16" y2="155" stroke-width="3" stroke-linecap="round" style="stroke:#22d45a" opacity=".7" id="tArmL"/>
+  <circle cx="14" cy="157" r="4" style="fill:#22d45a" opacity=".4" id="tHandL"/>
+  <!-- RIGHT ARM -->
+  <line x1="142" y1="130" x2="164" y2="155" stroke-width="3" stroke-linecap="round" style="stroke:#22d45a" opacity=".7" id="tArmR"/>
+  <circle cx="166" cy="157" r="4" style="fill:#22d45a" opacity=".4" id="tHandR"/>
+
+  <!-- HOVER SHADOW -->
+  <ellipse cx="90" cy="210" rx="40" ry="6" opacity=".08" style="fill:#22d45a" id="tShadow">
+    <animate attributeName="rx" values="35;45;35" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".06;.1;.06" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
 </svg>
 </div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--blue)">♂ MALE FACE TIERS</div>
-<div id="ftiers"></div>
+
+<!-- SCORE DISPLAY -->
+<div style="text-align:center;padding:0 14px;flex-shrink:0">
+<div style="display:flex;justify-content:center;gap:16px;margin-bottom:6px">
+  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">FACE</div><div style="font-family:var(--df);font-size:22px;transition:color .2s" id="tFaceName">GIGACHAD</div></div>
+  <div style="width:1px;background:var(--brd)"></div>
+  <div><div style="font-family:var(--mf);font-size:8px;letter-spacing:.1em;color:var(--t4)">BODY</div><div style="font-family:var(--df);font-size:22px;transition:color .2s" id="tBodyName">GREEK GOD</div></div>
 </div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:#e06090">♀ FEMALE FACE TIERS</div>
-<div id="ftiers_f"></div>
+<div style="font-size:11px;color:var(--t2);line-height:1.5;min-height:32px;transition:opacity .2s" id="tierDescDisplay"></div>
 </div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:var(--green)">♂ MALE BODY TIERS</div>
-<div id="btiers"></div>
+
+<!-- FACE TIER SELECTOR -->
+<div style="flex-shrink:0;padding:6px 0 0">
+<div style="font-family:var(--mf);font-size:8px;letter-spacing:.15em;color:var(--t4);text-align:center;margin-bottom:4px">FACE TIER</div>
+<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><div style="display:flex;gap:5px;padding:0 14px;min-width:min-content" id="facePills"></div></div>
 </div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.05em;color:#e06090">♀ FEMALE BODY TIERS</div>
-<div id="btiers_f"></div>
+
+<!-- BODY TIER SELECTOR -->
+<div style="flex-shrink:0;padding:6px 0 calc(10px + var(--sab))">
+<div style="font-family:var(--mf);font-size:8px;letter-spacing:.15em;color:var(--t4);text-align:center;margin-bottom:4px">BODY TIER</div>
+<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><div style="display:flex;gap:5px;padding:0 14px;min-width:min-content" id="bodyPills"></div></div>
 </div>
+
 </div>
 </div>
 
@@ -501,36 +552,31 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">THE TECHNOLOGY</div></div>
 <div style="padding:0;overflow-y:auto;-webkit-overflow-scrolling:touch" id="infoScroll">
 
-<!-- Hero — Large Maxx Hologram -->
-<div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px 30px;position:relative;overflow:hidden">
+<!-- Hero — Large Maxx Robot -->
+<div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px 24px;position:relative;overflow:hidden">
 <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(34,212,90,.06) 0%,transparent 60%);pointer-events:none"></div>
-<div style="position:relative;width:140px;height:140px;margin-bottom:20px">
-  <!-- Triple rotating rings -->
-  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 12s linear infinite">
-    <circle cx="70" cy="70" r="68" fill="none" stroke="var(--sig)" stroke-width=".4" opacity=".12" stroke-dasharray="6 12"/>
-  </svg>
-  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 8s linear infinite reverse">
-    <circle cx="70" cy="70" r="58" fill="none" stroke="var(--sig)" stroke-width=".6" opacity=".2" stroke-dasharray="16 8 4 8"/>
-  </svg>
-  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 5s linear infinite">
-    <circle cx="70" cy="70" r="48" fill="none" stroke="var(--sig)" stroke-width=".8" opacity=".3" stroke-dasharray="3 6"/>
-  </svg>
-  <!-- Core -->
-  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0">
-    <defs><radialGradient id="heroGlow"><stop offset="0%" stop-color="var(--sig)" stop-opacity=".35"/><stop offset="60%" stop-color="var(--sig)" stop-opacity=".05"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
-    <circle cx="70" cy="70" r="36" fill="url(#heroGlow)"><animate attributeName="r" values="34;38;34" dur="3s" repeatCount="indefinite"/></circle>
-    <circle cx="70" cy="70" r="6" fill="var(--sig)" opacity=".8"><animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/></circle>
-    <!-- Waveform -->
-    <rect x="52" y="62" width="3" height="16" rx="1.5" fill="var(--sig)" opacity=".5"><animate attributeName="height" values="8;18;12;16;8" dur=".7s" repeatCount="indefinite"/><animate attributeName="y" values="66;61;64;62;66" dur=".7s" repeatCount="indefinite"/></rect>
-    <rect x="58" y="60" width="3" height="20" rx="1.5" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="14;8;20;10;14" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="63;66;60;65;63" dur=".6s" repeatCount="indefinite"/></rect>
-    <rect x="64" y="58" width="3" height="24" rx="1.5" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="20;10;24;14;20" dur=".65s" repeatCount="indefinite"/><animate attributeName="y" values="60;65;58;63;60" dur=".65s" repeatCount="indefinite"/></rect>
-    <rect x="70" y="57" width="3" height="26" rx="1.5" fill="var(--sig)" opacity=".8"><animate attributeName="height" values="24;12;26;16;24" dur=".55s" repeatCount="indefinite"/><animate attributeName="y" values="58;64;57;62;58" dur=".55s" repeatCount="indefinite"/></rect>
-    <rect x="76" y="58" width="3" height="24" rx="1.5" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="12;24;10;20;12" dur=".65s" repeatCount="indefinite"/><animate attributeName="y" values="64;58;65;60;64" dur=".65s" repeatCount="indefinite"/></rect>
-    <rect x="82" y="60" width="3" height="20" rx="1.5" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="8;16;14;8;20" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="66;62;63;66;60" dur=".6s" repeatCount="indefinite"/></rect>
-    <rect x="88" y="62" width="3" height="16" rx="1.5" fill="var(--sig)" opacity=".5"><animate attributeName="height" values="16;8;12;18;8" dur=".7s" repeatCount="indefinite"/><animate attributeName="y" values="62;66;64;61;66" dur=".7s" repeatCount="indefinite"/></rect>
-  </svg>
-</div>
-<div style="font-family:var(--df);font-size:32px;letter-spacing:.12em;background:linear-gradient(90deg,var(--sig),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MAXX</div>
+<svg width="120" height="150" viewBox="0 0 64 78" style="filter:drop-shadow(0 6px 24px rgba(34,212,90,.4));animation:maxxFloat 3s ease-in-out infinite;margin-bottom:16px">
+  <line x1="32" y1="8" x2="32" y2="0" stroke="#22d45a" stroke-width="1.5"/>
+  <circle cx="32" cy="0" r="2.5" fill="#22d45a"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
+  <rect x="8" y="8" width="48" height="36" rx="10" fill="#0c1018" stroke="#22d45a" stroke-width="1.8"/>
+  <rect x="12" y="11" width="40" height="6" rx="3" fill="#22d45a" opacity=".04"/>
+  <circle cx="22" cy="26" r="5" fill="#22d45a"/>
+  <circle cx="22" cy="26" r="2" fill="#0c1018"/>
+  <circle cx="42" cy="26" r="5" fill="#22d45a"/>
+  <circle cx="42" cy="26" r="2" fill="#0c1018"/>
+  <rect x="24" y="35" width="16" height="3" rx="1.5" fill="#22d45a" opacity=".5">
+    <animate attributeName="height" values="3;7;2;6;3" dur=".5s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="35;33;36;33;35" dur=".5s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="18" y="47" width="28" height="18" rx="5" fill="#0c1018" stroke="#22d45a" stroke-width="1.2"/>
+  <circle cx="32" cy="56" r="3" fill="#22d45a" opacity=".6"><animate attributeName="opacity" values=".6;.2;.6" dur="2s" repeatCount="indefinite"/></circle>
+  <line x1="18" y1="52" x2="8" y2="58" stroke="#22d45a" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="7" cy="59" r="2" fill="#22d45a" opacity=".5"/>
+  <line x1="46" y1="52" x2="56" y2="58" stroke="#22d45a" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="57" cy="59" r="2" fill="#22d45a" opacity=".5"/>
+  <ellipse cx="32" cy="74" rx="12" ry="2" fill="#22d45a" opacity=".15"><animate attributeName="rx" values="10;14;10" dur="3s" repeatCount="indefinite"/></ellipse>
+</svg>
+<div style="font-family:var(--df);font-size:32px;letter-spacing:.12em;background:linear-gradient(90deg,#22d45a,#4f8ef7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MAXX</div>
 <div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.25em;margin-top:4px">BIOMETRIC AI ENGINE</div>
 <div style="font-size:13px;color:var(--t2);text-align:center;line-height:1.8;margin-top:16px;max-width:300px">The world's first real-time biometric attractiveness scanner. Live measurement. AI analysis. One score.</div>
 </div>
@@ -539,7 +585,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:0 16px 24px">
 <div style="border-left:2px solid var(--blue);padding:16px 0 16px 16px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="var(--blue)" stroke-width=".8" opacity=".3"/><circle cx="10" cy="11" r="1.5" fill="var(--blue)" opacity=".7"><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="22" cy="11" r="1.5" fill="var(--blue)" opacity=".7"><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite" begin=".2s"/></circle><circle cx="16" cy="18" r="1" fill="var(--blue)" opacity=".5"><animate attributeName="opacity" values=".2;.7;.2" dur="1.5s" repeatCount="indefinite" begin=".4s"/></circle><line x1="8" y1="22" x2="14" y2="20" stroke="var(--blue)" stroke-width=".5" opacity=".4"/><line x1="18" y1="20" x2="24" y2="22" stroke="var(--blue)" stroke-width=".5" opacity=".4"/><circle cx="6" cy="7" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/></circle><circle cx="26" cy="7" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin=".5s"/></circle><circle cx="16" cy="5" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin="1s"/></circle></svg>
+  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke-width=".8" opacity=".3" style="stroke:var(--blue)" /><circle cx="10" cy="11" r="1.5" opacity=".7" style="fill:var(--blue)" ><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="22" cy="11" r="1.5" opacity=".7" style="fill:var(--blue)" ><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite" begin=".2s"/></circle><circle cx="16" cy="18" r="1" opacity=".5" style="fill:var(--blue)" ><animate attributeName="opacity" values=".2;.7;.2" dur="1.5s" repeatCount="indefinite" begin=".4s"/></circle><line x1="8" y1="22" x2="14" y2="20" stroke-width=".5" opacity=".4" style="stroke:var(--blue)" /><line x1="18" y1="20" x2="24" y2="22" stroke-width=".5" opacity=".4" style="stroke:var(--blue)" /><circle cx="6" cy="7" r=".8" opacity=".4" style="fill:var(--blue)" ><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/></circle><circle cx="26" cy="7" r=".8" opacity=".4" style="fill:var(--blue)" ><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin=".5s"/></circle><circle cx="16" cy="5" r=".8" opacity=".4" style="fill:var(--blue)" ><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin="1s"/></circle></svg>
   <div><div style="font-family:var(--df);font-size:14px;color:var(--blue);letter-spacing:.06em">REAL-TIME MAPPING</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 01</div></div>
 </div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">Your camera activates and hundreds of measurement points light up across your face in real time. Maxx guides you through poses — each one captures different angles and data. The green mesh you see is live tracking at 20 frames per second.</div>
@@ -554,7 +600,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:0 16px 24px">
 <div style="border-left:2px solid var(--amber);padding:16px 0 16px 16px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-  <svg width="32" height="32" viewBox="0 0 32 32"><line x1="4" y1="16" x2="28" y2="16" stroke="var(--amber)" stroke-width=".5" opacity=".3"/><line x1="16" y1="4" x2="16" y2="28" stroke="var(--amber)" stroke-width=".5" opacity=".3"/><circle cx="8" cy="10" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><circle cx="24" cy="10" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><line x1="8" y1="10" x2="24" y2="10" stroke="var(--amber)" stroke-width=".5" opacity=".4" stroke-dasharray="2 2"><animate attributeName="stroke-dashoffset" values="0;4" dur="1s" repeatCount="indefinite"/></line><circle cx="16" cy="24" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><line x1="8" y1="10" x2="16" y2="24" stroke="var(--amber)" stroke-width=".4" opacity=".3"/><line x1="24" y1="10" x2="16" y2="24" stroke="var(--amber)" stroke-width=".4" opacity=".3"/></svg>
+  <svg width="32" height="32" viewBox="0 0 32 32"><line x1="4" y1="16" x2="28" y2="16" stroke-width=".5" opacity=".3" style="stroke:var(--amber)" /><line x1="16" y1="4" x2="16" y2="28" stroke-width=".5" opacity=".3" style="stroke:var(--amber)" /><circle cx="8" cy="10" r="2" fill="none" stroke-width=".7" opacity=".6" style="stroke:var(--amber)" /><circle cx="24" cy="10" r="2" fill="none" stroke-width=".7" opacity=".6" style="stroke:var(--amber)" /><line x1="8" y1="10" x2="24" y2="10" stroke-width=".5" opacity=".4" stroke-dasharray="2 2" style="stroke:var(--amber)" ><animate attributeName="stroke-dashoffset" values="0;4" dur="1s" repeatCount="indefinite"/></line><circle cx="16" cy="24" r="2" fill="none" stroke-width=".7" opacity=".6" style="stroke:var(--amber)" /><line x1="8" y1="10" x2="16" y2="24" stroke-width=".4" opacity=".3" style="stroke:var(--amber)" /><line x1="24" y1="10" x2="16" y2="24" stroke-width=".4" opacity=".3" style="stroke:var(--amber)" /></svg>
   <div><div style="font-family:var(--df);font-size:14px;color:var(--amber);letter-spacing:.06em">BIOMETRIC MATH</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 02</div></div>
 </div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">Those points become real numbers. Jaw angle in degrees. Symmetry ratio. Shoulder-to-waist ratio. Facial thirds. Hundreds of measurements averaged with outlier filtering. This is objective data, not opinion.</div>
@@ -586,7 +632,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div style="padding:0 16px 24px">
 <div style="border-left:2px solid var(--gold);padding:16px 0 16px 16px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="var(--gold)" stroke-width=".6" opacity=".2"/><path d="M16 3 A13 13 0 0 1 29 16" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity=".7"><animateTransform attributeName="transform" type="rotate" values="0 16 16;270 16 16" dur="2s" fill="freeze" repeatCount="1"/></path><text x="16" y="19" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="var(--gold)" font-weight="700">8.4</text></svg>
+  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width=".6" opacity=".2" style="stroke:var(--gold)" /><path d="M16 3 A13 13 0 0 1 29 16" fill="none" stroke-width="1.5" stroke-linecap="round" opacity=".7" style="stroke:var(--gold)" ><animateTransform attributeName="transform" type="rotate" values="0 16 16;270 16 16" dur="2s" fill="freeze" repeatCount="1"/></path><text x="16" y="19" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" font-weight="700" style="fill:var(--gold)" >8.4</text></svg>
   <div><div style="font-family:var(--df);font-size:14px;color:var(--gold);letter-spacing:.06em">LOOKSMAXX SCORE™</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 04</div></div>
 </div>
 <div style="font-size:12px;color:var(--t2);line-height:1.8">Every trait feeds into a proprietary weighting algorithm. Jawline matters more than nose shape. Waist-to-hip matters more than arm definition. The weights are based on what actually drives real-world attractiveness. One final score. One dashboard. One improvement plan.</div>
@@ -1266,7 +1312,10 @@ function goHome() {
   abort();
   applyGenderTheme('male');
   const maxxEl = $('maxxBot');
-  if (maxxEl) maxxEl.style.display = 'none';
+  if (maxxEl) { maxxEl.style.display = 'none'; maxxEl.style.bottom = 'calc(195px + var(--sab))'; }
+  const sub = $('maxxSub');
+  if (sub) sub.style.display = 'none';
+  clearInterval(_mouthInterval);
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
@@ -1588,9 +1637,9 @@ function estimateGender(lm) {
 async function startCapture() {
   if (ST.scanning) return;
   ST.scanning = true;
-  // Show Maxx
+  // Show Maxx at scan position
   const maxxEl = $('maxxBot');
-  if (maxxEl) maxxEl.style.display = 'block';
+  if (maxxEl) { maxxEl.style.display = 'block'; maxxEl.style.bottom = 'calc(195px + var(--sab))'; }
   initAudio();
   const mode = ST.mode;
   const myTk = ST.token;
@@ -2010,6 +2059,9 @@ async function startCapture() {
   stopBgMusic();
   stopOverlay();
   hideMaxx();
+  // Store scan quality grade
+  const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
+  ST.scanGrade = grade;
   speak(isFace ? "Face scan done. I got everything I need." : "Body scan done. Processing your data now.");
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
@@ -2147,6 +2199,9 @@ async function sendToWorker() {
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
   incScan();
   show('analyzing');
+  // Show Maxx on analyzing screen
+  const maxxClone = $('maxxBot');
+  if (maxxClone) { maxxClone.style.display = 'block'; maxxClone.style.bottom = 'calc(80px + var(--sab))'; }
   const myTk = ST.token;
 
   // Show thumbnails
@@ -2157,17 +2212,26 @@ async function sendToWorker() {
 
   // Progressive status messages
   const statusMsgs = ST.mode === 'combo'
-    ? ['Uploading biometric data…', 'Scoring face traits…', 'Scoring body traits…', 'Computing composite score…']
+    ? ['Uploading your scan data…', 'Analyzing facial structure…', 'Evaluating physique…', 'Computing your LooksMaxx Score™…']
     : ST.mode === 'body'
-    ? ['Uploading body data…', 'AI evaluating physique…', 'Scoring 9 traits…', 'Finalizing…']
-    : ['Uploading face data…', 'AI evaluating features…', 'Scoring 10 traits…', 'Finalizing…'];
-  let msgIdx = 0;
+    ? ['Uploading your data…', 'Measuring proportions…', 'Evaluating physique…', 'Almost there…']
+    : ['Uploading your data…', 'Analyzing bone structure…', 'Rating each trait…', 'Almost there…'];
+  const detailMsgs = [
+    'Comparing symmetry ratios', 'Evaluating jawline definition', 'Measuring facial thirds',
+    'Analyzing muscle definition', 'Computing V-taper ratio', 'Grading skin quality',
+    'Assessing overall harmony', 'Calibrating final score', 'Cross-referencing data points',
+    'Running attractiveness algorithm', 'Applying trait weights',
+  ];
+  let msgIdx = 0, detIdx = 0;
   const statusInterval = setInterval(() => {
     if (msgIdx < statusMsgs.length) {
-      const subEl = document.querySelector('.azs');
+      const subEl = $('azStatus');
       if (subEl) subEl.innerHTML = statusMsgs[msgIdx] + '<span class="azd"><span>.</span><span>.</span><span>.</span></span>';
       msgIdx++;
     }
+    // Rotate detail messages
+    const det = $('azDetail');
+    if (det) { det.textContent = detailMsgs[detIdx % detailMsgs.length].toUpperCase(); detIdx++; }
   }, 4000);
 
   const faceMeasAvg = avgMeas(ST.faceMeas);
@@ -2275,7 +2339,9 @@ async function callAPI(mode, photos, meas) {
 // DRAMATIC REVEAL
 // ═══════════════════════════════════════════════════════════════
 function showReveal(data) {
-  const mb = $('maxxBot'); if (mb) mb.style.display = 'none';
+  const mb = $('maxxBot'); if (mb) { mb.style.display = 'none'; mb.style.bottom = 'calc(195px + var(--sab))'; }
+  const sub = $('maxxSub'); if (sub) sub.style.display = 'none';
+  clearInterval(_mouthInterval);
   const score = getScore(data);
   const t = tier(score, ST.mode === 'body');
   const isFem = ST.gender === 'female';
@@ -2563,6 +2629,14 @@ function showResults(data) {
   });
 
   $('rins').textContent = data.insights || '—';
+
+  // Scan quality grade
+  const gradeColors = { 'A+': '#22d45a', 'A': '#22d45a', 'B': '#4f8ef7', 'C': '#f5a623', 'D': '#f05252' };
+  const gradeTips = { 'A+': 'Excellent scan quality', 'A': 'Great scan quality', 'B': 'Good scan — better lighting could improve accuracy', 'C': 'Fair scan — try better lighting and steadier poses for a more accurate score', 'D': 'Low quality scan — results may be less accurate. Try natural light and follow all prompts' };
+  const grade = ST.scanGrade || 'B';
+  const gCol = gradeColors[grade] || '#f5a623';
+  const rde = $('rde');
+  if (rde) rde.innerHTML = `<div style="display:inline-flex;align-items:center;gap:6px;background:${gCol}15;border:1px solid ${gCol}30;border-radius:8px;padding:4px 10px;margin-top:6px"><div style="font-family:var(--df);font-size:14px;color:${gCol}">${grade}</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.04em">${gradeTips[grade]}</div></div>`;
 
   // Biometric measurements
   const measWrap = $('rmeas-wrap');
@@ -3458,14 +3532,42 @@ function voiceSlug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 }
 
+let _mouthInterval = null;
 function speak(text) {
   if (!text) return;
-  // Pulse Maxx HUD when speaking
-  const wave = $('maxxWave');
-  if (wave) { wave.style.opacity = '1'; setTimeout(() => { if (wave) wave.style.opacity = '.3'; }, 3000); }
-  const bot = $('maxxBot');
-  if (bot) bot.style.animation = 'maxxPulse 1s ease-in-out 2';
-  setTimeout(() => { if (bot) bot.style.animation = ''; }, 2500);
+  // Show subtitle
+  const subEl = $('maxxSub');
+  const subText = $('maxxSubText');
+  if (subEl && subText) {
+    subEl.style.display = 'block';
+    subText.textContent = text;
+    const dur = Math.max(3000, text.length * 65);
+    clearTimeout(window._subTimer);
+    window._subTimer = setTimeout(() => { if (subEl) subEl.style.display = 'none'; }, dur);
+  }
+  // Animate Maxx mouth
+  const mouth = $('maxxMouth');
+  if (mouth) {
+    clearInterval(_mouthInterval);
+    const dur = Math.max(2500, text.length * 60);
+    _mouthInterval = setInterval(() => {
+      const h = 2 + Math.random() * 7;
+      mouth.setAttribute('height', h.toFixed(1));
+      mouth.setAttribute('y', (36 - h / 2).toFixed(1));
+      mouth.setAttribute('opacity', '0.8');
+    }, 120);
+    setTimeout(() => {
+      clearInterval(_mouthInterval);
+      _mouthInterval = null;
+      if (mouth) { mouth.setAttribute('height', '3'); mouth.setAttribute('y', '35'); mouth.setAttribute('opacity', '0.5'); }
+    }, dur);
+  }
+  // Glow eyes brighter when speaking
+  const eyeL = $('maxxEyeL'), eyeR = $('maxxEyeR');
+  if (eyeL) eyeL.setAttribute('opacity', '1');
+  if (eyeR) eyeR.setAttribute('opacity', '1');
+  setTimeout(() => { if (eyeL) eyeL.setAttribute('opacity', '.8'); if (eyeR) eyeR.setAttribute('opacity', '.8'); }, Math.max(2500, text.length * 60));
+
   const slug = voiceSlug(text);
 
   // Make Maxx "talk"
@@ -3549,6 +3651,7 @@ function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 function applyGenderTheme(g) {
   const root = document.documentElement;
+  const c = g === 'female' ? '#e06090' : '#22d45a';
   if (g === 'female') {
     root.style.setProperty('--sig', '#e06090');
     root.style.setProperty('--blue', '#d64f8a');
@@ -3556,67 +3659,160 @@ function applyGenderTheme(g) {
     root.style.setProperty('--sig', '#22d45a');
     root.style.setProperty('--blue', '#4f8ef7');
   }
-  // Maxx HUD auto-adapts via var(--sig)
-}
-
-function showMaxx() {
-  const el = $('maxx');
-  if (el) { el.style.display = 'block'; setTimeout(() => { el.style.opacity = '1'; }, 50); }
-}
-function hideMaxx() {
-  const el = $('maxx');
-  if (el) { el.style.opacity = '0'; setTimeout(() => { el.style.display = 'none'; el.classList.remove('talking'); }, 400); }
+  // Recolor all Maxx elements across app
+  document.querySelectorAll('.mc-f').forEach(el => { el.setAttribute('fill', c); el.style.fill = c; });
+  document.querySelectorAll('.mc-s').forEach(el => { el.setAttribute('stroke', c); el.style.stroke = c; });
+  const lbl = $('maxxLabel');
+  if (lbl) lbl.style.color = c;
 }
 
 // ═══════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════
-function buildTiers() {
-  const fd = {
-    GIGACHAD: 'Top 2%. Walking around looking like a Greek statue. Genetic lottery winner.',
-    CHAD: 'Top 5-10%. Very good looking. Gets approached. Could model.',
-    'MAIN CHARACTER': 'Top 20%. The guy in the room people notice. Strong features.',
-    'ABOVE AVG': 'Better than most. Gets matches. Solid overall.',
-    MID: 'Average. Nothing wrong nothing special. Most of this is fixable.',
-    'DOWN BAD': 'Below average. Multiple areas need work. Check the dashboard.',
-    UNINSTALL: 'Tough score. But there is always a path up. Check the improvement plan.',
-  };
-  const bd = {
-    'GREEK GOD': 'Elite physique. V-taper, definition, the works. Train for a living type.',
-    AESTHETIC: 'Impressive build. Clear muscle, low body fat. Gym is paying off.',
-    'BUILT DIFFERENT': 'Clearly trains. People can tell you work out.',
-    'GYM BRO': 'Goes to the gym and it shows. Decent foundation.',
-    'SKINNY FAT': 'Average untrained body. The starting line.',
-    'SKIPPED EVERYTHING': 'Below average. Needs a gym membership and a meal plan.',
-    'COUCH POTATO': 'Bottom tier. The only direction is up.',
-  };
-  const fdf = {
-    'THAT GIRL': 'Top 2%. The kind of pretty that stops rooms. Rare genetics.',
-    BADDIE: 'Top 5-10%. Extremely attractive. Gets DMs from strangers.',
-    'MAIN CHARACTER': 'Top 20%. Gets noticed. Strong features with good harmony.',
-    CUTE: 'Above average. Good symmetry. Gets compliments.',
-    MID: 'Average. Nothing wrong nothing standout. Room to glow up.',
-    'PICK ME': 'Below average. Some areas to improve.',
-    NPC: 'Tough score. Check the improvement plan.',
-  };
-  const bdf = {
-    GODDESS: 'Elite figure. Perfect proportions, visible tone. Head turning.',
-    SNATCHED: 'Head-turning body. Athletic with feminine curves.',
-    'THAT GIRL': 'Clearly fit. Great waist-to-hip ratio.',
-    FIT: 'Above average. Good foundation.',
-    MID: 'Average. Room for improvement.',
-    'NEEDS WORK': 'Below average conditioning.',
-    NPC: 'Starting point. Nowhere to go but up.',
-  };
-  const render = (id, tiers, descs) => {
-    const el = $(id); if (!el) return;
-    el.innerHTML = tiers.map(t => `<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-top:6px" onclick="const d=this.querySelector('.td');d.style.maxHeight=d.style.maxHeight==='0px'?'120px':'0px'"><div style="width:4px;min-height:28px;border-radius:2px;background:${t.c};flex-shrink:0;margin-top:2px"></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-family:var(--df);font-size:16px;color:${t.c}">${t.l}</div><div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${t.m.toFixed(2)}+</div></div><div class="td" style="max-height:0px;overflow:hidden;transition:max-height .3s ease"><div style="font-size:11px;color:var(--t2);line-height:1.6;padding-top:8px">${descs[t.l] || ''}</div></div></div></div>`).join('');
-  };
-  render('ftiers', FT, fd);
-  render('ftiers_f', FTF, fdf);
-  render('btiers', BT, bd);
-  render('btiers_f', BTF, bdf);
+// ═══════════════════════════════════════════════════════════════
+// TIER EXPLORER — Dual Face + Body morphing Maxx robot
+// ═══════════════════════════════════════════════════════════════
+const tierFaceM = [
+  { l: 'GIGACHAD', c: '#FFD700', m: 9 },{ l: 'CHAD', c: '#22d45a', m: 8 },{ l: 'MAIN CHARACTER', c: '#4f8ef7', m: 7 },
+  { l: 'ABOVE AVG', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'DOWN BAD', c: '#f5a623', m: 3.5 },{ l: 'UNINSTALL', c: '#f05252', m: 0 },
+];
+const tierBodyM = [
+  { l: 'GREEK GOD', c: '#FFD700', m: 9 },{ l: 'AESTHETIC', c: '#22d45a', m: 8 },{ l: 'BUILT DIFFERENT', c: '#4f8ef7', m: 7 },
+  { l: 'GYM BRO', c: '#8b6cf7', m: 6 },{ l: 'SKINNY FAT', c: '#9090b0', m: 5 },{ l: 'SKIPPED EVERYTHING', c: '#f5a623', m: 3.5 },{ l: 'COUCH POTATO', c: '#f05252', m: 0 },
+];
+const tierFaceF = [
+  { l: 'THAT GIRL', c: '#FFD700', m: 9 },{ l: 'BADDIE', c: '#e06090', m: 8 },{ l: 'MAIN CHARACTER', c: '#4f8ef7', m: 7 },
+  { l: 'CUTE', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'PICK ME', c: '#f5a623', m: 3.5 },{ l: 'NPC', c: '#f05252', m: 0 },
+];
+const tierBodyF = [
+  { l: 'GODDESS', c: '#FFD700', m: 9 },{ l: 'SNATCHED', c: '#e06090', m: 8 },{ l: 'THAT GIRL', c: '#4f8ef7', m: 7 },
+  { l: 'FIT', c: '#8b6cf7', m: 6 },{ l: 'MID', c: '#9090b0', m: 5 },{ l: 'NEEDS WORK', c: '#f5a623', m: 3.5 },{ l: 'NPC', c: '#f05252', m: 0 },
+];
+let tGender = 'male', tFaceIdx = 0, tBodyIdx = 0;
+
+function switchTierTab(g) {
+  tGender = g; tFaceIdx = 0; tBodyIdx = 0;
+  document.querySelectorAll('.ttab').forEach((t, i) => t.classList.toggle('on', i === (g === 'male' ? 0 : 1)));
+  buildTierPills();
+  morphMaxx();
 }
+function buildTierPills() {
+  const ft = tGender === 'male' ? tierFaceM : tierFaceF;
+  const bt = tGender === 'male' ? tierBodyM : tierBodyF;
+  $('facePills').innerHTML = ft.map((t, i) => `<div onclick="pickFace(${i})" id="fp${i}" style="padding:6px 10px;border-radius:14px;border:1.5px solid ${t.c}${i===0?'':'30'};background:${i===0?t.c+'15':'transparent'};cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0"><div style="font-family:var(--df);font-size:10px;color:${t.c}">${t.l}</div></div>`).join('');
+  $('bodyPills').innerHTML = bt.map((t, i) => `<div onclick="pickBody(${i})" id="bp${i}" style="padding:6px 10px;border-radius:14px;border:1.5px solid ${t.c}${i===0?'':'30'};background:${i===0?t.c+'15':'transparent'};cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0"><div style="font-family:var(--df);font-size:10px;color:${t.c}">${t.l}</div></div>`).join('');
+}
+function pickFace(i) { tFaceIdx = i; morphMaxx(); }
+function pickBody(i) { tBodyIdx = i; morphMaxx(); }
+
+function morphMaxx() {
+  const ft = (tGender === 'male' ? tierFaceM : tierFaceF);
+  const bt = (tGender === 'male' ? tierBodyM : tierBodyF);
+  const f = ft[tFaceIdx], b = bt[tBodyIdx];
+  const fp = 1 - (tFaceIdx / (ft.length - 1)); // 1=best face, 0=worst
+  const bp = 1 - (tBodyIdx / (bt.length - 1)); // 1=best body, 0=worst
+
+  // Update pill highlights
+  ft.forEach((_, i) => { const p = $('fp'+i); if(p){p.style.background=i===tFaceIdx?ft[i].c+'15':'transparent';p.style.borderColor=i===tFaceIdx?ft[i].c:ft[i].c+'30';p.style.transform=i===tFaceIdx?'scale(1.06)':'scale(1)';} });
+  bt.forEach((_, i) => { const p = $('bp'+i); if(p){p.style.background=i===tBodyIdx?bt[i].c+'15':'transparent';p.style.borderColor=i===tBodyIdx?bt[i].c:bt[i].c+'30';p.style.transform=i===tBodyIdx?'scale(1.06)':'scale(1)';} });
+
+  // Update tier name labels
+  $('tFaceName').textContent = f.l; $('tFaceName').style.color = f.c;
+  $('tBodyName').textContent = b.l; $('tBodyName').style.color = b.c;
+
+  // Description
+  const descEl = $('tierDescDisplay');
+  descEl.style.opacity = '0';
+  setTimeout(() => {
+    if (fp > 0.7 && bp > 0.7) descEl.textContent = 'Peak genetics + peak physique. The full package.';
+    else if (fp > 0.7 && bp < 0.3) descEl.textContent = 'Great face but the body needs serious work.';
+    else if (fp < 0.3 && bp > 0.7) descEl.textContent = 'Insane physique but the face is holding you back.';
+    else if (fp < 0.3 && bp < 0.3) descEl.textContent = 'Bottom tier across the board. Time to start grinding.';
+    else if (fp > bp + 0.3) descEl.textContent = 'Face is carrying. Body has room to catch up.';
+    else if (bp > fp + 0.3) descEl.textContent = 'Body is carrying. Face could use some help.';
+    else descEl.textContent = 'Balanced across face and body. Consistent.';
+    descEl.style.opacity = '1';
+  }, 120);
+
+  // ═══ MORPH THE ROBOT ═══
+
+  // FACE: Eyes — bigger and brighter for higher face score
+  const eyeSize = 4 + fp * 8;
+  const el = document.getElementById('tEyeL'), er = document.getElementById('tEyeR');
+  if(el) { el.setAttribute('r', eyeSize); el.style.fill = f.c; el.style.stroke = f.c; }
+  if(er) { er.setAttribute('r', eyeSize); er.style.fill = f.c; er.style.stroke = f.c; }
+
+  // FACE: Mouth — wide smile for high, thin line for low
+  const mouth = document.getElementById('tMouth');
+  if(mouth) {
+    const mw = 15 + fp * 50; const mh = 2 + fp * 5;
+    mouth.setAttribute('width', mw); mouth.setAttribute('x', 90 - mw/2);
+    mouth.setAttribute('height', mh); mouth.style.fill = f.c;
+    mouth.style.opacity = 0.3 + fp * 0.5;
+  }
+
+  // FACE: Head + visor color
+  const head = document.getElementById('tHead');
+  const visor = document.getElementById('tVisor');
+  if(head) head.style.stroke = f.c;
+  if(visor) visor.style.stroke = f.c;
+  document.getElementById('tAnt').style.stroke = f.c;
+  document.getElementById('tAntDot').style.fill = f.c;
+
+  // BODY: Torso width — wider for higher body score
+  const torso = document.getElementById('tTorso');
+  const chest = document.getElementById('tChest');
+  if(torso) {
+    const tw = 70 + bp * 50; const tx = 90 - tw/2;
+    torso.setAttribute('width', tw); torso.setAttribute('x', tx);
+    torso.setAttribute('height', 50 + bp * 30);
+    torso.style.stroke = b.c;
+  }
+  if(chest) {
+    const cw = 50 + bp * 40; const cx = 90 - cw/2;
+    chest.setAttribute('width', cw); chest.setAttribute('x', cx);
+    chest.setAttribute('height', 30 + bp * 16);
+    chest.style.stroke = b.c;
+  }
+
+  // BODY: Arms — thicker and wider for higher body score
+  const armL = document.getElementById('tArmL'), armR = document.getElementById('tArmR');
+  const handL = document.getElementById('tHandL'), handR = document.getElementById('tHandR');
+  const armSpread = 20 + bp * 20;
+  const armWidth = 2 + bp * 3;
+  if(armL) { armL.setAttribute('x2', 90 - 45 - armSpread); armL.setAttribute('stroke-width', armWidth); armL.style.stroke = b.c; armL.style.opacity = 0.4 + bp * 0.5; }
+  if(armR) { armR.setAttribute('x2', 90 + 45 + armSpread); armR.setAttribute('stroke-width', armWidth); armR.style.stroke = b.c; armR.style.opacity = 0.4 + bp * 0.5; }
+  if(handL) { handL.setAttribute('cx', 90 - 47 - armSpread); handL.setAttribute('r', 2 + bp * 3); handL.style.fill = b.c; }
+  if(handR) { handR.setAttribute('cx', 90 + 47 + armSpread); handR.setAttribute('r', 2 + bp * 3); handR.style.fill = b.c; }
+
+  // BODY: Core glow
+  const core = document.getElementById('tCore');
+  if(core) { core.style.fill = b.c; core.setAttribute('r', 3 + bp * 5); core.style.opacity = 0.2 + bp * 0.5; }
+
+  // BODY: Neck width
+  const neck = document.getElementById('tNeck');
+  if(neck) { const nw = 28 + bp * 16; neck.setAttribute('width', nw); neck.setAttribute('x', 90 - nw/2); neck.style.stroke = b.c; }
+
+  // COMBINED: Overall glow size and color (mix of face + body)
+  const glow = $('tierGlow');
+  if(glow) {
+    const avg = (fp + bp) / 2;
+    const size = 80 + avg * 140;
+    const mixC = fp >= bp ? f.c : b.c;
+    glow.style.width = size + 'px'; glow.style.height = size + 'px';
+    glow.style.background = `radial-gradient(circle,${mixC}${avg > 0.5 ? '35' : avg > 0.2 ? '18' : '08'} 0%,transparent 70%)`;
+  }
+
+  // Ring
+  const r1 = $('tierR1');
+  if(r1) { const c = r1.querySelector('circle'); if(c) { c.style.stroke = fp >= bp ? f.c : b.c; c.style.opacity = 0.05 + ((fp+bp)/2) * 0.25; } }
+
+  // Shadow
+  const shadow = document.getElementById('tShadow');
+  if(shadow) { shadow.setAttribute('rx', 25 + bp * 25); shadow.style.fill = b.c; }
+}
+
+function buildTiers() { buildTierPills(); morphMaxx(); }
 
 window.addEventListener('load', () => {
   updHome();
@@ -3636,7 +3832,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap,
+  genShare, natShare, openLB, openLBSub, fLB, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap, switchTierTab, pickFace, pickBody,
 });
 </script>
 </body>
