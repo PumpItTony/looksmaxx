@@ -129,6 +129,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .sload.hide{opacity:0;pointer-events:none;}
 .sload-spin{width:48px;height:48px;border:2.5px solid rgba(255,255,255,.07);border-top-color:var(--blue);border-radius:50%;animation:spin .85s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes maxxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes maxxSpeak{0%,100%{filter:drop-shadow(0 2px 12px rgba(34,212,90,.4))}50%{filter:drop-shadow(0 2px 20px rgba(34,212,90,.8))}}
+@keyframes maxxSpin{to{transform:rotate(360deg)}}
+@keyframes maxxPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
 .sload-t{font-family:var(--df);font-size:22px;letter-spacing:.1em;}
 .sload-s{font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.08em;text-align:center;line-height:1.8;}
 .sload-bar{width:200px;height:3px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;}
@@ -262,16 +266,16 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="hstat" id="hstat"></div>
 </div>
 <div class="pills">
-<div class="pill"><div class="pilld" style="background:var(--sig)"></div>AI Auto-Detects Gender</div>
-<div class="pill"><div class="pilld" style="background:var(--blue)"></div>Free to Scan</div>
-<div class="pill"><div class="pilld" style="background:var(--green)"></div>478 + 33 Landmarks</div>
+<div class="pill"><div class="pilld" style="background:var(--sig)"></div>Works for guys & girls</div>
+<div class="pill"><div class="pilld" style="background:var(--blue)"></div>100% free</div>
+<div class="pill"><div class="pilld" style="background:var(--green)"></div>Guided by Maxx AI</div>
 </div>
 <div style="height:14px"></div>
-<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + Body · 19 traits · ~2 min · AI biometric analysis</div></div><div class="cmba">→</div></div></div>
+<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">The full experience. Face + body. 19 traits scored. Maxx walks you through everything.</div></div><div class="cmba">→</div></div></div>
 <div style="height:8px"></div>
 <div class="cds">
-<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">Live face mesh maps 478 landmarks. AI scores jawline, symmetry, eye area, cheekbones, skin quality — 10 traits.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;Face Mesh</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
-<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">Pose tracking maps 33 body landmarks. AI scores frame, V-taper, muscle definition, body fat, posture — 9 traits.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;Pose Track</span><span class="tag tgd">~75 sec</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
+<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">Maxx scans your face and scores you on 10 traits. Jawline, eyes, symmetry, skin, the works.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;AI Guided</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
+<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">Maxx scans your physique and scores you on 9 traits. Build, posture, proportions, definition.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;AI Guided</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
 </div>
 <div style="height:8px"></div>
 <div class="hnv">
@@ -281,7 +285,10 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </div>
 <div style="height:8px"></div>
 <div class="usg" id="usg" onclick="debugTap()">Free scans remaining today</div>
-<div style="padding:8px 0;text-align:center"><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">◎ Fresh Fitness Co LLC</div></div>
+<div style="padding:8px 0;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">
+<svg width="22" height="22" viewBox="0 0 56 56" style="opacity:.4"><rect x="8" y="10" width="40" height="32" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="21" cy="26" r="4" fill="currentColor"/><circle cx="35" cy="26" r="4" fill="currentColor"/><rect x="18" y="34" width="20" height="3" rx="1.5" fill="currentColor" opacity=".5"/><line x1="28" y1="10" x2="28" y2="4" stroke="currentColor" stroke-width="2"/><circle cx="28" cy="3" r="2" fill="currentColor"/></svg>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">Powered by Maxx AI · Fresh Fitness Co</div>
+</div>
 </div>
 </div>
 
@@ -292,6 +299,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <svg id="foval" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(75vw,300px);height:min(95vw,390px);z-index:4;pointer-events:none;display:none;overflow:visible" viewBox="0 0 260 340">
   <defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22d45a" stop-opacity=".5"/><stop offset="50%" stop-color="#22d45a" stop-opacity=".2"/><stop offset="100%" stop-color="#22d45a" stop-opacity=".5"/></linearGradient></defs>
   <ellipse cx="130" cy="170" rx="110" ry="148" fill="none" stroke="url(#og)" stroke-width="2.5" stroke-dasharray="6 4"/>
+  <!-- Green target dot — standardizes where everyone looks -->
+  <circle cx="130" cy="155" r="6" fill="#22d45a" opacity=".9">
+    <animate attributeName="opacity" values=".9;.4;.9" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="130" cy="155" r="12" fill="none" stroke="#22d45a" stroke-width="1" opacity=".3">
+    <animate attributeName="r" values="12;18;12" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".3;.1;.3" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="130" y="195" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="8" letter-spacing="1.5" opacity=".5">LOOK AT THE DOT</text>
   <text x="130" y="32" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2" opacity=".6" id="foval-txt">POSITION FACE IN OVAL</text>
 </svg>
 <!-- Body positioning guide — shown during body scans -->
@@ -305,6 +321,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <line x1="50" y1="100" x2="70" y2="180" stroke="#22d45a" stroke-width="1" stroke-dasharray="3 2"/>
   <text x="50" y="210" text-anchor="middle" fill="#22d45a" font-family="'DM Mono',monospace" font-size="7" letter-spacing="1" id="bguide-txt">ALIGN BODY HERE</text>
 </svg>
+<!-- MAXX MASCOT — floating robot face -->
 <div id="mlstat" style="position:absolute;bottom:calc(180px + var(--sab));left:50%;transform:translateX(-50%);z-index:8;font-family:var(--mf);font-size:8px;color:rgba(34,212,90,.5);letter-spacing:.06em;text-align:center;pointer-events:none"></div>
 <div class="sfl" id="sfl"></div>
 <div class="swarn" id="swarn"></div>
@@ -315,6 +332,49 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <div class="smeas" id="smeas1" style="top:30%;right:14px"></div>
 <div class="smeas" id="smeas2" style="top:40%;right:14px"></div>
 <div class="smeas" id="smeas3" style="top:50%;right:14px"></div>
+<!-- MAXX — Holographic AI Companion HUD -->
+<div id="maxxBot" style="position:absolute;bottom:calc(195px + var(--sab));left:12px;z-index:25;pointer-events:none;display:none">
+<div style="position:relative;width:56px;height:56px">
+  <!-- Outer rotating ring -->
+  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;animation:maxxSpin 8s linear infinite">
+    <circle cx="28" cy="28" r="26" fill="none" stroke="var(--sig)" stroke-width=".5" opacity=".15" stroke-dasharray="4 8"/>
+  </svg>
+  <!-- Inner counter-rotating ring -->
+  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;animation:maxxSpin 5s linear infinite reverse">
+    <circle cx="28" cy="28" r="22" fill="none" stroke="var(--sig)" stroke-width=".7" opacity=".25" stroke-dasharray="12 6 4 6"/>
+  </svg>
+  <!-- Core glow -->
+  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0">
+    <defs>
+      <radialGradient id="maxxGlow"><stop offset="0%" stop-color="var(--sig)" stop-opacity=".4"/><stop offset="70%" stop-color="var(--sig)" stop-opacity=".05"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    </defs>
+    <circle cx="28" cy="28" r="18" fill="url(#maxxGlow)">
+      <animate attributeName="r" values="16;19;16" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Core dot -->
+    <circle cx="28" cy="28" r="3" fill="var(--sig)" opacity=".9">
+      <animate attributeName="r" values="3;4;3" dur="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".9;.5;.9" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+  <!-- Audio waveform bars (animate when speaking) -->
+  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0" id="maxxWave" style="opacity:.3">
+    <rect x="19" y="24" width="2" height="8" rx="1" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="4;10;6;8;4" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="26;23;25;24;26" dur=".6s" repeatCount="indefinite"/></rect>
+    <rect x="23" y="22" width="2" height="12" rx="1" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="8;4;12;6;8" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="24;26;22;25;24" dur=".5s" repeatCount="indefinite"/></rect>
+    <rect x="27" y="21" width="2" height="14" rx="1" fill="var(--sig)" opacity=".8"><animate attributeName="height" values="12;6;14;8;12" dur=".55s" repeatCount="indefinite"/><animate attributeName="y" values="22;25;21;24;22" dur=".55s" repeatCount="indefinite"/></rect>
+    <rect x="31" y="22" width="2" height="12" rx="1" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="6;12;4;10;6" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="25;22;26;23;25" dur=".5s" repeatCount="indefinite"/></rect>
+    <rect x="35" y="24" width="2" height="8" rx="1" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="8;4;10;6;8" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="24;26;23;25;24" dur=".6s" repeatCount="indefinite"/></rect>
+  </svg>
+  <!-- Crosshair lines -->
+  <svg width="56" height="56" viewBox="0 0 56 56" style="position:absolute;inset:0;opacity:.2">
+    <line x1="28" y1="4" x2="28" y2="12" stroke="var(--sig)" stroke-width=".5"/>
+    <line x1="28" y1="44" x2="28" y2="52" stroke="var(--sig)" stroke-width=".5"/>
+    <line x1="4" y1="28" x2="12" y2="28" stroke="var(--sig)" stroke-width=".5"/>
+    <line x1="44" y1="28" x2="52" y2="28" stroke="var(--sig)" stroke-width=".5"/>
+  </svg>
+</div>
+<div style="font-family:var(--mf);font-size:7px;color:var(--sig);letter-spacing:.2em;text-align:center;margin-top:3px;opacity:.5" id="maxxLabel">MAXX</div>
+</div>
 <div class="stp">
 <div class="sbdg"><div class="sbdd" id="sbdd" style="background:var(--blue)"></div><div class="sbdl" id="sbdl">PSL SCAN</div></div>
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
@@ -438,45 +498,114 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <!-- HOW IT WORKS -->
 <div id="info" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">HOW IT WORKS</div></div>
-<div style="padding:14px;display:flex;flex-direction:column;gap:14px">
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">THE TECHNOLOGY</div></div>
+<div style="padding:0;overflow-y:auto;-webkit-overflow-scrolling:touch" id="infoScroll">
 
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
-<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em;background:linear-gradient(90deg,var(--blue),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MEET MAXX</div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8">
-I'm Maxx. I scan your face and body and tell you exactly how attractive you are on a scale of 1 to 10. No opinions. No feelings. Just math and AI.<br><br>
-Here's how it works in plain English:
+<!-- Hero — Large Maxx Hologram -->
+<div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px 30px;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(34,212,90,.06) 0%,transparent 60%);pointer-events:none"></div>
+<div style="position:relative;width:140px;height:140px;margin-bottom:20px">
+  <!-- Triple rotating rings -->
+  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 12s linear infinite">
+    <circle cx="70" cy="70" r="68" fill="none" stroke="var(--sig)" stroke-width=".4" opacity=".12" stroke-dasharray="6 12"/>
+  </svg>
+  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 8s linear infinite reverse">
+    <circle cx="70" cy="70" r="58" fill="none" stroke="var(--sig)" stroke-width=".6" opacity=".2" stroke-dasharray="16 8 4 8"/>
+  </svg>
+  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0;animation:maxxSpin 5s linear infinite">
+    <circle cx="70" cy="70" r="48" fill="none" stroke="var(--sig)" stroke-width=".8" opacity=".3" stroke-dasharray="3 6"/>
+  </svg>
+  <!-- Core -->
+  <svg width="140" height="140" viewBox="0 0 140 140" style="position:absolute;inset:0">
+    <defs><radialGradient id="heroGlow"><stop offset="0%" stop-color="var(--sig)" stop-opacity=".35"/><stop offset="60%" stop-color="var(--sig)" stop-opacity=".05"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+    <circle cx="70" cy="70" r="36" fill="url(#heroGlow)"><animate attributeName="r" values="34;38;34" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="70" cy="70" r="6" fill="var(--sig)" opacity=".8"><animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/></circle>
+    <!-- Waveform -->
+    <rect x="52" y="62" width="3" height="16" rx="1.5" fill="var(--sig)" opacity=".5"><animate attributeName="height" values="8;18;12;16;8" dur=".7s" repeatCount="indefinite"/><animate attributeName="y" values="66;61;64;62;66" dur=".7s" repeatCount="indefinite"/></rect>
+    <rect x="58" y="60" width="3" height="20" rx="1.5" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="14;8;20;10;14" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="63;66;60;65;63" dur=".6s" repeatCount="indefinite"/></rect>
+    <rect x="64" y="58" width="3" height="24" rx="1.5" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="20;10;24;14;20" dur=".65s" repeatCount="indefinite"/><animate attributeName="y" values="60;65;58;63;60" dur=".65s" repeatCount="indefinite"/></rect>
+    <rect x="70" y="57" width="3" height="26" rx="1.5" fill="var(--sig)" opacity=".8"><animate attributeName="height" values="24;12;26;16;24" dur=".55s" repeatCount="indefinite"/><animate attributeName="y" values="58;64;57;62;58" dur=".55s" repeatCount="indefinite"/></rect>
+    <rect x="76" y="58" width="3" height="24" rx="1.5" fill="var(--sig)" opacity=".7"><animate attributeName="height" values="12;24;10;20;12" dur=".65s" repeatCount="indefinite"/><animate attributeName="y" values="64;58;65;60;64" dur=".65s" repeatCount="indefinite"/></rect>
+    <rect x="82" y="60" width="3" height="20" rx="1.5" fill="var(--sig)" opacity=".6"><animate attributeName="height" values="8;16;14;8;20" dur=".6s" repeatCount="indefinite"/><animate attributeName="y" values="66;62;63;66;60" dur=".6s" repeatCount="indefinite"/></rect>
+    <rect x="88" y="62" width="3" height="16" rx="1.5" fill="var(--sig)" opacity=".5"><animate attributeName="height" values="16;8;12;18;8" dur=".7s" repeatCount="indefinite"/><animate attributeName="y" values="62;66;64;61;66" dur=".7s" repeatCount="indefinite"/></rect>
+  </svg>
 </div>
+<div style="font-family:var(--df);font-size:32px;letter-spacing:.12em;background:linear-gradient(90deg,var(--sig),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MAXX</div>
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.25em;margin-top:4px">BIOMETRIC AI ENGINE</div>
+<div style="font-size:13px;color:var(--t2);text-align:center;line-height:1.8;margin-top:16px;max-width:300px">The world's first real-time biometric attractiveness scanner. Live measurement. AI analysis. One score.</div>
 </div>
 
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--blue)">1</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--blue)">THE SCAN</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your phone camera lights up 478 invisible points on your face. Think of it like a super detailed connect-the-dots. Maxx guides you through poses to measure every angle. For body scans it tracks 33 points on your skeleton.</div></div></div>
-
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--amber)">2</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--amber)">THE MATH</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Those dots get turned into real measurements. How wide your jaw is. How symmetrical your face is. Your shoulder to waist ratio. Hundreds of readings averaged together. This is real math, not a guess.</div></div></div>
-
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(139,108,247,.15);border:1px solid rgba(139,108,247,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:#8b6cf7">3</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:#8b6cf7">THE AI</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">Your measurements plus photos go to an AI trained on what makes faces and bodies attractive. It scores you on 10 face traits or 9 body traits. Each one gets its own score. Think of it like having a brutally honest friend who happens to be a scientist.</div></div></div>
-
-<div style="display:flex;gap:14px;align-items:flex-start"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--df);font-size:18px;color:var(--gold)">4</div><div style="flex:1"><div style="font-family:var(--df);font-size:16px;color:var(--gold)">YOUR LOOKSMAXX SCORE™</div><div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:4px">All your trait scores get combined using our proprietary algorithm into one number: your LooksMaxx Score™. The only score in the world that combines real-time biometric measurements with AI vision analysis. Plus you get a personalized dashboard showing exactly what to improve and how.</div></div></div>
+<!-- Section 1 — THE SCAN -->
+<div style="padding:0 16px 24px">
+<div style="border-left:2px solid var(--blue);padding:16px 0 16px 16px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="var(--blue)" stroke-width=".8" opacity=".3"/><circle cx="10" cy="11" r="1.5" fill="var(--blue)" opacity=".7"><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="22" cy="11" r="1.5" fill="var(--blue)" opacity=".7"><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite" begin=".2s"/></circle><circle cx="16" cy="18" r="1" fill="var(--blue)" opacity=".5"><animate attributeName="opacity" values=".2;.7;.2" dur="1.5s" repeatCount="indefinite" begin=".4s"/></circle><line x1="8" y1="22" x2="14" y2="20" stroke="var(--blue)" stroke-width=".5" opacity=".4"/><line x1="18" y1="20" x2="24" y2="22" stroke="var(--blue)" stroke-width=".5" opacity=".4"/><circle cx="6" cy="7" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/></circle><circle cx="26" cy="7" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin=".5s"/></circle><circle cx="16" cy="5" r=".8" fill="var(--blue)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite" begin="1s"/></circle></svg>
+  <div><div style="font-family:var(--df);font-size:14px;color:var(--blue);letter-spacing:.06em">REAL-TIME MAPPING</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 01</div></div>
 </div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">Your camera activates and hundreds of measurement points light up across your face in real time. Maxx guides you through poses — each one captures different angles and data. The green mesh you see is live tracking at 20 frames per second.</div>
+<div style="display:flex;gap:6px;margin-top:10px">
+  <div style="background:var(--void);border:1px solid rgba(79,142,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:var(--blue)">478</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">FACE POINTS</div></div>
+  <div style="background:var(--void);border:1px solid rgba(79,142,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:var(--blue)">33</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">BODY POINTS</div></div>
+  <div style="background:var(--void);border:1px solid rgba(79,142,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:var(--blue)">20</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">FPS</div></div>
+</div>
+</div></div>
 
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px">
-<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">TIPS FOR BEST RESULTS</div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8">
-<b style="color:var(--sig)">Lighting matters most.</b> Face a window. Natural, even light lets the AI see your actual features — shadows create phantom jawlines and false definitions.<br><br>
-<b style="color:var(--blue)">Face scans:</b> Hold your phone at eye level, about arm's length. Follow Maxx's prompts — each pose captures different measurement data.<br><br>
-<b style="color:var(--green)">Body scans:</b> Prop your phone 4-5 feet away, leaned against a wall or object. Stand in front of a plain background. Shirtless gets significantly more accurate muscle, body fat, and vascularity readings.<br><br>
-<b style="color:var(--gold)">Want the best score?</b> Good lighting + good posture + following every prompt. The AI rewards you for what it can actually see.
+<!-- Section 2 — THE MATH -->
+<div style="padding:0 16px 24px">
+<div style="border-left:2px solid var(--amber);padding:16px 0 16px 16px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+  <svg width="32" height="32" viewBox="0 0 32 32"><line x1="4" y1="16" x2="28" y2="16" stroke="var(--amber)" stroke-width=".5" opacity=".3"/><line x1="16" y1="4" x2="16" y2="28" stroke="var(--amber)" stroke-width=".5" opacity=".3"/><circle cx="8" cy="10" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><circle cx="24" cy="10" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><line x1="8" y1="10" x2="24" y2="10" stroke="var(--amber)" stroke-width=".5" opacity=".4" stroke-dasharray="2 2"><animate attributeName="stroke-dashoffset" values="0;4" dur="1s" repeatCount="indefinite"/></line><circle cx="16" cy="24" r="2" fill="none" stroke="var(--amber)" stroke-width=".7" opacity=".6"/><line x1="8" y1="10" x2="16" y2="24" stroke="var(--amber)" stroke-width=".4" opacity=".3"/><line x1="24" y1="10" x2="16" y2="24" stroke="var(--amber)" stroke-width=".4" opacity=".3"/></svg>
+  <div><div style="font-family:var(--df);font-size:14px;color:var(--amber);letter-spacing:.06em">BIOMETRIC MATH</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 02</div></div>
 </div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">Those points become real numbers. Jaw angle in degrees. Symmetry ratio. Shoulder-to-waist ratio. Facial thirds. Hundreds of measurements averaged with outlier filtering. This is objective data, not opinion.</div>
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+  <div style="background:var(--void);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:5px 10px"><div style="font-family:var(--mf);font-size:7px;color:var(--amber);letter-spacing:.08em">JAW °</div></div>
+  <div style="background:var(--void);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:5px 10px"><div style="font-family:var(--mf);font-size:7px;color:var(--amber);letter-spacing:.08em">SYMMETRY</div></div>
+  <div style="background:var(--void);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:5px 10px"><div style="font-family:var(--mf);font-size:7px;color:var(--amber);letter-spacing:.08em">V-TAPER</div></div>
+  <div style="background:var(--void);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:5px 10px"><div style="font-family:var(--mf);font-size:7px;color:var(--amber);letter-spacing:.08em">THIRDS</div></div>
+  <div style="background:var(--void);border:1px solid rgba(245,166,35,.12);border-radius:6px;padding:5px 10px"><div style="font-family:var(--mf);font-size:7px;color:var(--amber);letter-spacing:.08em">POSTURE</div></div>
 </div>
+</div></div>
 
-<div style="background:linear-gradient(155deg,rgba(79,142,247,.06),rgba(93,219,110,.04));border:1px solid var(--brm);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:8px">
-<div style="font-family:var(--df);font-size:18px;letter-spacing:.05em">THE TECH SPECS</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--blue);letter-spacing:.08em">FACE LANDMARKS</div><div style="font-family:var(--df);font-size:22px">478</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">per frame @ 20fps</div></div>
-<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--green);letter-spacing:.08em">BODY LANDMARKS</div><div style="font-family:var(--df);font-size:22px">33</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">pose estimation</div></div>
-<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--amber);letter-spacing:.08em">FACE TRAITS</div><div style="font-family:var(--df);font-size:22px">10</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">individually scored</div></div>
-<div style="background:var(--void);border:1px solid var(--brd);border-radius:8px;padding:10px"><div style="font-family:var(--mf);font-size:8px;color:var(--gold);letter-spacing:.08em">BODY TRAITS</div><div style="font-family:var(--df);font-size:22px">9</div><div style="font-family:var(--mf);font-size:7px;color:var(--t3)">individually scored</div></div>
+<!-- Section 3 — THE AI -->
+<div style="padding:0 16px 24px">
+<div style="border-left:2px solid #8b6cf7;padding:16px 0 16px 16px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="8" r="3" fill="none" stroke="#8b6cf7" stroke-width=".7" opacity=".6"><animate attributeName="r" values="2.5;3.5;2.5" dur="2s" repeatCount="indefinite"/></circle><circle cx="6" cy="20" r="2.5" fill="none" stroke="#8b6cf7" stroke-width=".7" opacity=".5"/><circle cx="26" cy="20" r="2.5" fill="none" stroke="#8b6cf7" stroke-width=".7" opacity=".5"/><circle cx="16" cy="28" r="2" fill="none" stroke="#8b6cf7" stroke-width=".7" opacity=".4"/><line x1="16" y1="11" x2="6" y2="18" stroke="#8b6cf7" stroke-width=".4" opacity=".3"><animate attributeName="opacity" values=".15;.4;.15" dur="1.5s" repeatCount="indefinite"/></line><line x1="16" y1="11" x2="26" y2="18" stroke="#8b6cf7" stroke-width=".4" opacity=".3"><animate attributeName="opacity" values=".15;.4;.15" dur="1.5s" repeatCount="indefinite" begin=".3s"/></line><line x1="6" y1="22" x2="16" y2="26" stroke="#8b6cf7" stroke-width=".4" opacity=".3"><animate attributeName="opacity" values=".15;.4;.15" dur="1.5s" repeatCount="indefinite" begin=".6s"/></line><line x1="26" y1="22" x2="16" y2="26" stroke="#8b6cf7" stroke-width=".4" opacity=".3"><animate attributeName="opacity" values=".15;.4;.15" dur="1.5s" repeatCount="indefinite" begin=".9s"/></line></svg>
+  <div><div style="font-family:var(--df);font-size:14px;color:#8b6cf7;letter-spacing:.06em">AI ANALYSIS</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 03</div></div>
 </div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">Measurements and photos go to an AI that understands attractiveness at a level humans can't articulate. It auto-detects gender. Scores 10 face traits or 9 body traits individually. Different criteria for men and women. Same brutal honesty.</div>
+<div style="display:flex;gap:6px;margin-top:10px">
+  <div style="background:var(--void);border:1px solid rgba(139,108,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:#8b6cf7">10</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">FACE TRAITS</div></div>
+  <div style="background:var(--void);border:1px solid rgba(139,108,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:#8b6cf7">9</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">BODY TRAITS</div></div>
+  <div style="background:var(--void);border:1px solid rgba(139,108,247,.15);border-radius:6px;padding:6px 10px;flex:1;text-align:center"><div style="font-family:var(--df);font-size:18px;color:#8b6cf7">♂♀</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.06em">AUTO DETECT</div></div>
+</div>
+</div></div>
+
+<!-- Section 4 — YOUR SCORE -->
+<div style="padding:0 16px 24px">
+<div style="border-left:2px solid var(--gold);padding:16px 0 16px 16px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+  <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="var(--gold)" stroke-width=".6" opacity=".2"/><path d="M16 3 A13 13 0 0 1 29 16" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity=".7"><animateTransform attributeName="transform" type="rotate" values="0 16 16;270 16 16" dur="2s" fill="freeze" repeatCount="1"/></path><text x="16" y="19" text-anchor="middle" font-family="'DM Mono',monospace" font-size="10" fill="var(--gold)" font-weight="700">8.4</text></svg>
+  <div><div style="font-family:var(--df);font-size:14px;color:var(--gold);letter-spacing:.06em">LOOKSMAXX SCORE™</div><div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.1em;margin-top:2px">STEP 04</div></div>
+</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">Every trait feeds into a proprietary weighting algorithm. Jawline matters more than nose shape. Waist-to-hip matters more than arm definition. The weights are based on what actually drives real-world attractiveness. One final score. One dashboard. One improvement plan.</div>
+</div></div>
+
+<!-- Tips -->
+<div style="padding:0 16px 16px">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px">
+<div style="font-family:var(--df);font-size:12px;letter-spacing:.08em;color:var(--t2);margin-bottom:8px">SCAN TIPS</div>
+<div style="font-size:11px;color:var(--t3);line-height:1.8">
+<span style="color:var(--sig)">Face:</span> Eye level, arm's length. Look at the green dot. Natural light.<br>
+<span style="color:var(--blue)">Body:</span> Phone at chest height on a shelf. 4ft back. Plain background.<br>
+<span style="color:var(--gold)">Best score:</span> Good lighting + good posture + follow every prompt.
+</div>
+</div></div>
+
+<!-- CTA -->
+<div style="text-align:center;padding:10px 0 30px">
+<button class="btn bp" onclick="show('home')" style="max-width:260px">Start Scanning</button>
 </div>
 
 </div>
@@ -1135,7 +1264,9 @@ function show(id) {
 
 function goHome() {
   abort();
-  applyGenderTheme('male'); // Reset theme
+  applyGenderTheme('male');
+  const maxxEl = $('maxxBot');
+  if (maxxEl) maxxEl.style.display = 'none';
   show('home');
   // Clean scan screen
   $('foval').style.display = 'none';
@@ -1457,6 +1588,9 @@ function estimateGender(lm) {
 async function startCapture() {
   if (ST.scanning) return;
   ST.scanning = true;
+  // Show Maxx
+  const maxxEl = $('maxxBot');
+  if (maxxEl) maxxEl.style.display = 'block';
   initAudio();
   const mode = ST.mode;
   const myTk = ST.token;
@@ -1471,12 +1605,13 @@ async function startCapture() {
   let detectedGender = ST._debugGender || null;
 
   startBgMusic(isFace ? 'face' : 'body');
+  showMaxx();
 
   // ═══ GENDER DETECTION PHASE (face scans only, first 4 seconds) ═══
   if (isFace && !detectedGender) {
     $('svt').textContent = 'ANALYZING';
     $('sst').textContent = 'Reading your face…';
-    speak("Hey I'm Maxx. Hold still one sec let me figure out what I'm working with.");
+    speak("Hey. I'm Maxx. See that green dot? Look right at it and hold still for me.");
     const detectStart = Date.now();
     let genderVotes = [];
     while (Date.now() - detectStart < 3500 && !ST.aborted) {
@@ -1503,7 +1638,7 @@ async function startCapture() {
     scanEl.style.boxShadow = `inset 0 0 120px ${genderColor}60`;
     $('svt').textContent = isFem ? '♀ FEMALE DETECTED' : '♂ MALE DETECTED';
     $('svt').style.color = genderColor;
-    $('sst').textContent = isFem ? 'Loading female scan protocol' : 'Loading male scan protocol';
+    $('sst').textContent = isFem ? 'Switching to female protocol' : 'Loading male protocol';
     try { navigator.vibrate([40, 20, 60]); } catch {}
     safeOsc(isFem ? 700 : 500, 'sine', 0.2, 0.12, 0.001);
     await sleep(2000);
@@ -1519,7 +1654,7 @@ async function startCapture() {
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "Alright let's do this. I'm lighting up 478 points on your face right now. Pretty cool right? Don't move.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "Alright let's do this. I can see you. Putting a ton of little dots on your face right now. Kind of like a blueprint. Don't move.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Jawline check',
       voice: "Turn left for me. I'm checking out that jawline. This is the number one thing people notice.", dur: 6000, needsLM: true, minFrames: 18,
@@ -1541,7 +1676,7 @@ async function startCapture() {
 
   const facePosesFemale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', status: 'Mapping face',
-      voice: "OK I've got 478 points lit up on your face. I'm measuring everything. Cheekbones, eyes, lips, the works. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "OK I can see you. Mapping your face right now. Eyes, cheekbones, jawline, all of it. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', status: 'Bone structure',
       voice: "Turn left. I'm looking at your cheekbone structure and how your features flow together.", dur: 6000, needsLM: true, minFrames: 18,
@@ -1562,45 +1697,47 @@ async function startCapture() {
   ];
 
   const bodyIntroMale = mode === 'body'
-    ? "Hey I'm Maxx. Let's scan that physique. Step back about four feet. I need head to toe. Shirtless if you're brave enough."
-    : "Body time. Step back about four feet. Full body in frame.";
+    ? "Hey I'm Maxx. Body scan time. Prop your phone at chest height against something. Like a book on a shelf works great. Step back about four feet so I can see all of you."
+    : "Body scan. Prop your phone at chest height against something. Step back about four feet.";
   const bodyIntroFemale = mode === 'body'
-    ? "Hey I'm Maxx. Let's scan your physique. Step back about four feet. Full body in frame."
-    : "Body scan time. Step back so I can see all of you.";
+    ? "Hey I'm Maxx. Let's do this. Prop your phone at chest height, like lean it against something on a shelf. Step back about four feet."
+    : "Body scan. Prop your phone at chest height. Step back so I can see all of you.";
 
   const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroMale, dur: 8000, isSetup: true, countdown: true },
+      voice: bodyIntroMale, dur: 9000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "There you are. Stand tall.", dur: 5000, needsLM: true, minFrames: 10 },
-    { id: 'front', label: 'FRAME SCAN', status: 'Measuring V-taper',
-      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio. This is the V-taper. Bigger number means more athletic looking.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "There you are. Stand up straight for me.", dur: 5000, needsLM: true, minFrames: 10 },
+    { id: 'front', label: 'FRAME SCAN', status: 'Measuring your build',
+      voice: "Arms out a little. I'm seeing how wide your shoulders are compared to your waist. This is what people notice first.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
+    { id: 'spin', label: 'SLOW SPIN', status: '360 view',
+      voice: "Do a slow spin. All the way around. I'm getting every angle.", dur: 9000, needsLM: false, capture: true },
     { id: 'relax', label: 'NATURAL', status: 'Baseline',
-      voice: "Arms down. Relax. I need to see the real you not the flexed you.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+      voice: "Face me. Arms down. Just stand normal. I need the unflexed version of you.", dur: 5000, needsLM: true, minFrames: 12, capture: true,
       meas: ['shoulderToHipRatio', 'hipWidth', 'postureAngle'] },
     { id: 'approach', label: 'WALK UP', status: 'Get close',
-      voice: "Walk toward me. Get close. Like two feet away.", dur: 6000, needsLM: false, capture: true },
-    { id: 'flex', label: 'BEAST MODE', status: 'Flex it',
-      voice: "Now flex that bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
+      voice: "Walk toward me. Get close. Like two feet away.", dur: 5000, needsLM: false, capture: true },
+    { id: 'flex', label: 'BEAST MODE', status: 'Show me what you got',
+      voice: "Now flex. Bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Solid. Let's see what the AI says about this physique.", dur: 2000, minFrames: 0 },
+      voice: "That's it. Let's see what the AI thinks.", dur: 2000, minFrames: 0 },
   ];
 
   const bodyPosesFemale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroFemale, dur: 8000, isSetup: true, countdown: true },
+      voice: bodyIntroFemale, dur: 9000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "I see you. Stand tall.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "I see you. Stand tall for me.", dur: 5000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
-      voice: "Hands on your hips. I'm measuring your proportions, your waist to hip ratio, all of it. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Hands on your hips. I'm looking at your proportions and your waist to hip ratio. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
     { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Now do a slow spin for me. All the way around. Take your time I'm capturing everything.", dur: 10000, needsLM: false, capture: true },
-    { id: 'pose', label: 'YOUR BEST', status: 'Strike a pose',
-      voice: "Face me again. Now give me your best pose. This is your moment. Own it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
+      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 10000, needsLM: false, capture: true },
+    { id: 'runway', label: 'RUNWAY', status: 'Work it',
+      voice: "Now walk toward the camera like it's a runway. Give me your best strut.", dur: 7000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Love it. Sending everything to the AI.", dur: 2000, minFrames: 0 },
+      voice: "Yes. Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
   ];
 
   const poses = isFace
@@ -1682,13 +1819,24 @@ async function startCapture() {
     // BEAST MODE — body scan flex moment (green themed)
     if (pose.beastMode) {
       ensureAudioPlaying();
-      playBeastDrop();
       const scanEl = $('scan');
-      scanEl.style.boxShadow = 'inset 0 0 80px rgba(34,212,90,.4), inset 0 0 200px rgba(34,212,90,.15)';
-      scanEl.style.transition = 'box-shadow 0.3s';
       const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 150);
       try { navigator.vibrate([50, 30, 50, 30, 100]); } catch {}
-      spawnScanParticles('green');
+      if (pose.id === 'runway') {
+        // RUNWAY — golden sparkle rain + pink glow
+        playMoneyDrop();
+        scanEl.style.boxShadow = 'inset 0 0 80px rgba(224,96,144,.35)';
+        spawnScanParticles('gold');
+        // Sparkle rain from top
+        spawnSparkleRain();
+      } else {
+        // BEAST MODE — flames + green glow + bass drop
+        playBeastDrop();
+        scanEl.style.boxShadow = 'inset 0 0 80px rgba(255,100,0,.4), inset 0 0 200px rgba(255,60,0,.15)';
+        spawnScanParticles('green');
+        spawnFlames();
+      }
+      scanEl.style.transition = 'box-shadow 0.3s';
       setTimeout(() => { scanEl.style.boxShadow = ''; }, pose.dur);
     }
 
@@ -1744,7 +1892,7 @@ async function startCapture() {
 
         if (poseFrames > 3) {
           $('sflock').classList.add('show');
-          $('sflocklbl').textContent = isFace ? '478 Landmarks Locked' : '33 Points Tracked';
+          $('sflocklbl').textContent = isFace ? 'Face Locked' : 'Body Tracked';
         }
 
         // Live measurement display
@@ -1756,8 +1904,13 @@ async function startCapture() {
           });
         }
 
-        // FIX #7: Body pose validation coaching
+        // Body scan live coaching
         if (isBody && lastLandmarks) {
+          // Camera tilt warning
+          if (m && m.cameraTilt === 'phone_tilted_up' && poseFrames % 40 === 20) {
+            showWarn('Camera is pointing up — try propping your phone higher');
+          }
+          // Side pose coaching
           if ((pose.id === 'side' || pose.id === 'sideback') && lastLandmarks[11] && lastLandmarks[12]) {
             if (Math.abs(lastLandmarks[11].x - lastLandmarks[12].x) < 0.05) {
               $('sst').textContent = 'Turn more — show your side profile';
@@ -1825,7 +1978,7 @@ async function startCapture() {
     }
 
     // Visual confirmation between poses
-    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','spin','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
+    if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','approach','pose','spin','runway','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
       const ft2 = $('foval-txt');
       if (ft2 && isFace) ft2.textContent = '✓ CAPTURED';
       $('svt').textContent = '✓';
@@ -1856,7 +2009,8 @@ async function startCapture() {
   // ═══ SCAN COMPLETE ═══
   stopBgMusic();
   stopOverlay();
-  speak(isFace ? "Face scan done. Good stuff." : "Body scan done. Let me crunch these numbers.");
+  hideMaxx();
+  speak(isFace ? "Face scan done. I got everything I need." : "Body scan done. Processing your data now.");
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -2121,6 +2275,7 @@ async function callAPI(mode, photos, meas) {
 // DRAMATIC REVEAL
 // ═══════════════════════════════════════════════════════════════
 function showReveal(data) {
+  const mb = $('maxxBot'); if (mb) mb.style.display = 'none';
   const score = getScore(data);
   const t = tier(score, ST.mode === 'body');
   const isFem = ST.gender === 'female';
@@ -2242,6 +2397,88 @@ function spawnScanParticles(theme) {
     });
     pctx.globalAlpha = 1;
     if (alive) requestAnimationFrame(draw); else cvs.remove();
+  };
+  requestAnimationFrame(draw);
+}
+
+// 🔥 FLAMES — fire particles rising from bottom during beast mode
+function spawnFlames() {
+  const el = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:19;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  el.appendChild(cvs);
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  const flames = [];
+  const colors = ['#FF4500','#FF6B00','#FF8C00','#FFA500','#FFD700','#FFEC8B'];
+  let start = Date.now();
+  function wave(n) {
+    for (let i = 0; i < n; i++) flames.push({
+      x: Math.random() * W, y: H + 10, vy: -(2 + Math.random() * 5), vx: (Math.random() - 0.5) * 2,
+      size: 3 + Math.random() * 8, color: colors[Math.floor(Math.random() * colors.length)],
+      life: 1, decay: 0.007 + Math.random() * 0.008,
+    });
+  }
+  wave(20); setTimeout(() => wave(15), 400); setTimeout(() => wave(12), 800); setTimeout(() => wave(10), 1200);
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    let alive = false;
+    flames.forEach(p => {
+      if (p.life <= 0) return; alive = true;
+      p.y += p.vy; p.x += p.vx + (Math.random() - 0.5) * 1.5; p.life -= p.decay; p.size *= 0.997;
+      ctx.globalAlpha = p.life * 0.8; ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = p.life * 0.25;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (alive && Date.now() - start < 4000) requestAnimationFrame(draw); else cvs.remove();
+  };
+  requestAnimationFrame(draw);
+}
+
+// ✨ SPARKLE RAIN — golden sparkles falling for runway pose
+function spawnSparkleRain() {
+  const el = $('scan');
+  const cvs = document.createElement('canvas');
+  cvs.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;z-index:19;pointer-events:none';
+  cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+  el.appendChild(cvs);
+  const ctx = cvs.getContext('2d');
+  const W = cvs.width, H = cvs.height;
+  const sparkles = [];
+  const colors = ['#FFD700','#FFF8DC','#FFEC8B','#fff','#e06090','#FFA500'];
+  let start = Date.now();
+  function wave(n) {
+    for (let i = 0; i < n; i++) sparkles.push({
+      x: Math.random() * W, y: -10 - Math.random() * 50, vy: 1 + Math.random() * 2.5, vx: (Math.random() - 0.5) * 1,
+      size: 1 + Math.random() * 3, color: colors[Math.floor(Math.random() * colors.length)],
+      life: 1, decay: 0.004 + Math.random() * 0.004, twinkle: Math.random() * Math.PI * 2,
+    });
+  }
+  wave(25); setTimeout(() => wave(20), 600); setTimeout(() => wave(15), 1200); setTimeout(() => wave(15), 1800);
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    let alive = false;
+    sparkles.forEach(p => {
+      if (p.life <= 0) return; alive = true;
+      p.y += p.vy; p.x += p.vx; p.life -= p.decay; p.twinkle += 0.15;
+      const tw = 0.5 + 0.5 * Math.sin(p.twinkle);
+      ctx.globalAlpha = p.life * tw;
+      ctx.fillStyle = p.color;
+      // Star shape
+      ctx.beginPath();
+      for (let j = 0; j < 4; j++) {
+        const a = (Math.PI / 2) * j;
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + Math.cos(a) * p.size, p.y + Math.sin(a) * p.size);
+      }
+      ctx.fill();
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 0.5, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (alive && Date.now() - start < 5000) requestAnimationFrame(draw); else cvs.remove();
   };
   requestAnimationFrame(draw);
 }
@@ -2584,9 +2821,10 @@ function renderLB() {
   ord.forEach(i => {
     if (!t3[i]) return;
     const e = t3[i], sc = (e[k] || e.score || 0), t = tier(sc);
-    const isFem = e.gender === 'female';
-    const scoreColor = isFem ? '#e06090' : 'var(--blue)';
-    const av = '<div style="font-size:22px">👤</div>';
+    const isFem2 = e.gender === 'female';
+    const scoreColor = isFem2 ? '#e06090' : 'var(--blue)';
+    const photo = e.photoUrl || e.photo;
+    const av = photo && photo.startsWith('data:image/') ? `<img src="${photo}">` : '<div style="font-size:22px">👤</div>';
     const s = document.createElement('div');
     s.className = `ps ${cls[i]}`;
     s.innerHTML = `<div style="font-size:18px">${med[i]}</div><div class="psav">${av}</div><div class="pss" style="color:${scoreColor}">${sc.toFixed(2)}</div><div class="psn">${esc(e.name || 'anon')}</div><div class="psp"><div style="font-family:var(--df);font-size:22px;opacity:.4">${i + 1}</div></div>`;
@@ -2597,11 +2835,12 @@ function renderLB() {
   if (!d.length) { list.innerHTML = '<div style="padding:32px;text-align:center;font-family:var(--mf);font-size:10px;color:var(--t3);line-height:2">NO ENTRIES YET</div>'; return; }
   d.slice(3).forEach((e, i) => {
     const sc = (e[k] || e.score || 0), t = tier(sc);
-    const isFem = e.gender === 'female';
-    const scoreColor = isFem ? '#e06090' : 'var(--blue)';
-    const av = '<div style="font-size:15px">👤</div>';
+    const isFem3 = e.gender === 'female';
+    const scoreColor = isFem3 ? '#e06090' : 'var(--blue)';
+    const photo = e.photoUrl || e.photo;
+    const av = photo && photo.startsWith('data:image/') ? `<img src="${photo}">` : '<div style="font-size:15px">👤</div>';
     const ml = e.mode === 'combo' ? 'Full' : e.mode === 'body' ? 'Frame' : 'PSL';
-    const gIcon = isFem ? '♀' : '♂';
+    const gIcon = isFem3 ? '♀' : '♂';
     const row = document.createElement('div');
     row.className = 'lr';
     row.innerHTML = `<div class="lrk">#${i + 4}</div><div class="lra">${av}</div><div class="lri"><div class="lrn">${gIcon} ${esc(e.name || 'anon')}</div><div class="lrm">${ml} · <span style="color:${t.c}">${e.tier || t.l}</span></div></div><div class="lrs" style="color:${scoreColor}">${sc.toFixed(2)}</div>`;
@@ -2690,6 +2929,7 @@ function abort() {
   ST.token++;
   stopOverlay();
   stopBgMusic();
+  hideMaxx();
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
   try { window.speechSynthesis?.cancel(); } catch {}
   ST.faceCaps = [];
@@ -3196,7 +3436,11 @@ function playRevealImpact() {
 // SPEECH SYNTHESIS — Robust iOS-safe implementation
 // ═══════════════════════════════════════════════════════════════
 let lastSpeechTime = 0;
-const SPEECH_MIN_GAP = 1000; // Don't cancel speech within this window
+const SPEECH_MIN_GAP = 1000;
+// Audio cache for pre-recorded MP3s
+const audioCache = {};
+// Base URL for MP3 files — set this to your audio folder
+const AUDIO_BASE = './audio/';
 
 function speechInit() {
   try {
@@ -3209,24 +3453,65 @@ function speechInit() {
   } catch {}
 }
 
+// Convert voice text to a filename slug
+function voiceSlug(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+}
+
 function speak(text) {
+  if (!text) return;
+  // Pulse Maxx HUD when speaking
+  const wave = $('maxxWave');
+  if (wave) { wave.style.opacity = '1'; setTimeout(() => { if (wave) wave.style.opacity = '.3'; }, 3000); }
+  const bot = $('maxxBot');
+  if (bot) bot.style.animation = 'maxxPulse 1s ease-in-out 2';
+  setTimeout(() => { if (bot) bot.style.animation = ''; }, 2500);
+  const slug = voiceSlug(text);
+
+  // Make Maxx "talk"
+  const maxxEl = $('maxx');
+  if (maxxEl) maxxEl.classList.add('talking');
+  const stopTalking = () => { if (maxxEl) maxxEl.classList.remove('talking'); };
+
+  // Try pre-recorded MP3 first
+  if (audioCache[slug]) {
+    audioCache[slug].currentTime = 0;
+    audioCache[slug].onended = stopTalking;
+    audioCache[slug].play().catch(() => {});
+    return;
+  }
+
+  const audio = new Audio(`${AUDIO_BASE}${slug}.mp3`);
+  audio.volume = 1;
+  audio.onended = stopTalking;
+  const playPromise = audio.play();
+  if (playPromise) {
+    playPromise.then(() => {
+      audioCache[slug] = audio;
+    }).catch(() => {
+      speakFallback(text);
+      // Stop talking animation after estimated speech time
+      const words = text.split(/\s+/).length;
+      setTimeout(stopTalking, (words / 2.5) * 1000);
+    });
+  } else {
+    speakFallback(text);
+    setTimeout(stopTalking, 3000);
+  }
+}
+
+function speakFallback(text) {
   if (!('speechSynthesis' in window)) return;
   try {
     const ss = window.speechSynthesis;
     const now = Date.now();
-    // Don't cancel if recent speech is still playing
-    if (now - lastSpeechTime > SPEECH_MIN_GAP) {
-      ss.cancel();
-    }
+    if (now - lastSpeechTime > SPEECH_MIN_GAP) ss.cancel();
     lastSpeechTime = now;
-
-    // Resume if paused (iOS workaround)
     if (ss.paused) ss.resume();
 
     const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.1; u.pitch = 1.2; u.volume = 1;
+    u.rate = 1.1; u.pitch = 1.15; u.volume = 1;
     const voices = ss.getVoices();
-    // Youthful male voice — energetic, not deep/old
     const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
     const pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
                  voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
@@ -3271,6 +3556,16 @@ function applyGenderTheme(g) {
     root.style.setProperty('--sig', '#22d45a');
     root.style.setProperty('--blue', '#4f8ef7');
   }
+  // Maxx HUD auto-adapts via var(--sig)
+}
+
+function showMaxx() {
+  const el = $('maxx');
+  if (el) { el.style.display = 'block'; setTimeout(() => { el.style.opacity = '1'; }, 50); }
+}
+function hideMaxx() {
+  const el = $('maxx');
+  if (el) { el.style.opacity = '0'; setTimeout(() => { el.style.display = 'none'; el.classList.remove('talking'); }, 400); }
 }
 
 // ═══════════════════════════════════════════════════════════════
