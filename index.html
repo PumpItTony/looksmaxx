@@ -555,6 +555,11 @@ showNextGate();
 <svg width="22" height="27" viewBox="0 0 64 78" style="opacity:.4"><line x1="32" y1="8" x2="32" y2="0" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="0" r="2.5" fill="currentColor"/><rect x="8" y="8" width="48" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="26" r="5" fill="currentColor"/><circle cx="42" cy="26" r="5" fill="currentColor"/><rect x="24" y="35" width="16" height="3" rx="1.5" fill="currentColor" opacity=".5"/><rect x="18" y="47" width="28" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
 <div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">Powered by Maxx AI</div>
 </div>
+<div style="display:flex;gap:8px;justify-content:center;padding:4px 0">
+<div onclick="setTestGender(null)" style="font-family:var(--mf);font-size:7px;color:var(--t4);cursor:pointer;padding:4px 10px;border-radius:100px;border:1px solid var(--brd)">AUTO</div>
+<div onclick="setTestGender('male')" style="font-family:var(--mf);font-size:7px;color:var(--blue);cursor:pointer;padding:4px 10px;border-radius:100px;border:1px solid rgba(79,142,247,.2)">♂ TEST MALE</div>
+<div onclick="setTestGender('female')" style="font-family:var(--mf);font-size:7px;color:#e06090;cursor:pointer;padding:4px 10px;border-radius:100px;border:1px solid rgba(224,96,144,.2)">♀ TEST FEMALE</div>
+</div>
 <div style="display:flex;gap:16px;justify-content:center;padding-bottom:8px">
 <a onclick="document.getElementById('tosPage').style.display='flex'" style="font-family:var(--mf);font-size:8px;color:var(--t4);cursor:pointer;letter-spacing:.06em">Terms of Service</a>
 <a onclick="document.getElementById('privacyPage').style.display='flex'" style="font-family:var(--mf);font-size:8px;color:var(--t4);cursor:pointer;letter-spacing:.06em">Privacy Policy</a>
@@ -694,7 +699,7 @@ showNextGate();
 <div style="height:16px"></div>
 <div class="trs"><div class="trh"><div class="trt" id="rtt">TRAITS</div><div class="trsu" id="rtsu"></div></div><div id="rtl"></div></div>
 <div style="height:12px"></div>
-<!-- BSS BREAKDOWN — computed on-device from biometric math -->
+<!-- BSS BREAKDOWN — moved to Full Report for cleaner results page -->
 <div style="padding:0 14px;display:none" id="rbss-wrap">
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;justify-content:space-between;align-items:baseline">
@@ -708,7 +713,8 @@ showNextGate();
 <div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.02em;line-height:1.6">This score is computed on your device from facial landmark mathematics. It measures bone structure, proportions, and symmetry — things that don't change with lighting or camera angle. Your final LooksMaxx Score™ blends this with the AI's assessment of skin, hair, grooming, and vibe.</div>
 </div>
 </div>
-<div style="height:12px"></div>
+<div style="height:6px"></div>
+<!-- Raw measurements hidden from main results — available in Full Report -->
 <div style="padding:0 14px;display:none" id="rmeas-wrap">
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
 <div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--sig);text-transform:uppercase">Biometric Measurements</div>
@@ -719,9 +725,14 @@ showNextGate();
 <div style="padding:0 14px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--t3);text-transform:uppercase">AI Insights</div><div style="font-size:13px;color:var(--t2);line-height:1.65" id="rins">—</div></div></div>
 <div style="height:12px"></div>
 <div class="ract">
-<button class="btn bp" onclick="openDashboard()">View Dashboard</button>
-<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">Submit to Leaderboard</button>
-<button class="btn bs" style="border:none;color:var(--t4)" onclick="goHome()">Home</button>
+<button class="btn bp" style="background:var(--sig);font-family:var(--df);font-size:18px;letter-spacing:.08em;padding:18px 20px" onclick="go(ST.mode || 'face')">⟳ SCAN AGAIN</button>
+<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,215,0,.04));border-color:rgba(255,215,0,.25);color:var(--gold);font-family:var(--df);font-size:15px;letter-spacing:.06em" onclick="genShare()">SHARE SCORE CARD</button>
+<div style="display:flex;gap:8px">
+<button class="btn bs" style="flex:1;font-size:12px" onclick="challengeFriend()">⚔ Challenge</button>
+<button class="btn bs" style="flex:1;font-size:12px" onclick="openLBSub()">♛ Leaderboard</button>
+<button class="btn bs" style="flex:1;font-size:12px" onclick="openDashboard()">📊 Full Report</button>
+</div>
+<button class="btn bs" style="border:none;color:var(--t4);font-size:11px" onclick="goHome()">← Home</button>
 </div>
 <div style="height:8px"></div>
 </div>
@@ -2225,8 +2236,8 @@ function go(mode) {
   if (actx && actx.state === 'suspended') {
     actx.resume().catch(() => {});
   }
-  // AudioContext is now our only voice playback path
-  // No speech synthesis needed
+  // Warm SpeechSynthesis from this user gesture
+  warmVoices();
 
   ST = {
     ...ST,
@@ -2318,10 +2329,8 @@ async function initScan(mode) {
     ST.mlReady = mlOk;
     $('slf').style.width = '100%';
 
-    // Preload ALL voice files for this scan while ML models download
-    // This runs in parallel — by the time Maxx speaks, everything is cached
-    const preloadGenders = ['male', 'female']; // Both since we don't know yet
-    preloadGenders.forEach(g => preloadScanVoices(mode, g));
+    // Warm SpeechSynthesis voices (some browsers need this)
+    warmVoices();
 
     await sleep(400);
 
@@ -2502,8 +2511,8 @@ async function startCapture() {
   const isFace = mode === 'face' || (mode === 'combo' && ST.bodyCaps.length === 0 && ST.faceCaps.length === 0);
   const isBody = !isFace;
 
-  // Use debug gender override if set, otherwise detect during scan
-  let detectedGender = ST._debugGender || null;
+  // Use test mode gender override if set, otherwise detect during scan
+  let detectedGender = _testGender || ST._debugGender || null;
 
   startBgMusic(isFace ? 'face' : 'body');
 
@@ -2556,9 +2565,9 @@ async function startCapture() {
     const scanEl = $('scan');
     scanEl.style.transition = 'none';
     scanEl.style.boxShadow = `inset 0 0 120px ${genderColor}60`;
-    $('svt').textContent = isFem ? '♀ FEMALE DETECTED' : '♂ MALE DETECTED';
+    $('svt').textContent = isFem ? '♀ FEMALE PROTOCOL' : '♂ MALE PROTOCOL';
     $('svt').style.color = genderColor;
-    $('sst').textContent = isFem ? 'Switching to female protocol' : 'Loading male protocol';
+    $('sst').textContent = isFem ? 'Female biometric criteria loaded' : 'Male biometric criteria loaded';
     try { navigator.vibrate([40, 20, 60]); } catch {}
     safeOsc(isFem ? 700 : 500, 'sine', 0.2, 0.12, 0.001);
     await sleep(1300);
@@ -2573,96 +2582,92 @@ async function startCapture() {
 
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
-    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.", dur: 6000, needsLM: true, minFrames: 28, capture: true,
+    { id: 'front', label: 'FRONTAL MAPPING', oval: 'HOLD STILL', ovalDir: 'center', status: 'Deploying facial mesh',
+      voice: "Hold still. I'm deploying the mesh across your face right now. Four hundred seventy eight points locking onto your bone structure. Jaw angle, orbital bones, zygomatic width. Every fraction of a millimeter gets measured.", dur: 8000, needsLM: true, minFrames: 35, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Jawline check',
-      voice: "Turn left. I'm checking your jawline. Gonial angle, forward growth, the whole lower third. This carries heavy weight.", dur: 5000, needsLM: true, minFrames: 18,
+    { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Profiling left jaw',
+      voice: "Turn to your left. Slowly. I need your jaw profile from this angle. The gonial angle, that's the angle of your jaw hinge, tells me more about your bone structure than you probably want to know. Most people don't realize how much this one number affects everything.", dur: 7000, needsLM: true, minFrames: 22,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other way. I'm comparing both sides now. Symmetry ratio is one of the biggest factors in your score.", dur: 5000, needsLM: true, minFrames: 18,
+    { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Comparing bilateral symmetry',
+      voice: "Now the other side. I'm running a bilateral comparison. Left versus right. Symmetry is the single biggest predictor of perceived attractiveness across every study ever published. Most people think they're symmetric. They're usually wrong.", dur: 7000, needsLM: true, minFrames: 22,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up. I'm measuring your facial thirds right now. Forehead, midface, lower third. The more balanced the better.", dur: 4000, needsLM: true, minFrames: 14,
+    { id: 'tilt', label: 'THIRDS ANALYSIS', oval: 'CHIN UP', ovalDir: 'up', status: 'Measuring facial proportions',
+      voice: "Chin up slightly. I'm dividing your face into thirds. Forehead to brow. Brow to nose. Nose to chin. The golden ratio says these should be equal. Deviation from that ideal is one of the first things the human eye detects, even subconsciously.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "Give me a real smile. Not a forced one. Think of something funny.", dur: 4000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "Drop the smile. Neutral face. Look right at me. This is the money shot.", dur: 5000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+    { id: 'smile', label: 'EXPRESSION TEST', oval: 'SMILE', ovalDir: 'center', status: 'Analyzing smile dynamics',
+      voice: "Smile for me. A real one. Not that thing you do for your driver's license. This tests how your musculature interacts with your bone structure. Some faces were literally built for smiling. Let's find out if yours is one of them.", dur: 6000, needsLM: true, minFrames: 14 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'Capturing primary assessment photo',
+      voice: "OK. Drop the smile. Neutral face. This is the money shot. The photo that goes to the AI for final judgment. Look right at me. Don't move a muscle.", dur: 7000, needsLM: true, minFrames: 24, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "Got it. Sending everything to the AI.", dur: 2000, needsLM: true, minFrames: 10 },
+    { id: 'final', label: 'SCAN COMPLETE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Packaging biometric data',
+      voice: "That's everything. I've collected all the data I need. Your face has been fully mapped. Now it's between you and the algorithm. May the math be in your favor.", dur: 3000, needsLM: true, minFrames: 10 },
   ];
 
   const facePosesFemale = [
-    { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.", dur: 6000, needsLM: true, minFrames: 28, capture: true,
+    { id: 'front', label: 'FRONTAL MAPPING', oval: 'HOLD STILL', ovalDir: 'center', status: 'Deploying facial mesh',
+      voice: "Hold still. I'm deploying the mesh now. Four hundred seventy eight landmarks mapping across your face. Cheekbone projection, orbital structure, jawline curvature. Every point gets measured to the tenth of a degree.", dur: 8000, needsLM: true, minFrames: 35, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
-    { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Bone structure',
-      voice: "Turn left. I'm looking at your cheekbone projection and how your jawline flows. This is important.", dur: 5000, needsLM: true, minFrames: 18,
+    { id: 'left', label: 'LEFT PROFILE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Profiling cheekbone structure',
+      voice: "Turn to your left. I need your profile. Cheekbone projection and how the jawline flows into the chin, that's what separates interesting faces from forgettable ones. The data is going to tell me which category you fall into.", dur: 7000, needsLM: true, minFrames: 22,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other side. Comparing both sides for symmetry. Nobody's perfectly even but the closer the better.", dur: 5000, needsLM: true, minFrames: 18,
+    { id: 'right', label: 'RIGHT PROFILE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Bilateral symmetry comparison',
+      voice: "Other side now. Running bilateral comparison. Left versus right. Symmetry is the most powerful factor in perceived attractiveness. Your brain detects asymmetry in under fifty milliseconds, before you're even conscious of it.", dur: 7000, needsLM: true, minFrames: 22,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
-    { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up slightly. Measuring your facial proportions. The balance between your forehead, midface, and chin.", dur: 4000, needsLM: true, minFrames: 14,
+    { id: 'tilt', label: 'THIRDS ANALYSIS', oval: 'CHIN UP', ovalDir: 'up', status: 'Measuring facial proportions',
+      voice: "Chin up. I'm analyzing your facial thirds balance. The ratio between your upper face, midface, and lower face. When these are close to equal, that's when a face reads as harmonious. Small deviations matter more than you'd think.", dur: 6000, needsLM: true, minFrames: 18,
       meas: ['facialThirds'] },
-    { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "Now give me that smile. A real one. The one you use when you see your best friend.", dur: 4000, needsLM: true, minFrames: 10 },
-    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "Neutral face now. Look right at me. This is the shot.", dur: 5000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+    { id: 'smile', label: 'EXPRESSION TEST', oval: 'SMILE', ovalDir: 'center', status: 'Analyzing smile dynamics',
+      voice: "Now smile. And not the polite one. I need the one that's actually real. This tells me how your soft tissue moves across the bone structure. Some people's faces transform when they smile. Others, not so much. Let's see.", dur: 6000, needsLM: true, minFrames: 14 },
+    { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'Capturing primary assessment photo',
+      voice: "Drop the smile. Neutral. This is the money shot. The image that gets sent to the AI for the final verdict. Eyes on me. Don't. Move.", dur: 7000, needsLM: true, minFrames: 24, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
-    { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "Done. Sending it all to the AI.", dur: 2000, needsLM: true, minFrames: 10 },
+    { id: 'final', label: 'SCAN COMPLETE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Packaging biometric data',
+      voice: "I have everything I need. Your face has been fully mapped. Now we wait for the AI to deliver the verdict. Good luck. You might need it.", dur: 3000, needsLM: true, minFrames: 10 },
   ];
 
-  const bodyIntroMale = mode === 'body'
-    ? "Hey I'm Maxx. Body scan time. Here's what matters. Get your phone at chest height. Lean it against something on a shelf, a counter, books, whatever works. Step back about four feet so I can see you head to toe. And make sure there's light on you. You're gonna want to watch yourself on screen. That's fine. Just make sure your whole body stays in frame."
-    : "Body scan. Get your phone at chest height. Lean it against something stable. Step back four feet. Stay in frame and you're good.";
-  const bodyIntroFemale = mode === 'body'
-    ? "Hey I'm Maxx. Let's do your body scan. Prop your phone at chest height. Like lean it against something on a shelf or a counter. Step back about four feet. Good lighting makes a big difference. It's totally fine to watch yourself on screen. Just make sure I can see all of you."
-    : "Body scan. Phone at chest height, lean it against something. Step back four feet. Good lighting helps.";
+  const bodyIntroMale = "Alright. Body scan. Here's what you need to do. Prop your phone up against something stable at about chest height. A shelf, a counter, a stack of books. Whatever works. Then step back about five feet. I need to see you head to toe. And get some light on you. The better I can see, the more honest the score.";
+  const bodyIntroFemale = "OK. Body scan. Prop your phone up at about chest height. Lean it against something stable. Then step back about five feet so I can see you head to toe. Make sure there's decent light on you. I need to see everything clearly for this to be accurate.";
 
   const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroMale, dur: 7000, isSetup: true, countdown: true },
-    { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "There you are. Stand up straight. Arms relaxed at your sides.", dur: 4000, needsLM: true, minFrames: 10 },
-    { id: 'front', label: 'FRAME SCAN', status: 'Measuring your build',
-      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.", dur: 5000, needsLM: true, minFrames: 20, capture: true,
+      voice: bodyIntroMale, dur: 8000, isSetup: true, countdown: true },
+    { id: 'detect', label: 'ACQUIRING TARGET', status: 'Locking skeletal tracking',
+      voice: "I see you. Stand up straight. Arms relaxed at your sides. I'm locking thirty three skeletal landmarks onto your frame right now. Shoulders, hips, spine, limbs. Every joint is a data point.", dur: 6000, needsLM: true, minFrames: 15 },
+    { id: 'front', label: 'FRAME ANALYSIS', status: 'Measuring V-taper geometry',
+      voice: "Arms out slightly. I'm computing your shoulder to waist ratio. This single number determines more about how your physique reads than almost anything else. A one point five ratio is athlete territory. Below one point three, and you're going to hear about it.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
-    { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
-      voice: "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+    { id: 'side', label: 'POSTURE CHECK', status: 'Analyzing spinal alignment',
+      voice: "Turn to your left. I need your profile. I'm looking at your posture angle. Ninety degrees is ideal. Forward head posture subtracts from your score instantly. Your spine doesn't lie.", dur: 6000, needsLM: true, minFrames: 18, capture: true,
       meas: ['postureAngle'] },
-    { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Now do a slow spin. All the way around. Take your time. I'm getting every angle.", dur: 7000, needsLM: false, capture: true },
-    { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
-      voice: "Face me. Hit me with your best pose. Whatever you got. Three seconds.", dur: 4000, needsLM: false, capture: true, hasCountdown: true },
-    { id: 'flex', label: 'BEAST MODE', status: 'Show me what you got',
-      voice: "Now get close. Flex that bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
-    { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "That's it. Sending everything to the AI now.", dur: 2000, minFrames: 0 },
+    { id: 'spin', label: 'THREE SIXTY', status: 'Full rotation scan',
+      voice: "Now do a slow spin. All the way around. Take your time. I'm capturing every angle. Back width, lat spread, overall symmetry. This is where the complete picture comes together.", dur: 8000, needsLM: false, capture: true },
+    { id: 'signature', label: 'SIGNATURE POSE', status: 'Your best impression',
+      voice: "Face me. This is your moment. Hit me with whatever pose you think represents you. Like you're on the cover of something. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
+    { id: 'flex', label: 'BEAST MODE', status: 'Maximum effort',
+      voice: "Now step closer. I need to see what you've got. Right bicep. Flex. Hard. Like your score depends on it. Because it does.", dur: 6000, needsLM: false, capture: true, beastMode: true },
+    { id: 'final', label: 'SCAN COMPLETE', status: 'Packaging data',
+      voice: "Scan complete. Every measurement recorded. Every angle captured. Your physique has been fully analyzed. The AI will decide the rest. No pressure.", dur: 3000, minFrames: 0 },
   ];
 
   const bodyPosesFemale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroFemale, dur: 7000, isSetup: true, countdown: true },
-    { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "I see you. Stand tall. Shoulders back.", dur: 4000, needsLM: true, minFrames: 10 },
-    { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
-      voice: "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.", dur: 5000, needsLM: true, minFrames: 20, capture: true,
+      voice: bodyIntroFemale, dur: 8000, isSetup: true, countdown: true },
+    { id: 'detect', label: 'ACQUIRING TARGET', status: 'Locking skeletal tracking',
+      voice: "There you are. Stand tall. Shoulders back, chin up. I'm mapping thirty three skeletal points across your body right now. Hips, waist, shoulders, posture. All of it.", dur: 6000, needsLM: true, minFrames: 15 },
+    { id: 'front', label: 'FIGURE ANALYSIS', status: 'Computing proportional geometry',
+      voice: "Hands on your hips. I'm measuring your waist to hip ratio and overall proportional geometry. This ratio is one of the most studied metrics in attractiveness research. Every fraction matters.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
-    { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
-      voice: "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
+    { id: 'side', label: 'POSTURE CHECK', status: 'Analyzing alignment',
+      voice: "Turn to your left. Profile view. I'm analyzing your posture alignment and how your frame carries. Posture affects how your entire physique reads. Small adjustments here make a bigger difference than most people realize.", dur: 6000, needsLM: true, minFrames: 18, capture: true,
       meas: ['postureAngle'] },
-    { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 7000, needsLM: false, capture: true },
-    { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
-      voice: "Face me. Hit me with your best pose. Whatever feels right. Three seconds.", dur: 4000, needsLM: false, capture: true, hasCountdown: true },
-    { id: 'runway', label: 'RUNWAY', status: 'Work it',
-      voice: "Now walk toward the camera. Like it's a runway. Give me your best strut.", dur: 5000, needsLM: false, capture: true, beastMode: true },
-    { id: 'final', label: 'DONE', status: 'Processing',
-      voice: "Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
+    { id: 'spin', label: 'THREE SIXTY', status: 'Full rotation scan',
+      voice: "Slow spin. All the way around. Take your time. I'm capturing proportions from every angle. This is where the full picture comes together.", dur: 8000, needsLM: false, capture: true },
+    { id: 'signature', label: 'SIGNATURE POSE', status: 'Your best impression',
+      voice: "Face me. Strike whatever pose feels most you. Own it. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
+    { id: 'runway', label: 'THE WALK', status: 'Movement analysis',
+      voice: "Walk toward the camera. Confident. Like the camera owes you money. Movement reveals things that standing still can't.", dur: 6000, needsLM: false, capture: true, beastMode: true },
+    { id: 'final', label: 'SCAN COMPLETE', status: 'Packaging data',
+      voice: "Scan complete. Every proportion recorded. The AI will take it from here. I hope you're ready for the truth.", dur: 3000, minFrames: 0 },
   ];
 
   // ═══ THEME + POSE SELECTION ═══
@@ -2706,19 +2711,32 @@ async function startCapture() {
 
   $('svt').textContent = isFace ? 'FACE SCAN' : 'BODY SCAN';
   $('sst').textContent = 'Initializing…';
-  // Brief beat for audio to establish, then Maxx talks immediately
-  await sleep(1000);
+  // ═══ MAXX INTRO — the guided tour begins ═══
+  await sleep(800);
+  if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
+
+  if (isFace) {
+    speak("I'm Maxx. Biometric analysis engine. Over the next sixty seconds I'm going to map your face with four hundred seventy eight mathematical landmarks, measure your bone structure to the tenth of a degree, and tell you exactly how attractive you are. No feelings. No mercy. Just math and AI. Let's see what we're working with.");
+    $('svt').textContent = 'MAXX ONLINE';
+    $('sst').textContent = 'Biometric analysis engine initialized';
+    await sleep(9000);
+  } else {
+    speak("Maxx here. Time to scan that physique. I'm going to measure your proportions, your posture, your frame width, and everything else that determines how your body reads from across a room. The camera doesn't lie. Neither do I.");
+    $('svt').textContent = 'MAXX ONLINE';
+    $('sst').textContent = 'Physique analysis initialized';
+    await sleep(8000);
+  }
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
   const confirms = isFem
-    ? ['Beautiful.', 'Got it.', 'That was perfect.', 'Love it.', 'So good.', 'Gorgeous.']
-    : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
+    ? ['Noted.', 'Got it.', 'Interesting.', 'Captured.', 'Locked.', 'Good data.']
+    : ['Got it.', 'Noted.', 'Captured.', 'Locked in.', 'Good.', 'Solid data.'];
   let confirmIdx = 0;
 
   // ═══ THEME OPENER — speak before first pose if theme is active ═══
   if (themeOpener) {
     speak(themeOpener);
-    await sleep(1500); // Let theme opener play before starting poses
+    await sleep(2500);
     if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
   }
 
@@ -2781,27 +2799,38 @@ async function startCapture() {
       }
     }
 
-    // THE SHOT — countdown + scan beam before capture
+    // THE SHOT — Epic countdown + scan beam + hype
     if (pose.moneyShot && pose.hasCountdown) {
       ensureAudioPlaying();
-      // 3-2-1 countdown
+      // Pre-countdown tension
+      speak("This is it. The shot that determines everything. Hold perfectly still.");
+      $('svt').textContent = 'THE MONEY SHOT';
+      $('svt').style.color = 'var(--gold)';
+      $('sst').textContent = 'Primary assessment capture in...';
+      await sleep(3000);
+      if (ST.aborted) { ST.scanning = false; return; }
+      // 3-2-1 countdown with escalating intensity
       for (let cd = 3; cd >= 1; cd--) {
         if (ST.aborted) break;
         $('svt').textContent = cd.toString();
-        $('svt').style.fontSize = '72px';
-        safeOsc(cd === 1 ? 880 : 660, 'sine', 0.12, 0.15, 0.001);
-        try { navigator.vibrate(30); } catch {}
-        await sleep(900);
+        $('svt').style.fontSize = '90px';
+        const freq = cd === 1 ? 880 : cd === 2 ? 740 : 600;
+        safeOsc(freq, 'sine', 0.15, 0.18, 0.001);
+        safeOsc(freq * 1.5, 'triangle', 0.15, 0.06, 0.001); // harmonic
+        try { navigator.vibrate(cd === 1 ? [60, 30, 60] : 40); } catch {}
+        await sleep(1000);
       }
       $('svt').style.fontSize = '';
       if (!ST.aborted) {
-        // Scan beam sweeps + flash + sound
-        $('svt').textContent = 'SCANNING';
+        // MASSIVE scan beam + flash + impact sound
+        $('svt').textContent = '◉ CAPTURED';
         $('svt').style.color = 'var(--sig)';
+        $('sst').textContent = 'Primary photo locked';
         playMoneyDrop();
         spawnScanBeam();
-        const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 200);
-        try { navigator.vibrate([60, 30, 100]); } catch {}
+        spawnScanParticles('gold');
+        const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 250);
+        try { navigator.vibrate([100, 50, 100, 50, 200]); } catch {}
         const scanEl = $('scan');
         scanEl.style.boxShadow = 'inset 0 0 60px rgba(34,212,90,.3)';
         setTimeout(() => { if (!ST.aborted) spawnScanParticles('gold'); }, 1200);
@@ -3035,18 +3064,8 @@ async function startCapture() {
       }
     }
 
-    // ═══ EARLY EXIT — if all key measurements converged, skip remaining ═══
-    if (!pose.isSetup && pi < poses.length - 2 && allMeas.sampleCount > 20) {
-      const conv = allMeas.getConvergedCount();
-      const total = allMeas.getTotalCount();
-      const conf = allMeas.getOverallConfidence();
-      if (conv >= total && total >= 5 && conf >= 85 && photos.length >= 2) {
-        $('sst').textContent = `All ${total} measurements locked · Finishing`;
-        await sleep(800);
-        pi = poses.length - 2;
-        continue;
-      }
-    }
+    // Early exit DISABLED — full guided tour every time.
+    // Every pose matters for the experience, not just the data.
 
     // Fallback photo capture
     if (pose.capture && photos.length < (isBody ? 3 : 2)) {
@@ -3085,9 +3104,10 @@ async function startCapture() {
       playConfirmDing();
       // Special hype confirmation after money/beast moments
       if (pose.beastMode) {
-        speak(isFem ? "Yes. That was it. The AI is going to love that." : "Oh yeah. That's what I'm talking about.");
+        speak(isFem ? "The algorithm recorded everything. Every detail." : "The camera got everything it needed. No take-backs.");
       } else if (pose.moneyShot) {
         playWhoosh();
+        speak("Primary photo secured. That's the one the AI is going to judge.");
       } else {
         speak(confirms[confirmIdx % confirms.length]);
       }
@@ -3111,9 +3131,7 @@ async function startCapture() {
   // Store scan quality grade
   const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
   ST.scanGrade = grade;
-  speak(isFace
-    ? (isFem ? "Done. Sending it all to the AI." : "Got it. Sending everything to the AI.")
-    : (isFem ? "Love that energy. Sending everything to the AI." : "That's it. Sending everything to the AI now."));
+  // Final voice line already handled in pose definition
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -3159,7 +3177,7 @@ async function startCapture() {
 
   // Combo mode: face done → transition to body
   if (mode === 'combo' && isFace) {
-    speak("Face is locked in. Now let me see that body.");
+    speak("Face scan complete. All biometric data captured. Now let's analyze the physique. Prop your phone up and step back.");
     $('svt').textContent = 'FACE ✓';
     $('svt').style.color = 'var(--blue)';
     const measCount = ST.faceMeas.length;
@@ -3583,16 +3601,16 @@ function showReveal(data) {
 
   // Sentimental message — fades in after gender flash, before score
   const maleMessages = [
-    "This is just a number.\nWhat you do with it is what matters.",
-    "The scan sees your face.\nIt doesn't see your potential.",
-    "Every score is a snapshot.\nNot a verdict. Not a ceiling.",
-    "No algorithm knows your full story.\nBut the data doesn't lie either.",
+    "The math is done.\nThe algorithm has decided.",
+    "Four hundred seventy eight landmarks.\nOne number. No appeals.",
+    "The data has been processed.\nBrace yourself.",
+    "Every millimeter measured.\nEvery angle computed.\nHere's your verdict.",
   ];
   const femaleMessages = [
-    "This is data, not a definition.\nYou're more than any number.",
-    "Beauty has a thousand forms.\nThis measures one of them.",
-    "Every face tells a story.\nThe score is just one chapter.",
-    "The algorithm sees structure.\nIt can't see what makes you, you.",
+    "Analysis complete.\nThe algorithm has made its decision.",
+    "Four hundred seventy eight data points.\nOne score. No mercy.",
+    "Every landmark measured.\nEvery ratio computed.\nHere it is.",
+    "The scan is done.\nThe math doesn't care about feelings.\nReady?",
   ];
   const msgs = isFem ? femaleMessages : maleMessages;
   const sentMsg = document.createElement('div');
@@ -3606,7 +3624,7 @@ function showReveal(data) {
   setTimeout(() => playTension(), 1800);
   setTimeout(() => { bg.style.opacity = '1'; }, 2000);
 
-  // Score slam at 4.5s (after sentimental message fades)
+  // Score slam at 3.5s — fast and dramatic
   setTimeout(() => {
     const el = $('rvsc'); el.textContent = score.toFixed(2); el.style.color = t.c; el.classList.add('in');
     playRevealImpact();
@@ -3615,9 +3633,9 @@ function showReveal(data) {
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
     // No speech on reveal — the score slam + music + haptics IS the moment.
     // Speech synthesis would use a different voice than the scan MP3s and break immersion.
-  }, 4500);
+  }, 3500);
 
-  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 5000);
+  setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 4000);
 
   // Daily best tracking
   setTimeout(() => {
@@ -3696,7 +3714,15 @@ function showReveal(data) {
     }
   }, 6000);
 
-  setTimeout(() => { $('rvsub').classList.add('in'); }, 6300);
+  // Maxx comments on the score
+  setTimeout(() => {
+    if (score >= 8.5) speak("Well well well. The algorithm is impressed. And I don't impress easy.");
+    else if (score >= 7.0) speak("Above average. Solidly. The math says you've got something to work with.");
+    else if (score >= 5.5) speak("Middle of the pack. Not bad. Not great. The data says there's room to move up.");
+    else if (score >= 4.0) speak("The algorithm was... not kind. But honest. There are things you can work on.");
+    else speak("Look. The math said what it said. But the math also says change is possible. So there's that.");
+  }, 4500);
+  setTimeout(() => { $('rvsub').classList.add('in'); }, 5500);
 }
 
 // SCAN BEAM — horizontal line sweeps top to bottom like a sci-fi scanner
@@ -4195,6 +4221,20 @@ function renderAchievements() {
 
 // Debug: triple-tap usage text to toggle female test mode
 let _debugTaps = 0, _debugTimer = null;
+// ═══ TEST MODE — Gender override for testing ═══
+let _testGender = null;
+function setTestGender(g) {
+  _testGender = g;
+  ST._debugGender = g;
+  if (g) {
+    toast('Test mode: ' + g + ' (next scan will use ' + g + ' protocol)');
+    applyGenderTheme(g);
+  } else {
+    toast('Test mode off — auto-detect');
+    applyGenderTheme('male');
+  }
+}
+
 function debugTap() {
   _debugTaps++;
   if (_debugTimer) clearTimeout(_debugTimer);
@@ -4451,7 +4491,7 @@ function abort() {
   stopOverlay();
   stopBgMusic();
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
-  try { if (currentVoiceSource) { currentVoiceSource.stop(); currentVoiceSource = null; } } catch {}
+  try { speechSynthesis.cancel(); } catch {}
   ST.faceCaps = [];
   ST.bodyCaps = [];
   ST.faceMeas = [];
@@ -4953,196 +4993,94 @@ function playRevealImpact() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SPEECH SYSTEM — Rebuilt for iOS reliability
-// AudioContext-only. No HTML5 Audio (breaks on iOS mid-scan).
-// All voice files preloaded into AudioContext buffers during scan init.
-// speak() plays from buffer cache = instant, reliable, iOS-safe.
-// Silence is always better than a mismatched voice.
+// SPEECH SYSTEM — Robotic SpeechSynthesis
+// Uses browser SpeechSynthesis with low pitch for robotic sound.
+// Paired with electronic "processing" blip from AudioContext.
+// Works on all devices, fully dynamic text, no MP3 dependency.
 // ═══════════════════════════════════════════════════════════════
-const AUDIO_BASE = './audio/';
-const audioBufCache = {};   // AudioContext decoded buffer cache
-let currentVoiceSource = null; // Track current playing voice for stop-previous
-
-function voiceSlug(text) {
-  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
-}
+let _speechQueue = [];
+let _isSpeaking = false;
 
 function speak(text) {
-  if (!text || !actx) return;
-  if (actx.state === 'suspended') actx.resume().catch(() => {});
+  if (!text) return;
+  if (!('speechSynthesis' in window)) return;
 
-  const slug = voiceSlug(text);
-  const g = (ST.gender === 'female' || ST._debugGender === 'female') ? 'f' : 'm';
-  const file = `${g}-${slug}.mp3`;
+  // Cancel any current speech
+  try { speechSynthesis.cancel(); } catch {}
+  _isSpeaking = false;
 
-  // Primary path: play from buffer cache (instant, reliable)
-  if (audioBufCache[file]) {
-    playVoiceBuffer(audioBufCache[file]);
-    return;
+  // Play a subtle electronic blip when Maxx talks (sci-fi feel)
+  playVoiceBlip();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  // Robotic settings: low pitch, slightly measured pace
+  utter.pitch = 0.55;
+  utter.rate = 0.92;
+  utter.volume = 1.0;
+
+  // Try to pick a good voice — prefer male, non-Siri voices
+  const voices = speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    // Priority: look for "Daniel", "Alex", "Google US English", or any en male
+    const preferred = voices.find(v => v.name.includes('Daniel') && v.lang.startsWith('en'))
+      || voices.find(v => v.name.includes('Alex') && v.lang.startsWith('en'))
+      || voices.find(v => v.name.includes('Google US English'))
+      || voices.find(v => v.name.includes('Aaron'))
+      || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('male'))
+      || voices.find(v => v.lang.startsWith('en-US'))
+      || voices.find(v => v.lang.startsWith('en'));
+    if (preferred) utter.voice = preferred;
   }
 
-  // Cache miss: fetch → decode → play (has latency but still works)
-  const url = `${AUDIO_BASE}${file}`;
-  fetch(url).then(r => {
-    if (!r.ok) throw new Error('404');
-    return r.arrayBuffer();
-  }).then(buf => {
-    // decodeAudioData returns a promise in modern browsers
-    return new Promise((resolve, reject) => {
-      actx.decodeAudioData(buf, resolve, reject);
-    });
-  }).then(decoded => {
-    audioBufCache[file] = decoded;
-    playVoiceBuffer(decoded);
-  }).catch(() => {}); // Silent failure — no fallback voice
+  _isSpeaking = true;
+  utter.onend = () => { _isSpeaking = false; };
+  utter.onerror = () => { _isSpeaking = false; };
+
+  try { speechSynthesis.speak(utter); } catch {}
 }
 
-function playVoiceBuffer(buffer) {
-  if (!actx || !buffer) return;
-  if (actx.state === 'suspended') actx.resume().catch(() => {});
+// Electronic blip sound when Maxx speaks — subtle sci-fi effect
+function playVoiceBlip() {
+  if (!actx || !masterGain) return;
+  ensureAudioPlaying();
   try {
-    // Stop any currently playing voice line (prevents overlap)
-    if (currentVoiceSource) {
-      try { currentVoiceSource.stop(); } catch {}
-      currentVoiceSource = null;
-    }
-    const src = actx.createBufferSource();
-    src.buffer = buffer;
-    // Route through a dedicated voice gain node at full volume
-    const voiceGain = actx.createGain();
-    voiceGain.gain.value = 1.0;
-    src.connect(voiceGain);
-    voiceGain.connect(actx.destination);
-    src.start();
-    currentVoiceSource = src;
-    src.onended = () => {
-      if (currentVoiceSource === src) currentVoiceSource = null;
-    };
+    const now = actx.currentTime;
+    // Quick digital chirp
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = 'square';
+    o.frequency.setValueAtTime(1200, now);
+    o.frequency.exponentialRampToValueAtTime(400, now + 0.06);
+    o.connect(g); g.connect(masterGain);
+    g.gain.setValueAtTime(0.04, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    o.start(now); o.stop(now + 0.08);
+    // Second chirp (echo)
+    const o2 = actx.createOscillator(), g2 = actx.createGain();
+    o2.type = 'sine';
+    o2.frequency.value = 600;
+    o2.connect(g2); g2.connect(masterGain);
+    g2.gain.setValueAtTime(0.02, now + 0.05);
+    g2.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    o2.start(now + 0.05); o2.stop(now + 0.12);
   } catch {}
 }
 
-// Preload all voice files a scan will need — called during model download
-// so by the time Maxx speaks, every file is in the buffer cache
-async function preloadScanVoices(mode, gender) {
-  if (!actx) return;
-  const g = gender === 'female' ? 'f' : 'm';
-  const files = new Set();
-
-  // Collect all voice lines from pose definitions
-  const allVoiceTexts = [];
-
-  // Face poses
-  if (mode === 'face' || mode === 'combo') {
-    const facePoses = gender === 'female' ? [
-      "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.",
-      "Now turn your head to the left. Slowly. I need to see that jawline from the side.",
-      "Other way. Turn right. Give me the other angle.",
-      "Look up a little. Tilt your chin up. I'm measuring your facial thirds.",
-      "Give me a smile. A real one. Let me see those teeth.",
-      "Three. Two. One.",
-      "Done. Sending it all to the AI.",
-    ] : [
-      "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.",
-      "Turn your head to the left. Give me the side profile. I need that jaw angle.",
-      "Now the other way. Turn right.",
-      "Chin up. I'm checking your facial thirds balance. Upper, middle, lower.",
-      "Now smile. Show me the teeth.",
-      "Three. Two. One.",
-      "Got it. Sending everything to the AI.",
-    ];
-    facePoses.forEach(t => allVoiceTexts.push(t));
-  }
-
-  // Body poses
-  if (mode === 'body' || mode === 'combo') {
-    const bodyPoses = gender === 'female' ? [
-      "I see you. Stand tall. Shoulders back.",
-      "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.",
-      "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.",
-      "Do a slow spin for me. All the way around. Take your time.",
-      "Face me. Hit me with your best pose. Whatever feels right. Three seconds.",
-      "Now walk toward the camera. Like it's a runway. Give me your best strut.",
-      "Love that energy. Sending everything to the AI.",
-    ] : [
-      "There you are. Stand up straight. Arms relaxed at your sides.",
-      "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.",
-      "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.",
-      "Now do a slow spin. All the way around. Take your time. I'm getting every angle.",
-      "Face me. Hit me with your best pose. Whatever you got. Three seconds.",
-      "Now get close. Flex that bicep. Hard as you can. Hold it.",
-      "That's it. Sending everything to the AI now.",
-    ];
-    bodyPoses.forEach(t => allVoiceTexts.push(t));
-  }
-
-  // Confirmation lines
-  const confirms = gender === 'female'
-    ? ['Beautiful.', 'Got it.', 'That was perfect.', 'Love it.', 'So good.', 'Gorgeous.']
-    : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
-  confirms.forEach(t => allVoiceTexts.push(t));
-
-  // Transition lines
-  const extras = gender === 'female'
-    ? ["Love that energy. Got it.", "Yes. That was it. The AI is going to love that.", "Done. Sending it all to the AI."]
-    : ["That's the one. Locked in.", "Oh yeah. That's what I'm talking about.", "Got it. Sending everything to the AI."];
-  extras.forEach(t => allVoiceTexts.push(t));
-
-  // Gender detection
-  if (mode === 'face' || mode === 'combo') {
-    allVoiceTexts.push("Heads up. Your lighting is really low right now. If you can move closer to a window or turn on a light, your score will be way more accurate.");
-    allVoiceTexts.push("Face is locked in. Now let me see that body.");
-  }
-
-  // Body setup intros (both genders)
-  allVoiceTexts.push("OK. Prop your phone up against something at about chest height. I need to see your full body from head to toe. I'll give you five seconds.");
-  allVoiceTexts.push("Set your phone down on something about chest height. I need to see you head to toe. Five seconds.");
-
-  // Countdown
-  ['5', '4', '3', '2', '1'].forEach(t => allVoiceTexts.push(t));
-
-  // Build file list
-  allVoiceTexts.forEach(text => {
-    files.add(`${g}-${voiceSlug(text)}.mp3`);
-  });
-
-  // Preload all in parallel (fire-and-forget, don't block scan)
-  const preloadOne = (file) => {
-    if (audioBufCache[file]) return Promise.resolve();
-    const url = `${AUDIO_BASE}${file}`;
-    return fetch(url)
-      .then(r => r.ok ? r.arrayBuffer() : null)
-      .then(buf => {
-        if (!buf || !actx) return null;
-        return new Promise((resolve, reject) => {
-          actx.decodeAudioData(buf, resolve, reject);
-        });
-      })
-      .then(decoded => { if (decoded) audioBufCache[file] = decoded; })
-      .catch(() => {}); // Silent — missing files are OK
-  };
-
-  // Batch preload (6 at a time to avoid overwhelming the network)
-  const fileList = [...files];
-  for (let i = 0; i < fileList.length; i += 6) {
-    const batch = fileList.slice(i, i + 6);
-    await Promise.allSettled(batch.map(f => preloadOne(f)));
+// Pre-warm voices on load (needed for some browsers)
+function warmVoices() {
+  if ('speechSynthesis' in window) {
+    speechSynthesis.getVoices();
+    // Some browsers need a silent utterance from user gesture to unlock
+    try {
+      const warmup = new SpeechSynthesisUtterance('');
+      warmup.volume = 0;
+      speechSynthesis.speak(warmup);
+    } catch {}
   }
 }
 
-// Legacy preloadVoice — redirects to new system
-function preloadVoice(text, gender) {
-  if (!actx || !text) return;
-  const g = gender === 'female' ? 'f' : 'm';
-  const file = `${g}-${voiceSlug(text)}.mp3`;
-  if (audioBufCache[file]) return;
-  const url = `${AUDIO_BASE}${file}`;
-  fetch(url).then(r => r.ok ? r.arrayBuffer() : null).then(buf => {
-    if (!buf || !actx) return;
-    return new Promise((resolve, reject) => {
-      actx.decodeAudioData(buf, resolve, reject);
-    });
-  }).then(decoded => { if (decoded) audioBufCache[file] = decoded; }).catch(() => {});
-}
+// Preload voices not needed — SpeechSynthesis is instant
+function preloadVoice() {} // No-op, kept for backward compat
+function preloadScanVoices() {} // No-op
 
 // ═══════════════════════════════════════════════════════════════
 // UTILS
@@ -5381,7 +5319,7 @@ document.querySelectorAll('.modal').forEach(m => {
 });
 
 Object.assign(window, {
-  go, goHome, goQuick, show, startCapture, flipCam,
+  go, goHome, goQuick, show, startCapture, flipCam, setTestGender,
   openLB, openLBSub, fLB, fLBt, subLB,
   openDashboard, genShare, natShare, challengeFriend,
   showFullResults, retrySend, oMod, cMod,
