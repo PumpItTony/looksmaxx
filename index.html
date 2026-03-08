@@ -526,7 +526,7 @@ showNextGate();
 <!-- Daily dashboard renders here via updHome() -->
 </div>
 <div style="height:14px"></div>
-<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + body. 19 traits scored. The complete experience.</div></div><div class="cmba">→</div></div></div>
+<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + body. 19 traits. Biometric structure analysis. The complete experience.</div></div><div class="cmba">→</div></div></div>
 <div style="height:8px"></div>
 <div class="cds">
 <div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">10 traits scored. Jawline, eyes, symmetry, skin, the works.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;AI Guided</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
@@ -636,14 +636,9 @@ showNextGate();
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
 </div>
 <div class="shud" id="shud">
-<!-- LIVE BSS DISPLAY — shows biometric score building in real time -->
-<div id="liveBSS" style="display:none;flex-direction:column;align-items:center;gap:4px;margin-bottom:8px;pointer-events:none">
-<div style="display:flex;align-items:baseline;gap:6px">
-<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.12em">BIOMETRIC STRUCTURE</div>
-<div id="liveBSSval" style="font-family:var(--df);font-size:24px;color:var(--sig);transition:color .3s">—</div>
-</div>
-<div style="width:180px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden"><div id="liveBSSbar" style="height:100%;width:0%;background:var(--sig);border-radius:2px;transition:width .4s,background .3s"></div></div>
-<div id="liveBSSmeas" style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.03em;opacity:0;transition:opacity .3s;text-align:center;max-width:280px"></div>
+<!-- LIVE BSS — subtle measurement ticker below title -->
+<div id="liveBSS" style="display:none;align-items:center;justify-content:center;gap:8px;margin-bottom:4px;pointer-events:none;opacity:.7">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.08em" id="liveBSSmeas"></div>
 </div>
 <div class="svt" id="svt">INITIALIZING</div>
 <div class="spb"><div class="spf" id="spf" style="background:var(--blue)"></div></div>
@@ -689,18 +684,28 @@ showNextGate();
 <div class="ssc"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">PSL FACE</div><div style="font-family:var(--df);font-size:34px;color:var(--blue)" id="rsf">—</div><div style="font-size:11px;color:var(--t2)" id="rsft">—</div></div>
 <div class="ssc"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)">FRAMEMOG</div><div style="font-family:var(--df);font-size:34px;color:var(--green)" id="rsb">—</div><div style="font-size:11px;color:var(--t2)" id="rsbt">—</div></div>
 </div>
+<div style="height:12px"></div>
+<!-- KEY ACTIONS — immediately accessible, no scrolling -->
+<div style="padding:0 14px;display:flex;gap:8px">
+<button class="btn bp" onclick="genShare()" style="flex:1;font-size:12px;padding:12px">Share Score</button>
+<button class="btn bg" onclick="challengeFriend()" style="flex:1;font-size:12px;padding:12px">Challenge</button>
+<button class="btn bs" onclick="go(ST.mode)" style="flex:0 0 auto;font-size:12px;padding:12px 16px">↩ Rescan</button>
+</div>
 <div style="height:16px"></div>
 <div class="trs"><div class="trh"><div class="trt" id="rtt">TRAITS</div><div class="trsu" id="rtsu"></div></div><div id="rtl"></div></div>
 <div style="height:12px"></div>
 <!-- BSS BREAKDOWN — computed on-device from biometric math -->
 <div style="padding:0 14px;display:none" id="rbss-wrap">
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:center">
-<div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--sig);text-transform:uppercase">Biometric Structure Score</div>
-<div id="rbssTotal" style="font-family:var(--df);font-size:22px;color:var(--sig)">—</div>
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div>
+<div style="font-family:var(--mf);font-size:9px;letter-spacing:.14em;color:var(--sig);text-transform:uppercase">Biometric Structure Score</div>
+<div style="font-family:var(--mf);font-size:7px;color:var(--t4);margin-top:2px">Pure math from 478 facial landmarks</div>
+</div>
+<div id="rbssTotal" style="font-family:var(--df);font-size:24px;color:var(--sig)">—</div>
 </div>
 <div id="rbssItems" style="display:flex;flex-direction:column;gap:5px"></div>
-<div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.03em">Computed on-device from facial landmark mathematics. This score is deterministic.</div>
+<div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.02em;line-height:1.6">This score is computed on your device from facial landmark mathematics. It measures bone structure, proportions, and symmetry — things that don't change with lighting or camera angle. Your final LooksMaxx Score™ blends this with the AI's assessment of skin, hair, grooming, and vibe.</div>
 </div>
 </div>
 <div style="height:12px"></div>
@@ -715,14 +720,7 @@ showNextGate();
 <div style="height:12px"></div>
 <div class="ract">
 <button class="btn bp" onclick="openDashboard()">View Dashboard</button>
-<button class="btn bs" style="background:rgba(79,142,247,.08);border-color:rgba(79,142,247,.2)" onclick="genShare()">Share Score Card</button>
-<button class="btn bg" onclick="challengeFriend()">Challenge a Friend</button>
 <button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">Submit to Leaderboard</button>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;margin:4px 14px;text-align:center">
-<div style="font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.08em;margin-bottom:4px">WANT A HIGHER SCORE?</div>
-<div style="font-size:11px;color:var(--t3);line-height:1.6">Better lighting, steadier poses, and following every prompt gives Maxx more data to work with. Natural light from a window is a game changer.</div>
-</div>
-<button class="btn bs" onclick="go(ST.mode)" style="margin-top:4px">↩ Rescan with better conditions</button>
 <button class="btn bs" style="border:none;color:var(--t4)" onclick="goHome()">Home</button>
 </div>
 <div style="height:8px"></div>
@@ -925,7 +923,8 @@ showNextGate();
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:10px">
 <div style="font-family:var(--df);font-size:13px;color:#8b6cf7;letter-spacing:.04em;margin-bottom:6px">PROPRIETARY SCORING ENGINE</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.8">Raw landmark data is converted into derived biometric measurements — jaw angle in degrees, symmetry ratio, facial thirds balance, shoulder-to-waist ratio, canthal tilt. These measurements, combined with multi-angle photos, are analyzed by a proprietary AI model that evaluates each trait independently using weighted criteria calibrated differently for male and female subjects. The final LooksMaxx Score™ is a weighted composite — not all traits carry equal importance.</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">Your LooksMaxx Score™ is a blend of two independent systems. The first is the <strong style="color:var(--sig)">Biometric Structure Score (BSS)</strong> — pure mathematics. Each measurement (jaw angle, symmetry ratio, canthal tilt, facial thirds, cheekbone-to-jaw ratio) is mapped to a scoring curve based on published attractiveness research. The BSS is deterministic — same face, same angles, same score. It measures what your bone structure IS, objectively.</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8;margin-top:6px">The second is the <strong style="color:var(--blue)">AI Aesthetic Assessment</strong> — skin quality, hair, grooming, vibe, and the subjective traits that math can't capture. These two scores are weighted and blended. The BSS anchors your score to reality. The AI adds the human dimension. Neither alone tells the full story.</div>
 </div>
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px">
@@ -1513,82 +1512,74 @@ function thirdsScore(thirdsStr) {
 // ═══ FACE BSS ═══
 // Based on: Perrett et al. (1994), Rhodes (2006), Foo et al. (2017),
 // Bashour (2006) facial aesthetics research
-function computeFaceBSS(meas) {
+function computeFaceBSS(meas, gender = 'male') {
   if (!meas) return null;
   const m = {};
-  // Parse all measurements to numbers
   for (const [k, v] of Object.entries(meas)) {
     m[k] = typeof v === 'string' && v.includes('/') ? v : parseFloat(v);
   }
-
+  const isFem = gender === 'female';
   const scores = {};
 
-  // 1. JAW ANGLE — ideal 128-132° (strong forward growth)
-  // Research: Proffit (2007), gonial angle 128° = ideal male, ~130° female
+  // 1. JAW ANGLE — Male ideal 128-132° (strong forward growth), Female ideal 130-135° (softer angle)
   if (!isNaN(m.jawAngle)) {
-    scores.jawAngle = { v: m.jawAngle, s: peakScore(m.jawAngle, 130, 8), label: 'Jaw Angle', unit: '°', ideal: '128-132°' };
+    const ideal = isFem ? 132 : 130;
+    const sigma = isFem ? 10 : 8;
+    scores.jawAngle = { v: m.jawAngle, s: peakScore(m.jawAngle, ideal, sigma), label: 'Jaw Angle', unit: '°', ideal: isFem ? '130-135°' : '128-132°' };
   }
 
-  // 2. SYMMETRY RATIO — higher is better, 1.0 = perfect
-  // Research: Grammer & Thornhill (1994), symmetry ratio >0.97 = above average
+  // 2. SYMMETRY — universal, higher is better
   if (!isNaN(m.symmetryRatio)) {
     scores.symmetry = { v: m.symmetryRatio, s: sigmoidScore(m.symmetryRatio, 0.965, 80), label: 'Symmetry', unit: '', ideal: '>0.97' };
   }
 
-  // 3. FACE WIDTH-TO-HEIGHT — ideal ~1.35 (golden ratio territory)
-  // Research: Pallett et al. (2010), ideal fWHR 1.3-1.4
+  // 3. FACE WIDTH-TO-HEIGHT — Male ideal ~1.35, Female ~1.40 (slightly longer face)
   if (!isNaN(m.faceWidthToHeight)) {
-    scores.fwhr = { v: m.faceWidthToHeight, s: peakScore(m.faceWidthToHeight, 1.35, 0.15), label: 'Face Ratio', unit: '', ideal: '1.30-1.40' };
+    const ideal = isFem ? 1.40 : 1.35;
+    scores.fwhr = { v: m.faceWidthToHeight, s: peakScore(m.faceWidthToHeight, ideal, 0.15), label: 'Face Ratio', unit: '', ideal: isFem ? '1.35-1.45' : '1.30-1.40' };
   }
 
-  // 4. JAW WIDTH RATIO — ideal ~0.75 (defined jaw relative to face)
-  // Research: Penton-Voak et al. (2001), wider jaw = more masculine/attractive
+  // 4. JAW WIDTH — Male ideal ~0.78 (strong jaw), Female ~0.72 (narrower jaw)
   if (!isNaN(m.jawWidthRatio)) {
-    scores.jawWidth = { v: m.jawWidthRatio, s: peakScore(m.jawWidthRatio, 0.78, 0.1), label: 'Jaw Width', unit: '', ideal: '0.73-0.83' };
+    const ideal = isFem ? 0.72 : 0.78;
+    scores.jawWidth = { v: m.jawWidthRatio, s: peakScore(m.jawWidthRatio, ideal, 0.1), label: 'Jaw Width', unit: '', ideal: isFem ? '0.68-0.76' : '0.73-0.83' };
   }
 
-  // 5. CANTHAL TILT — negative values = upward tilt = attractive
-  // Research: Rhee et al. (2012), upward tilt of 4-8° is ideal
+  // 5. CANTHAL TILT — upward tilt attractive for both, slightly more valued in females
   const avgCT = (!isNaN(m.canthalTiltL) && !isNaN(m.canthalTiltR))
     ? (m.canthalTiltL + m.canthalTiltR) / 2 : null;
   if (avgCT !== null) {
-    // More negative = more upward = better. Ideal around -5 to -8
-    scores.canthalTilt = { v: avgCT, s: sigmoidScore(-avgCT, 3, 0.5), label: 'Canthal Tilt', unit: '', ideal: 'upward' };
+    const k = isFem ? 0.6 : 0.5;
+    scores.canthalTilt = { v: avgCT, s: sigmoidScore(-avgCT, 3, k), label: 'Canthal Tilt', unit: '', ideal: 'upward' };
   }
 
-  // 6. FACIAL THIRDS BALANCE — equal thirds = ideal harmony
-  // Research: Farkas (1994), ideal vertical proportions are roughly equal
+  // 6. FACIAL THIRDS BALANCE
   if (typeof meas.facialThirds === 'string') {
     scores.thirds = { v: meas.facialThirds, s: thirdsScore(meas.facialThirds), label: 'Thirds Balance', unit: '', ideal: '33/33/33' };
   }
 
-  // 7. CHEEKBONE-TO-JAW — ideal ~1.05-1.15 (cheekbones slightly wider)
-  // Research: Bzdok et al. (2011), prominent cheekbones signal attractiveness
+  // 7. CHEEKBONE-TO-JAW — Female ideal higher ~1.15 (prominent cheekbones), Male ~1.10
   if (!isNaN(m.cheekboneToJaw)) {
-    scores.cheekbone = { v: m.cheekboneToJaw, s: peakScore(m.cheekboneToJaw, 1.10, 0.12), label: 'Cheekbones', unit: '', ideal: '1.05-1.15' };
+    const ideal = isFem ? 1.15 : 1.10;
+    scores.cheekbone = { v: m.cheekboneToJaw, s: peakScore(m.cheekboneToJaw, ideal, 0.12), label: 'Cheekbones', unit: '', ideal: isFem ? '1.10-1.20' : '1.05-1.15' };
   }
 
-  // 8. NOSE-TO-FACE RATIO — ideal ~0.24-0.26 (proportional, not dominant)
-  // Research: Schmid et al. (2008), nose width ~25% of face width
+  // 8. NOSE-TO-FACE — Female ideal slightly smaller ~0.23, Male ~0.25
   if (!isNaN(m.noseToFaceRatio)) {
-    scores.nose = { v: m.noseToFaceRatio, s: peakScore(m.noseToFaceRatio, 0.25, 0.04), label: 'Nose Ratio', unit: '', ideal: '0.24-0.26' };
+    const ideal = isFem ? 0.23 : 0.25;
+    scores.nose = { v: m.noseToFaceRatio, s: peakScore(m.noseToFaceRatio, ideal, 0.04), label: 'Nose Ratio', unit: '', ideal: isFem ? '0.21-0.25' : '0.24-0.26' };
   }
 
-  // Weighted BSS composite
-  const weights = {
-    jawAngle: 0.20, symmetry: 0.20, fwhr: 0.15, jawWidth: 0.12,
-    canthalTilt: 0.10, thirds: 0.08, cheekbone: 0.08, nose: 0.07,
-  };
+  // Weights — slightly different priorities by gender
+  const weights = isFem
+    ? { jawAngle: 0.14, symmetry: 0.22, fwhr: 0.12, jawWidth: 0.08, canthalTilt: 0.14, thirds: 0.10, cheekbone: 0.12, nose: 0.08 }
+    : { jawAngle: 0.20, symmetry: 0.20, fwhr: 0.15, jawWidth: 0.12, canthalTilt: 0.10, thirds: 0.08, cheekbone: 0.08, nose: 0.07 };
 
   let totalWeight = 0, totalScore = 0;
   for (const [key, w] of Object.entries(weights)) {
-    if (scores[key]) {
-      totalScore += scores[key].s * w;
-      totalWeight += w;
-    }
+    if (scores[key]) { totalScore += scores[key].s * w; totalWeight += w; }
   }
   const bss = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) / 100 : null;
-
   return { bss, scores, totalWeight };
 }
 
@@ -1659,31 +1650,17 @@ function updateLiveBSS(meas, isFace) {
   else liveBSS.body = result;
   liveBSS.lastScores = result.scores;
 
-  // Update live HUD
+  // Update subtle measurement ticker
   const bssEl = $('liveBSS');
-  const bssVal = $('liveBSSval');
-  const bssBar = $('liveBSSbar');
   const bssMeas = $('liveBSSmeas');
-
-  if (bssEl && bssVal && bssBar) {
+  if (bssEl && bssMeas && result.scores) {
     bssEl.style.display = 'flex';
-    bssVal.textContent = result.bss.toFixed(2);
-    const pct = Math.min(100, (result.bss / 10) * 100);
-    bssBar.style.width = pct + '%';
-    bssBar.style.background = result.bss >= 7 ? 'var(--sig)' : result.bss >= 5 ? 'var(--amber)' : 'var(--red)';
-    bssVal.style.color = result.bss >= 7 ? 'var(--sig)' : result.bss >= 5 ? 'var(--amber)' : 'var(--red)';
-
-    // Show top measurement that just computed
-    if (bssMeas && result.scores) {
-      const entries = Object.values(result.scores);
-      if (entries.length > 0) {
-        // Cycle through measurements based on frame count
-        const idx = Math.floor(Date.now() / 2000) % entries.length;
-        const e = entries[idx];
-        const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
-        bssMeas.textContent = `${e.label}: ${val}${e.unit} — ideal ${e.ideal}`;
-        bssMeas.style.opacity = '1';
-      }
+    const entries = Object.values(result.scores);
+    if (entries.length > 0) {
+      const idx = Math.floor(Date.now() / 2500) % entries.length;
+      const e = entries[idx];
+      const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
+      bssMeas.textContent = `${e.label} ${val}${e.unit} — ${e.s >= 7 ? 'ideal range' : e.s >= 5 ? 'average range' : 'below average'}`;
     }
   }
 }
@@ -2196,12 +2173,12 @@ async function goQuick() {
     if (ST.token !== myTk || ST.aborted) return;
     startLiveOverlay('face');
     $('svt').textContent = 'LOOK AT THE DOT'; $('sst').textContent = 'Hold still — scanning…'; $('spf').style.width = '10%';
-    let stableFrames = 0, allMeas = []; const startTime = Date.now();
+    let stableFrames = 0, allMeas = new MeasurementAccumulator(); const startTime = Date.now();
     while (!ST.aborted && ST.token === myTk) {
       if (Date.now() - startTime > 30000) break;
       if (lastLandmarks) {
         stableFrames++; $('swarn').classList.remove('show');
-        const m = computeFaceMeasurements(lastLandmarks); if (m) { allMeas.push(m); if (stableFrames % 5 === 0) updateLiveBSS(m, true); }
+        const m = computeFaceMeasurements(lastLandmarks); if (m) { allMeas.add(m); if (stableFrames % 5 === 0) updateLiveBSS(m, true); }
         $('spf').style.width = Math.min(90, (stableFrames / 60) * 90) + '%';
         $('sflock').classList.add('show'); $('sflocklbl').textContent = 'Face Locked';
         if (stableFrames % 10 === 0) playScanTick();
@@ -2212,7 +2189,7 @@ async function goQuick() {
           $('spf').style.width = '100%'; $('svt').textContent = 'CAPTURED'; $('svt').style.color = 'var(--sig)';
           await sleep(600);
           let extra = 0;
-          while (extra < 20 && !ST.aborted && ST.token === myTk) { if (lastLandmarks) { extra++; const m2 = computeFaceMeasurements(lastLandmarks); if (m2) allMeas.push(m2); } await sleep(50); }
+          while (extra < 20 && !ST.aborted && ST.token === myTk) { if (lastLandmarks) { extra++; const m2 = computeFaceMeasurements(lastLandmarks); if (m2) allMeas.add(m2); } await sleep(50); }
           if (!ST.aborted && lastLandmarks) { ST.faceCaps.push(capturePhoto(v, MAX_PHOTO_DIM_FACE)); playShutter(); }
           ST.faceMeas = allMeas; $('svt').style.color = ''; break;
         }
@@ -2690,7 +2667,7 @@ async function startCapture() {
   $('sconff').style.width = '0%';
   $('sconfp').textContent = '0%';
 
-  let allMeas = [];
+  let allMeas = new MeasurementAccumulator();
   let photos = [];
   let confidence = 0;
   let globalFrames = 0;
@@ -2896,9 +2873,30 @@ async function startCapture() {
 
         const m = isFace ? computeFaceMeasurements(lastLandmarks) : computeBodyMeasurements(lastLandmarks);
         if (m) {
-          allMeas.push(m);
-          // Update live BSS every 5 frames (not every frame — performance)
-          if (poseFrames % 5 === 0) updateLiveBSS(m, isFace);
+          allMeas.add(m);
+          if (poseFrames % 5 === 0) {
+            updateLiveBSS(m, isFace);
+            // Show convergence + measurements on HUD ticker
+            const conv = allMeas.getConvergedCount();
+            const total = allMeas.getTotalCount();
+            const conf = allMeas.getOverallConfidence();
+            const bssMeas = $('liveBSSmeas');
+            if (bssMeas && total > 0) {
+              $('liveBSS').style.display = 'flex';
+              const cycle = Math.floor(Date.now() / 3000) % 3;
+              if (cycle === 0 && conv > 0) {
+                bssMeas.textContent = `${conv}/${total} measurements locked · ${conf}% confidence`;
+              } else if (liveBSS.lastScores) {
+                const entries = Object.values(liveBSS.lastScores);
+                if (entries.length > 0) {
+                  const idx = Math.floor(Date.now() / 2500) % entries.length;
+                  const e = entries[idx];
+                  const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
+                  bssMeas.textContent = `${e.label} ${val}${e.unit} — ${e.s >= 7 ? 'ideal range' : e.s >= 5 ? 'average' : 'below average'}`;
+                }
+              }
+            }
+          }
         }
 
         const pct = Math.min(100, (globalFrames / totalMinFrames) * 100);
@@ -3159,41 +3157,132 @@ async function startCapture() {
 // ═══════════════════════════════════════════════════════════════
 // MEASUREMENT AVERAGING — Weighted by validity
 // ═══════════════════════════════════════════════════════════════
-function avgMeas(arr) {
-  if (!arr.length) return null;
-  const keys = Object.keys(arr[0]);
-  const avg = {};
-  keys.forEach(k => {
-    // FIX #3: Handle slash-delimited values (e.g. facialThirds "33.1/33.2/33.7")
-    if (typeof arr[0][k] === 'string' && arr[0][k].includes('/')) {
-      const componentCount = arr[0][k].split('/').length;
-      const componentSums = new Array(componentCount).fill(0);
-      let validCount = 0;
-      arr.forEach(m => {
-        if (typeof m[k] === 'string' && m[k].includes('/')) {
-          const parts = m[k].split('/').map(Number);
-          if (parts.every(p => !isNaN(p))) {
-            parts.forEach((p, i) => { if (i < componentCount) componentSums[i] += p; });
-            validCount++;
-          }
-        }
-      });
-      avg[k] = validCount > 0
-        ? componentSums.map(s => (s / validCount).toFixed(1)).join('/')
-        : arr[0][k];
-      return;
-    }
+// ═══════════════════════════════════════════════════════════════
+// MEASUREMENT ACCUMULATOR — Statistical convergence engine
+// Tracks running stats per measurement, detects when each value
+// stabilizes, computes confidence. This is the foundation of
+// accurate, reproducible BSS scoring.
+// ═══════════════════════════════════════════════════════════════
+class MeasurementAccumulator {
+  constructor() {
+    this.data = {};     // key → { values:[], mean:0, variance:0, se:0, converged:false, confidence:0 }
+    this.sampleCount = 0;
+    this.raw = [];      // raw measurement objects for backward compat
+  }
 
-    const vals = arr.map(m => parseFloat(m[k])).filter(v => !isNaN(v) && v !== 0);
-    if (vals.length === 0) { avg[k] = 'N/A'; return; }
-    // Remove outliers (values > 2 std dev from mean)
-    const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
-    const std = Math.sqrt(vals.reduce((a, b) => a + (b - mean) ** 2, 0) / vals.length);
-    const filtered = std > 0 ? vals.filter(v => Math.abs(v - mean) <= 2 * std) : vals;
-    const finalMean = filtered.length > 0 ? filtered.reduce((a, b) => a + b, 0) / filtered.length : mean;
-    avg[k] = finalMean.toFixed(3);
-  });
-  return avg;
+  add(meas) {
+    if (!meas) return;
+    this.raw.push(meas);
+    this.sampleCount++;
+
+    for (const [key, rawVal] of Object.entries(meas)) {
+      // Skip non-numeric fields
+      if (key === 'cameraTilt') continue;
+      // Handle slash-delimited (facialThirds)
+      if (typeof rawVal === 'string' && rawVal.includes('/')) {
+        if (!this.data[key]) this.data[key] = { values: [], type: 'slash', converged: false, confidence: 0 };
+        this.data[key].values.push(rawVal);
+        this._updateSlash(key);
+        continue;
+      }
+      const val = parseFloat(rawVal);
+      if (isNaN(val) || val === 0) continue;
+      if (!this.data[key]) this.data[key] = { values: [], mean: 0, m2: 0, type: 'numeric', converged: false, confidence: 0, se: Infinity };
+      const d = this.data[key];
+      d.values.push(val);
+      // Welford's online algorithm for running mean + variance
+      const n = d.values.length;
+      const delta = val - d.mean;
+      d.mean += delta / n;
+      d.m2 += delta * (val - d.mean);
+      d.variance = n > 1 ? d.m2 / (n - 1) : 0;
+      d.se = n > 1 ? Math.sqrt(d.variance / n) : Infinity;
+      // Convergence: standard error < 2% of mean (or < absolute threshold for small values)
+      const seThreshold = Math.max(Math.abs(d.mean) * 0.02, 0.005);
+      d.converged = n >= 8 && d.se < seThreshold;
+      // Confidence: 0-100 based on sample count and SE
+      d.confidence = Math.min(100, Math.round(
+        Math.min(1, n / 15) * 50 +  // sample count component (max 50)
+        Math.min(1, seThreshold / Math.max(d.se, 0.0001)) * 50  // SE component (max 50)
+      ));
+    }
+  }
+
+  _updateSlash(key) {
+    const d = this.data[key];
+    const parsed = d.values.map(v => v.split('/').map(Number)).filter(p => p.every(n => !isNaN(n)));
+    if (parsed.length < 2) return;
+    const compCount = parsed[0].length;
+    const means = new Array(compCount).fill(0);
+    parsed.forEach(p => p.forEach((v, i) => { if (i < compCount) means[i] += v; }));
+    means.forEach((_, i) => { means[i] /= parsed.length; });
+    d.mean = means.map(m => m.toFixed(1)).join('/');
+    d.converged = parsed.length >= 8;
+    d.confidence = Math.min(100, Math.round(parsed.length / 15 * 100));
+  }
+
+  // Get the averaged measurement object (backward compatible with old avgMeas)
+  getAveraged() {
+    if (this.sampleCount === 0) return null;
+    const avg = {};
+    for (const [key, d] of Object.entries(this.data)) {
+      if (d.type === 'slash') {
+        avg[key] = d.mean || (d.values.length > 0 ? d.values[d.values.length - 1] : 'N/A');
+        continue;
+      }
+      // Use trimmed mean: remove values > 2 SD from running mean
+      const filtered = d.values.filter(v => d.variance > 0 ? Math.abs(v - d.mean) <= 2 * Math.sqrt(d.variance) : true);
+      const finalMean = filtered.length > 0 ? filtered.reduce((a, b) => a + b, 0) / filtered.length : d.mean;
+      avg[key] = finalMean.toFixed(3);
+    }
+    // Preserve cameraTilt from last measurement
+    if (this.raw.length > 0 && this.raw[this.raw.length - 1].cameraTilt) {
+      avg.cameraTilt = this.raw[this.raw.length - 1].cameraTilt;
+    }
+    return avg;
+  }
+
+  // Get convergence status for all measurements
+  getConvergenceStatus() {
+    const status = {};
+    for (const [key, d] of Object.entries(this.data)) {
+      status[key] = {
+        converged: d.converged,
+        confidence: d.confidence,
+        samples: d.values.length,
+        mean: d.type === 'slash' ? d.mean : d.mean?.toFixed(3),
+        se: d.type === 'numeric' ? d.se : null,
+      };
+    }
+    return status;
+  }
+
+  // Overall confidence: weighted average of per-measurement confidences
+  getOverallConfidence() {
+    const entries = Object.values(this.data).filter(d => d.type === 'numeric');
+    if (entries.length === 0) return 0;
+    return Math.round(entries.reduce((sum, d) => sum + d.confidence, 0) / entries.length);
+  }
+
+  // Count of converged measurements
+  getConvergedCount() {
+    return Object.values(this.data).filter(d => d.converged).length;
+  }
+
+  getTotalCount() {
+    return Object.keys(this.data).filter(k => k !== 'cameraTilt').length;
+  }
+}
+
+// Backward compat wrapper
+function avgMeas(arr) {
+  if (!arr || !arr.length) return null;
+  // If it's already an accumulator, use it
+  if (arr instanceof MeasurementAccumulator) return arr.getAveraged();
+  // Otherwise fall back to building one from array
+  const acc = new MeasurementAccumulator();
+  arr.forEach(m => acc.add(m));
+  return acc.getAveraged();
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3242,15 +3331,17 @@ async function sendToWorker() {
   const quality = computeScanQuality();
 
   // Compute final Biometric Structure Scores from averaged measurements
-  const faceBSS = faceMeasAvg ? computeFaceBSS(faceMeasAvg) : null;
+  const faceBSS = faceMeasAvg ? computeFaceBSS(faceMeasAvg, ST.gender || 'male') : null;
   const bodyBSS = bodyMeasAvg ? computeBodyBSS(bodyMeasAvg, ST.gender || 'male') : null;
 
   if (ST.mode === 'combo') {
     const faceMeasText = faceMeasAvg ? Object.entries(faceMeasAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
     const bodyMeasText = bodyMeasAvg ? Object.entries(bodyMeasAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
+    const faceConf = ST.faceMeas instanceof MeasurementAccumulator ? ST.faceMeas.getOverallConfidence() : 50;
+    const bodyConf = ST.bodyMeas instanceof MeasurementAccumulator ? ST.bodyMeas.getOverallConfidence() : 50;
     const [fR, bR] = await Promise.all([
-      callAPI('face', ST.faceCaps, faceMeasText, quality, faceBSS),
-      callAPI('body', ST.bodyCaps, bodyMeasText, quality, bodyBSS),
+      callAPI('face', ST.faceCaps, faceMeasText, quality, faceBSS, faceConf),
+      callAPI('body', ST.bodyCaps, bodyMeasText, quality, bodyBSS, bodyConf),
     ]);
     if (ST.token !== myTk) { clearInterval(statusInterval); return; }
     if (fR._err || bR._err) {
@@ -3286,7 +3377,9 @@ async function sendToWorker() {
     const measAvg = ST.mode === 'body' ? bodyMeasAvg : faceMeasAvg;
     const bss = ST.mode === 'body' ? bodyBSS : faceBSS;
     const measText = measAvg ? Object.entries(measAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
-    const res = await callAPI(ST.mode, caps, measText, quality, bss);
+    const measConf = (ST.mode === 'body' ? ST.bodyMeas : ST.faceMeas) instanceof MeasurementAccumulator
+      ? (ST.mode === 'body' ? ST.bodyMeas : ST.faceMeas).getOverallConfidence() : 50;
+    const res = await callAPI(ST.mode, caps, measText, quality, bss, measConf);
     if (ST.token !== myTk) { clearInterval(statusInterval); return; }
     if (res._err) { clearInterval(statusInterval); $('errmsg').textContent = res.msg; show('errscr'); return; }
     res.scanQuality = quality.grade;
@@ -3363,7 +3456,7 @@ function computeScanQuality() {
   return { grade, score, lighting, frames: totalFrames };
 }
 
-async function callAPI(mode, photos, meas, scanQuality, bss) {
+async function callAPI(mode, photos, meas, scanQuality, bss, measConfidence) {
   const payload = {
     mode,
     deviceId: DID,
@@ -3371,6 +3464,7 @@ async function callAPI(mode, photos, meas, scanQuality, bss) {
     measurements: meas || undefined,
     scanQuality: scanQuality || { grade: 'B', score: 50, lighting: 'unknown', frames: 0 },
     bss: bss ? { score: bss.bss, weight: bss.totalWeight } : undefined,
+    measurementConfidence: measConfidence || 50,
   };
   try {
     if (photos.length === 0) return { _err: true, msg: 'No photos captured. Try better positioning.' };
@@ -3461,20 +3555,8 @@ function showReveal(data) {
     try { navigator.vibrate([100, 50, 100, 50, 200]); } catch {}
     spawnConfetti(t.c);
     const sInt = Math.floor(score), sDec = Math.round((score - sInt) * 100);
-    const scoreText = `${sInt} point ${sDec < 10 ? 'oh ' + sDec : sDec}`;
-    if (isFem) {
-      if (score >= 8.5) speak(`${scoreText}. OK wow. You are stunning. Top two or three percent. The AI almost never gives scores this high.`);
-      else if (score >= 7.0) speak(`${scoreText}. That's a really strong score. You've got features that stand out. The breakdown shows you exactly where.`);
-      else if (score >= 5.0) speak(`${scoreText}. That's about average. Most people are. The dashboard has your glow up plan. There's easy wins in there.`);
-      else if (score >= 3.5) speak(`${scoreText}. That's a tough one. But the dashboard shows you exactly what to work on. Small changes add up.`);
-      else speak(`${scoreText}. The algorithm went there. Check the dashboard though. Seriously. There's a path forward.`);
-    } else {
-      if (score >= 8.5) speak(`${scoreText}. Hold on. That's elite. You're in the top two or three percent of people I've ever scanned. The genetic lottery came through.`);
-      else if (score >= 7.0) speak(`${scoreText}. That's a strong score. You're clearly above average. People notice you when you walk into a room.`);
-      else if (score >= 5.0) speak(`${scoreText}. That's average. Most people on the planet are right here. Good news is the dashboard shows you exactly where to level up.`);
-      else if (score >= 3.5) speak(`${scoreText}. I'm not gonna lie to you. That's below average. But the dashboard has your game plan. Stick with it.`);
-      else speak(`${scoreText}. Yeah. The algorithm said what it said. Look, check the dashboard. There's work to do but everybody starts somewhere.`);
-    }
+    // No speech on reveal — the score slam + music + haptics IS the moment.
+    // Speech synthesis would use a different voice than the scan MP3s and break immersion.
   }, 4500);
 
   setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 5000);
@@ -3859,11 +3941,14 @@ function showResults(data) {
     rde.appendChild(qTag);
   }
 
-  // Score components: BSS (math) + AI (aesthetic)
+  // Score components: BSS (math) + AI (aesthetic) with weight info
   if (data.bssScore != null && data.aiScore != null) {
+    const bssW = data.bssWeight || 40;
+    const aiW = 100 - bssW;
+    const confText = data.measConfidence ? ` · ${data.measConfidence}% measurement confidence` : '';
     const compTag = document.createElement('div');
-    compTag.style.cssText = 'font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:6px;letter-spacing:.03em;display:flex;gap:12px;justify-content:center';
-    compTag.innerHTML = `<span>BSS <span style="color:var(--sig)">${data.bssScore.toFixed(2)}</span></span><span style="color:var(--t4)">·</span><span>AI <span style="color:var(--blue)">${data.aiScore.toFixed(2)}</span></span>`;
+    compTag.style.cssText = 'font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:6px;letter-spacing:.03em;text-align:center;line-height:1.7';
+    compTag.innerHTML = `BSS <span style="color:var(--sig)">${data.bssScore.toFixed(2)}</span> (${bssW}%) + AI <span style="color:var(--blue)">${data.aiScore.toFixed(2)}</span> (${aiW}%)${confText}`;
     rde.appendChild(compTag);
   }
 
@@ -4839,7 +4924,7 @@ function speak(text) {
   const g = (ST.gender === 'female' || ST._debugGender === 'female') ? 'f' : 'm';
   const gKey = g + '-' + slug;
 
-  // Try gender-prefixed MP3 first
+  // Try gender-prefixed MP3 only — no legacy fallback
   if (audioCache[gKey]) {
     audioCache[gKey].currentTime = 0;
     audioCache[gKey].play().catch(() => {});
@@ -4853,15 +4938,7 @@ function speak(text) {
     playPromise.then(() => {
       audioCache[gKey] = audio;
     }).catch(() => {
-      // Fallback: try legacy non-prefixed filename (backwards compat with old audio)
-      const legacyAudio = new Audio(`${AUDIO_BASE}${slug}.mp3`);
-      legacyAudio.volume = 1;
-      const lp = legacyAudio.play();
-      if (lp) {
-        lp.then(() => { audioCache[gKey] = legacyAudio; }).catch(() => {
-          speakFallback(text);
-        });
-      } else { speakFallback(text); }
+      speakFallback(text);
     });
   } else {
     speakFallback(text);
