@@ -268,7 +268,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <!-- ═══ ACCESS GATE — Remove when ready to go public ═══ -->
 <div id="accessGate" style="position:fixed;inset:0;background:var(--void);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px">
 <div style="font-family:var(--df);font-size:clamp(48px,14vw,72px);letter-spacing:.02em;line-height:.9;text-align:center"><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">LOOKS</span><br><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">MAXX</span></div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.14em">EARLY ACCESS · V4</div>
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.14em">EARLY ACCESS</div>
 <div style="margin-top:12px;width:100%;max-width:280px">
 <input type="text" id="accessCode" placeholder="Enter access code" style="width:100%;background:var(--surf);border:1px solid var(--brm);border-radius:10px;padding:14px;font-family:var(--mf);font-size:14px;color:var(--t1);text-align:center;letter-spacing:.2em;outline:none" autocomplete="off" autofocus>
 </div>
@@ -533,19 +533,6 @@ showNextGate();
 <div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">9 traits scored. Build, posture, proportions, definition.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;AI Guided</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
 </div>
 <div style="height:8px"></div>
-<!-- SCAN A FRIEND -->
-<div style="padding:0 14px">
-<div onclick="goFriend('face')" style="background:var(--surf);border:1px solid rgba(245,166,35,.12);border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .2s">
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-<div>
-<div style="font-family:var(--df);font-size:20px;letter-spacing:.04em;color:var(--amber);line-height:1.1">SCAN A FRIEND</div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.06em;margin-top:4px">Point your camera at someone · Get their score</div>
-</div>
-<div style="font-family:var(--df);font-size:14px;color:var(--amber);opacity:.5">→</div>
-</div>
-</div>
-</div>
-<div style="height:8px"></div>
 <div class="hnv">
 <div class="hn" onclick="openLB()"><div class="hni" style="font-size:13px;color:var(--gold)">♛</div><div class="hnl">Rankings</div></div>
 <div class="hn" onclick="show('achieve')"><div class="hni" style="font-size:13px;color:var(--sig)">◆</div><div class="hnl">Badges</div></div>
@@ -649,6 +636,15 @@ showNextGate();
 <div style="display:flex;gap:10px"><div class="sx" id="flipb" onclick="flipCam()" style="font-size:20px">⇄</div><div class="sx" id="abortb" onclick="goHome()">✕</div></div>
 </div>
 <div class="shud" id="shud">
+<!-- LIVE BSS DISPLAY — shows biometric score building in real time -->
+<div id="liveBSS" style="display:none;flex-direction:column;align-items:center;gap:4px;margin-bottom:8px;pointer-events:none">
+<div style="display:flex;align-items:baseline;gap:6px">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.12em">BIOMETRIC STRUCTURE</div>
+<div id="liveBSSval" style="font-family:var(--df);font-size:24px;color:var(--sig);transition:color .3s">—</div>
+</div>
+<div style="width:180px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden"><div id="liveBSSbar" style="height:100%;width:0%;background:var(--sig);border-radius:2px;transition:width .4s,background .3s"></div></div>
+<div id="liveBSSmeas" style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.03em;opacity:0;transition:opacity .3s;text-align:center;max-width:280px"></div>
+</div>
 <div class="svt" id="svt">INITIALIZING</div>
 <div class="spb"><div class="spf" id="spf" style="background:var(--blue)"></div></div>
 <div class="sst" id="sst"></div>
@@ -695,6 +691,18 @@ showNextGate();
 </div>
 <div style="height:16px"></div>
 <div class="trs"><div class="trh"><div class="trt" id="rtt">TRAITS</div><div class="trsu" id="rtsu"></div></div><div id="rtl"></div></div>
+<div style="height:12px"></div>
+<!-- BSS BREAKDOWN — computed on-device from biometric math -->
+<div style="padding:0 14px;display:none" id="rbss-wrap">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--sig);text-transform:uppercase">Biometric Structure Score</div>
+<div id="rbssTotal" style="font-family:var(--df);font-size:22px;color:var(--sig)">—</div>
+</div>
+<div id="rbssItems" style="display:flex;flex-direction:column;gap:5px"></div>
+<div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.03em">Computed on-device from facial landmark mathematics. This score is deterministic.</div>
+</div>
+</div>
 <div style="height:12px"></div>
 <div style="padding:0 14px;display:none" id="rmeas-wrap">
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
@@ -1472,6 +1480,215 @@ function computeBodyMeasurements(landmarks) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// BIOMETRIC STRUCTURE SCORE (BSS) ENGINE
+// Pure mathematics. No AI. Deterministic.
+// Maps each measurement to a 1-10 score using curves derived from
+// published research on facial/body attractiveness.
+// This runs on-device in <1ms and produces the same score for
+// the same measurements every time.
+// ═══════════════════════════════════════════════════════════════
+
+// Gaussian peaked curve: ideal value scores highest, drops off symmetrically
+// score = floor + (range) * exp(-((x - ideal)^2) / (2 * sigma^2))
+function peakScore(x, ideal, sigma, floor = 1.0, ceil = 10.0) {
+  return floor + (ceil - floor) * Math.exp(-Math.pow(x - ideal, 2) / (2 * sigma * sigma));
+}
+
+// Sigmoid monotonic curve: higher values score better (or lower, if inverted)
+// score = floor + (range) / (1 + exp(-k * (x - midpoint)))
+function sigmoidScore(x, midpoint, k, floor = 1.0, ceil = 10.0) {
+  return floor + (ceil - floor) / (1 + Math.exp(-k * (x - midpoint)));
+}
+
+// Thirds balance: how close are the three segments to equal (33.3/33.3/33.3)
+function thirdsScore(thirdsStr) {
+  if (!thirdsStr || !thirdsStr.includes('/')) return 5.0;
+  const parts = thirdsStr.split('/').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return 5.0;
+  const ideal = 100 / 3; // 33.33
+  const deviation = parts.reduce((sum, p) => sum + Math.abs(p - ideal), 0); // 0 = perfect, ~30 = terrible
+  return Math.max(1, Math.min(10, 10 - deviation * 0.28));
+}
+
+// ═══ FACE BSS ═══
+// Based on: Perrett et al. (1994), Rhodes (2006), Foo et al. (2017),
+// Bashour (2006) facial aesthetics research
+function computeFaceBSS(meas) {
+  if (!meas) return null;
+  const m = {};
+  // Parse all measurements to numbers
+  for (const [k, v] of Object.entries(meas)) {
+    m[k] = typeof v === 'string' && v.includes('/') ? v : parseFloat(v);
+  }
+
+  const scores = {};
+
+  // 1. JAW ANGLE — ideal 128-132° (strong forward growth)
+  // Research: Proffit (2007), gonial angle 128° = ideal male, ~130° female
+  if (!isNaN(m.jawAngle)) {
+    scores.jawAngle = { v: m.jawAngle, s: peakScore(m.jawAngle, 130, 8), label: 'Jaw Angle', unit: '°', ideal: '128-132°' };
+  }
+
+  // 2. SYMMETRY RATIO — higher is better, 1.0 = perfect
+  // Research: Grammer & Thornhill (1994), symmetry ratio >0.97 = above average
+  if (!isNaN(m.symmetryRatio)) {
+    scores.symmetry = { v: m.symmetryRatio, s: sigmoidScore(m.symmetryRatio, 0.965, 80), label: 'Symmetry', unit: '', ideal: '>0.97' };
+  }
+
+  // 3. FACE WIDTH-TO-HEIGHT — ideal ~1.35 (golden ratio territory)
+  // Research: Pallett et al. (2010), ideal fWHR 1.3-1.4
+  if (!isNaN(m.faceWidthToHeight)) {
+    scores.fwhr = { v: m.faceWidthToHeight, s: peakScore(m.faceWidthToHeight, 1.35, 0.15), label: 'Face Ratio', unit: '', ideal: '1.30-1.40' };
+  }
+
+  // 4. JAW WIDTH RATIO — ideal ~0.75 (defined jaw relative to face)
+  // Research: Penton-Voak et al. (2001), wider jaw = more masculine/attractive
+  if (!isNaN(m.jawWidthRatio)) {
+    scores.jawWidth = { v: m.jawWidthRatio, s: peakScore(m.jawWidthRatio, 0.78, 0.1), label: 'Jaw Width', unit: '', ideal: '0.73-0.83' };
+  }
+
+  // 5. CANTHAL TILT — negative values = upward tilt = attractive
+  // Research: Rhee et al. (2012), upward tilt of 4-8° is ideal
+  const avgCT = (!isNaN(m.canthalTiltL) && !isNaN(m.canthalTiltR))
+    ? (m.canthalTiltL + m.canthalTiltR) / 2 : null;
+  if (avgCT !== null) {
+    // More negative = more upward = better. Ideal around -5 to -8
+    scores.canthalTilt = { v: avgCT, s: sigmoidScore(-avgCT, 3, 0.5), label: 'Canthal Tilt', unit: '', ideal: 'upward' };
+  }
+
+  // 6. FACIAL THIRDS BALANCE — equal thirds = ideal harmony
+  // Research: Farkas (1994), ideal vertical proportions are roughly equal
+  if (typeof meas.facialThirds === 'string') {
+    scores.thirds = { v: meas.facialThirds, s: thirdsScore(meas.facialThirds), label: 'Thirds Balance', unit: '', ideal: '33/33/33' };
+  }
+
+  // 7. CHEEKBONE-TO-JAW — ideal ~1.05-1.15 (cheekbones slightly wider)
+  // Research: Bzdok et al. (2011), prominent cheekbones signal attractiveness
+  if (!isNaN(m.cheekboneToJaw)) {
+    scores.cheekbone = { v: m.cheekboneToJaw, s: peakScore(m.cheekboneToJaw, 1.10, 0.12), label: 'Cheekbones', unit: '', ideal: '1.05-1.15' };
+  }
+
+  // 8. NOSE-TO-FACE RATIO — ideal ~0.24-0.26 (proportional, not dominant)
+  // Research: Schmid et al. (2008), nose width ~25% of face width
+  if (!isNaN(m.noseToFaceRatio)) {
+    scores.nose = { v: m.noseToFaceRatio, s: peakScore(m.noseToFaceRatio, 0.25, 0.04), label: 'Nose Ratio', unit: '', ideal: '0.24-0.26' };
+  }
+
+  // Weighted BSS composite
+  const weights = {
+    jawAngle: 0.20, symmetry: 0.20, fwhr: 0.15, jawWidth: 0.12,
+    canthalTilt: 0.10, thirds: 0.08, cheekbone: 0.08, nose: 0.07,
+  };
+
+  let totalWeight = 0, totalScore = 0;
+  for (const [key, w] of Object.entries(weights)) {
+    if (scores[key]) {
+      totalScore += scores[key].s * w;
+      totalWeight += w;
+    }
+  }
+  const bss = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) / 100 : null;
+
+  return { bss, scores, totalWeight };
+}
+
+// ═══ BODY BSS ═══
+function computeBodyBSS(meas, gender = 'male') {
+  if (!meas) return null;
+  const m = {};
+  for (const [k, v] of Object.entries(meas)) {
+    m[k] = parseFloat(v);
+  }
+  const isFem = gender === 'female';
+  const scores = {};
+
+  // 1. SHOULDER-TO-HIP RATIO
+  // Male ideal: 1.45-1.55 (V-taper). Female ideal: wider hips, so ratio ~1.2-1.3
+  if (!isNaN(m.shoulderToHipRatio) && m.shoulderToHipRatio > 0.5) {
+    if (isFem) {
+      scores.shr = { v: m.shoulderToHipRatio, s: peakScore(m.shoulderToHipRatio, 1.25, 0.15), label: 'S:H Ratio', unit: '', ideal: '1.2-1.3' };
+    } else {
+      scores.shr = { v: m.shoulderToHipRatio, s: sigmoidScore(m.shoulderToHipRatio, 1.35, 8), label: 'S:H Ratio', unit: '', ideal: '>1.45' };
+    }
+  }
+
+  // 2. POSTURE ANGLE — ideal 88-92° (upright)
+  if (!isNaN(m.postureAngle)) {
+    scores.posture = { v: m.postureAngle, s: peakScore(m.postureAngle, 90, 6), label: 'Posture', unit: '°', ideal: '88-92°' };
+  }
+
+  // 3. UPPER-TO-LOWER RATIO — ideal ~0.48-0.52 (balanced torso:legs)
+  if (!isNaN(m.upperLowerRatio) && m.upperLowerRatio > 0.1) {
+    scores.proportion = { v: m.upperLowerRatio, s: peakScore(m.upperLowerRatio, 0.50, 0.08), label: 'Proportions', unit: '', ideal: '0.48-0.52' };
+  }
+
+  // Apply tilt compensation to shoulder-to-hip
+  if (meas.cameraTilt === 'phone_tilted_up' && scores.shr) {
+    // Tilted up camera inflates shoulder width by ~10-15%
+    scores.shr.s = Math.max(1, scores.shr.s - 1.2);
+    scores.shr.tiltCorrected = true;
+  } else if (meas.cameraTilt === 'slight_tilt' && scores.shr) {
+    scores.shr.s = Math.max(1, scores.shr.s - 0.5);
+    scores.shr.tiltCorrected = true;
+  }
+
+  const weights = isFem
+    ? { shr: 0.35, posture: 0.35, proportion: 0.30 }
+    : { shr: 0.40, posture: 0.30, proportion: 0.30 };
+
+  let totalWeight = 0, totalScore = 0;
+  for (const [key, w] of Object.entries(weights)) {
+    if (scores[key]) {
+      totalScore += scores[key].s * w;
+      totalWeight += w;
+    }
+  }
+  const bss = totalWeight > 0 ? Math.round((totalScore / totalWeight) * 100) / 100 : null;
+  return { bss, scores, totalWeight };
+}
+
+// ═══ LIVE BSS STATE — updates during scan ═══
+let liveBSS = { face: null, body: null, lastScores: null };
+
+function updateLiveBSS(meas, isFace) {
+  if (!meas) return;
+  const result = isFace ? computeFaceBSS(meas) : computeBodyBSS(meas, ST.gender || 'male');
+  if (!result || result.bss === null) return;
+
+  if (isFace) liveBSS.face = result;
+  else liveBSS.body = result;
+  liveBSS.lastScores = result.scores;
+
+  // Update live HUD
+  const bssEl = $('liveBSS');
+  const bssVal = $('liveBSSval');
+  const bssBar = $('liveBSSbar');
+  const bssMeas = $('liveBSSmeas');
+
+  if (bssEl && bssVal && bssBar) {
+    bssEl.style.display = 'flex';
+    bssVal.textContent = result.bss.toFixed(2);
+    const pct = Math.min(100, (result.bss / 10) * 100);
+    bssBar.style.width = pct + '%';
+    bssBar.style.background = result.bss >= 7 ? 'var(--sig)' : result.bss >= 5 ? 'var(--amber)' : 'var(--red)';
+    bssVal.style.color = result.bss >= 7 ? 'var(--sig)' : result.bss >= 5 ? 'var(--amber)' : 'var(--red)';
+
+    // Show top measurement that just computed
+    if (bssMeas && result.scores) {
+      const entries = Object.values(result.scores);
+      if (entries.length > 0) {
+        // Cycle through measurements based on frame count
+        const idx = Math.floor(Date.now() / 2000) % entries.length;
+        const e = entries[idx];
+        const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
+        bssMeas.textContent = `${e.label}: ${val}${e.unit} — ideal ${e.ideal}`;
+        bssMeas.style.opacity = '1';
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // VIDEO-TO-CANVAS COORDINATE MAPPING
 // object-fit:cover scales/crops the video. Landmarks are in raw video coords.
 // This computes the transform to map landmarks onto the canvas properly.
@@ -1833,7 +2050,6 @@ function show(id) {
 
 function goHome() {
   abort();
-  ST._scanFriend = false;
   applyGenderTheme('male');
   show('home');
   // Clean scan screen
@@ -1852,6 +2068,9 @@ function goHome() {
   $('svt').style.color = ''; // Reset from money shot gold / combo blue
   const cnv = $('scanc');
   if (cnv) { cnv.getContext('2d').clearRect(0, 0, cnv.width, cnv.height); }
+  // Reset live BSS
+  liveBSS = { face: null, body: null, lastScores: null };
+  const bssEl = $('liveBSS'); if (bssEl) bssEl.style.display = 'none';
   // Clean analyzing screen thumbnails (free memory)
   $('azfr').innerHTML = '';
   // Clean reveal screen confetti
@@ -1951,12 +2170,6 @@ function getScore(data) {
 // ═══════════════════════════════════════════════════════════════
 
 // ═══ SCAN A FRIEND — Uses back camera, modified voice lines ═══
-function goFriend(mode) {
-  ST._scanFriend = true;
-  ST.facing = 'environment';
-  go(mode || 'face');
-}
-
 async function goQuick() {
   if (!actx) {
     try { actx = new (window.AudioContext || window.webkitAudioContext)(); masterGain = actx.createGain(); masterGain.gain.value = 1.0; masterGain.connect(actx.destination); } catch (e) {}
@@ -1988,7 +2201,7 @@ async function goQuick() {
       if (Date.now() - startTime > 30000) break;
       if (lastLandmarks) {
         stableFrames++; $('swarn').classList.remove('show');
-        const m = computeFaceMeasurements(lastLandmarks); if (m) allMeas.push(m);
+        const m = computeFaceMeasurements(lastLandmarks); if (m) { allMeas.push(m); if (stableFrames % 5 === 0) updateLiveBSS(m, true); }
         $('spf').style.width = Math.min(90, (stableFrames / 60) * 90) + '%';
         $('sflock').classList.add('show'); $('sflocklbl').textContent = 'Face Locked';
         if (stableFrames % 10 === 0) playScanTick();
@@ -2044,15 +2257,11 @@ function go(mode) {
     }
   } catch {}
 
-  // Preserve friend mode flag and facing if set by goFriend()
-  const preserveFacing = ST._scanFriend ? ST.facing : 'user';
-  const isFriendMode = !!ST._scanFriend;
-
   ST = {
     ...ST,
     mode,
     stream: null,
-    facing: preserveFacing,
+    facing: 'user',
     aborted: false,
     scanning: false,
     token: ++ST.token,
@@ -2063,12 +2272,11 @@ function go(mode) {
     faceMeas: [],
     bodyMeas: [],
     lbPh: null,
-    _scanFriend: isFriendMode,
   };
 
   const isB = mode === 'body';
-  $('sbdd').style.background = isFriendMode ? 'var(--amber)' : isB ? 'var(--green)' : 'var(--blue)';
-  $('sbdl').textContent = isFriendMode ? 'FRIEND SCAN' : mode === 'combo' ? 'FULL SCAN' : isB ? 'FRAMEMOG' : 'PSL SCAN';
+  $('sbdd').style.background = isB ? 'var(--green)' : 'var(--blue)';
+  $('sbdl').textContent = mode === 'combo' ? 'FULL SCAN' : isB ? 'FRAMEMOG' : 'PSL SCAN';
   $('spf').style.background = isB ? 'var(--green)' : 'var(--blue)';
   $('spf').style.width = '0%';
   $('sbtn').className = 'sbtn d' + (isB ? ' g' : '');
@@ -2505,20 +2713,10 @@ async function startCapture() {
   await sleep(3000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
-  const isFriendScan = ST._scanFriend;
   const confirms = isFem
     ? ['Beautiful.', 'Got it.', 'That was perfect.', 'Love it.', 'So good.', 'Gorgeous.']
-    : isFriendScan
-    ? ['Got it.', 'Nice.', 'That works.', 'Locked in.', 'Clean.', 'One more.']
     : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
   let confirmIdx = 0;
-
-  // Friend mode intro — tell the scanner how to position their friend
-  if (isFriendScan && isFace) {
-    speak("Point me at your friend's face. Get them in the oval. I'll do the rest.");
-    await sleep(2500);
-    if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
-  }
 
   // ═══ THEME OPENER — speak before first pose if theme is active ═══
   if (themeOpener) {
@@ -2697,7 +2895,11 @@ async function startCapture() {
         if (poseFrames % 10 === 0) playScanTick();
 
         const m = isFace ? computeFaceMeasurements(lastLandmarks) : computeBodyMeasurements(lastLandmarks);
-        if (m) allMeas.push(m);
+        if (m) {
+          allMeas.push(m);
+          // Update live BSS every 5 frames (not every frame — performance)
+          if (poseFrames % 5 === 0) updateLiveBSS(m, isFace);
+        }
 
         const pct = Math.min(100, (globalFrames / totalMinFrames) * 100);
         $('spf').style.width = pct + '%';
@@ -2751,7 +2953,9 @@ async function startCapture() {
         }
 
         // Capture photo
-        if (pose.capture && poseFrames >= (pose.needsLM === false ? 1 : 5) && !posePhotoCaptured) {
+        // QUALITY-GATED CAPTURE — wait for stable, centered, high-confidence detection
+        const minCapFrames = pose.needsLM === false ? 1 : 12; // More frames = better data
+        if (pose.capture && poseFrames >= minCapFrames && !posePhotoCaptured) {
           posePhotoCaptured = true;
           photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE));
           const fl = $('sfl'); fl.classList.add('go'); setTimeout(() => fl.classList.remove('go'), 100);
@@ -3037,12 +3241,16 @@ async function sendToWorker() {
   // Compute scan quality before freeing data
   const quality = computeScanQuality();
 
+  // Compute final Biometric Structure Scores from averaged measurements
+  const faceBSS = faceMeasAvg ? computeFaceBSS(faceMeasAvg) : null;
+  const bodyBSS = bodyMeasAvg ? computeBodyBSS(bodyMeasAvg, ST.gender || 'male') : null;
+
   if (ST.mode === 'combo') {
     const faceMeasText = faceMeasAvg ? Object.entries(faceMeasAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
     const bodyMeasText = bodyMeasAvg ? Object.entries(bodyMeasAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
     const [fR, bR] = await Promise.all([
-      callAPI('face', ST.faceCaps, faceMeasText, quality),
-      callAPI('body', ST.bodyCaps, bodyMeasText, quality),
+      callAPI('face', ST.faceCaps, faceMeasText, quality, faceBSS),
+      callAPI('body', ST.bodyCaps, bodyMeasText, quality, bodyBSS),
     ]);
     if (ST.token !== myTk) { clearInterval(statusInterval); return; }
     if (fR._err || bR._err) {
@@ -3063,6 +3271,8 @@ async function sendToWorker() {
       estimatedAge: fR.estimatedAge || bR.estimatedAge || null,
       percentile: fR.percentile || bR.percentile || null,
       scanQuality: quality.grade,
+      faceBSS: faceBSS,
+      bodyBSS: bodyBSS,
     };
     ST.gender = merged.gender;
     applyGenderTheme(ST.gender);
@@ -3074,11 +3284,14 @@ async function sendToWorker() {
   } else {
     const caps = ST.mode === 'body' ? ST.bodyCaps : ST.faceCaps;
     const measAvg = ST.mode === 'body' ? bodyMeasAvg : faceMeasAvg;
+    const bss = ST.mode === 'body' ? bodyBSS : faceBSS;
     const measText = measAvg ? Object.entries(measAvg).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
-    const res = await callAPI(ST.mode, caps, measText, quality);
+    const res = await callAPI(ST.mode, caps, measText, quality, bss);
     if (ST.token !== myTk) { clearInterval(statusInterval); return; }
     if (res._err) { clearInterval(statusInterval); $('errmsg').textContent = res.msg; show('errscr'); return; }
     res.scanQuality = quality.grade;
+    res.faceBSS = ST.mode === 'face' ? faceBSS : null;
+    res.bodyBSS = ST.mode === 'body' ? bodyBSS : null;
     ST.gender = res.gender || 'male';
     applyGenderTheme(ST.gender);
     ST.result = res;
@@ -3150,13 +3363,14 @@ function computeScanQuality() {
   return { grade, score, lighting, frames: totalFrames };
 }
 
-async function callAPI(mode, photos, meas, scanQuality) {
+async function callAPI(mode, photos, meas, scanQuality, bss) {
   const payload = {
     mode,
     deviceId: DID,
     frames: photos.map(b64 => ({ photoB64: b64 })),
     measurements: meas || undefined,
     scanQuality: scanQuality || { grade: 'B', score: 50, lighting: 'unknown', frames: 0 },
+    bss: bss ? { score: bss.bss, weight: bss.totalWeight } : undefined,
   };
   try {
     if (photos.length === 0) return { _err: true, msg: 'No photos captured. Try better positioning.' };
@@ -3282,6 +3496,26 @@ function showReveal(data) {
     tiEl.parentNode.insertBefore(dbEl, tiEl.nextSibling);
     setTimeout(() => { dbEl.style.opacity = '1'; }, 100);
   }, 5500);
+
+  // BSS measurement callout — show the actual biometric data that contributed
+  setTimeout(() => {
+    const bss = data.faceBSS || data.bodyBSS;
+    if (bss && bss.bss) {
+      const bssEl = document.createElement('div');
+      bssEl.style.cssText = 'position:relative;z-index:2;text-align:center;opacity:0;transition:opacity .6s;margin-top:8px';
+      // Build measurement callout from top BSS scores
+      const entries = Object.values(bss.scores || {}).sort((a, b) => b.s - a.s);
+      const topTwo = entries.slice(0, 2);
+      const measText = topTwo.map(e => {
+        const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
+        return `${e.label} ${val}${e.unit}`;
+      }).join(' · ');
+      const bssColor = bss.bss >= 7 ? 'var(--sig)' : bss.bss >= 5 ? 'var(--t2)' : 'var(--amber)';
+      bssEl.innerHTML = `<div style="font-family:var(--mf);font-size:9px;color:${bssColor};letter-spacing:.04em">BSS ${bss.bss.toFixed(2)}</div><div style="font-family:var(--mf);font-size:8px;color:var(--t3);margin-top:2px">${measText}</div>`;
+      $('rvsub').parentNode.insertBefore(bssEl, $('rvsub'));
+      setTimeout(() => { bssEl.style.opacity = '1'; }, 100);
+    }
+  }, 5800);
 
   // Percentile + scan quality + next tier distance
   setTimeout(() => {
@@ -3621,38 +3855,44 @@ function showResults(data) {
     const qLabels = { S: 'Excellent', A: 'Good', B: 'Fair', C: 'Poor' };
     const qTag = document.createElement('div');
     qTag.style.cssText = `font-family:var(--mf);font-size:9px;color:${qColors[data.scanQuality] || 'var(--t3)'};margin-top:4px;letter-spacing:.06em`;
-    qTag.textContent = `Scan Quality: ${data.scanQuality} — ${qLabels[data.scanQuality] || ''}${data.scanQuality === 'C' || data.scanQuality === 'B' ? ' · Better lighting = more accurate score' : ''}`;
+    qTag.textContent = `Scan Quality: ${data.scanQuality} — ${qLabels[data.scanQuality] || ''}`;
     rde.appendChild(qTag);
+  }
+
+  // Score components: BSS (math) + AI (aesthetic)
+  if (data.bssScore != null && data.aiScore != null) {
+    const compTag = document.createElement('div');
+    compTag.style.cssText = 'font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:6px;letter-spacing:.03em;display:flex;gap:12px;justify-content:center';
+    compTag.innerHTML = `<span>BSS <span style="color:var(--sig)">${data.bssScore.toFixed(2)}</span></span><span style="color:var(--t4)">·</span><span>AI <span style="color:var(--blue)">${data.aiScore.toFixed(2)}</span></span>`;
+    rde.appendChild(compTag);
+  }
+
+  // Populate BSS breakdown if available
+  const bss = data.faceBSS || data.bodyBSS;
+  const bssWrap = $('rbss-wrap');
+  if (bss && bss.bss && bssWrap) {
+    bssWrap.style.display = 'block';
+    $('rbssTotal').textContent = bss.bss.toFixed(2);
+    $('rbssTotal').style.color = bss.bss >= 7 ? 'var(--sig)' : bss.bss >= 5 ? 'var(--amber)' : 'var(--red)';
+    const items = $('rbssItems');
+    items.innerHTML = Object.values(bss.scores).map(e => {
+      const val = typeof e.v === 'string' ? e.v : (typeof e.v === 'number' ? e.v.toFixed(e.unit === '°' ? 1 : 3) : '');
+      const pct = Math.min(100, (e.s / 10) * 100);
+      const col = e.s >= 7 ? 'var(--sig)' : e.s >= 5 ? 'var(--amber)' : 'var(--red)';
+      return `<div style="display:flex;align-items:center;gap:8px">
+        <div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:70px">${e.label}</div>
+        <div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${col};border-radius:2px"></div></div>
+        <div style="font-family:var(--mf);font-size:9px;color:${col};width:28px;text-align:right">${e.s.toFixed(1)}</div>
+        <div style="font-family:var(--mf);font-size:7px;color:var(--t4);width:55px;text-align:right">${val}${e.unit}</div>
+      </div>`;
+    }).join('');
+  } else if (bssWrap) {
+    bssWrap.style.display = 'none';
   }
 
   show('results');
   $('results').scrollTop = 0;
 
-  // Friend mode: inject "Send them their score" CTA at top of actions
-  if (ST._scanFriend) {
-    const ract = document.querySelector('.ract');
-    if (ract) {
-      const friendBtn = document.createElement('button');
-      friendBtn.className = 'btn';
-      friendBtn.style.cssText = 'background:linear-gradient(135deg,#f5a623,#e08c15);color:#fff;font-weight:700;margin-bottom:4px';
-      friendBtn.textContent = '📲 Send Them Their Score';
-      friendBtn.onclick = () => {
-        const score = getScore(data), t = tier(score, ST.mode === 'body');
-        const text = `You just got face-scanned by AI. Your score: ${score.toFixed(1)}/10 — ${t.l}. Think you got robbed? Scan yourself:\npumpittony.github.io/looksmaxx`;
-        if (navigator.share) navigator.share({ title: 'Your LOOKSMAXX Score', text }).catch(() => {});
-        else { try { navigator.clipboard.writeText(text); toast('Copied!'); } catch {} }
-      };
-      ract.insertBefore(friendBtn, ract.firstChild);
-
-      // Also add "Scan another friend" button
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'btn bs';
-      nextBtn.style.cssText = 'background:rgba(245,166,35,.08);border-color:rgba(245,166,35,.2);color:var(--amber)';
-      nextBtn.textContent = '👥 Scan Another Friend';
-      nextBtn.onclick = () => goFriend(ST.mode);
-      ract.insertBefore(nextBtn, friendBtn.nextSibling);
-    }
-  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -4569,13 +4809,13 @@ function playRevealImpact() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SPEECH SYNTHESIS — Robust iOS-safe implementation
+// SPEECH SYSTEM — Gender-aware, fully pre-recorded
+// Every line has two MP3s: m-{slug}.mp3 (Onyx) and f-{slug}.mp3 (Nova)
+// speak() picks the right one based on ST.gender
 // ═══════════════════════════════════════════════════════════════
 let lastSpeechTime = 0;
 const SPEECH_MIN_GAP = 1000;
-// Audio cache for pre-recorded MP3s
 const audioCache = {};
-// Base URL for MP3 files — set this to your audio folder
 const AUDIO_BASE = './audio/';
 
 function speechInit() {
@@ -4589,7 +4829,6 @@ function speechInit() {
   } catch {}
 }
 
-// Convert voice text to a filename slug
 function voiceSlug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 }
@@ -4597,22 +4836,32 @@ function voiceSlug(text) {
 function speak(text) {
   if (!text) return;
   const slug = voiceSlug(text);
+  const g = (ST.gender === 'female' || ST._debugGender === 'female') ? 'f' : 'm';
+  const gKey = g + '-' + slug;
 
-  // Try pre-recorded MP3 first
-  if (audioCache[slug]) {
-    audioCache[slug].currentTime = 0;
-    audioCache[slug].play().catch(() => {});
+  // Try gender-prefixed MP3 first
+  if (audioCache[gKey]) {
+    audioCache[gKey].currentTime = 0;
+    audioCache[gKey].play().catch(() => {});
     return;
   }
 
-  const audio = new Audio(`${AUDIO_BASE}${slug}.mp3`);
+  const audio = new Audio(`${AUDIO_BASE}${gKey}.mp3`);
   audio.volume = 1;
   const playPromise = audio.play();
   if (playPromise) {
     playPromise.then(() => {
-      audioCache[slug] = audio;
+      audioCache[gKey] = audio;
     }).catch(() => {
-      speakFallback(text);
+      // Fallback: try legacy non-prefixed filename (backwards compat with old audio)
+      const legacyAudio = new Audio(`${AUDIO_BASE}${slug}.mp3`);
+      legacyAudio.volume = 1;
+      const lp = legacyAudio.play();
+      if (lp) {
+        lp.then(() => { audioCache[gKey] = legacyAudio; }).catch(() => {
+          speakFallback(text);
+        });
+      } else { speakFallback(text); }
     });
   } else {
     speakFallback(text);
@@ -4903,7 +5152,7 @@ document.querySelectorAll('.modal').forEach(m => {
 });
 
 Object.assign(window, {
-  go, goHome, goQuick, goFriend, show, startCapture, flipCam,
+  go, goHome, goQuick, show, startCapture, flipCam,
   openLB, openLBSub, fLB, fLBt, subLB,
   openDashboard, genShare, natShare, challengeFriend,
   showFullResults, retrySend, oMod, cMod,
