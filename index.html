@@ -304,19 +304,19 @@ LOOKSMAXX uses AI and your camera to generate biometric scores. You must be <str
 <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-<div style="font-size:20px;flex-shrink:0;margin-top:2px">📸</div>
+<div style="width:20px;height:20px;flex-shrink:0;margin-top:2px;border-radius:50%;background:rgba(79,142,247,.1);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3" fill="none" stroke="#4f8ef7" stroke-width="1"/><circle cx="5" cy="5" r="1" fill="#4f8ef7"/></svg></div>
 <div><div style="font-size:13px;color:var(--t1);font-weight:600">Camera Access</div>
 <div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">LOOKSMAXX uses your camera to scan your face and body through a guided process. All biometric detection happens on your device.</div></div>
 </div>
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-<div style="font-size:20px;flex-shrink:0;margin-top:2px">🔒</div>
+<div style="width:20px;height:20px;flex-shrink:0;margin-top:2px;border-radius:50%;background:rgba(34,212,90,.1);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 10 10"><rect x="2" y="3" width="6" height="5" rx="1" fill="none" stroke="#22d45a" stroke-width="1"/><circle cx="5" cy="2" r="1" fill="none" stroke="#22d45a" stroke-width=".8"/></svg></div>
 <div><div style="font-size:13px;color:var(--t1);font-weight:600">Your Privacy</div>
 <div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">Photos are sent for AI analysis and <span style="color:var(--sig);font-weight:500">deleted immediately after scoring</span>. No photos, biometric templates, or personal data are stored on our servers. Ever.</div></div>
 </div>
 
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-<div style="font-size:20px;flex-shrink:0;margin-top:2px">🎮</div>
+<div style="width:20px;height:20px;flex-shrink:0;margin-top:2px;border-radius:50%;background:rgba(144,144,176,.08);display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,1 9,4 7.5,9 2.5,9 1,4" fill="none" stroke="#9090b0" stroke-width=".8"/></svg></div>
 <div><div style="font-size:13px;color:var(--t1);font-weight:600">Entertainment Purpose</div>
 <div style="font-size:11px;color:var(--t2);line-height:1.7;margin-top:3px">LOOKSMAXX is built for fun. Scores are AI-generated for entertainment and should not be taken as professional assessments. You choose to receive your results.</div></div>
 </div>
@@ -533,32 +533,31 @@ showNextGate();
 <div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">9 traits scored. Build, posture, proportions, definition.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;AI Guided</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
 </div>
 <div style="height:8px"></div>
-<!-- SCAN A FRIEND — party mode -->
+<!-- SCAN A FRIEND -->
 <div style="padding:0 14px">
-<div onclick="goFriend('face')" style="background:linear-gradient(155deg,#1a1a28,#1e1e30 50%,#1a1a2a);border:1px solid rgba(245,166,35,.18);border-radius:14px;padding:16px 18px;cursor:pointer;position:relative;overflow:hidden;transition:all .2s">
-<div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,166,35,.2),transparent);pointer-events:none"></div>
+<div onclick="goFriend('face')" style="background:var(--surf);border:1px solid rgba(245,166,35,.12);border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .2s">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
 <div>
-<div style="font-family:var(--df);font-size:22px;letter-spacing:.04em;color:var(--amber);line-height:1.1">SCAN A FRIEND</div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.06em;margin-top:4px">Point your camera at someone. Get their score.</div>
+<div style="font-family:var(--df);font-size:20px;letter-spacing:.04em;color:var(--amber);line-height:1.1">SCAN A FRIEND</div>
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.06em;margin-top:4px">Point your camera at someone · Get their score</div>
 </div>
-<div style="width:36px;height:36px;border-radius:50%;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.25);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">👥</div>
+<div style="font-family:var(--df);font-size:14px;color:var(--amber);opacity:.5">→</div>
 </div>
 </div>
 </div>
 <div style="height:8px"></div>
 <div class="hnv">
-<div class="hn" onclick="openLB()"><div class="hni">🏆</div><div class="hnl">Rankings</div></div>
-<div class="hn" onclick="show('achieve')"><div class="hni">⭐</div><div class="hnl">Badges</div></div>
-<div class="hn" onclick="show('rules')"><div class="hni">📋</div><div class="hnl">Tiers</div></div>
-<div class="hn" onclick="show('info')"><div class="hni">🗺️</div><div class="hnl">How It Works</div></div>
+<div class="hn" onclick="openLB()"><div class="hni" style="font-size:13px;color:var(--gold)">♛</div><div class="hnl">Rankings</div></div>
+<div class="hn" onclick="show('achieve')"><div class="hni" style="font-size:13px;color:var(--sig)">◆</div><div class="hnl">Badges</div></div>
+<div class="hn" onclick="show('rules')"><div class="hni" style="font-size:13px;color:var(--blue)">▦</div><div class="hnl">Tiers</div></div>
+<div class="hn" onclick="show('info')"><div class="hni" style="font-size:13px;color:var(--t2)">⬡</div><div class="hnl">The Tech</div></div>
 </div>
 <div style="height:6px"></div>
 <div style="padding:0 14px">
-<div onclick="goQuick()" style="background:var(--surf);border:1px solid var(--brm);border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:space-between">
+<div onclick="goQuick()" style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:space-between">
 <div style="display:flex;align-items:center;gap:10px">
-<div style="font-size:16px">📸</div>
-<div><div style="font-family:var(--mf);font-size:9px;letter-spacing:.12em;color:var(--t3);text-transform:uppercase">Quick Scan</div><div style="font-size:11px;color:var(--t2);margin-top:2px">One selfie · No guided poses · ~15 sec</div></div>
+<svg width="16" height="16" viewBox="0 0 16 16" style="flex-shrink:0;opacity:.5"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="8" cy="8" r="2" fill="currentColor" opacity=".6"/></svg>
+<div><div style="font-family:var(--mf);font-size:9px;letter-spacing:.12em;color:var(--t3);text-transform:uppercase">Quick Scan</div><div style="font-size:11px;color:var(--t2);margin-top:2px">One selfie · No guided poses · 15 sec</div></div>
 </div>
 <div style="font-size:12px;color:var(--t3)">→</div>
 </div>
@@ -707,10 +706,10 @@ showNextGate();
 <div style="padding:0 14px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px"><div style="font-family:var(--mf);font-size:9px;letter-spacing:.18em;color:var(--t3);text-transform:uppercase">AI Insights</div><div style="font-size:13px;color:var(--t2);line-height:1.65" id="rins">—</div></div></div>
 <div style="height:12px"></div>
 <div class="ract">
-<button class="btn bp" onclick="openDashboard()">📊 View Dashboard</button>
-<button class="btn bs" style="background:rgba(79,142,247,.08);border-color:rgba(79,142,247,.2)" onclick="genShare()">📤 Share Score Card</button>
-<button class="btn bg" onclick="challengeFriend()">🔥 Challenge a Friend</button>
-<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">🏆 Leaderboard</button>
+<button class="btn bp" onclick="openDashboard()">View Dashboard</button>
+<button class="btn bs" style="background:rgba(79,142,247,.08);border-color:rgba(79,142,247,.2)" onclick="genShare()">Share Score Card</button>
+<button class="btn bg" onclick="challengeFriend()">Challenge a Friend</button>
+<button class="btn bs" style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,215,0,.05));border-color:rgba(255,215,0,.2);color:var(--gold)" onclick="openLBSub()">Submit to Leaderboard</button>
 <div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;margin:4px 14px;text-align:center">
 <div style="font-family:var(--mf);font-size:9px;color:var(--sig);letter-spacing:.08em;margin-bottom:4px">WANT A HIGHER SCORE?</div>
 <div style="font-size:11px;color:var(--t3);line-height:1.6">Better lighting, steadier poses, and following every prompt gives Maxx more data to work with. Natural light from a window is a game changer.</div>
@@ -834,120 +833,171 @@ showNextGate();
 </div>
 </div>
 
+
 <!-- HOW IT WORKS -->
 <div id="info" class="scr sb">
-<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">THE LOOKSMAXX SCORE™</div></div>
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">THE TECHNOLOGY</div></div>
 <div style="padding:0;overflow-y:auto;-webkit-overflow-scrolling:touch" id="infoScroll">
 
-<!-- Hero — MAXX + Brand Statement -->
-<div style="display:flex;flex-direction:column;align-items:center;padding:36px 20px 16px;position:relative;overflow:hidden">
-<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 20%,rgba(34,212,90,.08) 0%,transparent 55%);pointer-events:none"></div>
-<svg width="90" height="115" viewBox="0 0 64 78" style="filter:drop-shadow(0 6px 24px rgba(34,212,90,.4));animation:maxxFloat 3s ease-in-out infinite;margin-bottom:10px">
-  <line x1="32" y1="8" x2="32" y2="0" stroke="#22d45a" stroke-width="1.5"/>
-  <circle cx="32" cy="0" r="2.5" fill="#22d45a"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle>
-  <rect x="8" y="8" width="48" height="36" rx="10" fill="#0c1018" stroke="#22d45a" stroke-width="1.8"/>
-  <circle cx="22" cy="26" r="5" fill="#22d45a"/><circle cx="22" cy="26" r="2" fill="#0c1018"/>
-  <circle cx="42" cy="26" r="5" fill="#22d45a"/><circle cx="42" cy="26" r="2" fill="#0c1018"/>
-  <rect x="24" y="35" width="16" height="3" rx="1.5" fill="#22d45a" opacity=".5"><animate attributeName="height" values="3;7;2;6;3" dur=".5s" repeatCount="indefinite"/><animate attributeName="y" values="35;33;36;33;35" dur=".5s" repeatCount="indefinite"/></rect>
-  <rect x="18" y="47" width="28" height="18" rx="5" fill="#0c1018" stroke="#22d45a" stroke-width="1.2"/>
-  <circle cx="32" cy="56" r="3" fill="#22d45a" opacity=".6"><animate attributeName="opacity" values=".6;.2;.6" dur="2s" repeatCount="indefinite"/></circle>
-  <line x1="18" y1="52" x2="8" y2="58" stroke="#22d45a" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="59" r="2" fill="#22d45a" opacity=".5"/>
-  <line x1="46" y1="52" x2="56" y2="58" stroke="#22d45a" stroke-width="1.5" stroke-linecap="round"/><circle cx="57" cy="59" r="2" fill="#22d45a" opacity=".5"/>
-  <ellipse cx="32" cy="74" rx="12" ry="2" fill="#22d45a" opacity=".15"><animate attributeName="rx" values="10;14;10" dur="3s" repeatCount="indefinite"/></ellipse>
+<!-- HERO — Animated Face Mesh Tessellation -->
+<div style="display:flex;flex-direction:column;align-items:center;padding:32px 20px 8px;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(34,212,90,.06) 0%,transparent 55%);pointer-events:none"></div>
+
+<!-- Animated face mesh SVG — the actual technology visualization -->
+<svg width="160" height="200" viewBox="0 0 160 200" style="margin-bottom:12px;filter:drop-shadow(0 0 20px rgba(34,212,90,.15))">
+  <!-- Face oval outline -->
+  <ellipse cx="80" cy="95" rx="52" ry="68" fill="none" stroke="#22d45a" stroke-width="1" opacity=".25" stroke-dasharray="3 2"/>
+  <!-- Tessellation grid — the mesh that makes it look real -->
+  <g opacity=".12" stroke="#22d45a" stroke-width=".5">
+    <line x1="80" y1="27" x2="50" y2="55"/><line x1="80" y1="27" x2="110" y2="55"/>
+    <line x1="50" y1="55" x2="40" y2="90"/><line x1="110" y1="55" x2="120" y2="90"/>
+    <line x1="40" y1="90" x2="45" y2="125"/><line x1="120" y1="90" x2="115" y2="125"/>
+    <line x1="45" y1="125" x2="80" y2="155"/><line x1="115" y1="125" x2="80" y2="155"/>
+    <line x1="50" y1="55" x2="80" y2="60"/><line x1="110" y1="55" x2="80" y2="60"/>
+    <line x1="80" y1="60" x2="80" y2="95"/><line x1="80" y1="95" x2="80" y2="130"/>
+    <line x1="40" y1="90" x2="80" y2="95"/><line x1="120" y1="90" x2="80" y2="95"/>
+    <line x1="45" y1="125" x2="80" y2="130"/><line x1="115" y1="125" x2="80" y2="130"/>
+    <line x1="50" y1="55" x2="65" y2="80"/><line x1="110" y1="55" x2="95" y2="80"/>
+    <line x1="65" y1="80" x2="80" y2="95"/><line x1="95" y1="80" x2="80" y2="95"/>
+    <line x1="65" y1="80" x2="40" y2="90"/><line x1="95" y1="80" x2="120" y2="90"/>
+    <line x1="65" y1="80" x2="55" y2="110"/><line x1="95" y1="80" x2="105" y2="110"/>
+    <line x1="55" y1="110" x2="80" y2="115"/><line x1="105" y1="110" x2="80" y2="115"/>
+    <line x1="80" y1="115" x2="80" y2="140"/><line x1="55" y1="110" x2="80" y2="130"/>
+    <line x1="105" y1="110" x2="80" y2="130"/>
+  </g>
+  <!-- Key landmark nodes — pulsing -->
+  <g fill="#22d45a">
+    <circle cx="80" cy="27" r="2.5" opacity=".7"><animate attributeName="opacity" values=".7;.3;.7" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="50" cy="55" r="2" opacity=".5"><animate attributeName="opacity" values=".5;.2;.5" dur="2s" repeatCount="indefinite" begin=".2s"/></circle>
+    <circle cx="110" cy="55" r="2" opacity=".5"><animate attributeName="opacity" values=".5;.2;.5" dur="2s" repeatCount="indefinite" begin=".4s"/></circle>
+    <circle cx="65" cy="80" r="2.5" opacity=".6"><animate attributeName="opacity" values=".6;.25;.6" dur="1.8s" repeatCount="indefinite" begin=".1s"/></circle>
+    <circle cx="95" cy="80" r="2.5" opacity=".6"><animate attributeName="opacity" values=".6;.25;.6" dur="1.8s" repeatCount="indefinite" begin=".3s"/></circle>
+    <circle cx="80" cy="95" r="2" opacity=".5"><animate attributeName="opacity" values=".5;.2;.5" dur="2s" repeatCount="indefinite" begin=".5s"/></circle>
+    <circle cx="40" cy="90" r="1.5" opacity=".4"/><circle cx="120" cy="90" r="1.5" opacity=".4"/>
+    <circle cx="80" cy="115" r="1.5" opacity=".4"/><circle cx="55" cy="110" r="1.5" opacity=".35"/>
+    <circle cx="105" cy="110" r="1.5" opacity=".35"/><circle cx="80" cy="60" r="1.5" opacity=".35"/>
+    <circle cx="45" cy="125" r="2" opacity=".4"><animate attributeName="opacity" values=".4;.15;.4" dur="2.2s" repeatCount="indefinite" begin=".6s"/></circle>
+    <circle cx="115" cy="125" r="2" opacity=".4"><animate attributeName="opacity" values=".4;.15;.4" dur="2.2s" repeatCount="indefinite" begin=".8s"/></circle>
+    <circle cx="80" cy="155" r="2" opacity=".5"><animate attributeName="opacity" values=".5;.2;.5" dur="2s" repeatCount="indefinite" begin="1s"/></circle>
+    <circle cx="80" cy="130" r="1.5" opacity=".35"/><circle cx="80" cy="140" r="1" opacity=".25"/>
+  </g>
+  <!-- Eye detail nodes -->
+  <g fill="#4f8ef7" opacity=".5">
+    <circle cx="62" cy="78" r="1.5"/><circle cx="68" cy="78" r="1.5"/>
+    <circle cx="92" cy="78" r="1.5"/><circle cx="98" cy="78" r="1.5"/>
+  </g>
+  <!-- Scan sweep line -->
+  <line x1="30" y1="0" x2="130" y2="0" stroke="#22d45a" stroke-width="1.5" opacity=".3">
+    <animate attributeName="y1" values="30;160;30" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="y2" values="30;160;30" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".3;.08;.3" dur="3s" repeatCount="indefinite"/>
+  </line>
+  <!-- Measurement labels -->
+  <text x="130" y="80" fill="#22d45a" font-family="'DM Mono',monospace" font-size="6" opacity=".35" letter-spacing=".5">130.2°</text>
+  <text x="130" y="90" fill="#22d45a" font-family="'DM Mono',monospace" font-size="5" opacity=".25" letter-spacing=".5">JAW ANGLE</text>
+  <text x="8" y="80" fill="#4f8ef7" font-family="'DM Mono',monospace" font-size="6" opacity=".35" letter-spacing=".5">0.982</text>
+  <text x="8" y="90" fill="#4f8ef7" font-family="'DM Mono',monospace" font-size="5" opacity=".25" letter-spacing=".5">SYMMETRY</text>
 </svg>
-<div style="font-family:var(--df);font-size:26px;letter-spacing:.12em;background:linear-gradient(90deg,#22d45a,#4f8ef7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">MAXX</div>
-<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.2em;margin-top:2px">BIOMETRIC AI ENGINE</div>
 </div>
 
-<!-- What is the LooksMaxx Score -->
-<div style="padding:0 20px 20px;text-align:center">
-<div style="font-family:var(--df);font-size:22px;letter-spacing:.06em;color:var(--gold)">THE LOOKSMAXX SCORE™</div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8;margin-top:8px;max-width:300px;margin-left:auto;margin-right:auto">A proprietary attractiveness rating powered by real-time biometric scanning and AI analysis. Not a filter. Not an opinion. A measurement.</div>
+<!-- TITLE BLOCK -->
+<div style="text-align:center;padding:0 20px 24px">
+<div style="font-family:var(--df);font-size:26px;letter-spacing:.06em;color:var(--t1)">THE LOOKSMAXX SCORE<span style="font-size:14px;vertical-align:super;color:var(--gold)">™</span></div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8;margin-top:8px;max-width:300px;margin-left:auto;margin-right:auto">A biometric attractiveness measurement built on real-time computer vision, machine learning, and a proprietary scoring model that improves with every scan.</div>
+</div>
 
-<!-- Score mockup -->
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:16px;padding:20px;text-align:center;position:relative;overflow:hidden;margin-top:16px">
-<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(255,215,0,.04),transparent 60%);pointer-events:none"></div>
-<div style="font-family:var(--df);font-size:52px;color:var(--gold);line-height:1">8.47</div>
-<div style="font-family:var(--df);font-size:14px;color:var(--gold);letter-spacing:.1em;margin-top:2px">MAIN CHARACTER</div>
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:6px">Top 12% · Scan Quality A · Est. Age 24-28</div>
-<div style="display:flex;justify-content:center;gap:14px;margin-top:12px">
-<div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.08em">FACE</div><div style="font-family:var(--df);font-size:18px;color:var(--blue)">8.71</div></div>
-<div style="width:1px;background:var(--brd)"></div>
-<div><div style="font-family:var(--mf);font-size:7px;color:var(--t4);letter-spacing:.08em">BODY</div><div style="font-family:var(--df);font-size:18px;color:var(--green)">8.12</div></div>
-</div></div></div>
+<!-- THE UNDERLYING TECH -->
+<div style="padding:0 20px 20px">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.2em;margin-bottom:10px">THE UNDERLYING TECHNOLOGY</div>
 
-<!-- HOW IT WORKS — 3 phases -->
-<div style="padding:0 20px 4px"><div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.2em;text-align:center;margin-bottom:14px">HOW IT WORKS</div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:10px">
+<div style="font-family:var(--df);font-size:13px;color:var(--blue);letter-spacing:.04em;margin-bottom:6px">MEDIAPIPE ML PIPELINE</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">LOOKSMAXX uses Google's MediaPipe machine learning framework running directly on your device. It deploys a face landmarker model that maps 478 three-dimensional coordinates across your facial structure in real time — eyes, jawline, cheekbones, nose bridge, philtrum, orbital bones — at 20 frames per second. For body scans, a separate pose estimation model tracks 33 skeletal landmarks. All detection runs on-device. Nothing is sent to a server until scoring.</div>
+</div>
 
-<!-- Phase 1 -->
-<div style="padding:0 20px 16px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px;position:relative;overflow:hidden">
-<div style="position:absolute;top:0;left:0;width:3px;height:100%;background:var(--blue);border-radius:3px"></div>
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-left:8px"><div style="font-family:var(--df);font-size:26px;color:var(--blue);opacity:.3">01</div><div style="font-family:var(--df);font-size:14px;color:var(--blue);letter-spacing:.06em">MAXX SCANS YOU</div></div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8;padding-left:8px">Maxx guides you through a series of poses while your camera captures multiple angles. Real-time computer vision maps your face and body with hundreds of measurement points, building a biometric profile in under 60 seconds.</div>
-<div style="display:flex;gap:6px;margin-top:10px;padding-left:8px">
-<div style="background:var(--void);border:1px solid rgba(79,142,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:var(--blue)">7</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">POSES</div></div>
-<div style="background:var(--void);border:1px solid rgba(79,142,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:var(--blue)">60</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">SECONDS</div></div>
-<div style="background:var(--void);border:1px solid rgba(79,142,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:var(--blue)">LIVE</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">TRACKING</div></div>
-</div></div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:10px">
+<div style="font-family:var(--df);font-size:13px;color:#8b6cf7;letter-spacing:.04em;margin-bottom:6px">PROPRIETARY SCORING ENGINE</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">Raw landmark data is converted into derived biometric measurements — jaw angle in degrees, symmetry ratio, facial thirds balance, shoulder-to-waist ratio, canthal tilt. These measurements, combined with multi-angle photos, are analyzed by a proprietary AI model that evaluates each trait independently using weighted criteria calibrated differently for male and female subjects. The final LooksMaxx Score™ is a weighted composite — not all traits carry equal importance.</div>
+</div>
 
-<!-- Phase 2 -->
-<div style="padding:0 20px 16px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px;position:relative;overflow:hidden">
-<div style="position:absolute;top:0;left:0;width:3px;height:100%;background:#8b6cf7;border-radius:3px"></div>
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-left:8px"><div style="font-family:var(--df);font-size:26px;color:#8b6cf7;opacity:.3">02</div><div style="font-family:var(--df);font-size:14px;color:#8b6cf7;letter-spacing:.06em">AI ANALYZES EVERYTHING</div></div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8;padding-left:8px">Your photos and biometric measurements are sent to a proprietary AI scoring engine. It auto-detects gender, estimates age, and evaluates each trait independently using criteria calibrated against thousands of data points.</div>
-<div style="display:flex;gap:6px;margin-top:10px;padding-left:8px">
-<div style="background:var(--void);border:1px solid rgba(139,108,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:#8b6cf7">10</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">FACE TRAITS</div></div>
-<div style="background:var(--void);border:1px solid rgba(139,108,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:#8b6cf7">9</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">BODY TRAITS</div></div>
-<div style="background:var(--void);border:1px solid rgba(139,108,247,.12);border-radius:8px;padding:7px 0;flex:1;text-align:center"><div style="font-family:var(--df);font-size:20px;color:#8b6cf7">♂♀</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">GENDER-AWARE</div></div>
-</div></div></div>
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:16px">
+<div style="font-family:var(--df);font-size:13px;color:var(--sig);letter-spacing:.04em;margin-bottom:6px">CONTINUOUS CALIBRATION</div>
+<div style="font-size:11px;color:var(--t2);line-height:1.8">The scoring engine tracks the distribution of every scan processed. As the dataset grows, percentile rankings become more statistically significant, score calibration tightens, and the system's accuracy increases. Your score isn't static — it exists relative to an evolving population. Early adopters are establishing the baseline that future scans are measured against.</div>
+</div>
+</div>
 
-<!-- Phase 3 -->
-<div style="padding:0 20px 16px"><div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px;position:relative;overflow:hidden">
-<div style="position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);border-radius:3px"></div>
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-left:8px"><div style="font-family:var(--df);font-size:26px;color:var(--gold);opacity:.3">03</div><div style="font-family:var(--df);font-size:14px;color:var(--gold);letter-spacing:.06em">YOUR LOOKSMAXX SCORE™</div></div>
-<div style="font-size:12px;color:var(--t2);line-height:1.8;padding-left:8px">Each trait is scored and weighted through a proprietary algorithm. The weights reflect what actually drives real-world attractiveness — not all traits are equal. Your final score is ranked against every scan in the system, giving you a real percentile.</div>
-</div></div>
+<!-- SCORE EXAMPLE -->
+<div style="padding:0 20px 20px">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.2em;margin-bottom:10px">WHAT YOU GET</div>
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;position:relative;overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 20%,rgba(34,212,90,.03),transparent 60%);pointer-events:none"></div>
+
+<!-- Mock score -->
+<div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
+<div>
+<div style="font-family:var(--df);font-size:44px;color:var(--sig);line-height:1">8.47</div>
+<div style="font-family:var(--df);font-size:12px;color:var(--sig);letter-spacing:.08em">MAIN CHARACTER</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3)">Top 12% of all scans</div>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3)">Scan Quality: A</div>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3)">Est. Age: 24-28</div>
+<div style="font-family:var(--mf);font-size:8px;color:var(--gold)">0.03 from GOD TIER</div>
+</div>
+</div>
+
+<!-- Mock trait bars -->
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;gap:8px"><div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:65px">Jawline</div><div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:88%;height:100%;background:var(--sig);border-radius:2px"></div></div><div style="font-family:var(--mf);font-size:9px;color:var(--sig);width:30px;text-align:right">8.82</div></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:65px">Eye Area</div><div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:91%;height:100%;background:var(--gold);border-radius:2px"></div></div><div style="font-family:var(--mf);font-size:9px;color:var(--gold);width:30px;text-align:right">9.14</div></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:65px">Symmetry</div><div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:76%;height:100%;background:var(--sig);border-radius:2px"></div></div><div style="font-family:var(--mf);font-size:9px;color:var(--sig);width:30px;text-align:right">7.63</div></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:65px">Skin</div><div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:52%;height:100%;background:var(--amber);border-radius:2px"></div></div><div style="font-family:var(--mf);font-size:9px;color:var(--amber);width:30px;text-align:right">5.21</div></div>
+<div style="display:flex;align-items:center;gap:8px"><div style="font-family:var(--mf);font-size:8px;color:var(--t3);width:65px">Vibe</div><div style="flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden"><div style="width:85%;height:100%;background:var(--sig);border-radius:2px"></div></div><div style="font-family:var(--mf);font-size:9px;color:var(--sig);width:30px;text-align:right">8.53</div></div>
+</div>
+
+<div style="font-family:var(--mf);font-size:8px;color:var(--t4);margin-top:10px;text-align:center;letter-spacing:.04em">10 face traits · 9 body traits · Personalized improvement plan</div>
+</div>
+</div>
 
 <!-- TIER SYSTEM -->
-<div style="padding:0 20px 16px">
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.2em;text-align:center;margin-bottom:10px">TIER SYSTEM</div>
-<div style="display:flex;flex-direction:column;gap:5px">
-<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(255,215,0,.12);border-radius:10px;padding:9px 14px"><div style="font-family:var(--df);font-size:18px;color:var(--gold);min-width:42px">8.5+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--gold)">GOD TIER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Top 2-3% · Elite genetics</div></div></div>
-<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(34,212,90,.1);border-radius:10px;padding:9px 14px"><div style="font-family:var(--df);font-size:18px;color:var(--sig);min-width:42px">7.0+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--sig)">MAIN CHARACTER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Top 16% · Turns heads</div></div></div>
-<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(144,144,176,.08);border-radius:10px;padding:9px 14px"><div style="font-family:var(--df);font-size:18px;color:var(--t2);min-width:42px">5.0+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--t2)">AVERAGE JOE</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Where most people land</div></div></div>
-<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(245,166,35,.08);border-radius:10px;padding:9px 14px"><div style="font-family:var(--df);font-size:18px;color:var(--amber);min-width:42px">3.5+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--amber)">HARD TIMES</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Below average · Room to improve</div></div></div>
-<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(240,82,82,.08);border-radius:10px;padding:9px 14px"><div style="font-family:var(--df);font-size:18px;color:var(--red);min-width:42px">&lt;3.5</div><div><div style="font-family:var(--df);font-size:11px;color:var(--red)">IT'S OVER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">The algorithm said what it said</div></div></div>
-</div></div>
+<div style="padding:0 20px 20px">
+<div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.2em;margin-bottom:10px">TIER CLASSIFICATION</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(255,215,0,.1);border-radius:8px;padding:8px 14px"><div style="font-family:var(--df);font-size:16px;color:var(--gold);min-width:38px">8.5+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--gold)">GOD TIER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Top 2-3%</div></div></div>
+<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(34,212,90,.08);border-radius:8px;padding:8px 14px"><div style="font-family:var(--df);font-size:16px;color:var(--sig);min-width:38px">7.0+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--sig)">MAIN CHARACTER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Top 16%</div></div></div>
+<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(144,144,176,.06);border-radius:8px;padding:8px 14px"><div style="font-family:var(--df);font-size:16px;color:var(--t2);min-width:38px">5.0+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--t2)">AVERAGE JOE</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Median range</div></div></div>
+<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(245,166,35,.06);border-radius:8px;padding:8px 14px"><div style="font-family:var(--df);font-size:16px;color:var(--amber);min-width:38px">3.5+</div><div><div style="font-family:var(--df);font-size:11px;color:var(--amber)">HARD TIMES</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">Below average</div></div></div>
+<div style="display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid rgba(240,82,82,.06);border-radius:8px;padding:8px 14px"><div style="font-family:var(--df);font-size:16px;color:var(--red);min-width:38px">&lt;3.5</div><div><div style="font-family:var(--df);font-size:11px;color:var(--red)">IT'S OVER</div><div style="font-family:var(--mf);font-size:7px;color:var(--t4)">The algorithm said what it said</div></div></div>
+</div>
+</div>
 
-<!-- WHY IT'S DIFFERENT -->
-<div style="padding:0 20px 16px">
-<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.2em;text-align:center;margin-bottom:10px">WHY IT'S DIFFERENT</div>
-<div style="display:flex;flex-direction:column;gap:8px">
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start"><div style="font-size:18px;flex-shrink:0">🔬</div><div><div style="font-size:11px;color:var(--t1);font-weight:600">Not a filter. A measurement.</div><div style="font-size:10px;color:var(--t3);line-height:1.6;margin-top:2px">Other apps guess from one selfie. LOOKSMAXX uses multi-angle biometric data captured in real time.</div></div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start"><div style="font-size:18px;flex-shrink:0">📊</div><div><div style="font-size:11px;color:var(--t1);font-weight:600">Ranked against everyone.</div><div style="font-size:10px;color:var(--t3);line-height:1.6;margin-top:2px">Your score includes a real percentile — where you land compared to every scan in the system.</div></div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start"><div style="font-size:18px;flex-shrink:0">🎯</div><div><div style="font-size:11px;color:var(--t1);font-weight:600">Tells you exactly what to fix.</div><div style="font-size:10px;color:var(--t3);line-height:1.6;margin-top:2px">Every scan generates a personalized improvement plan — specific traits, specific actions.</div></div></div>
-<div style="background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start"><div style="font-size:18px;flex-shrink:0">🔒</div><div><div style="font-size:11px;color:var(--t1);font-weight:600">Your photos are never stored.</div><div style="font-size:10px;color:var(--t3);line-height:1.6;margin-top:2px">Photos are analyzed and discarded immediately. Biometric data is processed entirely on your device.</div></div></div>
-</div></div>
+<!-- PRIVACY -->
+<div style="padding:0 20px 20px">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px">
+<div style="font-family:var(--df);font-size:12px;color:var(--t2);letter-spacing:.04em;margin-bottom:6px">DATA HANDLING</div>
+<div style="font-size:11px;color:var(--t3);line-height:1.8">All biometric landmark detection runs on your device. Photos are transmitted for AI analysis and deleted immediately after scoring. No biometric templates are created, stored, or sold. Scan quality is graded on-device from lighting, frame stability, and detection confidence.</div>
+</div>
+</div>
 
 <!-- TIPS -->
-<div style="padding:0 20px 14px"><div style="background:linear-gradient(155deg,rgba(34,212,90,.03),rgba(79,142,247,.02));border:1px solid var(--brm);border-radius:14px;padding:14px">
-<div style="font-family:var(--df);font-size:12px;letter-spacing:.08em;color:var(--sig);margin-bottom:8px">GET YOUR BEST SCORE</div>
-<div style="font-size:11px;color:var(--t2);line-height:1.9">
-<span style="color:var(--t1);font-weight:600">Lighting is everything.</span> Natural light from a window significantly improves accuracy.<br><br>
-<span style="color:var(--t1);font-weight:600">Follow every prompt.</span> Each pose captures unique data. Rushing means less to work with.<br><br>
-<span style="color:var(--t1);font-weight:600">Body scans:</span> Phone at chest height. Step back 4 feet. It's fine to watch yourself on screen.<br><br>
-<span style="color:var(--t1);font-weight:600">Scan daily.</span> Track your progress. Chase your daily best.
-</div></div></div>
+<div style="padding:0 20px 14px">
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:12px;padding:14px">
+<div style="font-family:var(--df);font-size:12px;color:var(--t2);letter-spacing:.04em;margin-bottom:6px">OPTIMAL SCAN CONDITIONS</div>
+<div style="font-size:11px;color:var(--t3);line-height:1.8">
+Natural light from a window significantly improves scan quality and scoring accuracy. Each pose captures distinct biometric data — following every prompt gives the model more to work with. For body scans, phone at chest height with full body visible. Scanning daily tracks real changes over time.
+</div>
+</div>
+</div>
 
 <!-- CTA -->
-<div style="text-align:center;padding:6px 20px 24px">
-<button class="btn bp" onclick="show('home')" style="max-width:280px;font-size:15px;padding:16px 20px">Get Your Score</button>
-<div style="font-family:var(--mf);font-size:8px;color:var(--t4);margin-top:8px;letter-spacing:.06em">Free · No account required · Under 60 seconds</div>
+<div style="text-align:center;padding:4px 20px 24px">
+<button class="btn bp" onclick="show('home')" style="max-width:280px;font-size:14px;padding:14px 20px">Get Your Score</button>
+<div style="font-family:var(--mf);font-size:8px;color:var(--t4);margin-top:6px;letter-spacing:.06em">Free · No account required · Under 60 seconds</div>
 </div>
 
 </div>
 </div>
-
 
 <!-- DASHBOARD -->
 <div id="dash" class="scr sb">
@@ -962,13 +1012,13 @@ showNextGate();
 </div>
 
 <!-- LIMIT -->
-<div id="limit" class="scr"><div style="font-size:52px">⏳</div><div style="font-family:var(--df);font-size:38px;color:var(--amber)">DAILY LIMIT</div><div style="font-size:13px;color:var(--t2);max-width:260px;line-height:1.65">You've used your free scans today. Come back tomorrow.</div><button class="btn bs" style="max-width:240px" onclick="show('home')">← Back</button></div>
+<div id="limit" class="scr"><div style="font-family:var(--df);font-size:48px;color:var(--amber);opacity:.3">—</div><div style="font-family:var(--df);font-size:38px;color:var(--amber)">DAILY LIMIT</div><div style="font-size:13px;color:var(--t2);max-width:260px;line-height:1.65">You've used your free scans today. Come back tomorrow.</div><button class="btn bs" style="max-width:240px" onclick="show('home')">← Back</button></div>
 
 <!-- ERROR -->
-<div id="errscr" class="scr"><div style="font-size:48px">⚠️</div><div style="font-family:var(--df);font-size:28px;color:var(--amber)">SCAN FAILED</div><div style="font-size:13px;color:var(--t2);max-width:280px;line-height:1.6" id="errmsg">Something went wrong.</div><div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:260px"><button class="btn bp" onclick="retrySend()">⟳ Retry Analysis</button><button class="btn bs" onclick="goHome()">← Start Over</button></div></div>
+<div id="errscr" class="scr"><div style="font-family:var(--df);font-size:48px;color:var(--amber);opacity:.3">!</div><div style="font-family:var(--df);font-size:28px;color:var(--amber)">SCAN FAILED</div><div style="font-size:13px;color:var(--t2);max-width:280px;line-height:1.6" id="errmsg">Something went wrong.</div><div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:260px"><button class="btn bp" onclick="retrySend()">Retry Analysis</button><button class="btn bs" onclick="goHome()">← Start Over</button></div></div>
 
 <!-- CAM DENIED -->
-<div id="camden" class="scr"><div style="font-size:56px">📷</div><div style="font-family:var(--df);font-size:32px">CAMERA NEEDED</div><div style="font-size:13px;color:var(--t2);max-width:280px;line-height:1.65">Allow camera access in your browser settings to scan.</div><button class="btn bp" style="max-width:260px" onclick="goHome()">← Back</button></div>
+<div id="camden" class="scr"><div style="font-family:var(--df);font-size:48px;color:var(--t2);opacity:.3">◉</div><div style="font-family:var(--df);font-size:32px">CAMERA NEEDED</div><div style="font-size:13px;color:var(--t2);max-width:280px;line-height:1.65">Allow camera access in your browser settings to scan.</div><button class="btn bp" style="max-width:260px" onclick="goHome()">← Back</button></div>
 
 <!-- SHARE MODAL -->
 <div class="modal" id="shmod"><div class="ms" style="align-items:center"><div class="mh"></div><div class="mt">YOUR SCORE CARD</div><canvas id="shcv" style="width:100%;max-width:340px;border-radius:16px;border:1px solid rgba(255,255,255,.1)"></canvas><div style="font-family:var(--mf);font-size:10px;color:var(--t3);text-align:center">Screenshot or tap Share</div><div class="mb"><button class="btn bs" style="font-size:13px" onclick="cMod('shmod')">Close</button><button class="btn bp" style="font-size:13px" onclick="natShare()">Share</button></div></div></div>
