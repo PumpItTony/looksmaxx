@@ -2225,14 +2225,8 @@ function go(mode) {
   if (actx && actx.state === 'suspended') {
     actx.resume().catch(() => {});
   }
-  // Warm speech synthesis from user gesture
-  try {
-    if ('speechSynthesis' in window) {
-      const warmup = new SpeechSynthesisUtterance('');
-      warmup.volume = 0;
-      speechSynthesis.speak(warmup);
-    }
-  } catch {}
+  // AudioContext is now our only voice playback path
+  // No speech synthesis needed
 
   ST = {
     ...ST,
@@ -2324,13 +2318,10 @@ async function initScan(mode) {
     ST.mlReady = mlOk;
     $('slf').style.width = '100%';
 
-    // Preload key voice files while UI transitions (both genders since we don't know yet)
-    const preloadLines = [
-      "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.",
-      "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.",
-      "Nice.", "Got that.", "Clean.", "Beautiful.", "Got it.", "Gorgeous.",
-    ];
-    preloadLines.forEach(line => { preloadVoice(line, 'male'); preloadVoice(line, 'female'); });
+    // Preload ALL voice files for this scan while ML models download
+    // This runs in parallel — by the time Maxx speaks, everything is cached
+    const preloadGenders = ['male', 'female']; // Both since we don't know yet
+    preloadGenders.forEach(g => preloadScanVoices(mode, g));
 
     await sleep(400);
 
@@ -2516,16 +2507,29 @@ async function startCapture() {
 
   startBgMusic(isFace ? 'face' : 'body');
 
-  // ═══ GENDER DETECTION — detect FIRST, then speak with correct voice ═══
+  // ═══ GENDER DETECTION — detect FIRST with visual feedback, then speak with correct voice ═══
   if (isFace && !detectedGender) {
-    $('svt').textContent = 'ANALYZING';
-    $('sst').textContent = 'Reading your face…';
-    // Detect silently for 2.5 seconds before speaking
+    $('svt').textContent = 'SCANNING';
+    $('sst').textContent = 'Mapping biometric landmarks…';
+    // Detect for 2.5 seconds — show live measurements appearing on screen
     const detectStart = Date.now();
     let genderVotes = [];
+    let measFlash = 0;
+    const measLabels = ['JAW ANGLE', 'SYMMETRY', 'FACE RATIO', 'CANTHAL TILT', 'FACIAL THIRDS'];
     while (Date.now() - detectStart < 2500 && !ST.aborted) {
       if (lastLandmarks) {
         genderVotes.push(estimateGender(lastLandmarks));
+        // Show live measurements scrolling — the user sees science happening
+        const m = computeFaceMeasurements(lastLandmarks);
+        if (m && measFlash < 20) {
+          measFlash++;
+          const cycle = measFlash % 5;
+          const keys = ['jawAngle', 'symmetryRatio', 'faceWidthToHeight', 'canthalTiltL', 'facialThirds'];
+          const vals = [m.jawAngle + '°', m.symmetryRatio, m.faceWidthToHeight, m.canthalTiltL, m.facialThirds];
+          if (measFlash % 3 === 0) {
+            $('sst').textContent = `${measLabels[cycle]}: ${vals[cycle]}`;
+          }
+        }
       }
       await sleep(100);
     }
@@ -2557,7 +2561,7 @@ async function startCapture() {
     $('sst').textContent = isFem ? 'Switching to female protocol' : 'Loading male protocol';
     try { navigator.vibrate([40, 20, 60]); } catch {}
     safeOsc(isFem ? 700 : 500, 'sine', 0.2, 0.12, 0.001);
-    await sleep(2000);
+    await sleep(1300);
     scanEl.style.boxShadow = '';
     $('svt').style.color = '';
     if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
@@ -2702,8 +2706,8 @@ async function startCapture() {
 
   $('svt').textContent = isFace ? 'FACE SCAN' : 'BODY SCAN';
   $('sst').textContent = 'Initializing…';
-  // Let the music breathe for 3 seconds before MAX starts talking
-  await sleep(3000);
+  // Brief beat for audio to establish, then Maxx talks immediately
+  await sleep(1000);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
   const confirms = isFem
@@ -2714,7 +2718,7 @@ async function startCapture() {
   // ═══ THEME OPENER — speak before first pose if theme is active ═══
   if (themeOpener) {
     speak(themeOpener);
-    await sleep(2500); // Let theme opener play before starting poses
+    await sleep(1500); // Let theme opener play before starting poses
     if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
   }
 
@@ -3060,13 +3064,22 @@ async function startCapture() {
       }
     }
 
-    // Visual confirmation between poses
+    // Visual confirmation between poses — fast, punchy, with data callout
     if (pi < poses.length - 1 && !pose.isSetup && !['detect','intro','signature','pose','spin','runway','final'].includes(pose.id) && (pose.minFrames || 0) > 0) {
       const ft2 = $('foval-txt');
       if (ft2 && isFace) ft2.textContent = '✓ CAPTURED';
+      // Show the most interesting measurement from this pose
+      const currentMeas = allMeas.getAveraged();
+      if (currentMeas && pose.meas && pose.meas[0]) {
+        const key = pose.meas[0];
+        const val = currentMeas[key];
+        if (val) {
+          const label = key.replace(/([A-Z])/g, ' $1').toUpperCase().trim();
+          $('sst').textContent = `${label}: ${val}`;
+        }
+      }
       $('svt').textContent = '✓';
       $('svt').style.color = 'var(--sig)';
-      $('sst').textContent = '';
       try { navigator.vibrate(30); } catch {}
       playWhoosh();
       playConfirmDing();
@@ -3074,16 +3087,15 @@ async function startCapture() {
       if (pose.beastMode) {
         speak(isFem ? "Yes. That was it. The AI is going to love that." : "Oh yeah. That's what I'm talking about.");
       } else if (pose.moneyShot) {
-        // Money shot already handled speech during the pose
         playWhoosh();
       } else {
         speak(confirms[confirmIdx % confirms.length]);
       }
       confirmIdx++;
-      await sleep(1200); // Allow confirmation speech to finish before next pose
+      await sleep(700); // Faster transition — keep energy high
       $('svt').style.color = '';
     } else if (pi < poses.length - 1 && !pose.isSetup) {
-      await sleep(400);
+      await sleep(300);
     }
   }
 
@@ -3108,7 +3120,7 @@ async function startCapture() {
   $('sst').classList.remove('big');
   document.querySelector('.spb')?.classList.remove('big');
   try { navigator.vibrate(80); } catch {}
-  await sleep(2000);
+  await sleep(1200);
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
   $('sconf').classList.remove('show');
@@ -3163,7 +3175,7 @@ async function startCapture() {
     stopOverlay();
     // Keep the same camera stream — just switch from face to body overlay
     ST.scanning = false;
-    await sleep(2000);
+    await sleep(1200);
     if (ST.aborted || ST.token !== myTk) return;
     $('svt').style.color = '';
     $('svt').textContent = 'FULL BODY IN FRAME';
@@ -3348,15 +3360,15 @@ async function sendToWorker() {
 
   // Progressive status messages
   const statusMsgs = ST.mode === 'combo'
-    ? ['Uploading your scan data…', 'Analyzing facial structure…', 'Evaluating physique…', 'Computing your LooksMaxx Score™…']
+    ? ['Processing biometric data…', 'Analyzing facial bone structure…', 'Evaluating physique geometry…', 'Computing LooksMaxx Score™…']
     : ST.mode === 'body'
-    ? ['Uploading your data…', 'Measuring proportions…', 'Evaluating physique…', 'Almost there…']
-    : ['Uploading your data…', 'Analyzing bone structure…', 'Rating each trait…', 'Almost there…'];
+    ? ['Processing landmark data…', 'Mapping skeletal proportions…', 'Evaluating physique metrics…', 'Computing final score…']
+    : ['Processing biometric data…', 'Analyzing cranial structure…', 'Scoring trait dimensions…', 'Computing final score…'];
   const detailMsgs = [
-    'Comparing symmetry ratios', 'Evaluating jawline definition', 'Measuring facial thirds',
-    'Analyzing muscle definition', 'Computing V-taper ratio', 'Grading skin quality',
-    'Assessing overall harmony', 'Calibrating final score', 'Cross-referencing data points',
-    'Running attractiveness algorithm', 'Applying trait weights',
+    'Comparing bilateral symmetry ratios', 'Measuring gonial angle deviation', 'Analyzing facial thirds balance',
+    'Evaluating shoulder-to-waist geometry', 'Computing canthal tilt vectors', 'Assessing zygomatic projection',
+    'Mapping cheekbone-to-jaw ratios', 'Calibrating against population data', 'Cross-referencing biometric signals',
+    'Running attractiveness algorithm', 'Applying trait weight matrix',
   ];
   let msgIdx = 0, detIdx = 0;
   const statusInterval = setInterval(() => {
@@ -3987,14 +3999,15 @@ function showResults(data) {
     rde.appendChild(qTag);
   }
 
-  // Score components: BSS (math) + AI (aesthetic) with weight info
+  // Score components: AI (primary) + BSS adjustment (structural nudge)
   if (data.bssScore != null && data.aiScore != null) {
-    const bssW = data.bssWeight || 40;
-    const aiW = 100 - bssW;
-    const confText = data.measConfidence ? ` · ${data.measConfidence}% measurement confidence` : '';
+    const adj = data.bssAdjust || 0;
+    const adjSign = adj >= 0 ? '+' : '';
+    const adjColor = adj >= 0 ? 'var(--sig)' : 'var(--amber)';
+    const confText = data.measConfidence ? ` · ${data.measConfidence}% confidence` : '';
     const compTag = document.createElement('div');
     compTag.style.cssText = 'font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:6px;letter-spacing:.03em;text-align:center;line-height:1.7';
-    compTag.innerHTML = `BSS <span style="color:var(--sig)">${data.bssScore.toFixed(2)}</span> (${bssW}%) + AI <span style="color:var(--blue)">${data.aiScore.toFixed(2)}</span> (${aiW}%)${confText}`;
+    compTag.innerHTML = `AI Analysis <span style="color:var(--blue)">${data.aiScore.toFixed(2)}</span> · BSS Structural Adjust <span style="color:${adjColor}">${adjSign}${adj.toFixed(2)}</span>${confText}`;
     rde.appendChild(compTag);
   }
 
@@ -4438,7 +4451,7 @@ function abort() {
   stopOverlay();
   stopBgMusic();
   if (ST.stream) { ST.stream.getTracks().forEach(t => t.stop()); ST.stream = null; }
-  try { window.speechSynthesis?.cancel(); } catch {}
+  try { if (currentVoiceSource) { currentVoiceSource.stop(); currentVoiceSource = null; } } catch {}
   ST.faceCaps = [];
   ST.bodyCaps = [];
   ST.faceMeas = [];
@@ -4940,103 +4953,195 @@ function playRevealImpact() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SPEECH SYSTEM — Simple, reliable, one voice
-// Pre-recorded MP3s only. No speech synthesis. No TTS API.
-// Try HTML5 Audio → fallback to AudioContext → silent on failure.
+// SPEECH SYSTEM — Rebuilt for iOS reliability
+// AudioContext-only. No HTML5 Audio (breaks on iOS mid-scan).
+// All voice files preloaded into AudioContext buffers during scan init.
+// speak() plays from buffer cache = instant, reliable, iOS-safe.
 // Silence is always better than a mismatched voice.
 // ═══════════════════════════════════════════════════════════════
 const AUDIO_BASE = './audio/';
-const audioElCache = {};    // HTML5 Audio element cache
-const audioBufCache = {};   // AudioContext buffer cache
+const audioBufCache = {};   // AudioContext decoded buffer cache
+let currentVoiceSource = null; // Track current playing voice for stop-previous
 
 function voiceSlug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 }
 
 function speak(text) {
-  if (!text) return;
+  if (!text || !actx) return;
+  if (actx.state === 'suspended') actx.resume().catch(() => {});
+
   const slug = voiceSlug(text);
   const g = (ST.gender === 'female' || ST._debugGender === 'female') ? 'f' : 'm';
   const file = `${g}-${slug}.mp3`;
-  const url = `${AUDIO_BASE}${file}`;
 
-  // Method 1: Cached HTML5 Audio (instant replay)
-  if (audioElCache[file]) {
-    try {
-      audioElCache[file].currentTime = 0;
-      audioElCache[file].play().catch(() => playViaContext(url, file));
-      return;
-    } catch {}
-  }
-
-  // Method 2: New HTML5 Audio (simple, works when gesture context is recent)
-  try {
-    const audio = new Audio(url);
-    audio.volume = 1;
-    audio.play().then(() => {
-      audioElCache[file] = audio; // Cache for instant replay
-    }).catch(() => {
-      // Method 3: AudioContext (iOS fallback when Audio.play() is blocked)
-      playViaContext(url, file);
-    });
-  } catch {
-    playViaContext(url, file);
-  }
-}
-
-function playViaContext(url, cacheKey) {
-  if (!actx) return;
-  if (actx.state === 'suspended') actx.resume().catch(() => {});
-
-  // Cached buffer — instant
-  if (audioBufCache[cacheKey]) {
-    try {
-      const src = actx.createBufferSource();
-      src.buffer = audioBufCache[cacheKey];
-      src.connect(actx.destination);
-      src.start();
-    } catch {}
+  // Primary path: play from buffer cache (instant, reliable)
+  if (audioBufCache[file]) {
+    playVoiceBuffer(audioBufCache[file]);
     return;
   }
 
-  // Fetch and decode
+  // Cache miss: fetch → decode → play (has latency but still works)
+  const url = `${AUDIO_BASE}${file}`;
   fetch(url).then(r => {
     if (!r.ok) throw new Error('404');
     return r.arrayBuffer();
   }).then(buf => {
-    return actx.decodeAudioData(buf);
+    // decodeAudioData returns a promise in modern browsers
+    return new Promise((resolve, reject) => {
+      actx.decodeAudioData(buf, resolve, reject);
+    });
   }).then(decoded => {
-    audioBufCache[cacheKey] = decoded;
-    const src = actx.createBufferSource();
-    src.buffer = decoded;
-    src.connect(actx.destination);
-    src.start();
+    audioBufCache[file] = decoded;
+    playVoiceBuffer(decoded);
   }).catch(() => {}); // Silent failure — no fallback voice
 }
 
-// Preload key files during model download so first speaks are instant
-function preloadVoice(text, gender) {
-  const slug = voiceSlug(text);
+function playVoiceBuffer(buffer) {
+  if (!actx || !buffer) return;
+  if (actx.state === 'suspended') actx.resume().catch(() => {});
+  try {
+    // Stop any currently playing voice line (prevents overlap)
+    if (currentVoiceSource) {
+      try { currentVoiceSource.stop(); } catch {}
+      currentVoiceSource = null;
+    }
+    const src = actx.createBufferSource();
+    src.buffer = buffer;
+    // Route through a dedicated voice gain node at full volume
+    const voiceGain = actx.createGain();
+    voiceGain.gain.value = 1.0;
+    src.connect(voiceGain);
+    voiceGain.connect(actx.destination);
+    src.start();
+    currentVoiceSource = src;
+    src.onended = () => {
+      if (currentVoiceSource === src) currentVoiceSource = null;
+    };
+  } catch {}
+}
+
+// Preload all voice files a scan will need — called during model download
+// so by the time Maxx speaks, every file is in the buffer cache
+async function preloadScanVoices(mode, gender) {
+  if (!actx) return;
   const g = gender === 'female' ? 'f' : 'm';
-  const file = `${g}-${slug}.mp3`;
+  const files = new Set();
+
+  // Collect all voice lines from pose definitions
+  const allVoiceTexts = [];
+
+  // Face poses
+  if (mode === 'face' || mode === 'combo') {
+    const facePoses = gender === 'female' ? [
+      "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.",
+      "Now turn your head to the left. Slowly. I need to see that jawline from the side.",
+      "Other way. Turn right. Give me the other angle.",
+      "Look up a little. Tilt your chin up. I'm measuring your facial thirds.",
+      "Give me a smile. A real one. Let me see those teeth.",
+      "Three. Two. One.",
+      "Done. Sending it all to the AI.",
+    ] : [
+      "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.",
+      "Turn your head to the left. Give me the side profile. I need that jaw angle.",
+      "Now the other way. Turn right.",
+      "Chin up. I'm checking your facial thirds balance. Upper, middle, lower.",
+      "Now smile. Show me the teeth.",
+      "Three. Two. One.",
+      "Got it. Sending everything to the AI.",
+    ];
+    facePoses.forEach(t => allVoiceTexts.push(t));
+  }
+
+  // Body poses
+  if (mode === 'body' || mode === 'combo') {
+    const bodyPoses = gender === 'female' ? [
+      "I see you. Stand tall. Shoulders back.",
+      "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.",
+      "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.",
+      "Do a slow spin for me. All the way around. Take your time.",
+      "Face me. Hit me with your best pose. Whatever feels right. Three seconds.",
+      "Now walk toward the camera. Like it's a runway. Give me your best strut.",
+      "Love that energy. Sending everything to the AI.",
+    ] : [
+      "There you are. Stand up straight. Arms relaxed at your sides.",
+      "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.",
+      "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.",
+      "Now do a slow spin. All the way around. Take your time. I'm getting every angle.",
+      "Face me. Hit me with your best pose. Whatever you got. Three seconds.",
+      "Now get close. Flex that bicep. Hard as you can. Hold it.",
+      "That's it. Sending everything to the AI now.",
+    ];
+    bodyPoses.forEach(t => allVoiceTexts.push(t));
+  }
+
+  // Confirmation lines
+  const confirms = gender === 'female'
+    ? ['Beautiful.', 'Got it.', 'That was perfect.', 'Love it.', 'So good.', 'Gorgeous.']
+    : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
+  confirms.forEach(t => allVoiceTexts.push(t));
+
+  // Transition lines
+  const extras = gender === 'female'
+    ? ["Love that energy. Got it.", "Yes. That was it. The AI is going to love that.", "Done. Sending it all to the AI."]
+    : ["That's the one. Locked in.", "Oh yeah. That's what I'm talking about.", "Got it. Sending everything to the AI."];
+  extras.forEach(t => allVoiceTexts.push(t));
+
+  // Gender detection
+  if (mode === 'face' || mode === 'combo') {
+    allVoiceTexts.push("Heads up. Your lighting is really low right now. If you can move closer to a window or turn on a light, your score will be way more accurate.");
+    allVoiceTexts.push("Face is locked in. Now let me see that body.");
+  }
+
+  // Body setup intros (both genders)
+  allVoiceTexts.push("OK. Prop your phone up against something at about chest height. I need to see your full body from head to toe. I'll give you five seconds.");
+  allVoiceTexts.push("Set your phone down on something about chest height. I need to see you head to toe. Five seconds.");
+
+  // Countdown
+  ['5', '4', '3', '2', '1'].forEach(t => allVoiceTexts.push(t));
+
+  // Build file list
+  allVoiceTexts.forEach(text => {
+    files.add(`${g}-${voiceSlug(text)}.mp3`);
+  });
+
+  // Preload all in parallel (fire-and-forget, don't block scan)
+  const preloadOne = (file) => {
+    if (audioBufCache[file]) return Promise.resolve();
+    const url = `${AUDIO_BASE}${file}`;
+    return fetch(url)
+      .then(r => r.ok ? r.arrayBuffer() : null)
+      .then(buf => {
+        if (!buf || !actx) return null;
+        return new Promise((resolve, reject) => {
+          actx.decodeAudioData(buf, resolve, reject);
+        });
+      })
+      .then(decoded => { if (decoded) audioBufCache[file] = decoded; })
+      .catch(() => {}); // Silent — missing files are OK
+  };
+
+  // Batch preload (6 at a time to avoid overwhelming the network)
+  const fileList = [...files];
+  for (let i = 0; i < fileList.length; i += 6) {
+    const batch = fileList.slice(i, i + 6);
+    await Promise.allSettled(batch.map(f => preloadOne(f)));
+  }
+}
+
+// Legacy preloadVoice — redirects to new system
+function preloadVoice(text, gender) {
+  if (!actx || !text) return;
+  const g = gender === 'female' ? 'f' : 'm';
+  const file = `${g}-${voiceSlug(text)}.mp3`;
+  if (audioBufCache[file]) return;
   const url = `${AUDIO_BASE}${file}`;
-  // Preload via fetch into AudioContext buffer cache
-  if (actx && !audioBufCache[file]) {
-    fetch(url).then(r => r.ok ? r.arrayBuffer() : null).then(buf => {
-      if (buf && actx) return actx.decodeAudioData(buf);
-    }).then(decoded => {
-      if (decoded) audioBufCache[file] = decoded;
-    }).catch(() => {});
-  }
-  // Also preload as HTML5 Audio
-  if (!audioElCache[file]) {
-    try {
-      const a = new Audio(url);
-      a.preload = 'auto';
-      a.load();
-      audioElCache[file] = a;
-    } catch {}
-  }
+  fetch(url).then(r => r.ok ? r.arrayBuffer() : null).then(buf => {
+    if (!buf || !actx) return;
+    return new Promise((resolve, reject) => {
+      actx.decodeAudioData(buf, resolve, reject);
+    });
+  }).then(decoded => { if (decoded) audioBufCache[file] = decoded; }).catch(() => {});
 }
 
 // ═══════════════════════════════════════════════════════════════
