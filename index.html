@@ -259,7 +259,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 </head>
 <body>
 
-<!-- ACCESS GATE — Remove this entire block when ready to go public -->
+<!-- ═══ ACCESS GATE — Remove when ready to go public ═══ -->
 <div id="accessGate" style="position:fixed;inset:0;background:var(--void);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px">
 <div style="font-family:var(--df);font-size:clamp(48px,14vw,72px);letter-spacing:.02em;line-height:.9;text-align:center"><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">LOOKS</span><br><span style="background:linear-gradient(175deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;-webkit-text-fill-color:transparent">MAXX</span></div>
 <div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.14em">EARLY ACCESS · V4</div>
@@ -269,24 +269,238 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <button onclick="checkAccess()" style="width:100%;max-width:280px;padding:14px;border-radius:12px;background:var(--blue);color:#fff;font-family:var(--bf);font-size:14px;font-weight:600;border:none;cursor:pointer">UNLOCK</button>
 <div id="accessErr" style="font-family:var(--mf);font-size:10px;color:var(--red);opacity:0;transition:opacity .3s">Invalid code</div>
 </div>
+
+<!-- ═══ AGE GATE ═══ -->
+<div id="ageGate" style="position:fixed;inset:0;background:var(--void);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px">
+<div style="font-family:var(--df);font-size:42px;letter-spacing:.04em;text-align:center">LOOKSMAXX</div>
+<div style="font-family:var(--mf);font-size:10px;color:var(--t3);letter-spacing:.1em;text-align:center">AGE VERIFICATION</div>
+<div style="max-width:320px;text-align:center;font-size:14px;color:var(--t2);line-height:1.7;margin-top:8px">
+This app uses your camera to scan facial and body features using AI. You must be <strong style="color:var(--t1)">18 years or older</strong> to use LOOKSMAXX.
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;margin-top:8px">
+<button onclick="confirmAge(true)" style="width:100%;padding:16px;border-radius:12px;background:var(--blue);color:#fff;font-family:var(--bf);font-size:15px;font-weight:600;border:none;cursor:pointer">I am 18 or older</button>
+<button onclick="confirmAge(false)" style="width:100%;padding:14px;border-radius:12px;background:var(--surf);color:var(--t3);font-family:var(--bf);font-size:13px;font-weight:500;border:1px solid var(--brm);cursor:pointer">I am under 18</button>
+</div>
+<div id="ageBlock" style="display:none;text-align:center;max-width:280px">
+<div style="font-size:13px;color:var(--red);margin-top:12px;line-height:1.6">Sorry, LOOKSMAXX is only available for users 18 and older.</div>
+</div>
+</div>
+
+<!-- ═══ CONSENT FLOW ═══ -->
+<div id="consentFlow" style="position:fixed;inset:0;background:var(--void);z-index:9998;display:none;flex-direction:column;align-items:center;padding:24px;overflow-y:auto;-webkit-overflow-scrolling:touch">
+<div style="max-width:400px;width:100%;padding-top:calc(20px + var(--sat))">
+<div style="font-family:var(--df);font-size:36px;letter-spacing:.04em;text-align:center;margin-bottom:4px">LOOKSMAXX</div>
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.1em;text-align:center;margin-bottom:24px">BEFORE YOU SCAN</div>
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;margin-bottom:12px">
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.06em;color:var(--blue);margin-bottom:10px">WHAT THIS APP DOES</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+LOOKSMAXX uses your phone's camera to scan your face and body. It analyzes your features using <strong style="color:var(--t1)">478 facial landmarks</strong> and <strong style="color:var(--t1)">33 body landmarks</strong> detected on your device. Photos are sent to our AI for scoring and are <strong style="color:var(--sig)">not stored</strong> after analysis.
+</div>
+</div>
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;margin-bottom:12px">
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.06em;color:var(--amber);margin-bottom:10px">BIOMETRIC DATA NOTICE</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+This app processes <strong style="color:var(--t1)">facial geometry</strong> and <strong style="color:var(--t1)">body proportions</strong> for entertainment scoring. Facial/body landmark analysis is performed <strong style="color:var(--t1)">on your device</strong> using MediaPipe. Photos are transmitted to our AI provider (Anthropic) for analysis and are not retained on our servers after scoring. No biometric templates are created, stored, or sold.
+</div>
+</div>
+
+<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:18px;margin-bottom:12px">
+<div style="font-family:var(--df);font-size:16px;letter-spacing:.06em;color:var(--green);margin-bottom:10px">ENTERTAINMENT ONLY</div>
+<div style="font-size:12px;color:var(--t2);line-height:1.8">
+LOOKSMAXX is an <strong style="color:var(--t1)">entertainment product</strong>. Scores are generated by AI for fun and should not be interpreted as medical, psychological, or professional assessments. You voluntarily choose to receive these results.
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+<a onclick="document.getElementById('consentFlow').style.display='none';document.getElementById('tosPage').style.display='flex'" style="font-family:var(--mf);font-size:11px;color:var(--blue);cursor:pointer;text-align:center;padding:8px">📄 Read Full Terms of Service</a>
+<a onclick="document.getElementById('consentFlow').style.display='none';document.getElementById('privacyPage').style.display='flex'" style="font-family:var(--mf);font-size:11px;color:var(--blue);cursor:pointer;text-align:center;padding:8px">🔒 Read Full Privacy Policy</a>
+</div>
+
+<div style="font-size:11px;color:var(--t3);text-align:center;line-height:1.7;margin-bottom:16px">
+By tapping "I Agree" you confirm you have read and agree to our Terms of Service and Privacy Policy, and you consent to the processing of facial and body data as described above.
+</div>
+
+<button onclick="grantConsent()" style="width:100%;padding:16px;border-radius:12px;background:var(--green);color:#000;font-family:var(--bf);font-size:16px;font-weight:700;border:none;cursor:pointer;margin-bottom:12px">I AGREE — LET'S GO</button>
+<button onclick="denyConsent()" style="width:100%;padding:12px;border-radius:12px;background:var(--surf);color:var(--t3);font-family:var(--bf);font-size:12px;border:1px solid var(--brm);cursor:pointer;margin-bottom:calc(20px + var(--sab))">I do not agree</button>
+</div>
+</div>
+
+<!-- ═══ TOS PAGE ═══ -->
+<div id="tosPage" style="position:fixed;inset:0;background:var(--void);z-index:9997;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 18px;padding-top:calc(14px + var(--sat));border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--void)">
+<div onclick="closeLegalPage('tosPage')" style="width:36px;height:36px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--t2)">←</div>
+<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em">TERMS OF SERVICE</div>
+</div>
+<div style="padding:20px;max-width:600px;margin:0 auto;font-size:12px;color:var(--t2);line-height:1.9;padding-bottom:calc(40px + var(--sab))">
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.08em;margin-bottom:16px">LAST UPDATED: MARCH 7, 2026 · FRESH FITNESS CO LLC</div>
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">1. ACCEPTANCE</div>
+By accessing or using LOOKSMAXX ("the Service"), operated by Fresh Fitness Co LLC ("we," "us," "our"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">2. ELIGIBILITY</div>
+You must be 18 years of age or older to use the Service. By using LOOKSMAXX, you represent and warrant that you are 18 or older and have the legal capacity to enter into these Terms.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">3. NATURE OF THE SERVICE</div>
+LOOKSMAXX is an entertainment product that uses artificial intelligence to analyze photographs and generate attractiveness scores. The Service is provided for entertainment and informational purposes only. Scores, ratings, tier classifications, trait analyses, and improvement suggestions should not be interpreted as medical, psychological, scientific, or professional assessments of physical appearance, health, attractiveness, or self-worth. AI-generated results may vary between scans due to lighting, positioning, image quality, and the inherent variability of AI analysis.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">4. BIOMETRIC DATA CONSENT</div>
+The Service processes facial geometry (via 478 facial landmarks) and body proportions (via 33 pose landmarks) to generate scores. By using the Service and tapping "I Agree" on the consent screen, you provide your informed written consent to: (a) the capture and processing of facial and body photographs; (b) the on-device analysis of facial and body geometry using MediaPipe; (c) the transmission of photographs and derived measurements to our AI provider (Anthropic) for analysis. Facial landmark detection occurs entirely on your device. Photographs are transmitted to our AI provider for scoring and are not stored on our servers after the analysis is complete. No biometric templates are created, stored, sold, leased, or traded.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">5. ASSUMPTION OF RISK</div>
+By using the Service, you acknowledge that: (a) the AI may produce scores you disagree with or find unflattering; (b) you voluntarily choose to receive these results; (c) scores are generated by AI algorithms and may not reflect the opinions of any human evaluator; (d) entertainment-based attractiveness scoring is inherently subjective.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">6. LEADERBOARD</div>
+If you choose to submit your score to the public leaderboard, you voluntarily provide your display name, score, and optional photo. This information is visible to all users. You may request deletion of your leaderboard entry at any time. You agree not to post content that is obscene, harassing, defamatory, or violates any law.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">7. LIMITATION OF LIABILITY</div>
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, FRESH FITNESS CO LLC'S TOTAL LIABILITY FOR ANY CLAIM ARISING FROM OR RELATED TO THE SERVICE IS LIMITED TO THE AMOUNT YOU PAID FOR THE SERVICE IN THE 12 MONTHS PRECEDING THE CLAIM. WE ARE NOT LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO EMOTIONAL DISTRESS, LOSS OF DATA, OR LOSS OF PROFITS, ARISING FROM YOUR USE OF THE SERVICE.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">8. DISPUTE RESOLUTION & ARBITRATION</div>
+Any dispute, controversy, or claim arising out of or relating to the Service or these Terms shall be resolved through binding individual arbitration administered by the American Arbitration Association ("AAA") in Arlington, Virginia, under its Consumer Arbitration Rules. YOU AGREE TO WAIVE ANY RIGHT TO PARTICIPATE IN A CLASS ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. You may opt out of this arbitration provision by sending written notice to pumpittony@gmail.com within 30 days of first using the Service.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">9. INDEMNIFICATION</div>
+You agree to indemnify, defend, and hold harmless Fresh Fitness Co LLC, its officers, and agents from any claims, damages, losses, or expenses (including reasonable attorneys' fees) arising from: (a) your use of the Service; (b) your violation of these Terms; (c) any content you submit to the leaderboard.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">10. MODIFICATIONS</div>
+We may update these Terms at any time. Continued use of the Service after changes are posted constitutes acceptance of the revised Terms.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">11. GOVERNING LAW</div>
+These Terms are governed by the laws of the Commonwealth of Virginia, without regard to conflict of law principles.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">12. CONTACT</div>
+Fresh Fitness Co LLC · Arlington, VA · pumpittony@gmail.com
+</div>
+</div>
+
+<!-- ═══ PRIVACY POLICY PAGE ═══ -->
+<div id="privacyPage" style="position:fixed;inset:0;background:var(--void);z-index:9997;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 18px;padding-top:calc(14px + var(--sat));border-bottom:1px solid var(--brd);flex-shrink:0;background:var(--void)">
+<div onclick="closeLegalPage('privacyPage')" style="width:36px;height:36px;border-radius:50%;background:var(--surf);border:1px solid var(--brm);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--t2)">←</div>
+<div style="font-family:var(--df);font-size:22px;letter-spacing:.05em">PRIVACY POLICY</div>
+</div>
+<div style="padding:20px;max-width:600px;margin:0 auto;font-size:12px;color:var(--t2);line-height:1.9;padding-bottom:calc(40px + var(--sab))">
+<div style="font-family:var(--mf);font-size:9px;color:var(--t3);letter-spacing:.08em;margin-bottom:16px">LAST UPDATED: MARCH 7, 2026 · FRESH FITNESS CO LLC</div>
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">1. WHO WE ARE</div>
+LOOKSMAXX is operated by Fresh Fitness Co LLC, based in Arlington, Virginia. This Privacy Policy explains how we collect, use, and protect your information when you use the LOOKSMAXX application.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">2. INFORMATION WE COLLECT</div>
+<strong style="color:var(--t1)">Information we process but do NOT store:</strong> Facial photographs (2-4 images per scan) are captured during scanning and transmitted to our AI provider for analysis. Photos are not stored on our servers after scoring is complete. Facial landmark coordinates (478 points) are analyzed entirely on your device using Google MediaPipe and are never transmitted to our servers. Body pose landmarks (33 points) are analyzed on your device. Derived measurements (e.g., jaw angle, symmetry ratio, shoulder-to-hip ratio) are sent to our AI provider for scoring context and are not stored after the API call completes.
+
+<strong style="color:var(--t1)">Information we store:</strong> A random device identifier (UUID) generated by your browser, stored locally and used for rate limiting. Leaderboard entries (if voluntarily submitted): display name, score, tier, scan mode, gender, optional photo, and timestamp. This data is stored in Cloudflare KV.
+
+<strong style="color:var(--t1)">Information we do NOT collect:</strong> Real names, email addresses, phone numbers, precise location data, advertising identifiers, cookies, or tracking pixels.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">3. BIOMETRIC DATA</div>
+LOOKSMAXX processes biometric data as defined under certain state laws. Specifically, the Service analyzes facial geometry and body proportions for entertainment scoring. This processing occurs as follows: facial and body landmark detection is performed on your device (client-side) using Google MediaPipe. Raw landmark coordinates never leave your device. Photographs are transmitted to Anthropic's Claude API for AI analysis. Anthropic may retain API inputs for up to 30 days for abuse monitoring per their data retention policy. We do not create, store, sell, lease, trade, or profit from biometric identifiers or biometric information. Your informed written consent is obtained through the consent screen before any scanning occurs.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">4. HOW WE USE YOUR INFORMATION</div>
+To generate AI-powered attractiveness scores and trait analyses. To enforce rate limits and prevent abuse. To display leaderboard rankings (voluntary). To improve the Service.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">5. THIRD PARTY SERVICES</div>
+<strong style="color:var(--t1)">Anthropic</strong> — AI analysis provider. Photographs and measurement data are transmitted to Anthropic's API for scoring. Subject to Anthropic's privacy policy and data retention terms.
+<strong style="color:var(--t1)">Cloudflare</strong> — Hosting, edge computing, and data storage (leaderboard). Subject to Cloudflare's privacy policy.
+<strong style="color:var(--t1)">Google MediaPipe</strong> — On-device facial/body landmark detection. Processing occurs entirely in your browser; no data is sent to Google.
+<strong style="color:var(--t1)">GitHub Pages</strong> — Static site hosting for the application frontend.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">6. DATA RETENTION</div>
+Photographs: Not retained after AI analysis completes. Measurements: Not retained after AI analysis completes. Leaderboard entries: Retained until deleted by the user or upon request. Device identifiers: Stored locally in your browser; cleared when you clear browser data. Rate limit data: Automatically expires within 24 hours.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">7. YOUR RIGHTS</div>
+You may request deletion of your leaderboard entry at any time. You may clear all local data by clearing your browser's site data for this domain. For data access, correction, or deletion requests, contact us at pumpittony@gmail.com. California residents: You have the right to know what personal information we collect, request deletion, and opt out of the sale of personal information (we do not sell personal information). Illinois residents: Your biometric data consent rights are addressed in Section 3 above.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">8. CHILDREN'S PRIVACY</div>
+LOOKSMAXX is not intended for use by anyone under 18 years of age. We do not knowingly collect information from children under 18. If we learn that we have collected information from a child under 18, we will take steps to delete that information promptly.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">9. SECURITY</div>
+We use industry-standard security measures including HTTPS encryption for all data transmission, Cloudflare's edge security, and limited data retention. However, no method of electronic transmission or storage is 100% secure.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">10. CHANGES TO THIS POLICY</div>
+We may update this Privacy Policy from time to time. Continued use of the Service after changes are posted constitutes acceptance.
+
+<div style="font-family:var(--df);font-size:16px;color:var(--t1);margin:18px 0 8px">11. CONTACT</div>
+Fresh Fitness Co LLC · Arlington, VA · pumpittony@gmail.com
+</div>
+</div>
+
 <script>
-// ACCESS GATE — Change this code to whatever you want
+// ═══ LEGAL FLOW: Access Gate → Age Gate → Consent → Home ═══
 const ACCESS_CODE = 'FRESHFIT26';
+
+// ?reset in URL clears all localStorage for testing
+if (window.location.search.includes('reset')) {
+  localStorage.clear();
+  window.history.replaceState({}, '', window.location.pathname);
+  console.log('LOOKSMAXX: localStorage cleared');
+}
+
+// Access Gate
 function checkAccess() {
   const input = document.getElementById('accessCode').value.trim().toUpperCase();
   if (input === ACCESS_CODE) {
     localStorage.setItem('lm_access', 'granted');
     document.getElementById('accessGate').style.display = 'none';
+    showNextGate();
   } else {
     document.getElementById('accessErr').style.opacity = '1';
     setTimeout(() => document.getElementById('accessErr').style.opacity = '0', 2000);
   }
 }
 document.getElementById('accessCode').addEventListener('keydown', e => { if (e.key === 'Enter') checkAccess(); });
-// Auto-unlock if previously granted
-if (localStorage.getItem('lm_access') === 'granted') {
-  document.getElementById('accessGate').style.display = 'none';
+
+// Age Gate
+function confirmAge(isAdult) {
+  if (isAdult) {
+    localStorage.setItem('lm_age', 'verified');
+    document.getElementById('ageGate').style.display = 'none';
+    showNextGate();
+  } else {
+    document.getElementById('ageBlock').style.display = 'block';
+  }
 }
+
+// Consent
+function grantConsent() {
+  localStorage.setItem('lm_consent', Date.now().toString());
+  document.getElementById('consentFlow').style.display = 'none';
+}
+function denyConsent() {
+  document.getElementById('consentFlow').innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:24px"><div style="font-family:var(--df);font-size:28px">LOOKSMAXX</div><div style="font-size:13px;color:var(--t2);text-align:center;max-width:280px;line-height:1.7">You must agree to the Terms of Service and Privacy Policy to use LOOKSMAXX.</div><button onclick="location.reload()" style="padding:14px 28px;border-radius:12px;background:var(--blue);color:#fff;font-family:var(--bf);font-size:14px;font-weight:600;border:none;cursor:pointer">Try Again</button></div>';
+}
+
+// Close TOS/Privacy — return to consent flow if not yet consented, otherwise just close
+function closeLegalPage(id) {
+  document.getElementById(id).style.display = 'none';
+  if (!localStorage.getItem('lm_consent')) {
+    document.getElementById('consentFlow').style.display = 'flex';
+  }
+}
+
+// Flow controller
+function showNextGate() {
+  if (localStorage.getItem('lm_access') !== 'granted') {
+    document.getElementById('accessGate').style.display = 'flex';
+    return;
+  }
+  document.getElementById('accessGate').style.display = 'none';
+
+  if (!localStorage.getItem('lm_age')) {
+    document.getElementById('ageGate').style.display = 'flex';
+    return;
+  }
+  document.getElementById('ageGate').style.display = 'none';
+
+  if (!localStorage.getItem('lm_consent')) {
+    document.getElementById('consentFlow').style.display = 'flex';
+    return;
+  }
+  document.getElementById('consentFlow').style.display = 'none';
+}
+
+// Run on load
+showNextGate();
 </script>
 
 <!-- HOME -->
@@ -298,29 +512,32 @@ if (localStorage.getItem('lm_access') === 'granted') {
 <div class="htit"><span>LOOKS</span><span>MAXX</span></div>
 <div class="hstat" id="hstat"></div>
 </div>
-<div class="pills">
-<div class="pill"><div class="pilld" style="background:var(--sig)"></div>Better lighting = better score</div>
-<div class="pill"><div class="pilld" style="background:var(--blue)"></div>100% free</div>
-<div class="pill"><div class="pilld" style="background:var(--green)"></div>Guided by Maxx AI</div>
+<div class="pills" id="dailyDash">
+<!-- Daily dashboard renders here via updHome() -->
 </div>
 <div style="height:14px"></div>
-<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">The full experience. Face + body. 19 traits scored. Maxx walks you through everything.</div></div><div class="cmba">→</div></div></div>
+<div class="cmb" onclick="go('combo')"><div class="cmbi"><div class="cmbl"><div class="cmbt">FULL LOOKSMAXX<br>SCAN</div><div class="cmbs">Face + body. 19 traits scored. The complete experience.</div></div><div class="cmba">→</div></div></div>
 <div style="height:8px"></div>
 <div class="cds">
-<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">Maxx scans your face and scores you on 10 traits. Jawline, eyes, symmetry, skin, the works.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;AI Guided</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
-<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">Maxx scans your physique and scores you on 9 traits. Build, posture, proportions, definition.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;AI Guided</span><span class="tag tgd">~45 sec</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
+<div class="cd" onclick="go('face')"><div class="cdi"><div class="cdl"><div class="cdlbl">Face Assessment</div><div class="cdt" style="color:var(--blue)">PSL SCAN</div><div class="cdd">10 traits scored. Jawline, eyes, symmetry, skin, the works.</div><div class="cdtg"><span class="tag tgb"><span class="dp"></span>&nbsp;AI Guided</span></div></div><div class="cda" style="background:var(--blue);color:#fff">→</div></div></div>
+<div class="cd" onclick="go('body')"><div class="cdi"><div class="cdl"><div class="cdlbl">Body Assessment</div><div class="cdt" style="color:var(--green)">FRAMEMOG</div><div class="cdd">9 traits scored. Build, posture, proportions, definition.</div><div class="cdtg"><span class="tag tgg"><span class="dp"></span>&nbsp;AI Guided</span></div></div><div class="cda" style="background:#2d7a3a;color:var(--green);border:1px solid rgba(93,219,110,.3)">→</div></div></div>
 </div>
 <div style="height:8px"></div>
 <div class="hnv">
 <div class="hn" onclick="openLB()"><div class="hni">🏆</div><div class="hnl">Rankings</div></div>
+<div class="hn" onclick="show('achieve')"><div class="hni">⭐</div><div class="hnl">Badges</div></div>
 <div class="hn" onclick="show('rules')"><div class="hni">📋</div><div class="hnl">Tiers</div></div>
 <div class="hn" onclick="show('info')"><div class="hni">🗺️</div><div class="hnl">How It Works</div></div>
 </div>
 <div style="height:8px"></div>
-<div class="usg" id="usg" onclick="debugTap()">Free scans remaining today</div>
+<div class="usg" id="usg" onclick="debugTap()">Unlimited scans — chase your daily best</div>
 <div style="padding:8px 0;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px">
 <svg width="22" height="27" viewBox="0 0 64 78" style="opacity:.4"><line x1="32" y1="8" x2="32" y2="0" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="0" r="2.5" fill="currentColor"/><rect x="8" y="8" width="48" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="22" cy="26" r="5" fill="currentColor"/><circle cx="42" cy="26" r="5" fill="currentColor"/><rect x="24" y="35" width="16" height="3" rx="1.5" fill="currentColor" opacity=".5"/><rect x="18" y="47" width="28" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
 <div style="font-family:var(--mf);font-size:8px;color:var(--t4);letter-spacing:.12em;text-transform:uppercase;padding:8px 18px;display:inline-block;border-radius:100px;border:1px solid var(--brd)">Powered by Maxx AI · Fresh Fitness Co</div>
+</div>
+<div style="display:flex;gap:16px;justify-content:center;padding-bottom:8px">
+<a onclick="document.getElementById('tosPage').style.display='flex'" style="font-family:var(--mf);font-size:8px;color:var(--t4);cursor:pointer;letter-spacing:.06em">Terms of Service</a>
+<a onclick="document.getElementById('privacyPage').style.display='flex'" style="font-family:var(--mf);font-size:8px;color:var(--t4);cursor:pointer;letter-spacing:.06em">Privacy Policy</a>
 </div>
 </div>
 </div>
@@ -685,6 +902,12 @@ if (localStorage.getItem('lm_access') === 'granted') {
 <div style="padding:14px;display:flex;flex-direction:column;gap:14px" id="dashContent"></div>
 </div>
 
+<!-- ACHIEVEMENTS -->
+<div id="achieve" class="scr sb">
+<div class="sh"><div class="bk" onclick="show('home')">←</div><div class="sht">BADGES & STREAKS</div></div>
+<div style="padding:14px;display:flex;flex-direction:column;gap:12px" id="achieveContent"></div>
+</div>
+
 <!-- LIMIT -->
 <div id="limit" class="scr"><div style="font-size:52px">⏳</div><div style="font-family:var(--df);font-size:38px;color:var(--amber)">DAILY LIMIT</div><div style="font-size:13px;color:var(--t2);max-width:260px;line-height:1.65">You've used your free scans today. Come back tomorrow.</div><button class="btn bs" style="max-width:240px" onclick="show('home')">← Back</button></div>
 
@@ -711,7 +934,28 @@ import {FaceLandmarker, PoseLandmarker, FilesetResolver} from 'https://cdn.jsdel
 // CONFIG
 // ═══════════════════════════════════════════════════════════════
 const API = 'https://looksmaxx.pumpittony.workers.dev';
-const DAILY_LIMIT = 20;
+const DAILY_LIMIT = 100; // Cost ceiling — effectively unlimited
+
+// ═══════════════════════════════════════════════════════════════
+// SCAN MODE SYSTEM — Two modes: intro (first ever) and standard (returning)
+// ═══════════════════════════════════════════════════════════════
+
+// Theme calendar — add entries for holidays/events
+const THEME_CALENDAR = [
+  { start: '03-17', end: '03-17', id: 'stpatricks', name: "LUCKY SCAN", accent: '#22d45a', glow: 'rgba(34,212,90,.3)', opener: "Happy St. Patrick's Day. Feeling lucky? Let's find out." },
+  { start: '02-14', end: '02-14', id: 'valentine', name: "LOVE SCAN", accent: '#e06090', glow: 'rgba(224,96,144,.3)', opener: "Happy Valentine's Day. Let's see what the AI thinks of that face." },
+  { start: '10-31', end: '10-31', id: 'halloween', name: "SPOOKY SCAN", accent: '#f5a623', glow: 'rgba(245,166,35,.3)', opener: "Happy Halloween. Prepare to be scared. By your score." },
+  { start: '07-04', end: '07-04', id: 'july4', name: "FREEDOM SCAN", accent: '#4f8ef7', glow: 'rgba(79,142,247,.3)', opener: "Happy Fourth. Let's see if that face is worth fighting for." },
+  { start: '12-25', end: '12-31', id: 'newyear', name: "NEW YEAR SCAN", accent: '#FFD700', glow: 'rgba(255,215,0,.3)', opener: "New year new face. Or the same face. Let's find out." },
+  { start: '01-01', end: '01-07', id: 'newyear', name: "NEW YEAR NEW FACE", accent: '#FFD700', glow: 'rgba(255,215,0,.3)', opener: "New year resolution check. Has anything changed? The AI will know." },
+];
+
+function getActiveTheme() {
+  const now = new Date();
+  const mmdd = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  return THEME_CALENDAR.find(t => mmdd >= t.start && mmdd <= t.end) || null;
+}
+
 const MAX_PHOTO_DIM_FACE = 640; // Face is close to camera
 const MAX_PHOTO_DIM_BODY = 1024; // Body is 4-5ft away — need detail for vascularity/definition
 const COMBO_FACE_WEIGHT = 0.55;
@@ -740,6 +984,166 @@ const LS = {
   gj: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
   sj: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
+
+// ═══════════════════════════════════════════════════════════════
+// DAILY GAME ENGINE
+// ═══════════════════════════════════════════════════════════════
+const TODAY = () => new Date().toISOString().slice(0, 10);
+
+function getDailyData() {
+  const d = LS.gj('lm_daily') || {};
+  if (d.date !== TODAY()) {
+    // New day — lock in yesterday's best to history, reset daily
+    if (d.date && d.best) {
+      const hist = LS.gj('lm_history') || [];
+      hist.push({ date: d.date, score: d.best.score, mode: d.best.mode, tier: d.best.tier });
+      // Keep last 90 days
+      if (hist.length > 90) hist.splice(0, hist.length - 90);
+      LS.sj('lm_history', hist);
+    }
+    // Update streak
+    updateStreak(d.date);
+    // Reset for today
+    return { date: TODAY(), best: null, scansToday: 0 };
+  }
+  return d;
+}
+
+function saveDailyData(d) { LS.sj('lm_daily', d); }
+
+function updateStreak(lastDate) {
+  const streak = LS.gj('lm_streak') || { current: 0, longest: 0, lastDate: null };
+  if (!lastDate) return;
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+
+  if (lastDate === yesterdayStr) {
+    // Consecutive day — extend streak
+    streak.current++;
+  } else if (lastDate !== TODAY()) {
+    // Gap — reset streak
+    streak.current = 1;
+  }
+  streak.longest = Math.max(streak.longest, streak.current);
+  streak.lastDate = TODAY();
+  LS.sj('lm_streak', streak);
+}
+
+function getStreak() {
+  const streak = LS.gj('lm_streak') || { current: 0, longest: 0, lastDate: null };
+  // Check if streak is still active (scanned today or yesterday)
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (streak.lastDate !== TODAY() && streak.lastDate !== yesterday.toISOString().slice(0, 10)) {
+    streak.current = 0;
+  }
+  return streak;
+}
+
+function checkDailyBest(score, mode) {
+  const d = getDailyData();
+  d.scansToday++;
+  const t = tier(score, mode === 'body');
+  let isNewBest = false;
+  if (!d.best || score > d.best.score) {
+    d.best = { score, mode, tier: t.l, time: Date.now() };
+    isNewBest = true;
+  }
+  d.date = TODAY();
+  saveDailyData(d);
+  // Ensure streak is active for today
+  const streak = LS.gj('lm_streak') || { current: 0, longest: 0, lastDate: null };
+  if (streak.lastDate !== TODAY()) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (streak.lastDate === yesterday.toISOString().slice(0, 10)) {
+      streak.current++;
+    } else {
+      streak.current = 1;
+    }
+    streak.longest = Math.max(streak.longest, streak.current);
+    streak.lastDate = TODAY();
+    LS.sj('lm_streak', streak);
+  }
+  // Check achievements
+  checkAchievements(score, d.scansToday);
+  return { isNewBest, dailyBest: d.best.score, scansToday: d.scansToday };
+}
+
+function getHistory() { return LS.gj('lm_history') || []; }
+
+// ═══════════════════════════════════════════════════════════════
+// ACHIEVEMENT SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const ACHIEVEMENTS = [
+  { id: 'first_scan', name: 'FIRST SCAN', desc: 'Complete your first scan', icon: '🎯' },
+  { id: 'streak_3', name: 'ON A ROLL', desc: '3-day scan streak', icon: '🔥' },
+  { id: 'streak_7', name: 'DEDICATED', desc: '7-day scan streak', icon: '⚡' },
+  { id: 'streak_14', name: 'COMMITTED', desc: '14-day scan streak', icon: '💎' },
+  { id: 'streak_30', name: 'UNSTOPPABLE', desc: '30-day scan streak', icon: '👑' },
+  { id: 'hit_6', name: 'ABOVE AVERAGE', desc: 'Score 6.0 or higher', icon: '📈' },
+  { id: 'hit_7', name: 'MAIN CHARACTER', desc: 'Score 7.0 or higher', icon: '⭐' },
+  { id: 'hit_8', name: 'ELITE', desc: 'Score 8.0 or higher', icon: '🏆' },
+  { id: 'hit_85', name: 'GOD TIER', desc: 'Score 8.5 or higher', icon: '👑' },
+  { id: 'scans_10', name: 'GETTING SERIOUS', desc: 'Complete 10 total scans', icon: '🔬' },
+  { id: 'scans_50', name: 'REGULAR', desc: 'Complete 50 total scans', icon: '💪' },
+  { id: 'scans_100', name: 'CENTURION', desc: 'Complete 100 total scans', icon: '🎖️' },
+  { id: 'improve_05', name: 'LEVEL UP', desc: 'Improve daily best by 0.5+ from first scan', icon: '📊' },
+  { id: 'improve_10', name: 'GLOW UP', desc: 'Improve daily best by 1.0+ from first scan', icon: '✨' },
+  { id: 'daily_5', name: 'GRINDER', desc: '5 scans in one day', icon: '🏋️' },
+  { id: 'daily_10', name: 'OBSESSED', desc: '10 scans in one day', icon: '🤯' },
+];
+
+function getUnlocked() { return LS.gj('lm_achieve') || []; }
+
+function unlockAchieve(id) {
+  const unlocked = getUnlocked();
+  if (unlocked.includes(id)) return false;
+  unlocked.push(id);
+  LS.sj('lm_achieve', unlocked);
+  const a = ACHIEVEMENTS.find(x => x.id === id);
+  if (a) {
+    toast(`${a.icon} ${a.name} unlocked!`);
+    try { navigator.vibrate([50, 30, 50]); } catch {}
+  }
+  return true;
+}
+
+function getTotalScans() {
+  const d = getDailyData();
+  const hist = getHistory();
+  // Sum up scansToday + estimate from history (at least 1 per day recorded)
+  return d.scansToday + hist.length;
+}
+
+function checkAchievements(score, scansToday) {
+  const streak = getStreak();
+  const hist = getHistory();
+
+  unlockAchieve('first_scan');
+  if (streak.current >= 3) unlockAchieve('streak_3');
+  if (streak.current >= 7) unlockAchieve('streak_7');
+  if (streak.current >= 14) unlockAchieve('streak_14');
+  if (streak.current >= 30) unlockAchieve('streak_30');
+  if (score >= 6.0) unlockAchieve('hit_6');
+  if (score >= 7.0) unlockAchieve('hit_7');
+  if (score >= 8.0) unlockAchieve('hit_8');
+  if (score >= 8.5) unlockAchieve('hit_85');
+  if (scansToday >= 5) unlockAchieve('daily_5');
+  if (scansToday >= 10) unlockAchieve('daily_10');
+  const totalScans = getTotalScans();
+  if (totalScans >= 10) unlockAchieve('scans_10');
+  if (totalScans >= 50) unlockAchieve('scans_50');
+  if (totalScans >= 100) unlockAchieve('scans_100');
+
+  // Improvement achievements — compare to first recorded score
+  if (hist.length > 0) {
+    const firstScore = hist[0].score;
+    if (score - firstScore >= 0.5) unlockAchieve('improve_05');
+    if (score - firstScore >= 1.0) unlockAchieve('improve_10');
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════
 // TIER SYSTEM
@@ -1321,6 +1725,7 @@ function show(id) {
   document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   if (id === 'home') updHome();
+  if (id === 'achieve') renderAchievements();
 }
 
 function goHome() {
@@ -1346,6 +1751,10 @@ function goHome() {
   $('azfr').innerHTML = '';
   // Clean reveal screen confetti
   $('reveal').querySelectorAll('canvas').forEach(c => c.remove());
+  // Clean daily best overlay
+  $('reveal').querySelectorAll('div[style*="margin-top:12px"]').forEach(el => {
+    if (el.textContent.includes('DAILY BEST') || el.textContent.includes('Daily best')) el.remove();
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1362,8 +1771,67 @@ function incScan() {
   LS.sj('lm_sc', d);
 }
 function updHome() {
-  const r = Math.max(0, DAILY_LIMIT - scanCount());
-  $('usg').textContent = `${r} of ${DAILY_LIMIT} free scans remaining today`;
+  const daily = getDailyData();
+  const streak = getStreak();
+  const hist = getHistory();
+  const unlocked = getUnlocked();
+  const dash = $('dailyDash');
+
+  // Sparkline from last 7 days
+  const last7 = hist.slice(-7);
+  let sparkHtml = '';
+  if (last7.length > 1) {
+    const scores = last7.map(h => h.score);
+    const mn = Math.min(...scores) - 0.5, mx = Math.max(...scores) + 0.5;
+    const range = mx - mn || 1;
+    const W = 120, H = 32;
+    const pts = scores.map((s, i) => `${(i / (scores.length - 1)) * W},${H - ((s - mn) / range) * H}`).join(' ');
+    sparkHtml = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="overflow:visible"><polyline points="${pts}" fill="none" stroke="var(--sig)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>${scores.map((s, i) => `<circle cx="${(i / (scores.length - 1)) * W}" cy="${H - ((s - mn) / range) * H}" r="2" fill="var(--sig)"/>`).join('')}</svg>`;
+  }
+
+  const bestScore = daily.best ? daily.best.score.toFixed(2) : '—';
+  const bestTier = daily.best ? tier(daily.best.score).l : '';
+  const bestColor = daily.best ? tier(daily.best.score).c : 'var(--t3)';
+  const streakNum = streak.current || 0;
+  const scansNum = daily.scansToday || 0;
+  const badgeCount = unlocked.length;
+
+  dash.innerHTML = `
+    <div style="width:100%;display:flex;flex-direction:column;gap:10px;padding:0 0 4px">
+      ${daily.best ? `
+      <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px;display:flex;align-items:center;gap:16px">
+        <div style="flex:1">
+          <div style="font-family:var(--mf);font-size:8px;color:var(--t3);letter-spacing:.12em;margin-bottom:4px">TODAY'S BEST</div>
+          <div style="font-family:var(--df);font-size:36px;color:${bestColor};line-height:1">${bestScore}</div>
+          <div style="font-family:var(--df);font-size:13px;color:${bestColor};letter-spacing:.06em;margin-top:2px">${bestTier}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          ${sparkHtml || '<div style="font-family:var(--mf);font-size:8px;color:var(--t4)">Scan more days<br>to see your trend</div>'}
+          ${last7.length > 1 ? '<div style="font-family:var(--mf);font-size:7px;color:var(--t4)">LAST 7 DAYS</div>' : ''}
+        </div>
+      </div>` : `
+      <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:20px;text-align:center">
+        <div style="font-family:var(--df);font-size:18px;color:var(--t2);margin-bottom:4px">NO SCAN TODAY</div>
+        <div style="font-family:var(--mf);font-size:10px;color:var(--t3)">Complete a scan to set your daily best</div>
+      </div>`}
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:var(--df);font-size:24px;color:${streakNum >= 7 ? 'var(--gold)' : streakNum >= 3 ? '#f5a623' : 'var(--t1)'}">${streakNum}${streakNum >= 3 ? ' 🔥' : ''}</div>
+          <div style="font-family:var(--mf);font-size:7px;color:var(--t3);letter-spacing:.1em">DAY STREAK</div>
+        </div>
+        <div style="flex:1;background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-family:var(--df);font-size:24px;color:var(--t1)">${scansNum}</div>
+          <div style="font-family:var(--mf);font-size:7px;color:var(--t3);letter-spacing:.1em">SCANS TODAY</div>
+        </div>
+        <div style="flex:1;background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:10px;text-align:center;cursor:pointer" onclick="show('achieve')">
+          <div style="font-family:var(--df);font-size:24px;color:var(--gold)">${badgeCount}</div>
+          <div style="font-family:var(--mf);font-size:7px;color:var(--t3);letter-spacing:.1em">BADGES</div>
+        </div>
+      </div>
+    </div>`;
+
+  // Usage text
+  $('usg').textContent = `${scansNum} scan${scansNum !== 1 ? 's' : ''} today · ${streakNum} day streak${streakNum >= 3 ? ' 🔥' : ''}`;
 }
 
 function getScore(data) {
@@ -1377,7 +1845,7 @@ function getScore(data) {
 // SCAN FLOW — Entry point
 // ═══════════════════════════════════════════════════════════════
 function go(mode) {
-  if (scanCount() >= DAILY_LIMIT) { show('limit'); return; }
+  // Unlimited scans — no daily limit
 
   // CRITICAL: Create AudioContext + warm speech from THIS user gesture (synchronous)
   // Safari requires AudioContext creation in a direct tap handler — no awaits before this
@@ -1405,7 +1873,7 @@ function go(mode) {
     ...ST,
     mode,
     stream: null,
-    facing: 'user', // Always front camera — user sees themselves
+    facing: 'user',
     aborted: false,
     scanning: false,
     token: ++ST.token,
@@ -1812,9 +2280,21 @@ async function startCapture() {
       voice: "Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
   ];
 
+  // ═══ THEME + POSE SELECTION ═══
+  const activeTheme = getActiveTheme();
+
+  // One scan flow. Same every time. Full experience.
   const poses = isFace
     ? (isFem ? facePosesFemale : facePosesMale)
     : (isFem ? bodyPosesFemale : bodyPosesMale);
+
+  // Apply theme — speak opener before first pose (don't modify voice text or MP3s break)
+  const themeOpener = activeTheme ? activeTheme.opener : null;
+
+  // Apply theme accent color
+  if (activeTheme) {
+    document.documentElement.style.setProperty('--sig', activeTheme.accent);
+  }
 
   // Build phase panel
   $('sphase').innerHTML = poses.map((p, i) => `<div class="sph" id="sph${i}"><div class="sph-dot"></div><div class="sph-lbl">${p.id}</div></div>`).join('');
@@ -1846,9 +2326,16 @@ async function startCapture() {
   if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
 
   const confirms = isFem
-    ? ['Beautiful.', 'Got that.', 'Perfect.', 'Love it.', 'Good.', 'Gorgeous.']
+    ? ['Beautiful.', 'Got it.', 'That was perfect.', 'Love it.', 'So good.', 'Gorgeous.']
     : ['Nice.', 'Got that.', 'Clean.', 'Locked in.', 'Good.', 'Perfect.'];
   let confirmIdx = 0;
+
+  // ═══ THEME OPENER — speak before first pose if theme is active ═══
+  if (themeOpener) {
+    speak(themeOpener);
+    await sleep(2500); // Let theme opener play before starting poses
+    if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
+  }
 
   // ═══ POSE LOOP ═══
   for (let pi = 0; pi < poses.length; pi++) {
@@ -2514,7 +3001,26 @@ function showReveal(data) {
   }, 4500);
 
   setTimeout(() => { const el = $('rvti'); el.textContent = t.l; el.style.color = t.c; el.classList.add('in'); }, 5000);
-  setTimeout(() => { $('rvsub').classList.add('in'); }, 5800);
+
+  // Daily best tracking
+  setTimeout(() => {
+    const daily = checkDailyBest(score, ST.mode);
+    const revealEl = $('reveal');
+    const dbEl = document.createElement('div');
+    dbEl.style.cssText = 'position:relative;z-index:2;text-align:center;opacity:0;transition:opacity .5s;margin-top:12px';
+    if (daily.isNewBest) {
+      dbEl.innerHTML = `<div style="font-family:var(--df);font-size:18px;color:var(--gold);letter-spacing:.08em;animation:btnpulse 1.5s infinite">NEW DAILY BEST</div><div style="font-family:var(--mf);font-size:10px;color:var(--t3);margin-top:4px">Scan #${daily.scansToday} today</div>`;
+      try { navigator.vibrate([50, 30, 100, 30, 50]); } catch {}
+    } else {
+      dbEl.innerHTML = `<div style="font-family:var(--mf);font-size:11px;color:var(--t3)">Daily best: <span style="color:${tier(daily.dailyBest).c};font-weight:700">${daily.dailyBest.toFixed(2)}</span> · Scan #${daily.scansToday}</div>`;
+    }
+    // Insert after tier label
+    const tiEl = $('rvti');
+    tiEl.parentNode.insertBefore(dbEl, tiEl.nextSibling);
+    setTimeout(() => { dbEl.style.opacity = '1'; }, 100);
+  }, 5500);
+
+  setTimeout(() => { $('rvsub').classList.add('in'); }, 6300);
 }
 
 // SCAN BEAM — horizontal line sweeps top to bottom like a sci-fi scanner
@@ -2701,6 +3207,10 @@ function showFullResults() {
   $('rvbg').style.opacity = '0';
   $('reveal').style.background = ''; // Reset gender flash
   $('reveal').querySelectorAll('canvas').forEach(c => c.remove());
+  // Remove daily best element
+  $('reveal').querySelectorAll('div[style*="margin-top:12px"]').forEach(el => {
+    if (el.textContent.includes('DAILY BEST') || el.textContent.includes('Daily best')) el.remove();
+  });
   showResults(ST.result);
 }
 
@@ -2899,6 +3409,58 @@ function openDashboard() {
   `;
   $('dashContent').innerHTML = html;
   show('dash');
+}
+
+function renderAchievements() {
+  const unlocked = getUnlocked();
+  const streak = getStreak();
+  const hist = getHistory();
+  const daily = getDailyData();
+
+  // Build history calendar
+  let calHtml = '';
+  if (hist.length > 0) {
+    const last30 = hist.slice(-30);
+    const avgScore = last30.reduce((a, h) => a + h.score, 0) / last30.length;
+    calHtml = `<div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.06em;color:var(--blue);margin-bottom:10px">SCORE HISTORY</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">
+        ${last30.map(h => {
+          const t = tier(h.score);
+          return `<div title="${h.date}: ${h.score.toFixed(2)}" style="width:24px;height:24px;border-radius:4px;background:${t.c}25;border:1px solid ${t.c}40;display:flex;align-items:center;justify-content:center;font-family:var(--mf);font-size:7px;color:${t.c}">${h.score.toFixed(1)}</div>`;
+        }).join('')}
+      </div>
+      <div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${last30.length} days tracked · Average: ${avgScore.toFixed(2)}</div>
+    </div>`;
+  }
+
+  const html = `
+    <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center">
+      <div style="font-family:var(--df);font-size:48px;color:${streak.current >= 7 ? 'var(--gold)' : streak.current >= 3 ? '#f5a623' : 'var(--t1)'}">${streak.current}${streak.current >= 3 ? ' 🔥' : ''}</div>
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.08em;color:var(--t2)">DAY STREAK</div>
+      <div style="font-family:var(--mf);font-size:9px;color:var(--t3);margin-top:4px">Longest: ${streak.longest} days · ${daily.scansToday || 0} scans today</div>
+    </div>
+
+    ${calHtml}
+
+    <div style="background:var(--surf);border:1px solid var(--brd);border-radius:14px;padding:16px">
+      <div style="font-family:var(--df);font-size:16px;letter-spacing:.06em;color:var(--gold);margin-bottom:12px">BADGES · ${unlocked.length}/${ACHIEVEMENTS.length}</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${ACHIEVEMENTS.map(a => {
+          const isUnlocked = unlocked.includes(a.id);
+          return `<div style="display:flex;align-items:center;gap:12px;padding:10px;background:${isUnlocked ? 'rgba(255,215,0,.05)' : 'rgba(255,255,255,.01)'};border:1px solid ${isUnlocked ? 'rgba(255,215,0,.15)' : 'var(--brd)'};border-radius:10px;${isUnlocked ? '' : 'opacity:.4'}">
+            <div style="font-size:22px;width:32px;text-align:center">${isUnlocked ? a.icon : '🔒'}</div>
+            <div style="flex:1">
+              <div style="font-family:var(--df);font-size:13px;color:${isUnlocked ? 'var(--gold)' : 'var(--t3)'};letter-spacing:.04em">${a.name}</div>
+              <div style="font-family:var(--mf);font-size:9px;color:var(--t3)">${a.desc}</div>
+            </div>
+            ${isUnlocked ? '<div style="font-family:var(--mf);font-size:8px;color:var(--sig)">✓</div>' : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+
+  $('achieveContent').innerHTML = html;
 }
 
 // Debug: triple-tap usage text to toggle female test mode
@@ -3723,12 +4285,26 @@ function speakFallback(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.rate = 1.1; u.pitch = 1.15; u.volume = 1;
     const voices = ss.getVoices();
-    const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
-    const pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
-                 voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
-                 voices.find(v => v.name.includes('Google UK English Male')) ||
-                 voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.lang.startsWith('en'));
+    const isFemScan = ST.gender === 'female';
+
+    let pref;
+    if (isFemScan) {
+      // Female voice for female scans
+      const femRx = /Samantha|Karen|Moira|Victoria|Tessa|Fiona|Allison|Susan|Zoe|Kate|Serena/i;
+      pref = voices.find(v => femRx.test(v.name) && v.lang.startsWith('en')) ||
+             voices.find(v => /female/i.test(v.name) && v.lang.startsWith('en')) ||
+             voices.find(v => v.name.includes('Google UK English Female')) ||
+             voices.find(v => v.name.includes('Google') && v.lang.startsWith('en') && /female/i.test(v.name)) ||
+             voices.find(v => v.lang.startsWith('en'));
+    } else {
+      // Male voice for male scans
+      const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
+      pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
+             voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
+             voices.find(v => v.name.includes('Google UK English Male')) ||
+             voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+             voices.find(v => v.lang.startsWith('en'));
+    }
     if (pref) u.voice = pref;
     u.onerror = () => {}; u.onend = () => {};
     ss.speak(u);
@@ -3988,7 +4564,7 @@ window.addEventListener('resize', () => {
 // Expose all functions to onclick handlers (required for type=module)
 Object.assign(window, {
   go, goHome, show, abort, flipCam, startCapture, showFullResults,
-  genShare, natShare, openLB, openLBSub, fLB, fLBt, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, debugTap, switchTierTab, pickFace, pickBody,
+  genShare, natShare, openLB, openLBSub, fLB, fLBt, subLB, cMod, toast, hPh, oMod, retrySend, challengeFriend, openDashboard, renderAchievements, debugTap, switchTierTab, pickFace, pickBody,
 });
 </script>
 </body>
