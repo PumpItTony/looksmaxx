@@ -2323,6 +2323,15 @@ async function initScan(mode) {
     if (ST.token !== myTk) return;
     ST.mlReady = mlOk;
     $('slf').style.width = '100%';
+
+    // Preload key voice files while UI transitions (both genders since we don't know yet)
+    const preloadLines = [
+      "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.",
+      "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.",
+      "Nice.", "Got that.", "Clean.", "Beautiful.", "Got it.", "Gorgeous.",
+    ];
+    preloadLines.forEach(line => { preloadVoice(line, 'male'); preloadVoice(line, 'female'); });
+
     await sleep(400);
 
     $('sload').classList.add('hide');
@@ -2365,7 +2374,7 @@ async function initScan(mode) {
       }, 8000);
     }
     // Pre-warm speech
-    speechInit();
+
   } catch (e) {
     console.error('Camera init failed:', e);
     show('camden');
@@ -2507,27 +2516,34 @@ async function startCapture() {
 
   startBgMusic(isFace ? 'face' : 'body');
 
-  // ═══ GENDER DETECTION PHASE (face scans only, first 4 seconds) ═══
+  // ═══ GENDER DETECTION — detect FIRST, then speak with correct voice ═══
   if (isFace && !detectedGender) {
     $('svt').textContent = 'ANALYZING';
     $('sst').textContent = 'Reading your face…';
-    speak("Hey. I'm Maxx. See that green dot? Look right at it and hold still. Good lighting makes a big difference so make sure your face is well lit.");
+    // Detect silently for 2.5 seconds before speaking
     const detectStart = Date.now();
     let genderVotes = [];
-    while (Date.now() - detectStart < 3500 && !ST.aborted) {
+    while (Date.now() - detectStart < 2500 && !ST.aborted) {
       if (lastLandmarks) {
         genderVotes.push(estimateGender(lastLandmarks));
       }
       await sleep(100);
     }
     if (ST.aborted || ST.token !== myTk) { ST.scanning = false; return; }
-    // Majority vote
     const femCount = genderVotes.filter(g => g === 'female').length;
     detectedGender = femCount > genderVotes.length / 2 ? 'female' : 'male';
   }
   if (!detectedGender) detectedGender = 'male';
   ST.gender = detectedGender;
   const isFem = detectedGender === 'female';
+
+  // Preload the first few voice lines for this gender (so they play instantly)
+  const introLine = isFace
+    ? (isFem ? "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still."
+             : "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.")
+    : (isFem ? "I see you. Stand tall. Shoulders back."
+             : "There you are. Stand up straight. Arms relaxed at your sides.");
+  preloadVoice(introLine, detectedGender);
 
   // ═══ GENDER FLASH ═══
   if (isFace) {
@@ -2554,46 +2570,46 @@ async function startCapture() {
   // ═══ POSE DEFINITIONS — gender specific ═══
   const facePosesMale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "Alright let's go. I see you. Dropping four hundred seventy eight points on your face right now. Stay still.", dur: 6000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Jawline check',
-      voice: "Turn left. I'm checking your jawline. Gonial angle, forward growth, the whole lower third. This carries heavy weight.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I'm checking your jawline. Gonial angle, forward growth, the whole lower third. This carries heavy weight.", dur: 5000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other way. I'm comparing both sides now. Symmetry ratio is one of the biggest factors in your score.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Other way. I'm comparing both sides now. Symmetry ratio is one of the biggest factors in your score.", dur: 5000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up. I'm measuring your facial thirds right now. Forehead, midface, lower third. The more balanced the better.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up. I'm measuring your facial thirds right now. Forehead, midface, lower third. The more balanced the better.", dur: 4000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
     { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "Give me a real smile. Not a forced one. Think of something funny.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "Give me a real smile. Not a forced one. Think of something funny.", dur: 4000, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "Drop the smile. Neutral face. Look right at me. This is the money shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      voice: "Drop the smile. Neutral face. Look right at me. This is the money shot.", dur: 5000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "Got it. Sending everything to the AI.", dur: 3000, needsLM: true, minFrames: 15 },
+      voice: "Got it. Sending everything to the AI.", dur: 2000, needsLM: true, minFrames: 10 },
   ];
 
   const facePosesFemale = [
     { id: 'front', label: 'FRONT SCAN', oval: 'HOLD STILL', ovalDir: 'center', status: 'Mapping face',
-      voice: "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.", dur: 7000, needsLM: true, minFrames: 28, capture: true,
+      voice: "OK I see you. Mapping your whole face right now. Eyes, cheekbones, jawline, all of it. Hold still.", dur: 6000, needsLM: true, minFrames: 28, capture: true,
       meas: ['faceWidthToHeight', 'jawAngle', 'symmetryRatio'] },
     { id: 'left', label: 'LEFT SIDE', oval: 'TURN LEFT', ovalDir: 'left', status: 'Bone structure',
-      voice: "Turn left. I'm looking at your cheekbone projection and how your jawline flows. This is important.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Turn left. I'm looking at your cheekbone projection and how your jawline flows. This is important.", dur: 5000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'right', label: 'RIGHT SIDE', oval: 'TURN RIGHT', ovalDir: 'right', status: 'Symmetry',
-      voice: "Other side. Comparing both sides for symmetry. Nobody's perfectly even but the closer the better.", dur: 6000, needsLM: true, minFrames: 18,
+      voice: "Other side. Comparing both sides for symmetry. Nobody's perfectly even but the closer the better.", dur: 5000, needsLM: true, minFrames: 18,
       meas: ['jawWidthRatio', 'cheekboneToJaw'] },
     { id: 'tilt', label: 'CHIN UP', oval: 'CHIN UP', ovalDir: 'up', status: 'Proportions',
-      voice: "Chin up slightly. Measuring your facial proportions. The balance between your forehead, midface, and chin.", dur: 5000, needsLM: true, minFrames: 14,
+      voice: "Chin up slightly. Measuring your facial proportions. The balance between your forehead, midface, and chin.", dur: 4000, needsLM: true, minFrames: 14,
       meas: ['facialThirds'] },
     { id: 'smile', label: 'SMILE', oval: 'SMILE', ovalDir: 'center', status: 'Smile check',
-      voice: "Now give me that smile. A real one. The one you use when you see your best friend.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "Now give me that smile. A real one. The one you use when you see your best friend.", dur: 4000, needsLM: true, minFrames: 10 },
     { id: 'center', label: 'THE SHOT', oval: 'EYES ON ME', ovalDir: 'center', status: 'The big one',
-      voice: "Neutral face now. Look right at me. This is the shot.", dur: 6000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
+      voice: "Neutral face now. Look right at me. This is the shot.", dur: 5000, needsLM: true, minFrames: 20, capture: true, moneyShot: true, hasCountdown: true,
       meas: ['canthalTiltL', 'canthalTiltR', 'noseToFaceRatio'] },
     { id: 'final', label: 'DONE', oval: 'HOLD STILL', ovalDir: 'center', status: 'Wrapping up',
-      voice: "Done. Sending it all to the AI.", dur: 3000, needsLM: true, minFrames: 15 },
+      voice: "Done. Sending it all to the AI.", dur: 2000, needsLM: true, minFrames: 10 },
   ];
 
   const bodyIntroMale = mode === 'body'
@@ -2605,42 +2621,42 @@ async function startCapture() {
 
   const bodyPosesMale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroMale, dur: 9000, isSetup: true, countdown: true },
+      voice: bodyIntroMale, dur: 7000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "There you are. Stand up straight. Arms relaxed at your sides.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "There you are. Stand up straight. Arms relaxed at your sides.", dur: 4000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FRAME SCAN', status: 'Measuring your build',
-      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Arms out a little bit. I'm measuring your shoulder to waist ratio right now. This is the number one thing that determines how your physique reads.", dur: 5000, needsLM: true, minFrames: 20, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
     { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
-      voice: "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.", dur: 6000, needsLM: true, minFrames: 15, capture: true,
+      voice: "Turn to your left. Show me your side profile. I need to see your posture and how your chest sits from this angle.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
       meas: ['postureAngle'] },
     { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Now do a slow spin. All the way around. Take your time. I'm getting every angle.", dur: 9000, needsLM: false, capture: true },
+      voice: "Now do a slow spin. All the way around. Take your time. I'm getting every angle.", dur: 7000, needsLM: false, capture: true },
     { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
-      voice: "Face me. Hit me with your best pose. Whatever you got. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
+      voice: "Face me. Hit me with your best pose. Whatever you got. Three seconds.", dur: 4000, needsLM: false, capture: true, hasCountdown: true },
     { id: 'flex', label: 'BEAST MODE', status: 'Show me what you got',
-      voice: "Now get close. Flex that bicep. Hard as you can. Hold it.", dur: 6000, needsLM: false, capture: true, beastMode: true },
+      voice: "Now get close. Flex that bicep. Hard as you can. Hold it.", dur: 5000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
       voice: "That's it. Sending everything to the AI now.", dur: 2000, minFrames: 0 },
   ];
 
   const bodyPosesFemale = [
     { id: 'setup', label: 'SET UP', status: 'Get in position',
-      voice: bodyIntroFemale, dur: 9000, isSetup: true, countdown: true },
+      voice: bodyIntroFemale, dur: 7000, isSetup: true, countdown: true },
     { id: 'detect', label: 'FINDING YOU', status: 'Locking on',
-      voice: "I see you. Stand tall. Shoulders back.", dur: 5000, needsLM: true, minFrames: 10 },
+      voice: "I see you. Stand tall. Shoulders back.", dur: 4000, needsLM: true, minFrames: 10 },
     { id: 'front', label: 'FIGURE SCAN', status: 'Measuring proportions',
-      voice: "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.", dur: 7000, needsLM: true, minFrames: 25, capture: true,
+      voice: "Hands on your hips. I'm looking at your waist to hip ratio and your overall proportions. This is the good stuff.", dur: 5000, needsLM: true, minFrames: 20, capture: true,
       meas: ['shoulderToHipRatio', 'shoulderWidth', 'hipWidth', 'postureAngle', 'torsoLength'] },
     { id: 'side', label: 'SIDE VIEW', status: 'Profile check',
-      voice: "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.", dur: 6000, needsLM: true, minFrames: 15, capture: true,
+      voice: "Turn to your left. Show me your side profile. I'm looking at posture and how everything lines up.", dur: 5000, needsLM: true, minFrames: 15, capture: true,
       meas: ['postureAngle'] },
     { id: 'spin', label: 'SLOW SPIN', status: '360 view',
-      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 9000, needsLM: false, capture: true },
+      voice: "Do a slow spin for me. All the way around. Take your time.", dur: 7000, needsLM: false, capture: true },
     { id: 'signature', label: 'YOUR BEST', status: 'Signature pose',
-      voice: "Face me. Hit me with your best pose. Whatever feels right. Three seconds.", dur: 5000, needsLM: false, capture: true, hasCountdown: true },
+      voice: "Face me. Hit me with your best pose. Whatever feels right. Three seconds.", dur: 4000, needsLM: false, capture: true, hasCountdown: true },
     { id: 'runway', label: 'RUNWAY', status: 'Work it',
-      voice: "Now walk toward the camera. Like it's a runway. Give me your best strut.", dur: 7000, needsLM: false, capture: true, beastMode: true },
+      voice: "Now walk toward the camera. Like it's a runway. Give me your best strut.", dur: 5000, needsLM: false, capture: true, beastMode: true },
     { id: 'final', label: 'DONE', status: 'Processing',
       voice: "Love that energy. Sending everything to the AI.", dur: 2000, minFrames: 0 },
   ];
@@ -2998,6 +3014,36 @@ async function startCapture() {
     if (doneEl) { doneEl.classList.remove('active'); doneEl.classList.add('done'); }
     ['smeas1', 'smeas2', 'smeas3'].forEach(id => $(id).classList.remove('show'));
 
+    // ═══ MEASUREMENT INTELLIGENCE — announce converged data ═══
+    if (!pose.isSetup && allMeas.sampleCount > 5) {
+      const conv = allMeas.getConvergedCount();
+      const total = allMeas.getTotalCount();
+      const status = allMeas.getConvergenceStatus();
+      // Find measurements that just converged during this pose
+      const convKeys = Object.entries(status).filter(([k, v]) => v.converged);
+      if (convKeys.length > 0 && pi > 0 && pi < poses.length - 1) {
+        // Show convergence on HUD — text only, no speech
+        if (conv >= total * 0.5 && conv < total) {
+          $('sst').textContent = `${conv}/${total} measurements locked`;
+        } else if (conv >= total && total > 3) {
+          $('sst').textContent = `All measurements locked · High confidence`;
+        }
+      }
+    }
+
+    // ═══ EARLY EXIT — if all key measurements converged, skip remaining ═══
+    if (!pose.isSetup && pi < poses.length - 2 && allMeas.sampleCount > 20) {
+      const conv = allMeas.getConvergedCount();
+      const total = allMeas.getTotalCount();
+      const conf = allMeas.getOverallConfidence();
+      if (conv >= total && total >= 5 && conf >= 85 && photos.length >= 2) {
+        $('sst').textContent = `All ${total} measurements locked · Finishing`;
+        await sleep(800);
+        pi = poses.length - 2;
+        continue;
+      }
+    }
+
     // Fallback photo capture
     if (pose.capture && photos.length < (isBody ? 3 : 2)) {
       try { photos.push(capturePhoto(v, isBody ? MAX_PHOTO_DIM_BODY : MAX_PHOTO_DIM_FACE)); } catch {}
@@ -3054,8 +3100,8 @@ async function startCapture() {
   const grade = confidence >= 85 ? 'A+' : confidence >= 70 ? 'A' : confidence >= 55 ? 'B' : confidence >= 40 ? 'C' : 'D';
   ST.scanGrade = grade;
   speak(isFace
-    ? (isFem ? "Face scan complete. The AI is going to love this data." : "Face scan complete. Got everything I need.")
-    : (isFem ? "Body scan complete. Sending your data to the AI now." : "Body scan complete. Processing your data now."));
+    ? (isFem ? "Done. Sending it all to the AI." : "Got it. Sending everything to the AI.")
+    : (isFem ? "Love that energy. Sending everything to the AI." : "That's it. Sending everything to the AI now."));
   $('svt').textContent = 'SCAN COMPLETE';
   $('sst').textContent = 'Processing…';
   $('svt').classList.remove('big');
@@ -4894,25 +4940,14 @@ function playRevealImpact() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SPEECH SYSTEM — Gender-aware, fully pre-recorded
-// Every line has two MP3s: m-{slug}.mp3 (Onyx) and f-{slug}.mp3 (Nova)
-// speak() picks the right one based on ST.gender
+// SPEECH SYSTEM — Simple, reliable, one voice
+// Pre-recorded MP3s only. No speech synthesis. No TTS API.
+// Try HTML5 Audio → fallback to AudioContext → silent on failure.
+// Silence is always better than a mismatched voice.
 // ═══════════════════════════════════════════════════════════════
-let lastSpeechTime = 0;
-const SPEECH_MIN_GAP = 1000;
-const audioCache = {};
 const AUDIO_BASE = './audio/';
-
-function speechInit() {
-  try {
-    if ('speechSynthesis' in window) {
-      speechSynthesis.getVoices();
-      if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
-      }
-    }
-  } catch {}
-}
+const audioElCache = {};    // HTML5 Audio element cache
+const audioBufCache = {};   // AudioContext buffer cache
 
 function voiceSlug(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
@@ -4922,75 +4957,87 @@ function speak(text) {
   if (!text) return;
   const slug = voiceSlug(text);
   const g = (ST.gender === 'female' || ST._debugGender === 'female') ? 'f' : 'm';
-  const gKey = g + '-' + slug;
+  const file = `${g}-${slug}.mp3`;
+  const url = `${AUDIO_BASE}${file}`;
 
-  // Try gender-prefixed MP3 only — no legacy fallback
-  if (audioCache[gKey]) {
-    audioCache[gKey].currentTime = 0;
-    audioCache[gKey].play().catch(() => {});
+  // Method 1: Cached HTML5 Audio (instant replay)
+  if (audioElCache[file]) {
+    try {
+      audioElCache[file].currentTime = 0;
+      audioElCache[file].play().catch(() => playViaContext(url, file));
+      return;
+    } catch {}
+  }
+
+  // Method 2: New HTML5 Audio (simple, works when gesture context is recent)
+  try {
+    const audio = new Audio(url);
+    audio.volume = 1;
+    audio.play().then(() => {
+      audioElCache[file] = audio; // Cache for instant replay
+    }).catch(() => {
+      // Method 3: AudioContext (iOS fallback when Audio.play() is blocked)
+      playViaContext(url, file);
+    });
+  } catch {
+    playViaContext(url, file);
+  }
+}
+
+function playViaContext(url, cacheKey) {
+  if (!actx) return;
+  if (actx.state === 'suspended') actx.resume().catch(() => {});
+
+  // Cached buffer — instant
+  if (audioBufCache[cacheKey]) {
+    try {
+      const src = actx.createBufferSource();
+      src.buffer = audioBufCache[cacheKey];
+      src.connect(actx.destination);
+      src.start();
+    } catch {}
     return;
   }
 
-  const audio = new Audio(`${AUDIO_BASE}${gKey}.mp3`);
-  audio.volume = 1;
-  const playPromise = audio.play();
-  if (playPromise) {
-    playPromise.then(() => {
-      audioCache[gKey] = audio;
-    }).catch(() => {
-      speakFallback(text);
-    });
-  } else {
-    speakFallback(text);
+  // Fetch and decode
+  fetch(url).then(r => {
+    if (!r.ok) throw new Error('404');
+    return r.arrayBuffer();
+  }).then(buf => {
+    return actx.decodeAudioData(buf);
+  }).then(decoded => {
+    audioBufCache[cacheKey] = decoded;
+    const src = actx.createBufferSource();
+    src.buffer = decoded;
+    src.connect(actx.destination);
+    src.start();
+  }).catch(() => {}); // Silent failure — no fallback voice
+}
+
+// Preload key files during model download so first speaks are instant
+function preloadVoice(text, gender) {
+  const slug = voiceSlug(text);
+  const g = gender === 'female' ? 'f' : 'm';
+  const file = `${g}-${slug}.mp3`;
+  const url = `${AUDIO_BASE}${file}`;
+  // Preload via fetch into AudioContext buffer cache
+  if (actx && !audioBufCache[file]) {
+    fetch(url).then(r => r.ok ? r.arrayBuffer() : null).then(buf => {
+      if (buf && actx) return actx.decodeAudioData(buf);
+    }).then(decoded => {
+      if (decoded) audioBufCache[file] = decoded;
+    }).catch(() => {});
+  }
+  // Also preload as HTML5 Audio
+  if (!audioElCache[file]) {
+    try {
+      const a = new Audio(url);
+      a.preload = 'auto';
+      a.load();
+      audioElCache[file] = a;
+    } catch {}
   }
 }
-
-function speakFallback(text) {
-  if (!('speechSynthesis' in window)) return;
-  try {
-    const ss = window.speechSynthesis;
-    const now = Date.now();
-    if (now - lastSpeechTime > SPEECH_MIN_GAP) ss.cancel();
-    lastSpeechTime = now;
-    if (ss.paused) ss.resume();
-
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.1; u.pitch = 1.15; u.volume = 1;
-    const voices = ss.getVoices();
-    const isFemScan = ST.gender === 'female';
-
-    let pref;
-    if (isFemScan) {
-      // Female voice for female scans
-      const femRx = /Samantha|Karen|Moira|Victoria|Tessa|Fiona|Allison|Susan|Zoe|Kate|Serena/i;
-      pref = voices.find(v => femRx.test(v.name) && v.lang.startsWith('en')) ||
-             voices.find(v => /female/i.test(v.name) && v.lang.startsWith('en')) ||
-             voices.find(v => v.name.includes('Google UK English Female')) ||
-             voices.find(v => v.name.includes('Google') && v.lang.startsWith('en') && /female/i.test(v.name)) ||
-             voices.find(v => v.lang.startsWith('en'));
-    } else {
-      // Male voice for male scans
-      const maleRx = /Daniel|Aaron|James|Tom|Arthur|Oliver|Alex|David|Thomas|Gordon|Rishi/i;
-      pref = voices.find(v => maleRx.test(v.name) && v.lang.startsWith('en')) ||
-             voices.find(v => /male/i.test(v.name) && v.lang.startsWith('en')) ||
-             voices.find(v => v.name.includes('Google UK English Male')) ||
-             voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-             voices.find(v => v.lang.startsWith('en'));
-    }
-    if (pref) u.voice = pref;
-    u.onerror = () => {}; u.onend = () => {};
-    ss.speak(u);
-  } catch {}
-}
-
-// iOS Safari workaround: keep speechSynthesis alive
-setInterval(() => {
-  try {
-    if ('speechSynthesis' in window && window.speechSynthesis.paused) {
-      window.speechSynthesis.resume();
-    }
-  } catch {}
-}, 3000);
 
 // ═══════════════════════════════════════════════════════════════
 // UTILS
